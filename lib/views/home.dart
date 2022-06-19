@@ -2,15 +2,18 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/main.dart';
 
 /// Method called when user clic LOCALE notifications
 void selectLocaleNotification(String? payload, BuildContext context) {
-  Navigator.pushNamed(context, "/notifications");
+  Navigator.pushNamed(context, notifications);
 }
 
 void onDidReceiveLocalNotification(
-    int id, String? title, String? body, String? payload) async {}
+    int id, String? title, String? body, String? payload) async {
+  //inutile à voir ce qu'on en fait
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -48,7 +51,7 @@ class _HomeState extends State<Home> {
       if (message != null) {
         Navigator.pushNamed(
           context,
-          '/notifications',
+          notifications,
         );
       }
     });
@@ -86,7 +89,7 @@ class _HomeState extends State<Home> {
       }
       Navigator.pushNamed(
         context,
-        '/notifications',
+        notifications,
       );
     });
 
@@ -108,7 +111,7 @@ class _HomeState extends State<Home> {
         title: const Text("Home"),
         actions: [
           IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/notifications"),
+              onPressed: () => Navigator.pushNamed(context, notifications),
               icon: const Icon(Icons.notifications_active))
         ],
       ),
