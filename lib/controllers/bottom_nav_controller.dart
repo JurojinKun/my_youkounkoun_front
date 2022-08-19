@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/router.dart';
 import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
 
@@ -34,7 +36,30 @@ class BottomNavControllerState extends State<BottomNavController>
           TabBarView(
               controller: _tabController,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [Home(), Profile()]),
+              children: [
+                WillPopScope(
+                  child: Navigator(
+                    key: navHomeKey,
+                    initialRoute: home,
+                    onGenerateRoute: (settings) =>
+                        generateRouteHome(settings, context),
+                  ),
+                  onWillPop: () async {
+                    return !(await navHomeKey.currentState!.maybePop());
+                  },
+                ),
+                WillPopScope(
+                  child: Navigator(
+                    key: navProfileKey,
+                    initialRoute: profile,
+                    onGenerateRoute: (settings) =>
+                        generateRouteProfile(settings, context),
+                  ),
+                  onWillPop: () async {
+                    return !(await navProfileKey.currentState!.maybePop());
+                  },
+                ),
+              ]),
           Align(
             alignment: Alignment.bottomCenter,
             child: BottomNavigationBar(

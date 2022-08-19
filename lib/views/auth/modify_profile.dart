@@ -28,7 +28,7 @@ class ModifyProfileState extends State<ModifyProfile> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () => navAuthKey.currentState!.pop(),
+          onPressed: () => navProfileKey.currentState!.pop(),
           icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,

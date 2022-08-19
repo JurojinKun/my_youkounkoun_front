@@ -8,7 +8,7 @@ class Profile extends StatefulWidget {
   ProfileState createState() => ProfileState();
 }
 
-class ProfileState extends State<Profile> {
+class ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     // TODO: implement initState
@@ -22,7 +22,12 @@ class ProfileState extends State<Profile> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -31,7 +36,7 @@ class ProfileState extends State<Profile> {
         actions: [
           IconButton(
               onPressed: () =>
-                  navAuthKey.currentState!.pushNamed(modifyProfile),
+                  navProfileKey.currentState!.pushNamed(modifyProfile),
               icon: const Icon(Icons.settings)),
           IconButton(
               onPressed: () =>
