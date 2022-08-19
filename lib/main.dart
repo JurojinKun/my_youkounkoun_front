@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/log_controller.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -63,11 +64,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      navigatorKey: mainKey,
       home: const LogController(),
-      // routes: {
-      //   "/": (context) => const Home(),
-      //   "/notifications": (context) => const Notifications(),
-      // },
     );
   }
 }

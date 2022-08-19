@@ -13,11 +13,10 @@ class _LogControllerState extends State<LogController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: mainKey,
       body: WillPopScope(
         child: Navigator(
           key: navAuthKey,
-          initialRoute: home,
+          initialRoute: bottomNav,
           onGenerateRoute: (settings) => generateRouteAuth(settings, context),
         ),
         onWillPop: () async {
