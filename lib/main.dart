@@ -3,7 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:my_boilerplate/controllers/log_controller.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -50,7 +51,7 @@ Future<void> main() async {
     sound: true,
   );
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -64,7 +65,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      navigatorKey: mainKey,
       home: const LogController(),
     );
   }

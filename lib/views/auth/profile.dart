@@ -36,7 +36,7 @@ class ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
         actions: [
           IconButton(
               onPressed: () =>
-                  navProfileKey.currentState!.pushNamed(modifyProfile),
+                  navProfileKey!.currentState!.pushNamed(modifyProfile),
               icon: const Icon(Icons.settings)),
           IconButton(
               onPressed: () =>

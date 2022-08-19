@@ -10,7 +10,6 @@ const String modifyProfile = "Modify profile";
 const String notifications = "Notifications";
 
 //navigator keys
-final GlobalKey<NavigatorState> mainKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> navAuthKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> navHomeKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> navProfileKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState>? navHomeKey;
+GlobalKey<NavigatorState>? navProfileKey;

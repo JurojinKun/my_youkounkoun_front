@@ -11,16 +11,22 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-      leading: IconButton(
-          onPressed: () => navAuthKey.currentState!
-              .pushNamedAndRemoveUntil(bottomNav, (route) => false),
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          )),
-      title: const Text("Notifications"),
-    ));
+    return WillPopScope(
+        onWillPop: () async {
+          await navAuthKey.currentState!
+              .pushNamedAndRemoveUntil(bottomNav, (route) => false);
+          return false;
+        },
+        child: Scaffold(
+            appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => navAuthKey.currentState!
+                  .pushNamedAndRemoveUntil(bottomNav, (route) => false),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
+          title: const Text("Notifications"),
+        )));
   }
 }
