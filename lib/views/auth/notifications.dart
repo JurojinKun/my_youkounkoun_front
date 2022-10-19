@@ -13,15 +13,13 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          await navAuthKey.currentState!
-              .pushNamedAndRemoveUntil(bottomNav, (route) => false);
+          Navigator.pop(context);
           return false;
         },
         child: Scaffold(
             appBar: AppBar(
           leading: IconButton(
-              onPressed: () => navAuthKey.currentState!
-                  .pushNamedAndRemoveUntil(bottomNav, (route) => false),
+              onPressed: () => Navigator.pop(context),
               icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
