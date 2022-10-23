@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/main.dart';
-import 'package:my_boilerplate/providers/token_notifications_provider.dart';
 import 'package:my_boilerplate/router.dart';
 
 /// Method called when user clic LOCALE notifications
@@ -98,19 +97,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       );
     });
 
-    //get push token device
-    FirebaseMessaging.instance.getToken().then((value) {
-      if (kDebugMode) {
-        print(value);
-      }
-      if (value != null) {
-        ref
-            .read(tokenNotificationsNotifierProvider.notifier)
-            .updateTokenNotif(value);
-      }
-    });
-
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     navHomeKey = GlobalKey<NavigatorState>();
     navProfileKey = GlobalKey<NavigatorState>();
   }
@@ -134,9 +121,10 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
           Align(
             alignment: Alignment.bottomCenter,
             child: BottomNavigationBar(
-                elevation: 6,
+                elevation: 12,
                 selectedItemColor: Colors.blue,
                 unselectedItemColor: Colors.black45,
+                iconSize: 25,
                 currentIndex: _tabController.index,
                 onTap: (index) {
                   if (_tabController.index == index) {
@@ -145,6 +133,9 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
                           .popUntil((route) => route.isFirst);
                     } else if (_tabController.index == 1) {
                       navProfileKey!.currentState!
+                          .popUntil((route) => route.isFirst);
+                    } else if (_tabController.index == 2) {
+                      navNotificationsKey!.currentState!
                           .popUntil((route) => route.isFirst);
                     }
                   } else {
@@ -157,7 +148,10 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: "Home"),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: "Profile")
+                      icon: Icon(Icons.person), label: "Profile"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.notifications_active),
+                      label: "Notifications")
                 ]),
           )
         ],
@@ -171,7 +165,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         child: Navigator(
           key: navHomeKey,
           initialRoute: home,
-          onGenerateRoute: (settings) => generateRouteHome(settings, context),
+          onGenerateRoute: (settings) =>
+              generateRouteAuthHome(settings, context),
         ),
         onWillPop: () async {
           return !(await navHomeKey!.currentState!.maybePop());
@@ -182,10 +177,21 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
           key: navProfileKey,
           initialRoute: profile,
           onGenerateRoute: (settings) =>
-              generateRouteProfile(settings, context),
+              generateRouteAuthProfile(settings, context),
         ),
         onWillPop: () async {
           return !(await navProfileKey!.currentState!.maybePop());
+        },
+      ),
+      WillPopScope(
+        child: Navigator(
+          key: navNotificationsKey,
+          initialRoute: notifications,
+          onGenerateRoute: (settings) =>
+              generateRouteAuthNotifications(settings, context),
+        ),
+        onWillPop: () async {
+          return !(await navNotificationsKey!.currentState!.maybePop());
         },
       ),
     ];

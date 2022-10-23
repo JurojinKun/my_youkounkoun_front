@@ -3,9 +3,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/controllers/log_controller.dart';
+import 'package:my_boilerplate/providers/token_notifications_provider.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -25,7 +27,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
 
   // Set the background messaging handler early on, as a named top-level function
@@ -44,18 +47,36 @@ Future<void> main() async {
         importance: Importance.high,
       ));
 
-  /// Update the iOS foreground notification presentation options to allow heads up (display in front) notifications.
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  MyAppState createState() => MyAppState();
+}
+
+class MyAppState extends ConsumerState<MyApp> {
+  Future<void> initApp() async {
+    //get push token device
+    String? tokenPush = await FirebaseMessaging.instance.getToken();
+    if (tokenPush != null && tokenPush.trim() != "") {
+      if (kDebugMode) {
+        print("push token: $tokenPush");
+      }
+      ref
+          .read(tokenNotificationsNotifierProvider.notifier)
+          .updateTokenNotif(tokenPush);
+    }
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initApp();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -11,13 +11,11 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -38,10 +36,6 @@ class ProfileState extends State<Profile> with AutomaticKeepAliveClientMixin {
               onPressed: () =>
                   navProfileKey!.currentState!.pushNamed(modifyProfile),
               icon: const Icon(Icons.settings)),
-          IconButton(
-              onPressed: () =>
-                  navAuthKey.currentState!.pushNamed(notifications),
-              icon: const Icon(Icons.notifications_active))
         ],
       ),
     );

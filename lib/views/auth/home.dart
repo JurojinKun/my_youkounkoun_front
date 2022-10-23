@@ -21,7 +21,6 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -38,12 +37,6 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text("Home"),
-        actions: [
-          IconButton(
-              onPressed: () =>
-                  navAuthKey.currentState!.pushNamed(notifications),
-              icon: const Icon(Icons.notifications_active))
-        ],
       ),
       body: Center(
           child: Padding(
