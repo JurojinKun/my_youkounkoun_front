@@ -6,6 +6,8 @@ import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/modify_profile.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
+import 'package:my_boilerplate/views/nonAuth/login.dart';
+import 'package:my_boilerplate/views/nonAuth/register.dart';
 import 'package:my_boilerplate/views/nonAuth/welcome.dart';
 
 Route<dynamic> generateRouteNonAuth(
@@ -15,6 +17,10 @@ Route<dynamic> generateRouteNonAuth(
   switch (settings.name) {
     case welcome:
       return MaterialPageRoute(builder: (_) => const Welcome());
+    case login:
+      return MaterialPageRoute(builder: (_) => const Login());
+    case register:
+      return MaterialPageRoute(builder: (_) => const Register());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

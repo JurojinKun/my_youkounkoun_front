@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my_boilerplate/controllers/log_controller.dart';
+import 'package:my_boilerplate/models/user_model.dart';
 import 'package:my_boilerplate/providers/token_notifications_provider.dart';
+import 'package:my_boilerplate/providers/user_provider.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -59,6 +62,20 @@ class MyApp extends ConsumerStatefulWidget {
 
 class MyAppState extends ConsumerState<MyApp> {
   Future<void> initApp() async {
+    //logic already log
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? "";
+
+    if (token.trim() != "") {
+      ref.read(userNotifierProvider.notifier).initUser(User(
+          id: 1,
+          token: "tokenTest1234",
+          email: "ccommunay@gmail.com",
+          pseudo: "0ruj",
+          gender: "male",
+          age: 25));
+    }
+
     //get push token device
     String? tokenPush = await FirebaseMessaging.instance.getToken();
     if (tokenPush != null && tokenPush.trim() != "") {
@@ -69,6 +86,7 @@ class MyAppState extends ConsumerState<MyApp> {
           .read(tokenNotificationsNotifierProvider.notifier)
           .updateTokenNotif(tokenPush);
     }
+
     FlutterNativeSplash.remove();
   }
 
