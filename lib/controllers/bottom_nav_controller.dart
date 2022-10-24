@@ -97,8 +97,10 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       );
     });
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     navHomeKey = GlobalKey<NavigatorState>();
+    navChatKey = GlobalKey<NavigatorState>();
+    navNotificationsKey = GlobalKey<NavigatorState>();
     navProfileKey = GlobalKey<NavigatorState>();
   }
 
@@ -132,10 +134,13 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
                       navHomeKey!.currentState!
                           .popUntil((route) => route.isFirst);
                     } else if (_tabController.index == 1) {
-                      navProfileKey!.currentState!
+                      navChatKey!.currentState!
                           .popUntil((route) => route.isFirst);
                     } else if (_tabController.index == 2) {
                       navNotificationsKey!.currentState!
+                          .popUntil((route) => route.isFirst);
+                    } else if (_tabController.index == 3) {
+                      navProfileKey!.currentState!
                           .popUntil((route) => route.isFirst);
                     }
                   } else {
@@ -148,10 +153,12 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: "Home"),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: "Profile"),
+                      icon: Icon(Icons.send), label: "Messagerie"),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.notifications_active),
-                      label: "Notifications")
+                      label: "Notifications"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person), label: "Profile"),
                 ]),
           )
         ],
@@ -174,13 +181,13 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       ),
       WillPopScope(
         child: Navigator(
-          key: navProfileKey,
-          initialRoute: profile,
+          key: navChatKey,
+          initialRoute: chat,
           onGenerateRoute: (settings) =>
-              generateRouteAuthProfile(settings, context),
+              generateRouteAuthChat(settings, context),
         ),
         onWillPop: () async {
-          return !(await navProfileKey!.currentState!.maybePop());
+          return !(await navChatKey!.currentState!.maybePop());
         },
       ),
       WillPopScope(
@@ -192,6 +199,17 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         ),
         onWillPop: () async {
           return !(await navNotificationsKey!.currentState!.maybePop());
+        },
+      ),
+      WillPopScope(
+        child: Navigator(
+          key: navProfileKey,
+          initialRoute: profile,
+          onGenerateRoute: (settings) =>
+              generateRouteAuthProfile(settings, context),
+        ),
+        onWillPop: () async {
+          return !(await navProfileKey!.currentState!.maybePop());
         },
       ),
     ];
