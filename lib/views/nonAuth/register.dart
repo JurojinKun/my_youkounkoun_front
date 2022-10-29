@@ -1,9 +1,17 @@
+import 'dart:io';
+
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/models/user_model.dart';
+import 'package:my_boilerplate/providers/register_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 
 class Register extends ConsumerStatefulWidget {
@@ -22,6 +30,19 @@ class RegisterState extends ConsumerState<Register>
       _pseudoController;
   late FocusNode _mailFocusNode, _passwordFocusNode, _pseudoFocusNode;
 
+  List genders = [
+    {"id": "Male", "type": "Homme", "icon": Icons.male},
+    {"id": "Female", "type": "Femme", "icon": Icons.female}
+  ];
+  String validGender = "";
+
+  DateTime? _dateBirthday;
+  bool validBirthday = false;
+
+  CountryCode? _selectedCountry;
+
+  File? validProfilePicture;
+
   bool _isKeyboard = false;
   bool _passwordObscure = true;
   bool _loadingStepOne = false;
@@ -30,6 +51,109 @@ class RegisterState extends ConsumerState<Register>
   bool _loadingStepFourth = false;
   bool _loadingStepFifth = false;
   bool _loadingStepSixth = false;
+
+  showOptionsImage() {
+    return showModalBottomSheet(
+        context: context,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 6,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0))),
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: Platform.isIOS ? 180 : 160,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Ajout d'une photo de profil",
+                            style: textStyleCustomBold(Colors.black, 16)),
+                        IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.clear, color: Colors.black))
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      child: Ink(
+                    child: InkWell(
+                      splashColor: Colors.blue.withOpacity(0.3),
+                      highlightColor: Colors.blue.withOpacity(0.3),
+                      onTap: () => pickImage(ImageSource.camera),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 15.0,
+                          ),
+                          const Icon(Icons.photo_camera,
+                              color: Colors.blue, size: 36),
+                          const SizedBox(
+                            width: 25.0,
+                          ),
+                          Text("Appareil photo",
+                              style: textStyleCustomBold(Colors.blue, 16))
+                        ],
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                      child: Ink(
+                    child: InkWell(
+                      splashColor: Colors.blue.withOpacity(0.3),
+                      highlightColor: Colors.blue.withOpacity(0.3),
+                      onTap: () => pickImage(ImageSource.gallery),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 15.0,
+                          ),
+                          const Icon(Icons.photo, color: Colors.blue, size: 36),
+                          const SizedBox(
+                            width: 25.0,
+                          ),
+                          Text("Galerie",
+                              style: textStyleCustomBold(Colors.blue, 16))
+                        ],
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  pickImage(ImageSource src) async {
+    try {
+      final image = await ImagePicker().pickImage(source: src);
+      if (image != null) {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+        ref
+            .read(profilePictureRegisterNotifierProvider.notifier)
+            .addNewProfilePicture(File(image.path));
+      } else {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -75,6 +199,10 @@ class RegisterState extends ConsumerState<Register>
 
   @override
   Widget build(BuildContext context) {
+    validGender = ref.watch(genderRegisterNotifierProvider);
+    validBirthday = ref.watch(birthdayRegisterNotifierProvider);
+    validProfilePicture = ref.watch(profilePictureRegisterNotifierProvider);
+
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
@@ -398,17 +526,83 @@ class RegisterState extends ConsumerState<Register>
             "Troisième étape, renseigne ton genre.",
             style: textStyleCustomMedium(Colors.black, 14),
           ),
+          const SizedBox(
+            height: 55.0,
+          ),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(
-                height: 55.0,
-              ),
-            ],
-          )),
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                  shrinkWrap: true,
+                  itemCount: genders.length,
+                  itemBuilder: (_, int index) {
+                    var element = genders[index];
+
+                    return validGender == element["id"]
+                        ? Column(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(genderRegisterNotifierProvider
+                                            .notifier)
+                                        .clearGender();
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        border: Border.all(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Center(
+                                      child: Icon(
+                                        element["icon"],
+                                        color: Colors.white,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Text(element["type"],
+                                  style: textStyleCustomBold(Colors.blue, 16))
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(genderRegisterNotifierProvider
+                                            .notifier)
+                                        .choiceGender(element["id"]);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Center(
+                                      child: Icon(
+                                        element["icon"],
+                                        color: Colors.grey,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Text(element["type"],
+                                  style: textStyleCustomBold(Colors.grey, 16))
+                            ],
+                          );
+                  })),
           Container(
             height: 150,
             width: MediaQuery.of(context).size.width,
@@ -433,13 +627,15 @@ class RegisterState extends ConsumerState<Register>
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  _loadingStepThree = true;
-                                });
-                                _tabController.index += 1;
-                                setState(() {
-                                  _loadingStepThree = false;
-                                });
+                                if (validGender.trim() != "") {
+                                  setState(() {
+                                    _loadingStepThree = true;
+                                  });
+                                  _tabController.index += 1;
+                                  setState(() {
+                                    _loadingStepThree = false;
+                                  });
+                                }
                               },
                               child: _loadingStepThree
                                   ? const SizedBox(
@@ -478,17 +674,61 @@ class RegisterState extends ConsumerState<Register>
             "Quatrième étape, renseigne ton âge.",
             style: textStyleCustomMedium(Colors.black, 14),
           ),
+          const SizedBox(
+            height: 55.0,
+          ),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(
-                height: 55.0,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: GestureDetector(
+                onTap: () {
+                  DatePicker.showDatePicker(context,
+                      showTitleActions: true,
+                      theme: DatePickerTheme(
+                        backgroundColor: Colors.white,
+                        cancelStyle: textStyleCustomBold(Colors.blue, 16),
+                        doneStyle: textStyleCustomBold(Colors.blue, 16),
+                        itemStyle: textStyleCustomBold(
+                            Theme.of(context).iconTheme.color!, 18),
+                      ),
+                      minTime: DateTime(1900, 1, 1),
+                      maxTime: DateTime.now(), onConfirm: (date) {
+                    setState(() {
+                      _dateBirthday = date;
+                    });
+                    //verif 18 years old or not
+                    final verif =
+                        DateTime.now().subtract(const Duration(days: 6570));
+                    if (_dateBirthday!.isBefore(verif)) {
+                      ref
+                          .read(birthdayRegisterNotifierProvider.notifier)
+                          .updateBirthday(true);
+                    } else {
+                      ref
+                          .read(birthdayRegisterNotifierProvider.notifier)
+                          .updateBirthday(false);
+                    }
+                  },
+                      currentTime: _dateBirthday ?? DateTime.now(),
+                      locale: LocaleType.fr);
+                },
+                child: Container(
+                  height: 34.0,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      Helpers.formattingDate(_dateBirthday ?? DateTime.now()),
+                      style: textStyleCustomBold(Colors.black, 24),
+                    ),
+                  ),
+                ),
               ),
-            ],
-          )),
+            ),
+          ),
           Container(
             height: 150,
             width: MediaQuery.of(context).size.width,
@@ -513,13 +753,15 @@ class RegisterState extends ConsumerState<Register>
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  _loadingStepFourth = true;
-                                });
-                                _tabController.index += 1;
-                                setState(() {
-                                  _loadingStepFourth = false;
-                                });
+                                if (validBirthday) {
+                                  setState(() {
+                                    _loadingStepFourth = true;
+                                  });
+                                  _tabController.index += 1;
+                                  setState(() {
+                                    _loadingStepFourth = false;
+                                  });
+                                }
                               },
                               child: _loadingStepFourth
                                   ? const SizedBox(
@@ -558,16 +800,58 @@ class RegisterState extends ConsumerState<Register>
             "Cinquième étape, renseigne ta nationnalité.",
             style: textStyleCustomMedium(Colors.black, 14),
           ),
+          const SizedBox(
+            height: 55.0,
+          ),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(
-                height: 55.0,
-              ),
-            ],
+              child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: CountryCodePicker(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  onInit: (countryCode) {
+                    _selectedCountry = countryCode!;
+                  },
+                  onChanged: (countryCode) {
+                    setState(() {
+                      _selectedCountry = countryCode;
+                    });
+                  },
+                  initialSelection: 'FR',
+                  showCountryOnly: true,
+                  showOnlyCountryWhenClosed: true,
+                  alignLeft: true,
+                  boxDecoration: BoxDecoration(
+                      color: Theme.of(context).canvasColor,
+                      borderRadius: BorderRadius.circular(5.0)),
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  dialogSize: Size(MediaQuery.of(context).size.width - 20,
+                      MediaQuery.of(context).size.height / 1.5),
+                  textStyle: Theme.of(context).textTheme.titleSmall,
+                  dialogTextStyle: Theme.of(context).textTheme.titleSmall,
+                  flagWidth: 30,
+                  searchDecoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    fillColor: Theme.of(context).canvasColor,
+                    filled: true,
+                    labelText: "Rechercher un pays",
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    )),
+                  ),
+                  emptySearchBuilder: (_) => Text(
+                    "Pas de pays trouvés pour cette recherche",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                )),
           )),
           Container(
             height: 150,
@@ -593,13 +877,15 @@ class RegisterState extends ConsumerState<Register>
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  _loadingStepFifth = true;
-                                });
-                                _tabController.index += 1;
-                                setState(() {
-                                  _loadingStepFifth = false;
-                                });
+                                if (_selectedCountry != null) {
+                                  setState(() {
+                                    _loadingStepFifth = true;
+                                  });
+                                  _tabController.index += 1;
+                                  setState(() {
+                                    _loadingStepFifth = false;
+                                  });
+                                }
                               },
                               child: _loadingStepFifth
                                   ? const SizedBox(
@@ -639,15 +925,67 @@ class RegisterState extends ConsumerState<Register>
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(
-                height: 55.0,
+              child: Center(
+            child: SizedBox(
+              height: 310,
+              width: 260,
+              child: Stack(
+                children: [
+                  validProfilePicture == null
+                      ? Container(
+                          height: 300,
+                          width: 250,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.grey)),
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.person,
+                            color: Colors.grey,
+                            size: 60.0,
+                          ),
+                        )
+                      : Container(
+                          height: 300,
+                          width: 250,
+                          decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.blue),
+                              image: DecorationImage(
+                                  image: FileImage(validProfilePicture!),
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.high)),
+                        ),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: GestureDetector(
+                          onTap: () {
+                            showOptionsImage();
+                          },
+                          child: Container(
+                            height: 60.0,
+                            width: 60.0,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue,
+                                    blurRadius: 5,
+                                  )
+                                ]),
+                            child: const Icon(
+                              Icons.photo_camera,
+                              color: Colors.blue,
+                              size: 40.0,
+                            ),
+                          )))
+                ],
               ),
-            ],
+            ),
           )),
           Container(
             height: 150,
@@ -673,24 +1011,26 @@ class RegisterState extends ConsumerState<Register>
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
                               onPressed: () async {
-                                setState(() {
-                                  _loadingStepSixth = true;
-                                });
-                                ref
-                                    .read(userNotifierProvider.notifier)
-                                    .initUser(User(
-                                        id: 1,
-                                        token: "tokenTest1234",
-                                        email: "ccommunay@gmail.com",
-                                        pseudo: "0ruj",
-                                        gender: "male",
-                                        age: 25,
-                                        nationality: "French",
-                                        profilePictureUrl:
-                                            "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
-                                setState(() {
-                                  _loadingStepSixth = false;
-                                });
+                                if (validProfilePicture != null) {
+                                  setState(() {
+                                    _loadingStepSixth = true;
+                                  });
+                                  ref
+                                      .read(userNotifierProvider.notifier)
+                                      .initUser(User(
+                                          id: 1,
+                                          token: "tokenTest1234",
+                                          email: "ccommunay@gmail.com",
+                                          pseudo: "0ruj",
+                                          gender: "male",
+                                          age: 25,
+                                          nationality: "French",
+                                          profilePictureUrl:
+                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
+                                  setState(() {
+                                    _loadingStepSixth = false;
+                                  });
+                                }
                               },
                               child: _loadingStepSixth
                                   ? const SizedBox(
