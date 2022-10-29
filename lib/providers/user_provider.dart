@@ -6,14 +6,29 @@ final userNotifierProvider =
 
 class UserProvider extends StateNotifier<User> {
   UserProvider()
-      : super(
-            User(id: 0, token: "", email: "", pseudo: "", gender: "", age: 0));
+      : super(User(
+            id: 0,
+            token: "",
+            email: "",
+            pseudo: "",
+            gender: "",
+            age: 0,
+            nationality: "",
+            profilePictureUrl: ""));
 
   void initUser(User user) {
     state = user;
   }
 
   void clearUser() {
-    state = User(id: 0, token: "", email: "", pseudo: "", gender: "", age: 0);
+    state = User(
+        id: 0,
+        token: "",
+        email: "",
+        pseudo: "",
+        gender: "",
+        age: 0,
+        nationality: "",
+        profilePictureUrl: "");
   }
 }

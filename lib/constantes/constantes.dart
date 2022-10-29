@@ -22,16 +22,29 @@ GlobalKey<NavigatorState>? navNotificationsKey;
 GlobalKey<NavigatorState>? navProfileKey;
 
 //fonts app
-textStyleCustomBold(Color color, double fontSize) {
-  return TextStyle(fontFamily: 'RobotoBold', fontSize: fontSize, color: color);
+textStyleCustomBold(Color color, double fontSize,
+    [TextDecoration? decoration]) {
+  return TextStyle(
+      fontFamily: 'RobotoBold',
+      fontSize: fontSize,
+      color: color,
+      decoration: decoration);
 }
 
-textStyleCustomMedium(Color color, double fontSize) {
+textStyleCustomMedium(Color color, double fontSize,
+    [TextDecoration? decoration]) {
   return TextStyle(
-      fontFamily: 'RobotoMedium', fontSize: fontSize, color: color);
+      fontFamily: 'RobotoMedium',
+      fontSize: fontSize,
+      color: color,
+      decoration: decoration);
 }
 
-textStyleCustomRegular(Color color, double fontSize) {
+textStyleCustomRegular(Color color, double fontSize,
+    [TextDecoration? decoration]) {
   return TextStyle(
-      fontFamily: 'RobotoRegular', fontSize: fontSize, color: color);
+      fontFamily: 'RobotoRegular',
+      fontSize: fontSize,
+      color: color,
+      decoration: decoration);
 }

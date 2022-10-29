@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,10 @@ class LoginState extends ConsumerState<Login> {
         email: "ccommunay@gmail.com",
         pseudo: "0ruj",
         gender: "male",
-        age: 25));
+        age: 25,
+        nationality: "French",
+        profilePictureUrl:
+            "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
   }
 
   @override
@@ -193,7 +197,23 @@ class LoginState extends ConsumerState<Login> {
                           : Text(
                               "Connexion",
                               style: textStyleCustomMedium(Colors.white, 23),
-                            )))
+                            ))),
+              const SizedBox(
+                height: 15.0,
+              ),
+              RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: "Pas encore de compte ? ",
+                      style: textStyleCustomMedium(Colors.black, 14),
+                      children: [
+                        TextSpan(
+                            text: "Inscris-toi",
+                            style: textStyleCustomMedium(Colors.blue, 14),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => navNonAuthKey.currentState!
+                                  .pushNamed(register)),
+                      ]))
             ],
           ),
         ),

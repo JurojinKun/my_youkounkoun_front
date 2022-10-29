@@ -73,7 +73,10 @@ class MyAppState extends ConsumerState<MyApp> {
           email: "ccommunay@gmail.com",
           pseudo: "0ruj",
           gender: "male",
-          age: 25));
+          age: 25,
+          nationality: "French",
+          profilePictureUrl:
+              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
     }
 
     //get push token device
