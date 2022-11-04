@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_boilerplate/components/custom_nav_bar.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/main.dart';
@@ -120,47 +121,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
               controller: _tabController,
               physics: const NeverScrollableScrollPhysics(),
               children: tabNavs()),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BottomNavigationBar(
-                elevation: 12,
-                selectedItemColor: Colors.blue,
-                unselectedItemColor: Colors.black45,
-                iconSize: 25,
-                currentIndex: _tabController.index,
-                onTap: (index) {
-                  if (_tabController.index == index) {
-                    if (_tabController.index == 0) {
-                      navHomeKey!.currentState!
-                          .popUntil((route) => route.isFirst);
-                    } else if (_tabController.index == 1) {
-                      navChatKey!.currentState!
-                          .popUntil((route) => route.isFirst);
-                    } else if (_tabController.index == 2) {
-                      navNotificationsKey!.currentState!
-                          .popUntil((route) => route.isFirst);
-                    } else if (_tabController.index == 3) {
-                      navProfileKey!.currentState!
-                          .popUntil((route) => route.isFirst);
-                    }
-                  } else {
-                    setState(() {
-                      _tabController.index = index;
-                    });
-                  }
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: "Home"),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.send), label: "Messagerie"),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.notifications_active),
-                      label: "Notifications"),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: "Profile"),
-                ]),
-          )
+          CustomNavBar(tabController: _tabController)
         ],
       ),
     );

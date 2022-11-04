@@ -24,6 +24,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   country_code_picker: ^2.0.2
   image_picker: ^0.8.6
+  colorful_safe_area: ^0.3.0
 
 dev_dependencies:
   flutter_test:
