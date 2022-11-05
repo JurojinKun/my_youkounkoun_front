@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class CustomNavBar extends ConsumerStatefulWidget {
   final TabController tabController;
@@ -66,7 +67,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         height: 5.0,
                       ),
                       Text(
-                        "Accueil",
+                        AppLocalization.of(context)
+                            .translate("general", "home"),
                         style: textStyleCustomRegular(
                             widget.tabController.index == 0
                                 ? Colors.blue
@@ -104,7 +106,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         height: 5.0,
                       ),
                       Text(
-                        "Messagerie",
+                        AppLocalization.of(context)
+                            .translate("general", "chat"),
                         style: textStyleCustomRegular(
                             widget.tabController.index == 1
                                 ? Colors.blue
@@ -142,7 +145,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         height: 5.0,
                       ),
                       Text(
-                        "Notifications",
+                        AppLocalization.of(context)
+                            .translate("general", "notifications"),
                         style: textStyleCustomRegular(
                             widget.tabController.index == 2
                                 ? Colors.blue
@@ -180,7 +184,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         height: 5.0,
                       ),
                       Text(
-                        "Profil",
+                        AppLocalization.of(context)
+                            .translate("general", "profile"),
                         style: textStyleCustomRegular(
                             widget.tabController.index == 3
                                 ? Colors.blue

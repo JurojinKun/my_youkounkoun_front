@@ -6,11 +6,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:my_boilerplate/controllers/log_controller.dart';
 import 'package:my_boilerplate/models/user_model.dart';
 import 'package:my_boilerplate/providers/token_notifications_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -107,6 +109,21 @@ class MyAppState extends ConsumerState<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        for (var locale in supportedLocales) {
+          if (locale.languageCode == deviceLocale!.languageCode) {
+            return deviceLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalization.delegate
+      ],
       home: const LogController(),
     );
   }

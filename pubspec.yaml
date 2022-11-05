@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.2
   firebase_core: ^1.18.0
@@ -60,3 +62,5 @@ flutter:
 
   assets: 
     - assets/ic_splash.png
+    - lib/translations/locales/fr.json
+    - lib/translations/locales/en.json

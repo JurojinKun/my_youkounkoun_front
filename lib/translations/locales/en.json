@@ -1,0 +1,16 @@
+{
+    "general": {
+        "home": "Home",
+        "chat": "Chat",
+        "notifications": "Notifications",
+        "profile": "Profile"
+    },
+    "welcome_screen": {},
+    "login_screen": {},
+    "register_screen": {},
+    "home_screen": {},
+    "chat_screen": {},
+    "notifications_screen": {},
+    "profile_screen": {},
+    "modify_profile": {}
+}

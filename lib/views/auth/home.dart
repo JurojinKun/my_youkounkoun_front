@@ -38,13 +38,27 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
         automaticallyImplyLeading: false,
         title: const Text("Home"),
       ),
-      body: Center(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: tokenNotif.trim() != ""
-            ? SelectableText(tokenNotif)
-            : const Text("Pas de token"),
-      )),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Push token du device pour tester les notifs push via Firebase Cloud Messaging:",
+                style: textStyleCustomMedium(Colors.black, 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+              tokenNotif.trim() != ""
+                  ? SelectableText(
+                      tokenNotif,
+                      textAlign: TextAlign.center,
+                    )
+                  : const Text("Pas de token"),
+            ],
+          )),
     );
   }
 }
