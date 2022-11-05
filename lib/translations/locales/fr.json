@@ -7,7 +7,12 @@
     },
     "welcome_screen": {
         "login": "Connexion",
-        "register": "Inscription"
+        "register": "Inscription",
+        "consult": "Tu peux consulter les ",
+        "cgu": "CGU",
+        "and": " et la ",
+        "privacy_policy": "Politique de confidentialité",
+        "boilerplate": " du boilerplate"
     },
     "login_screen": {
         "login": "Connexion",

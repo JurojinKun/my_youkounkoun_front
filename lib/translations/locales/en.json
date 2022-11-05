@@ -7,7 +7,12 @@
     },
     "welcome_screen": {
         "login": "Sign in",
-        "register": "Sign up"
+        "register": "Sign up",
+        "consult": "You can consult ",
+        "cgu": "CGU",
+        "and": " and ",
+        "privacy_policy": "Privacy policy",
+        "boilerplate": " of boilerplate"
     },
     "login_screen": {
         "login": "Sign in",

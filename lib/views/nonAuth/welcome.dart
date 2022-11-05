@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Welcome extends ConsumerStatefulWidget {
@@ -75,7 +77,45 @@ class WelcomeState extends ConsumerState<Welcome> {
                       )),
                 )
               ],
-            ))
+            )),
+            Container(
+              height: 50.0,
+              alignment: Alignment.center,
+              child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: AppLocalization.of(context)
+                          .translate("welcome_screen", "consult"),
+                      style: textStyleCustomMedium(Colors.black, 12),
+                      children: [
+                        TextSpan(
+                            text: AppLocalization.of(context)
+                                .translate("welcome_screen", "cgu"),
+                            style: textStyleCustomMedium(Colors.blue, 12),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Helpers.launchMyUrl("https://www.google.fr/");
+                              }),
+                        TextSpan(
+                          text: AppLocalization.of(context)
+                              .translate("welcome_screen", "and"),
+                          style: textStyleCustomMedium(Colors.black, 12),
+                        ),
+                        TextSpan(
+                            text: AppLocalization.of(context)
+                                .translate("welcome_screen", "privacy_policy"),
+                            style: textStyleCustomMedium(Colors.blue, 12),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Helpers.launchMyUrl("https://www.google.fr/");
+                              }),
+                        TextSpan(
+                          text: AppLocalization.of(context)
+                              .translate("welcome_screen", "boilerplate"),
+                          style: textStyleCustomMedium(Colors.black, 12),
+                        )
+                      ])),
+            )
           ],
         ),
       ),

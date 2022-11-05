@@ -757,7 +757,8 @@ class RegisterState extends ConsumerState<Register>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      Helpers.formattingDate(_dateBirthday ?? DateTime.now()),
+                      Helpers.formattingDate(
+                          _dateBirthday ?? DateTime.now(), localeLanguage),
                       style: textStyleCustomBold(Colors.black, 24),
                     ),
                   ),
