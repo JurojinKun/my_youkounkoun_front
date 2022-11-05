@@ -4,7 +4,7 @@ import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
 import 'package:my_boilerplate/views/auth/chat.dart';
 import 'package:my_boilerplate/views/auth/home.dart';
-import 'package:my_boilerplate/views/auth/modify_profile.dart';
+import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
 import 'package:my_boilerplate/views/nonAuth/login.dart';
@@ -106,8 +106,8 @@ Route<dynamic> generateRouteAuthProfile(
   switch (settings.name) {
     case profile:
       return MaterialPageRoute(builder: (_) => const Profile());
-    case modifyProfile:
-      return MaterialPageRoute(builder: (_) => const ModifyProfile());
+    case settingsUser:
+      return MaterialPageRoute(builder: (_) => const Settings());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

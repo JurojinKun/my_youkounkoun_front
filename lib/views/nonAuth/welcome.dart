@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -53,7 +54,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                       onPressed: () =>
                           navNonAuthKey.currentState!.pushNamed(login),
                       child: Text(
-                        "Connexion",
+                        AppLocalization.of(context)
+                            .translate("welcome_screen", "login"),
                         style: textStyleCustomMedium(Colors.white, 23),
                       )),
                 ),
@@ -67,7 +69,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                       onPressed: () =>
                           navNonAuthKey.currentState!.pushNamed(register),
                       child: Text(
-                        "Inscription",
+                        AppLocalization.of(context)
+                            .translate("welcome_screen", "register"),
                         style: textStyleCustomMedium(Colors.white, 23),
                       )),
                 )

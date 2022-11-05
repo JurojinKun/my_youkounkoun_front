@@ -11,8 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/models/user_model.dart';
+import 'package:my_boilerplate/providers/locale_language_provider.dart';
 import 'package:my_boilerplate/providers/register_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Register extends ConsumerStatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -30,10 +32,7 @@ class RegisterState extends ConsumerState<Register>
       _pseudoController;
   late FocusNode _mailFocusNode, _passwordFocusNode, _pseudoFocusNode;
 
-  List genders = [
-    {"id": "Male", "type": "Homme", "icon": Icons.male},
-    {"id": "Female", "type": "Femme", "icon": Icons.female}
-  ];
+  List genders = [];
   String validGender = "";
 
   DateTime? _dateBirthday;
@@ -51,6 +50,8 @@ class RegisterState extends ConsumerState<Register>
   bool _loadingStepFourth = false;
   bool _loadingStepFifth = false;
   bool _loadingStepSixth = false;
+
+  late String localeLanguage;
 
   showOptionsImage() {
     return showModalBottomSheet(
@@ -73,7 +74,9 @@ class RegisterState extends ConsumerState<Register>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Ajout d'une photo de profil",
+                        Text(
+                            AppLocalization.of(context).translate(
+                                "register_screen", "add_picture_profile"),
                             style: textStyleCustomBold(Colors.black, 16)),
                         IconButton(
                             onPressed: () => Navigator.pop(context),
@@ -98,7 +101,9 @@ class RegisterState extends ConsumerState<Register>
                           const SizedBox(
                             width: 25.0,
                           ),
-                          Text("Appareil photo",
+                          Text(
+                              AppLocalization.of(context)
+                                  .translate("register_screen", "camera"),
                               style: textStyleCustomBold(Colors.blue, 16))
                         ],
                       ),
@@ -120,7 +125,9 @@ class RegisterState extends ConsumerState<Register>
                           const SizedBox(
                             width: 25.0,
                           ),
-                          Text("Galerie",
+                          Text(
+                              AppLocalization.of(context)
+                                  .translate("register_screen", "galery"),
                               style: textStyleCustomBold(Colors.blue, 16))
                         ],
                       ),
@@ -199,6 +206,21 @@ class RegisterState extends ConsumerState<Register>
 
   @override
   Widget build(BuildContext context) {
+    genders = [
+      {
+        "id": "Male",
+        "type": AppLocalization.of(context).translate("register_screen", "man"),
+        "icon": Icons.male
+      },
+      {
+        "id": "Female",
+        "type":
+            AppLocalization.of(context).translate("register_screen", "woman"),
+        "icon": Icons.female
+      }
+    ];
+
+    localeLanguage = ref.watch(localeLanguageNotifierProvider);
     validGender = ref.watch(genderRegisterNotifierProvider);
     validBirthday = ref.watch(birthdayRegisterNotifierProvider);
     validProfilePicture = ref.watch(profilePictureRegisterNotifierProvider);
@@ -217,7 +239,8 @@ class RegisterState extends ConsumerState<Register>
                 color: Colors.black,
               )),
           title: Text(
-            "Inscription",
+            AppLocalization.of(context)
+                .translate("register_screen", "register"),
             style: textStyleCustomBold(Colors.black, 23),
           ),
           centerTitle: false,
@@ -262,7 +285,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Première étape, entre ton adresse mail ainsi que ton mot de passe pour la création de ton compte.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_one"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           Expanded(
@@ -287,7 +311,8 @@ class RegisterState extends ConsumerState<Register>
                   FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
                 decoration: InputDecoration(
-                    hintText: "Email",
+                    hintText: AppLocalization.of(context)
+                        .translate("register_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey, 14),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
@@ -327,7 +352,8 @@ class RegisterState extends ConsumerState<Register>
                   Helpers.hideKeyboard(context);
                 },
                 decoration: InputDecoration(
-                    hintText: "Mot de passe",
+                    hintText: AppLocalization.of(context)
+                        .translate("register_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey, 14),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
@@ -385,7 +411,8 @@ class RegisterState extends ConsumerState<Register>
                                   ),
                                 )
                               : Text(
-                                  "Suivant",
+                                  AppLocalization.of(context)
+                                      .translate("register_screen", "next"),
                                   style:
                                       textStyleCustomMedium(Colors.white, 23),
                                 ))),
@@ -405,7 +432,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Seconde étape, entre le pseudonyme qui te servira d'identifiant pour ton compte.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_two"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           Expanded(
@@ -432,7 +460,8 @@ class RegisterState extends ConsumerState<Register>
                   Helpers.hideKeyboard(context);
                 },
                 decoration: InputDecoration(
-                    hintText: "Pseudonyme",
+                    hintText: AppLocalization.of(context)
+                        .translate("register_screen", "pseudo"),
                     hintStyle: textStyleCustomRegular(Colors.grey, 14),
                     prefixIcon: Icon(Icons.person,
                         color: _pseudoFocusNode.hasFocus
@@ -470,7 +499,8 @@ class RegisterState extends ConsumerState<Register>
                             });
                           },
                           child: Text(
-                            "Précédent",
+                            AppLocalization.of(context)
+                                .translate("register_screen", "previous"),
                             style: textStyleCustomBold(
                                 Colors.black, 14, TextDecoration.underline),
                           )),
@@ -501,7 +531,8 @@ class RegisterState extends ConsumerState<Register>
                                       ),
                                     )
                                   : Text(
-                                      "Suivant",
+                                      AppLocalization.of(context)
+                                          .translate("register_screen", "next"),
                                       style: textStyleCustomMedium(
                                           Colors.white, 23),
                                     ))),
@@ -523,7 +554,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Troisième étape, renseigne ton genre.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_three"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           const SizedBox(
@@ -618,7 +650,8 @@ class RegisterState extends ConsumerState<Register>
                             });
                           },
                           child: Text(
-                            "Précédent",
+                            AppLocalization.of(context)
+                                .translate("register_screen", "previous"),
                             style: textStyleCustomBold(
                                 Colors.black, 14, TextDecoration.underline),
                           )),
@@ -649,7 +682,8 @@ class RegisterState extends ConsumerState<Register>
                                       ),
                                     )
                                   : Text(
-                                      "Suivant",
+                                      AppLocalization.of(context)
+                                          .translate("register_screen", "next"),
                                       style: textStyleCustomMedium(
                                           Colors.white, 23),
                                     ))),
@@ -671,7 +705,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Quatrième étape, renseigne ton âge.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_four"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           const SizedBox(
@@ -684,6 +719,9 @@ class RegisterState extends ConsumerState<Register>
                 onTap: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
+                      locale: localeLanguage == "fr"
+                          ? LocaleType.fr
+                          : LocaleType.en,
                       theme: DatePickerTheme(
                         backgroundColor: Colors.white,
                         cancelStyle: textStyleCustomBold(Colors.blue, 16),
@@ -708,9 +746,7 @@ class RegisterState extends ConsumerState<Register>
                           .read(birthdayRegisterNotifierProvider.notifier)
                           .updateBirthday(false);
                     }
-                  },
-                      currentTime: _dateBirthday ?? DateTime.now(),
-                      locale: LocaleType.fr);
+                  }, currentTime: _dateBirthday ?? DateTime.now());
                 },
                 child: Container(
                   height: 34.0,
@@ -744,7 +780,8 @@ class RegisterState extends ConsumerState<Register>
                             });
                           },
                           child: Text(
-                            "Précédent",
+                            AppLocalization.of(context)
+                                .translate("register_screen", "previous"),
                             style: textStyleCustomBold(
                                 Colors.black, 14, TextDecoration.underline),
                           )),
@@ -775,7 +812,8 @@ class RegisterState extends ConsumerState<Register>
                                       ),
                                     )
                                   : Text(
-                                      "Suivant",
+                                      AppLocalization.of(context)
+                                          .translate("register_screen", "next"),
                                       style: textStyleCustomMedium(
                                           Colors.white, 23),
                                     ))),
@@ -797,7 +835,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Cinquième étape, renseigne ta nationnalité.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_five"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           const SizedBox(
@@ -839,7 +878,8 @@ class RegisterState extends ConsumerState<Register>
                     contentPadding: EdgeInsets.zero,
                     fillColor: Theme.of(context).canvasColor,
                     filled: true,
-                    labelText: "Rechercher un pays",
+                    labelText: AppLocalization.of(context)
+                        .translate("register_screen", "search_country"),
                     border: const OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -847,7 +887,8 @@ class RegisterState extends ConsumerState<Register>
                     )),
                   ),
                   emptySearchBuilder: (_) => Text(
-                    "Pas de pays trouvés pour cette recherche",
+                    AppLocalization.of(context)
+                        .translate("register_screen", "empty_search_country"),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
@@ -868,7 +909,8 @@ class RegisterState extends ConsumerState<Register>
                             });
                           },
                           child: Text(
-                            "Précédent",
+                            AppLocalization.of(context)
+                                .translate("register_screen", "previous"),
                             style: textStyleCustomBold(
                                 Colors.black, 14, TextDecoration.underline),
                           )),
@@ -899,7 +941,8 @@ class RegisterState extends ConsumerState<Register>
                                       ),
                                     )
                                   : Text(
-                                      "Suivant",
+                                      AppLocalization.of(context)
+                                          .translate("register_screen", "next"),
                                       style: textStyleCustomMedium(
                                           Colors.white, 23),
                                     ))),
@@ -921,7 +964,8 @@ class RegisterState extends ConsumerState<Register>
             height: 25.0,
           ),
           Text(
-            "Et enfin dernière étape, ajoute une photo de profil afin de finaliser ton inscription.",
+            AppLocalization.of(context)
+                .translate("register_screen", "step_six"),
             style: textStyleCustomMedium(Colors.black, 14),
           ),
           Expanded(
@@ -1002,7 +1046,8 @@ class RegisterState extends ConsumerState<Register>
                             });
                           },
                           child: Text(
-                            "Précédent",
+                            AppLocalization.of(context)
+                                .translate("register_screen", "previous"),
                             style: textStyleCustomBold(
                                 Colors.black, 14, TextDecoration.underline),
                           )),
@@ -1044,7 +1089,8 @@ class RegisterState extends ConsumerState<Register>
                                       ),
                                     )
                                   : Text(
-                                      "S'inscrire",
+                                      AppLocalization.of(context).translate(
+                                          "register_screen", "sign_up"),
                                       style: textStyleCustomMedium(
                                           Colors.white, 23),
                                     ))),

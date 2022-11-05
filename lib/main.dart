@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_boilerplate/providers/locale_language_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -113,9 +114,15 @@ class MyAppState extends ConsumerState<MyApp> {
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         for (var locale in supportedLocales) {
           if (locale.languageCode == deviceLocale!.languageCode) {
+            ref
+                .read(localeLanguageNotifierProvider.notifier)
+                .setLocaleLanguage(deviceLocale.languageCode);
             return deviceLocale;
           }
         }
+        ref
+            .read(localeLanguageNotifierProvider.notifier)
+            .setLocaleLanguage(supportedLocales.first.languageCode);
         return supportedLocales.first;
       },
       localizationsDelegates: const [

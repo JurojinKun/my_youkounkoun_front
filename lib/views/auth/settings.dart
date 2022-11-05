@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
-class ModifyProfile extends StatefulWidget {
-  const ModifyProfile({Key? key}) : super(key: key);
+class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
 
   @override
-  ModifyProfileState createState() => ModifyProfileState();
+  SettingsState createState() => SettingsState();
 }
 
-class ModifyProfileState extends State<ModifyProfile> {
+class SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,11 @@ class ModifyProfileState extends State<ModifyProfile> {
             color: Colors.white,
           ),
         ),
-        title: const Text("Modify profile"),
+        title: Text(
+          AppLocalization.of(context)
+              .translate("settings_screen", "settings_user"),
+          style: textStyleCustomBold(Colors.white, 23),
+        ),
       ),
     );
   }

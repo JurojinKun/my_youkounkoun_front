@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -29,7 +31,11 @@ class _NotificationsState extends State<Notifications>
     return Scaffold(
         appBar: AppBar(
       automaticallyImplyLeading: false,
-      title: const Text("Notifications"),
+      title: Text(
+        AppLocalization.of(context)
+            .translate("notifications_screen", "notifications"),
+        style: textStyleCustomBold(Colors.white, 23),
+      ),
     ));
   }
 }

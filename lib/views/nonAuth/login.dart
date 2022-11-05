@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -77,7 +78,7 @@ class LoginState extends ConsumerState<Login> {
                 color: Colors.black,
               )),
           title: Text(
-            "Connexion",
+            AppLocalization.of(context).translate("login_screen", "login"),
             style: textStyleCustomBold(Colors.black, 23),
           ),
           centerTitle: false,
@@ -103,7 +104,8 @@ class LoginState extends ConsumerState<Login> {
                   FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
                 decoration: InputDecoration(
-                    hintText: "Email",
+                    hintText: AppLocalization.of(context)
+                        .translate("login_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey, 14),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
@@ -143,7 +145,8 @@ class LoginState extends ConsumerState<Login> {
                   Helpers.hideKeyboard(context);
                 },
                 decoration: InputDecoration(
-                    hintText: "Mot de passe",
+                    hintText: AppLocalization.of(context)
+                        .translate("login_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey, 14),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
@@ -195,7 +198,8 @@ class LoginState extends ConsumerState<Login> {
                               ),
                             )
                           : Text(
-                              "Connexion",
+                              AppLocalization.of(context)
+                                  .translate("login_screen", "login"),
                               style: textStyleCustomMedium(Colors.white, 23),
                             ))),
               const SizedBox(
@@ -204,11 +208,13 @@ class LoginState extends ConsumerState<Login> {
               RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      text: "Pas encore de compte ? ",
+                      text: AppLocalization.of(context)
+                          .translate("login_screen", "no_account"),
                       style: textStyleCustomMedium(Colors.black, 14),
                       children: [
                         TextSpan(
-                            text: "Inscris-toi",
+                            text: AppLocalization.of(context)
+                                .translate("login_screen", "sign_up"),
                             style: textStyleCustomMedium(Colors.blue, 14),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => navNonAuthKey.currentState!

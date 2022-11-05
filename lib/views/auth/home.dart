@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/providers/token_notifications_provider.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -36,7 +37,10 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Home"),
+        title: Text(
+          AppLocalization.of(context).translate("home_screen", "home"),
+          style: textStyleCustomBold(Colors.white, 23),
+        ),
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -44,7 +48,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Push token du device pour tester les notifs push via Firebase Cloud Messaging:",
+                AppLocalization.of(context)
+                    .translate("home_screen", "push_token"),
                 style: textStyleCustomMedium(Colors.black, 14),
                 textAlign: TextAlign.center,
               ),
@@ -56,7 +61,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       tokenNotif,
                       textAlign: TextAlign.center,
                     )
-                  : const Text("Pas de token"),
+                  : Text(AppLocalization.of(context)
+                      .translate("home_screen", "no_token")),
             ],
           )),
     );

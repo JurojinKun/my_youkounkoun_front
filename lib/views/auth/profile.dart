@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends ConsumerStatefulWidget {
@@ -47,11 +48,14 @@ class ProfileState extends ConsumerState<Profile>
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Profile"),
+        title: Text(
+          AppLocalization.of(context).translate("profile_screen", "profile"),
+          style: textStyleCustomBold(Colors.white, 23),
+        ),
         actions: [
           IconButton(
               onPressed: () =>
-                  navProfileKey!.currentState!.pushNamed(modifyProfile),
+                  navProfileKey!.currentState!.pushNamed(settingsUser),
               icon: const Icon(Icons.settings)),
           IconButton(
               onPressed: () async => await _tryLogOut(),
