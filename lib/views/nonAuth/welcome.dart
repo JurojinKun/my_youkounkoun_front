@@ -94,6 +94,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                             style: textStyleCustomMedium(Colors.blue, 12),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                //change url google to url cgu
                                 Helpers.launchMyUrl("https://www.google.fr/");
                               }),
                         TextSpan(
@@ -107,6 +108,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                             style: textStyleCustomMedium(Colors.blue, 12),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                //change url google to url privacy policy
                                 Helpers.launchMyUrl("https://www.google.fr/");
                               }),
                         TextSpan(
