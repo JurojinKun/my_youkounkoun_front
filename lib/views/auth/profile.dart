@@ -51,6 +51,7 @@ class ProfileState extends ConsumerState<Profile>
         title: Text(
           AppLocalization.of(context).translate("profile_screen", "profile"),
           style: textStyleCustomBold(Colors.white, 23),
+          textScaleFactor: 1.0
         ),
         actions: [
           IconButton(

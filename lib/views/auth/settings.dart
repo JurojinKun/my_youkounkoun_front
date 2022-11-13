@@ -37,6 +37,7 @@ class SettingsState extends State<Settings> {
           AppLocalization.of(context)
               .translate("settings_screen", "settings_user"),
           style: textStyleCustomBold(Colors.white, 23),
+          textScaleFactor: 1.0
         ),
       ),
     );

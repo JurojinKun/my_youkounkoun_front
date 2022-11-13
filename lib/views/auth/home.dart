@@ -40,6 +40,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
         title: Text(
           AppLocalization.of(context).translate("home_screen", "home"),
           style: textStyleCustomBold(Colors.white, 23),
+          textScaleFactor: 1.0
         ),
       ),
       body: Padding(
@@ -52,6 +53,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                     .translate("home_screen", "push_token"),
                 style: textStyleCustomMedium(Colors.black, 14),
                 textAlign: TextAlign.center,
+                textScaleFactor: 1.0
               ),
               const SizedBox(
                 height: 5.0,
@@ -62,7 +64,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       textAlign: TextAlign.center,
                     )
                   : Text(AppLocalization.of(context)
-                      .translate("home_screen", "no_token")),
+                      .translate("home_screen", "no_token"), textScaleFactor: 1.0),
             ],
           )),
     );

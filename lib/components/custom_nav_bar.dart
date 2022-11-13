@@ -74,6 +74,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                                 ? Colors.blue
                                 : Colors.grey,
                             12),
+                            textScaleFactor: 1.0
                       )
                     ],
                   ),
@@ -113,6 +114,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                                 ? Colors.blue
                                 : Colors.grey,
                             12),
+                            textScaleFactor: 1.0
                       )
                     ],
                   ),
@@ -152,6 +154,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                                 ? Colors.blue
                                 : Colors.grey,
                             12),
+                            textScaleFactor: 1.0
                       )
                     ],
                   ),
@@ -191,6 +194,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                                 ? Colors.blue
                                 : Colors.grey,
                             12),
+                            textScaleFactor: 1.0
                       )
                     ],
                   ),

@@ -34,6 +34,7 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
         title: Text(
           AppLocalization.of(context).translate("chat_screen", "chat"),
           style: textStyleCustomBold(Colors.white, 23),
+          textScaleFactor: 1.0
         ),
       ),
     );

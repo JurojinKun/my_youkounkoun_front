@@ -80,6 +80,7 @@ class LoginState extends ConsumerState<Login> {
           title: Text(
             AppLocalization.of(context).translate("login_screen", "login"),
             style: textStyleCustomBold(Colors.black, 23),
+            textScaleFactor: 1.0
           ),
           centerTitle: false,
         ),
@@ -106,7 +107,8 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(Colors.grey, 14),
+                    hintStyle: textStyleCustomRegular(Colors.grey, 14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(Colors.blue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
                             ? Colors.blue
@@ -147,7 +149,8 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey, 14),
+                    hintStyle: textStyleCustomRegular(Colors.grey, 14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(Colors.blue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
                             ? Colors.blue
@@ -201,12 +204,14 @@ class LoginState extends ConsumerState<Login> {
                               AppLocalization.of(context)
                                   .translate("login_screen", "login"),
                               style: textStyleCustomMedium(Colors.white, 23),
+                              textScaleFactor: 1.0
                             ))),
               const SizedBox(
                 height: 15.0,
               ),
               RichText(
                   textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
                   text: TextSpan(
                       text: AppLocalization.of(context)
                           .translate("login_screen", "no_account"),

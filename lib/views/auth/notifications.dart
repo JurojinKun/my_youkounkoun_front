@@ -35,6 +35,7 @@ class _NotificationsState extends State<Notifications>
         AppLocalization.of(context)
             .translate("notifications_screen", "notifications"),
         style: textStyleCustomBold(Colors.white, 23),
+        textScaleFactor: 1.0
       ),
     ));
   }

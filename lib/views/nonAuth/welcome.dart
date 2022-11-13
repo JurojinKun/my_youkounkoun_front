@@ -52,6 +52,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                     "My boilerplate",
                     style: textStyleCustomBold(Colors.black, 33),
                     textAlign: TextAlign.center,
+                    textScaleFactor: 1.0
                   ),
                 ],
               ),
@@ -70,6 +71,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                         AppLocalization.of(context)
                             .translate("welcome_screen", "login"),
                         style: textStyleCustomMedium(Colors.white, 23),
+                        textScaleFactor: 1.0
                       )),
                 ),
                 const SizedBox(
@@ -85,6 +87,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                         AppLocalization.of(context)
                             .translate("welcome_screen", "register"),
                         style: textStyleCustomMedium(Colors.white, 23),
+                        textScaleFactor: 1.0
                       )),
                 )
               ],
@@ -94,6 +97,7 @@ class WelcomeState extends ConsumerState<Welcome> {
               alignment: Alignment.center,
               child: RichText(
                   textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
                   text: TextSpan(
                       text: AppLocalization.of(context)
                           .translate("welcome_screen", "consult"),
@@ -132,7 +136,7 @@ class WelcomeState extends ConsumerState<Welcome> {
             Container(
               height: 20.0,
               alignment: Alignment.center,
-              child: Text(version, textAlign: TextAlign.center, style: textStyleCustomMedium(Colors.black, 11),),
+              child: Text(version, textAlign: TextAlign.center, style: textStyleCustomMedium(Colors.black, 11), textScaleFactor: 1.0),
             )
           ],
         ),
