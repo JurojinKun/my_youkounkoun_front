@@ -14,7 +14,6 @@ class Welcome extends ConsumerStatefulWidget {
 }
 
 class WelcomeState extends ConsumerState<Welcome> {
-
   String version = "";
 
   @override
@@ -48,12 +47,10 @@ class WelcomeState extends ConsumerState<Welcome> {
                   const SizedBox(
                     height: 25.0,
                   ),
-                  Text(
-                    "My boilerplate",
-                    style: textStyleCustomBold(Colors.black, 33),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.0
-                  ),
+                  Text("My boilerplate",
+                      style: textStyleCustomBold(Colors.black, 33),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0),
                 ],
               ),
             ),
@@ -68,11 +65,10 @@ class WelcomeState extends ConsumerState<Welcome> {
                       onPressed: () =>
                           navNonAuthKey.currentState!.pushNamed(login),
                       child: Text(
-                        AppLocalization.of(context)
-                            .translate("welcome_screen", "login"),
-                        style: textStyleCustomMedium(Colors.white, 23),
-                        textScaleFactor: 1.0
-                      )),
+                          AppLocalization.of(context)
+                              .translate("welcome_screen", "login"),
+                          style: textStyleCustomMedium(Colors.white, 23),
+                          textScaleFactor: 1.0)),
                 ),
                 const SizedBox(
                   height: 55.0,
@@ -84,16 +80,15 @@ class WelcomeState extends ConsumerState<Welcome> {
                       onPressed: () =>
                           navNonAuthKey.currentState!.pushNamed(register),
                       child: Text(
-                        AppLocalization.of(context)
-                            .translate("welcome_screen", "register"),
-                        style: textStyleCustomMedium(Colors.white, 23),
-                        textScaleFactor: 1.0
-                      )),
+                          AppLocalization.of(context)
+                              .translate("welcome_screen", "register"),
+                          style: textStyleCustomMedium(Colors.white, 23),
+                          textScaleFactor: 1.0)),
                 )
               ],
             )),
             Container(
-              height: 50.0,
+              height: 30.0,
               alignment: Alignment.center,
               child: RichText(
                   textAlign: TextAlign.center,
@@ -134,9 +129,12 @@ class WelcomeState extends ConsumerState<Welcome> {
                       ])),
             ),
             Container(
-              height: 20.0,
+              height: 30.0,
               alignment: Alignment.center,
-              child: Text(version, textAlign: TextAlign.center, style: textStyleCustomMedium(Colors.black, 11), textScaleFactor: 1.0),
+              child: Text(version,
+                  textAlign: TextAlign.center,
+                  style: textStyleCustomMedium(Colors.black, 11),
+                  textScaleFactor: 1.0),
             )
           ],
         ),

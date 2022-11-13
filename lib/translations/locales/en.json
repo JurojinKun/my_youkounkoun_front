@@ -19,7 +19,7 @@
         "mail": "Email",
         "password": "Password",
         "no_account": "No account yet ?",
-        "sign_up": " Register"
+        "sign_up": " Sign up"
     },
     "register_screen": {
         "add_picture_profile": "Add a profile picture",
