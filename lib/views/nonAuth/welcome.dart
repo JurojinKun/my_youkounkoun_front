@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -13,9 +14,19 @@ class Welcome extends ConsumerStatefulWidget {
 }
 
 class WelcomeState extends ConsumerState<Welcome> {
+
+  String version = "";
+
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(const Duration(seconds: 0), () async {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        version = packageInfo.version;
+      });
+    });
   }
 
   @override
@@ -117,6 +128,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                           style: textStyleCustomMedium(Colors.black, 12),
                         )
                       ])),
+            ),
+            Container(
+              height: 20.0,
+              alignment: Alignment.center,
+              child: Text(version, textAlign: TextAlign.center, style: textStyleCustomMedium(Colors.black, 11),),
             )
           ],
         ),
