@@ -73,15 +73,20 @@ class LoginState extends ConsumerState<Login> {
           shadowColor: Colors.transparent,
           leading: IconButton(
               onPressed: () => navNonAuthKey.currentState!.pop(),
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
               )),
           title: Text(
-            AppLocalization.of(context).translate("login_screen", "login"),
-            style: textStyleCustomBold(Colors.black, 23),
-            textScaleFactor: 1.0
-          ),
+              AppLocalization.of(context).translate("login_screen", "login"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? Colors.black
+                      : Colors.white,
+                  23),
+              textScaleFactor: 1.0),
           centerTitle: false,
         ),
         body: Center(
@@ -107,8 +112,10 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(Colors.grey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue, 14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(Colors.grey,
+                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(Colors.blue,
+                        14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
                             ? Colors.blue
@@ -149,8 +156,10 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue, 14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(Colors.grey,
+                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(Colors.blue,
+                        14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
                             ? Colors.blue
@@ -203,9 +212,13 @@ class LoginState extends ConsumerState<Login> {
                           : Text(
                               AppLocalization.of(context)
                                   .translate("login_screen", "login"),
-                              style: textStyleCustomMedium(Colors.white, 23),
-                              textScaleFactor: 1.0
-                            ))),
+                              style: textStyleCustomMedium(
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? Colors.black
+                                      : Colors.white,
+                                  23),
+                              textScaleFactor: 1.0))),
               const SizedBox(
                 height: 15.0,
               ),
@@ -215,7 +228,11 @@ class LoginState extends ConsumerState<Login> {
                   text: TextSpan(
                       text: AppLocalization.of(context)
                           .translate("login_screen", "no_account"),
-                      style: textStyleCustomMedium(Colors.black, 14),
+                      style: textStyleCustomMedium(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          14),
                       children: [
                         TextSpan(
                             text: AppLocalization.of(context)

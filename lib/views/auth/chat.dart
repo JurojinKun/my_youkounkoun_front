@@ -31,11 +31,17 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         title: Text(
-          AppLocalization.of(context).translate("chat_screen", "chat"),
-          style: textStyleCustomBold(Colors.white, 23),
-          textScaleFactor: 1.0
-        ),
+            AppLocalization.of(context).translate("chat_screen", "chat"),
+            style: textStyleCustomBold(
+                Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+                23),
+            textScaleFactor: 1.0),
       ),
     );
   }

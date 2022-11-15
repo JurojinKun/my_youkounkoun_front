@@ -48,3 +48,16 @@ textStyleCustomRegular(Color color, double fontSize,
       color: color,
       decoration: decoration);
 }
+
+//theme data app (light/dark theme)
+ThemeData lightTheme = ThemeData(
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: const Color(0XFFF8FFFF),
+  primarySwatch: Colors.blue,
+);
+
+ThemeData darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: const Color(0XFF151515),
+  primarySwatch: Colors.blue,
+);

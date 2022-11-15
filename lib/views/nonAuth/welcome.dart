@@ -48,7 +48,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                     height: 25.0,
                   ),
                   Text("My boilerplate",
-                      style: textStyleCustomBold(Colors.black, 33),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          33),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0),
                 ],
@@ -67,7 +71,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                       child: Text(
                           AppLocalization.of(context)
                               .translate("welcome_screen", "login"),
-                          style: textStyleCustomMedium(Colors.white, 23),
+                          style: textStyleCustomMedium(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black
+                                  : Colors.white,
+                              23),
                           textScaleFactor: 1.0)),
                 ),
                 const SizedBox(
@@ -82,7 +90,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                       child: Text(
                           AppLocalization.of(context)
                               .translate("welcome_screen", "register"),
-                          style: textStyleCustomMedium(Colors.white, 23),
+                          style: textStyleCustomMedium(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black
+                                  : Colors.white,
+                              23),
                           textScaleFactor: 1.0)),
                 )
               ],
@@ -96,7 +108,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                   text: TextSpan(
                       text: AppLocalization.of(context)
                           .translate("welcome_screen", "consult"),
-                      style: textStyleCustomMedium(Colors.black, 12),
+                      style: textStyleCustomMedium(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          12),
                       children: [
                         TextSpan(
                             text: AppLocalization.of(context)
@@ -110,7 +126,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                         TextSpan(
                           text: AppLocalization.of(context)
                               .translate("welcome_screen", "and"),
-                          style: textStyleCustomMedium(Colors.black, 12),
+                          style: textStyleCustomMedium(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black
+                                  : Colors.white,
+                              12),
                         ),
                         TextSpan(
                             text: AppLocalization.of(context)
@@ -124,7 +144,11 @@ class WelcomeState extends ConsumerState<Welcome> {
                         TextSpan(
                           text: AppLocalization.of(context)
                               .translate("welcome_screen", "boilerplate"),
-                          style: textStyleCustomMedium(Colors.black, 12),
+                          style: textStyleCustomMedium(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black
+                                  : Colors.white,
+                              12),
                         )
                       ])),
             ),
@@ -133,7 +157,11 @@ class WelcomeState extends ConsumerState<Welcome> {
               alignment: Alignment.center,
               child: Text(version,
                   textAlign: TextAlign.center,
-                  style: textStyleCustomMedium(Colors.black, 11),
+                  style: textStyleCustomMedium(
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                      11),
                   textScaleFactor: 1.0),
             )
           ],

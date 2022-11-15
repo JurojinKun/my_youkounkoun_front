@@ -48,19 +48,35 @@ class ProfileState extends ConsumerState<Profile>
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         title: Text(
-          AppLocalization.of(context).translate("profile_screen", "profile"),
-          style: textStyleCustomBold(Colors.white, 23),
-          textScaleFactor: 1.0
-        ),
+            AppLocalization.of(context).translate("profile_screen", "profile"),
+            style: textStyleCustomBold(
+                Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+                23),
+            textScaleFactor: 1.0),
         actions: [
           IconButton(
               onPressed: () =>
                   navProfileKey!.currentState!.pushNamed(settingsUser),
-              icon: const Icon(Icons.settings)),
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+              )),
           IconButton(
               onPressed: () async => await _tryLogOut(),
-              icon: const Icon(Icons.logout))
+              icon: Icon(
+                Icons.logout,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+              ))
         ],
       ),
     );

@@ -31,12 +31,18 @@ class _NotificationsState extends State<Notifications>
     return Scaffold(
         appBar: AppBar(
       automaticallyImplyLeading: false,
+      elevation: 0,
+      shadowColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       title: Text(
-        AppLocalization.of(context)
-            .translate("notifications_screen", "notifications"),
-        style: textStyleCustomBold(Colors.white, 23),
-        textScaleFactor: 1.0
-      ),
+          AppLocalization.of(context)
+              .translate("notifications_screen", "notifications"),
+          style: textStyleCustomBold(
+              Theme.of(context).brightness == Brightness.light
+                  ? Colors.black
+                  : Colors.white,
+              23),
+          textScaleFactor: 1.0),
     ));
   }
 }

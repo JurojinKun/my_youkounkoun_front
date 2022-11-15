@@ -37,11 +37,17 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         title: Text(
-          AppLocalization.of(context).translate("home_screen", "home"),
-          style: textStyleCustomBold(Colors.white, 23),
-          textScaleFactor: 1.0
-        ),
+            AppLocalization.of(context).translate("home_screen", "home"),
+            style: textStyleCustomBold(
+                Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
+                23),
+            textScaleFactor: 1.0),
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -49,22 +55,38 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalization.of(context)
-                    .translate("home_screen", "push_token"),
-                style: textStyleCustomMedium(Colors.black, 14),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.0
-              ),
+                  AppLocalization.of(context)
+                      .translate("home_screen", "push_token"),
+                  style: textStyleCustomMedium(
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                      14),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0),
               const SizedBox(
                 height: 5.0,
               ),
               tokenNotif.trim() != ""
                   ? SelectableText(
                       tokenNotif,
+                      style: textStyleCustomMedium(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          14),
                       textAlign: TextAlign.center,
                     )
-                  : Text(AppLocalization.of(context)
-                      .translate("home_screen", "no_token"), textScaleFactor: 1.0),
+                  : Text(
+                      AppLocalization.of(context)
+                          .translate("home_screen", "no_token"),
+                      style: textStyleCustomMedium(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                          14),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0),
             ],
           )),
     );
