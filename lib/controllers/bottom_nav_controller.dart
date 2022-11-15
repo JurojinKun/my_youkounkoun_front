@@ -113,7 +113,19 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(onWillPop: () async {
+      if (_tabController.index == 0) {
+        return !(await navHomeKey!.currentState!.maybePop());
+      } else if (_tabController.index == 1) {
+        return !(await navChatKey!.currentState!.maybePop());
+      } else if (_tabController.index == 2) {
+        return !(await navNotificationsKey!.currentState!.maybePop());
+      } else if (_tabController.index == 3) {
+        return !(await navProfileKey!.currentState!.maybePop());
+      } else {
+        return false;
+      }
+    }, child: Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
@@ -124,54 +136,34 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
           CustomNavBar(tabController: _tabController)
         ],
       ),
-    );
+    ));
   }
 
   List<Widget> tabNavs() {
     return [
-      WillPopScope(
-        child: Navigator(
-          key: navHomeKey,
-          initialRoute: home,
-          onGenerateRoute: (settings) =>
-              generateRouteAuthHome(settings, context),
-        ),
-        onWillPop: () async {
-          return !(await navHomeKey!.currentState!.maybePop());
-        },
+      Navigator(
+        key: navHomeKey,
+        initialRoute: home,
+        onGenerateRoute: (settings) =>
+            generateRouteAuthHome(settings, context),
       ),
-      WillPopScope(
-        child: Navigator(
-          key: navChatKey,
-          initialRoute: chat,
-          onGenerateRoute: (settings) =>
-              generateRouteAuthChat(settings, context),
-        ),
-        onWillPop: () async {
-          return !(await navChatKey!.currentState!.maybePop());
-        },
+      Navigator(
+        key: navChatKey,
+        initialRoute: chat,
+        onGenerateRoute: (settings) =>
+            generateRouteAuthChat(settings, context),
       ),
-      WillPopScope(
-        child: Navigator(
-          key: navNotificationsKey,
-          initialRoute: notifications,
-          onGenerateRoute: (settings) =>
-              generateRouteAuthNotifications(settings, context),
-        ),
-        onWillPop: () async {
-          return !(await navNotificationsKey!.currentState!.maybePop());
-        },
+      Navigator(
+        key: navNotificationsKey,
+        initialRoute: notifications,
+        onGenerateRoute: (settings) =>
+            generateRouteAuthNotifications(settings, context),
       ),
-      WillPopScope(
-        child: Navigator(
-          key: navProfileKey,
-          initialRoute: profile,
-          onGenerateRoute: (settings) =>
-              generateRouteAuthProfile(settings, context),
-        ),
-        onWillPop: () async {
-          return !(await navProfileKey!.currentState!.maybePop());
-        },
+      Navigator(
+        key: navProfileKey,
+        initialRoute: profile,
+        onGenerateRoute: (settings) =>
+            generateRouteAuthProfile(settings, context),
       ),
     ];
   }
