@@ -3,7 +3,9 @@
         "home": "Accueil",
         "chat": "Messagerie",
         "notifications": "Notifications",
-        "profile": "Profil"
+        "profile": "Profil",
+        "btn_confirm": "Confirmer",
+        "btn_cancel": "Annuler"
     },
     "welcome_screen": {
         "login": "Connexion",
@@ -58,6 +60,13 @@
         "profile": "Profil"
     },
     "settings_screen": {
-        "settings_user": "Paramètres"
+        "settings_user": "Paramètres",
+        "my_account": "Mon compte",
+        "theme": "Thème",
+        "logout_title": "Déconnexion",
+        "logout_content": "Es-tu sûr de vouloir te déconnecter ?"
+    },
+    "edit_account_screen": {
+        "my_account": "Mon compte"
     }
 }

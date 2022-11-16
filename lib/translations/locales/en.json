@@ -3,7 +3,9 @@
         "home": "Home",
         "chat": "Chat",
         "notifications": "Notifications",
-        "profile": "Profile"
+        "profile": "Profile",
+        "btn_confirm": "Confirm",
+        "btn_cancel": "Cancel"
     },
     "welcome_screen": {
         "login": "Sign in",
@@ -58,6 +60,13 @@
         "profile": "Profile"
     },
     "settings_screen": {
-        "settings_user": "Settings"
+        "settings_user": "Settings",
+        "my_account": "My account",
+        "theme": "Theme",
+        "logout_title": "Logout",
+        "logout_content": "Are you sure you want to disconnect ?"
+    },
+    "edit_account_screen": {
+        "my_account": "My account"
     }
 }

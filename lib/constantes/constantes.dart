@@ -12,6 +12,7 @@ const String chat = "Chat";
 const String notifications = "Notifications";
 const String profile = "Profile";
 const String settingsUser = "Settings user";
+const String editAccount = "Edit account";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
 import 'package:my_boilerplate/views/auth/chat.dart';
+import 'package:my_boilerplate/views/auth/edit_account.dart';
 import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
@@ -27,7 +28,10 @@ Route<dynamic> generateRouteNonAuth(
           builder: (_) => Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
-                    child: Text('No route defined for ${settings.name}', textScaleFactor: 1.0,)),
+                    child: Text(
+                  'No route defined for ${settings.name}',
+                  textScaleFactor: 1.0,
+                )),
               ));
   }
 }
@@ -38,6 +42,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
   switch (settings.name) {
     case bottomNav:
       return MaterialPageRoute(builder: (_) => const BottomNavController());
+    case editAccount:
+      return MaterialPageRoute(builder: (_) => const EditAccount());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -60,7 +66,8 @@ Route<dynamic> generateRouteAuthHome(
           builder: (_) => Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
-                    child: Text('No route defined for ${settings.name}', textScaleFactor: 1.0)),
+                    child: Text('No route defined for ${settings.name}',
+                        textScaleFactor: 1.0)),
               ));
   }
 }
@@ -77,7 +84,8 @@ Route<dynamic> generateRouteAuthChat(
           builder: (_) => Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
-                    child: Text('No route defined for ${settings.name}', textScaleFactor: 1.0)),
+                    child: Text('No route defined for ${settings.name}',
+                        textScaleFactor: 1.0)),
               ));
   }
 }
@@ -94,7 +102,8 @@ Route<dynamic> generateRouteAuthNotifications(
           builder: (_) => Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
-                    child: Text('No route defined for ${settings.name}', textScaleFactor: 1.0)),
+                    child: Text('No route defined for ${settings.name}',
+                        textScaleFactor: 1.0)),
               ));
   }
 }
@@ -113,7 +122,8 @@ Route<dynamic> generateRouteAuthProfile(
           builder: (_) => Scaffold(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
-                    child: Text('No route defined for ${settings.name}', textScaleFactor: 1.0)),
+                    child: Text('No route defined for ${settings.name}',
+                        textScaleFactor: 1.0)),
               ));
   }
 }

@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -15,18 +13,6 @@ class Profile extends ConsumerStatefulWidget {
 
 class ProfileState extends ConsumerState<Profile>
     with AutomaticKeepAliveClientMixin {
-  Future<void> _tryLogOut() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      ref.read(userNotifierProvider.notifier).clearUser();
-      prefs.remove("token");
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -69,14 +55,6 @@ class ProfileState extends ConsumerState<Profile>
                     ? Colors.black
                     : Colors.white,
               )),
-          IconButton(
-              onPressed: () async => await _tryLogOut(),
-              icon: Icon(
-                Icons.logout,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
-              ))
         ],
       ),
     );
