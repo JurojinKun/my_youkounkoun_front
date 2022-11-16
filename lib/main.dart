@@ -7,6 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/providers/locale_language_provider.dart';
+import 'package:my_boilerplate/providers/theme_app_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -65,9 +66,16 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class MyAppState extends ConsumerState<MyApp> {
-  Future<void> initApp() async {
-    //logic already log
+  String themeApp = "";
+
+  Future<void> initApp(WidgetRef ref) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    //logic theme system or theme choice user
+    String theme = prefs.getString("theme") ?? "";
+    ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
+
+    //logic already log
     String token = prefs.getString("token") ?? "";
 
     if (token.trim() != "") {
@@ -100,15 +108,21 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    initApp();
+    initApp(ref);
   }
 
   @override
   Widget build(BuildContext context) {
+    themeApp = ref.watch(themeAppNotifierProvider);
+
     return MaterialApp(
       title: 'My boilerplate',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
+      themeMode: themeApp.trim() == ""
+          ? ThemeMode.system
+          : themeApp == "lightTheme"
+              ? ThemeMode.light
+              : ThemeMode.dark,
       theme: lightTheme,
       darkTheme: darkTheme,
       supportedLocales: const [Locale('en', ''), Locale('fr', '')],
