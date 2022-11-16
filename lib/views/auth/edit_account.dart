@@ -33,6 +33,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                   ? Colors.black
                   : Colors.white,
               23),
+          textScaleFactor: 1.0,
         ),
       ),
     );
