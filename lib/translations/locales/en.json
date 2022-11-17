@@ -14,7 +14,8 @@
         "cgu": "CGU",
         "and": " and ",
         "privacy_policy": "Privacy policy",
-        "boilerplate": " of boilerplate"
+        "boilerplate": " of boilerplate",
+        "version": "Version "
     },
     "login_screen": {
         "login": "Sign in",
@@ -28,9 +29,13 @@
         "camera": "Camera",
         "galery": "Galery",
         "register": "Sign up",
-        "step_one": "First step, enter your email address and your password to create your account.",
+        "step_one": "First step, enter your email address and your password to create your account. Don't forget to accept the app's CGU and privacy policy.",
         "mail": "Email",
         "password": "Password",
+        "accept_cgu": "Accept the ",
+        "cgu": "CGU",
+        "accept_policy_privacy": "Accept the ",
+        "policy_privacy": "politique de confidentialité",
         "step_two": "Second step, enter the nickname that will be used to identify your account.",
         "pseudo": "Pseudonym",
         "step_three": "Third step, find out your gender.",

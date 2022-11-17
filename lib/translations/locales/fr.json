@@ -14,7 +14,8 @@
         "cgu": "CGU",
         "and": " et la ",
         "privacy_policy": "Politique de confidentialité",
-        "boilerplate": " du boilerplate"
+        "boilerplate": " du boilerplate",
+        "version": "Version "
     },
     "login_screen": {
         "login": "Connexion",
@@ -28,9 +29,13 @@
         "camera": "Appareil photo",
         "galery": "Galerie",
         "register": "Inscription",
-        "step_one": "Première étape, entre ton adresse mail ainsi que ton mot de passe pour la création de ton compte.",
+        "step_one": "Première étape, entre ton adresse mail ainsi que ton mot de passe pour la création de ton compte. N'oublie pas d'accepter les CGU et la politique de confidentialité de l'application.",
         "mail": "Email",
         "password": "Mot de passe",
+        "accept_cgu": "Accepter les ",
+        "cgu": "CGU",
+        "accept_policy_privacy": "Accepter la ",
+        "policy_privacy": "politique de confidentialité",
         "step_two": "Seconde étape, entre le pseudonyme qui te servira d'identifiant pour ton compte.",
         "pseudo": "Pseudonyme",
         "step_three": "Troisième étape, renseigne ton genre.",

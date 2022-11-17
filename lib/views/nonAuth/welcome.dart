@@ -155,7 +155,7 @@ class WelcomeState extends ConsumerState<Welcome> {
             Container(
               height: 30.0,
               alignment: Alignment.center,
-              child: Text(version,
+              child: Text(AppLocalization.of(context).translate("welcome_screen", "version") + version,
                   textAlign: TextAlign.center,
                   style: textStyleCustomMedium(
                       Theme.of(context).brightness == Brightness.light

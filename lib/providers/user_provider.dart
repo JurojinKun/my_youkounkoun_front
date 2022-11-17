@@ -14,7 +14,10 @@ class UserProvider extends StateNotifier<User> {
             gender: "",
             age: 0,
             nationality: "",
-            profilePictureUrl: ""));
+            profilePictureUrl: "",
+            validCGU: false,
+            validPrivacyPolicy: false,
+            validEmail: false));
 
   void initUser(User user) {
     state = user;
@@ -29,6 +32,9 @@ class UserProvider extends StateNotifier<User> {
         gender: "",
         age: 0,
         nationality: "",
-        profilePictureUrl: "");
+        profilePictureUrl: "",
+        validCGU: false,
+        validPrivacyPolicy: false,
+        validEmail: false);
   }
 }

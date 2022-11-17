@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,9 @@ class RegisterState extends ConsumerState<Register>
       _passwordController,
       _pseudoController;
   late FocusNode _mailFocusNode, _passwordFocusNode, _pseudoFocusNode;
+
+  bool _validCGU = false;
+  bool _validPrivacypolicy = false;
 
   List genders = [];
   String validGender = "";
@@ -401,6 +405,91 @@ class RegisterState extends ConsumerState<Register>
                               : Colors.grey,
                         ))),
               ),
+              const SizedBox(height: 55.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5.0),
+                child: CheckboxListTile(
+                    value: _validCGU,
+                    dense: false,
+                    checkColor: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                    activeColor: Colors.blue,
+                    side: BorderSide(
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white),
+                    title: RichText(
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0,
+                        text: TextSpan(
+                            text: AppLocalization.of(context)
+                                .translate("register_screen", "accept_cgu"),
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black
+                                    : Colors.white,
+                                14),
+                            children: [
+                              TextSpan(
+                                  text: AppLocalization.of(context)
+                                      .translate("register_screen", "cgu"),
+                                  style: textStyleCustomBold(Colors.blue, 14),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      //change url google to url cgu
+                                      Helpers.launchMyUrl(
+                                          "https://www.google.fr/");
+                                    }),
+                            ])),
+                    onChanged: (value) {
+                      setState(() {
+                        _validCGU = value!;
+                      });
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5.0),
+                child: CheckboxListTile(
+                    value: _validPrivacypolicy,
+                    dense: false,
+                    checkColor: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                    activeColor: Colors.blue,
+                    side: BorderSide(
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white),
+                    title: RichText(
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0,
+                        text: TextSpan(
+                            text: AppLocalization.of(context).translate(
+                                "register_screen", "accept_policy_privacy"),
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black
+                                    : Colors.white,
+                                14),
+                            children: [
+                              TextSpan(
+                                  text: AppLocalization.of(context).translate(
+                                      "register_screen", "policy_privacy"),
+                                  style: textStyleCustomBold(Colors.blue, 14),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      //change url google to url cgu
+                                      Helpers.launchMyUrl(
+                                          "https://www.google.fr/");
+                                    }),
+                            ])),
+                    onChanged: (value) {
+                      setState(() {
+                        _validPrivacypolicy = value!;
+                      });
+                    }),
+              ),
             ],
           )),
           _isKeyboard
@@ -416,7 +505,9 @@ class RegisterState extends ConsumerState<Register>
                           onPressed: () async {
                             if (_mailController.text.isNotEmpty &&
                                 EmailValidator.validate(_mailController.text) &&
-                                _passwordController.text.isNotEmpty) {
+                                _passwordController.text.isNotEmpty &&
+                                _validCGU &&
+                                _validPrivacypolicy) {
                               setState(() {
                                 _loadingStepOne = true;
                               });
@@ -1203,7 +1294,10 @@ class RegisterState extends ConsumerState<Register>
                                           age: 25,
                                           nationality: "French",
                                           profilePictureUrl:
-                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
+                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
+                                          validCGU: true,
+                                          validPrivacyPolicy: true,
+                                          validEmail: true));
                                   setState(() {
                                     _loadingStepSixth = false;
                                   });

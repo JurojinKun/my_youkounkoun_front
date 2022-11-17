@@ -37,7 +37,10 @@ class LoginState extends ConsumerState<Login> {
         age: 25,
         nationality: "French",
         profilePictureUrl:
-            "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
+            "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
+        validCGU: true,
+        validPrivacyPolicy: true,
+        validEmail: true));
   }
 
   @override

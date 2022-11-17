@@ -88,7 +88,10 @@ class MyAppState extends ConsumerState<MyApp> {
           age: 25,
           nationality: "French",
           profilePictureUrl:
-              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large"));
+              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
+          validCGU: true,
+          validPrivacyPolicy: true,
+          validEmail: true));
     }
 
     //get push token device
