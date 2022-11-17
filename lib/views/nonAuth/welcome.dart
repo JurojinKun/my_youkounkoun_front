@@ -50,8 +50,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                   Text("My boilerplate",
                       style: textStyleCustomBold(
                           Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                              ? cBlack
+                              : cWhite,
                           33),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0),
@@ -73,8 +73,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                               .translate("welcome_screen", "login"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
-                                  ? Colors.black
-                                  : Colors.white,
+                                  ? cBlack
+                                  : cWhite,
                               23),
                           textScaleFactor: 1.0)),
                 ),
@@ -92,8 +92,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                               .translate("welcome_screen", "register"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
-                                  ? Colors.black
-                                  : Colors.white,
+                                  ? cBlack
+                                  : cWhite,
                               23),
                           textScaleFactor: 1.0)),
                 )
@@ -110,14 +110,14 @@ class WelcomeState extends ConsumerState<Welcome> {
                           .translate("welcome_screen", "consult"),
                       style: textStyleCustomMedium(
                           Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                              ? cBlack
+                              : cWhite,
                           12),
                       children: [
                         TextSpan(
                             text: AppLocalization.of(context)
                                 .translate("welcome_screen", "cgu"),
-                            style: textStyleCustomMedium(Colors.blue, 12),
+                            style: textStyleCustomMedium(cBlue, 12),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 //change url google to url cgu
@@ -128,14 +128,14 @@ class WelcomeState extends ConsumerState<Welcome> {
                               .translate("welcome_screen", "and"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
-                                  ? Colors.black
-                                  : Colors.white,
+                                  ? cBlack
+                                  : cWhite,
                               12),
                         ),
                         TextSpan(
                             text: AppLocalization.of(context)
                                 .translate("welcome_screen", "privacy_policy"),
-                            style: textStyleCustomMedium(Colors.blue, 12),
+                            style: textStyleCustomMedium(cBlue, 12),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 //change url google to url privacy policy
@@ -146,8 +146,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                               .translate("welcome_screen", "boilerplate"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
-                                  ? Colors.black
-                                  : Colors.white,
+                                  ? cBlack
+                                  : cWhite,
                               12),
                         )
                       ])),
@@ -159,8 +159,8 @@ class WelcomeState extends ConsumerState<Welcome> {
                   textAlign: TextAlign.center,
                   style: textStyleCustomMedium(
                       Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                          ? cBlack
+                          : cWhite,
                       11),
                   textScaleFactor: 1.0),
             )

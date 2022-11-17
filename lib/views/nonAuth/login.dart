@@ -79,15 +79,15 @@ class LoginState extends ConsumerState<Login> {
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
               )),
           title: Text(
               AppLocalization.of(context).translate("login_screen", "login"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   23),
               textScaleFactor: 1.0),
           centerTitle: false,
@@ -117,11 +117,11 @@ class LoginState extends ConsumerState<Login> {
                         .translate("login_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue,
+                    labelStyle: textStyleCustomRegular(cBlue,
                         14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
@@ -133,7 +133,7 @@ class LoginState extends ConsumerState<Login> {
                             icon: Icon(
                               Icons.clear,
                               color: _mailFocusNode.hasFocus
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                             ))
                         : const SizedBox()),
@@ -161,11 +161,11 @@ class LoginState extends ConsumerState<Login> {
                         .translate("login_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue,
+                    labelStyle: textStyleCustomRegular(cBlue,
                         14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey),
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -178,7 +178,7 @@ class LoginState extends ConsumerState<Login> {
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color: _passwordFocusNode.hasFocus
-                              ? Colors.blue
+                              ? cBlue
                               : Colors.grey,
                         ))),
               ),
@@ -207,7 +207,7 @@ class LoginState extends ConsumerState<Login> {
                               width: 15,
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: cWhite,
                                   strokeWidth: 1.0,
                                 ),
                               ),
@@ -218,8 +218,8 @@ class LoginState extends ConsumerState<Login> {
                               style: textStyleCustomMedium(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   23),
                               textScaleFactor: 1.0))),
               const SizedBox(
@@ -233,14 +233,14 @@ class LoginState extends ConsumerState<Login> {
                           .translate("login_screen", "no_account"),
                       style: textStyleCustomMedium(
                           Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                              ? cBlack
+                              : cWhite,
                           14),
                       children: [
                         TextSpan(
                             text: AppLocalization.of(context)
                                 .translate("login_screen", "sign_up"),
-                            style: textStyleCustomMedium(Colors.blue, 14),
+                            style: textStyleCustomMedium(cBlue, 14),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => navNonAuthKey.currentState!
                                   .pushNamed(register)),

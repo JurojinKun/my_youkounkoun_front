@@ -50,6 +50,11 @@ textStyleCustomRegular(Color color, double fontSize,
       decoration: decoration);
 }
 
+//colors app
+const Color cBlue = Colors.blue;
+const Color cWhite = Colors.white;
+const Color cBlack = Colors.black;
+
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,

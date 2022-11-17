@@ -41,8 +41,8 @@ class ProfileState extends ConsumerState<Profile>
             AppLocalization.of(context).translate("profile_screen", "profile"),
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
                 23),
             textScaleFactor: 1.0),
         actions: [
@@ -52,8 +52,8 @@ class ProfileState extends ConsumerState<Profile>
               icon: Icon(
                 Icons.settings,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
               )),
         ],
       ),

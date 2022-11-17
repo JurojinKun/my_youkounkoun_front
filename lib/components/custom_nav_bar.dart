@@ -32,7 +32,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                     topRight: Radius.circular(15.0)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.2),
+                    color: cBlue.withOpacity(0.2),
                     blurRadius: 10,
                     offset: const Offset(0.0, -10.0),
                   )
@@ -62,7 +62,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             : Icons.home_outlined,
                         size: 30,
                         color: widget.tabController.index == 0
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey,
                       ),
                       const SizedBox(
@@ -73,7 +73,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                               .translate("general", "home"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 0
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                               12),
                           textScaleFactor: 1.0)
@@ -103,7 +103,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             : Icons.send_outlined,
                         size: 30,
                         color: widget.tabController.index == 1
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey,
                       ),
                       const SizedBox(
@@ -114,7 +114,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                               .translate("general", "chat"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 1
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                               12),
                           textScaleFactor: 1.0)
@@ -144,7 +144,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             : Icons.notifications_active_outlined,
                         size: 30,
                         color: widget.tabController.index == 2
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey,
                       ),
                       const SizedBox(
@@ -155,7 +155,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                               .translate("general", "notifications"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 2
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                               12),
                           textScaleFactor: 1.0)
@@ -185,7 +185,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             : Icons.person_outlined,
                         size: 30,
                         color: widget.tabController.index == 3
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey,
                       ),
                       const SizedBox(
@@ -196,7 +196,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                               .translate("general", "profile"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 3
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                               12),
                           textScaleFactor: 1.0)

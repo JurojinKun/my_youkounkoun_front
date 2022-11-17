@@ -23,15 +23,15 @@ class EditAccountState extends ConsumerState<EditAccount> {
             onPressed: () => navAuthKey.currentState!.pop(),
             icon: Icon(Icons.arrow_back_ios,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white)),
+                    ? cBlack
+                    : cWhite)),
         title: Text(
           AppLocalization.of(context)
               .translate("edit_account_screen", "my_account"),
           style: textStyleCustomBold(
               Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+                  ? cBlack
+                  : cWhite,
               23),
           textScaleFactor: 1.0,
         ),

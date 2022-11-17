@@ -43,8 +43,8 @@ class SettingsState extends ConsumerState<Settings> {
                   .translate("settings_screen", "logout_title"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   16),
             ),
             content: Text(
@@ -52,8 +52,8 @@ class SettingsState extends ConsumerState<Settings> {
                   .translate("settings_screen", "logout_content"),
               style: textStyleCustomRegular(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
             ),
             actions: [
@@ -65,7 +65,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                     AppLocalization.of(context)
                         .translate("general", "btn_confirm"),
-                    style: textStyleCustomMedium(Colors.blue, 14),
+                    style: textStyleCustomMedium(cBlue, 14),
                   )),
               TextButton(
                   onPressed: () {
@@ -128,8 +128,8 @@ class SettingsState extends ConsumerState<Settings> {
           icon: Icon(
             Icons.arrow_back_ios,
             color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
+                ? cBlack
+                : cWhite,
           ),
         ),
         title: Text(
@@ -137,8 +137,8 @@ class SettingsState extends ConsumerState<Settings> {
                 .translate("settings_screen", "settings_user"),
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
                 23),
             textScaleFactor: 1.0),
         actions: [
@@ -147,8 +147,8 @@ class SettingsState extends ConsumerState<Settings> {
               icon: Icon(
                 Icons.logout,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
               ))
         ],
       ),
@@ -186,8 +186,8 @@ class SettingsState extends ConsumerState<Settings> {
                 Icon(
                   Icons.edit,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   size: 23,
                 ),
                 const SizedBox(width: 15.0),
@@ -196,8 +196,8 @@ class SettingsState extends ConsumerState<Settings> {
                         .translate("settings_screen", "my_account"),
                     style: textStyleCustomBold(
                         Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                            ? cBlack
+                            : cWhite,
                         16),
                     textScaleFactor: 1.0)
               ],
@@ -205,8 +205,8 @@ class SettingsState extends ConsumerState<Settings> {
             Icon(
               Icons.arrow_forward_ios,
               color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+                  ? cBlack
+                  : cWhite,
               size: 18,
             )
           ],
@@ -229,8 +229,8 @@ class SettingsState extends ConsumerState<Settings> {
             children: [
               Icon(Icons.brightness_6,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   size: 20),
               const SizedBox(
                 width: 15.0,
@@ -240,8 +240,8 @@ class SettingsState extends ConsumerState<Settings> {
                       .translate("settings_screen", "theme"),
                   style: textStyleCustomBold(
                       Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                          ? cBlack
+                          : cWhite,
                       16),
                   textScaleFactor: 1.0),
             ],
@@ -250,10 +250,10 @@ class SettingsState extends ConsumerState<Settings> {
             children: [
               Icon(Icons.light_mode,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white),
+                      ? cBlack
+                      : cWhite),
               Switch(
-                  activeColor: Colors.blue,
+                  activeColor: cBlue,
                   value: _isDarkTheme,
                   onChanged: (newTheme) async {
                     SharedPreferences prefs =
@@ -277,8 +277,8 @@ class SettingsState extends ConsumerState<Settings> {
                   }),
               Icon(Icons.dark_mode,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white),
+                      ? cBlack
+                      : cWhite),
             ],
           )
         ],

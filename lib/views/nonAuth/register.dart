@@ -83,8 +83,8 @@ class RegisterState extends ConsumerState<Register>
                                 "register_screen", "add_picture_profile"),
                             style: textStyleCustomBold(
                                 Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black
-                                    : Colors.white,
+                                    ? cBlack
+                                    : cWhite,
                                 16),
                             textScaleFactor: 1.0),
                         IconButton(
@@ -92,16 +92,16 @@ class RegisterState extends ConsumerState<Register>
                             icon: Icon(Icons.clear,
                                 color: Theme.of(context).brightness ==
                                         Brightness.light
-                                    ? Colors.black
-                                    : Colors.white))
+                                    ? cBlack
+                                    : cWhite))
                       ],
                     ),
                   ),
                   Expanded(
                       child: Ink(
                     child: InkWell(
-                      splashColor: Colors.blue.withOpacity(0.3),
-                      highlightColor: Colors.blue.withOpacity(0.3),
+                      splashColor: cBlue.withOpacity(0.3),
+                      highlightColor: cBlue.withOpacity(0.3),
                       onTap: () => pickImage(ImageSource.camera),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,14 +110,14 @@ class RegisterState extends ConsumerState<Register>
                             width: 15.0,
                           ),
                           const Icon(Icons.photo_camera,
-                              color: Colors.blue, size: 36),
+                              color: cBlue, size: 36),
                           const SizedBox(
                             width: 25.0,
                           ),
                           Text(
                               AppLocalization.of(context)
                                   .translate("register_screen", "camera"),
-                              style: textStyleCustomBold(Colors.blue, 16),
+                              style: textStyleCustomBold(cBlue, 16),
                               textScaleFactor: 1.0)
                         ],
                       ),
@@ -126,8 +126,8 @@ class RegisterState extends ConsumerState<Register>
                   Expanded(
                       child: Ink(
                     child: InkWell(
-                      splashColor: Colors.blue.withOpacity(0.3),
-                      highlightColor: Colors.blue.withOpacity(0.3),
+                      splashColor: cBlue.withOpacity(0.3),
+                      highlightColor: cBlue.withOpacity(0.3),
                       onTap: () => pickImage(ImageSource.gallery),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,14 +135,14 @@ class RegisterState extends ConsumerState<Register>
                           const SizedBox(
                             width: 15.0,
                           ),
-                          const Icon(Icons.photo, color: Colors.blue, size: 36),
+                          const Icon(Icons.photo, color: cBlue, size: 36),
                           const SizedBox(
                             width: 25.0,
                           ),
                           Text(
                               AppLocalization.of(context)
                                   .translate("register_screen", "galery"),
-                              style: textStyleCustomBold(Colors.blue, 16),
+                              style: textStyleCustomBold(cBlue, 16),
                               textScaleFactor: 1.0)
                         ],
                       ),
@@ -252,16 +252,16 @@ class RegisterState extends ConsumerState<Register>
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
               )),
           title: Text(
               AppLocalization.of(context)
                   .translate("register_screen", "register"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   23),
               textScaleFactor: 1.0),
           centerTitle: false,
@@ -287,7 +287,7 @@ class RegisterState extends ConsumerState<Register>
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TabPageSelector(
         controller: _tabController,
-        selectedColor: Colors.blue,
+        selectedColor: cBlue,
         color: Colors.transparent,
         indicatorSize: 14,
       ),
@@ -310,8 +310,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_one"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           Expanded(
@@ -340,11 +340,11 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue,
+                    labelStyle: textStyleCustomRegular(cBlue,
                         14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
@@ -356,7 +356,7 @@ class RegisterState extends ConsumerState<Register>
                             icon: Icon(
                               Icons.clear,
                               color: _mailFocusNode.hasFocus
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                             ))
                         : const SizedBox()),
@@ -384,11 +384,11 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue,
+                    labelStyle: textStyleCustomRegular(cBlue,
                         14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey),
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -401,7 +401,7 @@ class RegisterState extends ConsumerState<Register>
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color: _passwordFocusNode.hasFocus
-                              ? Colors.blue
+                              ? cBlue
                               : Colors.grey,
                         ))),
               ),
@@ -412,13 +412,13 @@ class RegisterState extends ConsumerState<Register>
                     value: _validCGU,
                     dense: false,
                     checkColor: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    activeColor: Colors.blue,
+                        ? cBlack
+                        : cWhite,
+                    activeColor: cBlue,
                     side: BorderSide(
                         color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white),
+                            ? cBlack
+                            : cWhite),
                     title: RichText(
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0,
@@ -427,14 +427,14 @@ class RegisterState extends ConsumerState<Register>
                                 .translate("register_screen", "accept_cgu"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black
-                                    : Colors.white,
+                                    ? cBlack
+                                    : cWhite,
                                 14),
                             children: [
                               TextSpan(
                                   text: AppLocalization.of(context)
                                       .translate("register_screen", "cgu"),
-                                  style: textStyleCustomBold(Colors.blue, 14),
+                                  style: textStyleCustomBold(cBlue, 14),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       //change url google to url cgu
@@ -454,13 +454,13 @@ class RegisterState extends ConsumerState<Register>
                     value: _validPrivacypolicy,
                     dense: false,
                     checkColor: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    activeColor: Colors.blue,
+                        ? cBlack
+                        : cWhite,
+                    activeColor: cBlue,
                     side: BorderSide(
                         color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white),
+                            ? cBlack
+                            : cWhite),
                     title: RichText(
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0,
@@ -469,14 +469,14 @@ class RegisterState extends ConsumerState<Register>
                                 "register_screen", "accept_policy_privacy"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black
-                                    : Colors.white,
+                                    ? cBlack
+                                    : cWhite,
                                 14),
                             children: [
                               TextSpan(
                                   text: AppLocalization.of(context).translate(
                                       "register_screen", "policy_privacy"),
-                                  style: textStyleCustomBold(Colors.blue, 14),
+                                  style: textStyleCustomBold(cBlue, 14),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       //change url google to url cgu
@@ -525,8 +525,8 @@ class RegisterState extends ConsumerState<Register>
                                     child: CircularProgressIndicator(
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
-                                          ? Colors.black
-                                          : Colors.white,
+                                          ? cBlack
+                                          : cWhite,
                                       strokeWidth: 1.0,
                                     ),
                                   ),
@@ -537,8 +537,8 @@ class RegisterState extends ConsumerState<Register>
                                   style: textStyleCustomMedium(
                                       Theme.of(context).brightness ==
                                               Brightness.light
-                                          ? Colors.black
-                                          : Colors.white,
+                                          ? cBlack
+                                          : cWhite,
                                       23),
                                   textScaleFactor: 1.0))),
                 )
@@ -561,8 +561,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_two"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           Expanded(
@@ -593,11 +593,11 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "pseudo"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(Colors.blue,
+                    labelStyle: textStyleCustomRegular(cBlue,
                         14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
                         color: _pseudoFocusNode.hasFocus
-                            ? Colors.blue
+                            ? cBlue
                             : Colors.grey),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? IconButton(
@@ -609,7 +609,7 @@ class RegisterState extends ConsumerState<Register>
                             icon: Icon(
                               Icons.clear,
                               color: _pseudoFocusNode.hasFocus
-                                  ? Colors.blue
+                                  ? cBlue
                                   : Colors.grey,
                             ))
                         : const SizedBox()),
@@ -636,8 +636,8 @@ class RegisterState extends ConsumerState<Register>
                               style: textStyleCustomBold(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   14,
                                   TextDecoration.underline),
                               textScaleFactor: 1.0)),
@@ -664,8 +664,8 @@ class RegisterState extends ConsumerState<Register>
                                         child: CircularProgressIndicator(
                                           color: Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           strokeWidth: 1.0,
                                         ),
                                       ),
@@ -676,8 +676,8 @@ class RegisterState extends ConsumerState<Register>
                                       style: textStyleCustomMedium(
                                           Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           23),
                                       textScaleFactor: 1.0))),
                     ],
@@ -702,8 +702,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_three"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           const SizedBox(
@@ -733,13 +733,13 @@ class RegisterState extends ConsumerState<Register>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.blue,
+                                        color: cBlue,
                                         border: Border.all(
                                             color:
                                                 Theme.of(context).brightness ==
                                                         Brightness.light
-                                                    ? Colors.black
-                                                    : Colors.white),
+                                                    ? cBlack
+                                                    : cWhite),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: Center(
@@ -747,8 +747,8 @@ class RegisterState extends ConsumerState<Register>
                                         element["icon"],
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
-                                            ? Colors.black
-                                            : Colors.white,
+                                            ? cBlack
+                                            : cWhite,
                                         size: 50,
                                       ),
                                     ),
@@ -757,7 +757,7 @@ class RegisterState extends ConsumerState<Register>
                               ),
                               const SizedBox(height: 5.0),
                               Text(element["type"],
-                                  style: textStyleCustomBold(Colors.blue, 16),
+                                  style: textStyleCustomBold(cBlue, 16),
                                   textScaleFactor: 1.0)
                             ],
                           )
@@ -813,8 +813,8 @@ class RegisterState extends ConsumerState<Register>
                               style: textStyleCustomBold(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   14,
                                   TextDecoration.underline),
                               textScaleFactor: 1.0)),
@@ -841,8 +841,8 @@ class RegisterState extends ConsumerState<Register>
                                         child: CircularProgressIndicator(
                                           color: Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           strokeWidth: 1.0,
                                         ),
                                       ),
@@ -853,8 +853,8 @@ class RegisterState extends ConsumerState<Register>
                                       style: textStyleCustomMedium(
                                           Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           23),
                                       textScaleFactor: 1.0))),
                     ],
@@ -879,8 +879,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_four"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           const SizedBox(
@@ -899,8 +899,8 @@ class RegisterState extends ConsumerState<Register>
                       theme: DatePickerTheme(
                         backgroundColor:
                             Theme.of(context).scaffoldBackgroundColor,
-                        cancelStyle: textStyleCustomBold(Colors.blue, 16),
-                        doneStyle: textStyleCustomBold(Colors.blue, 16),
+                        cancelStyle: textStyleCustomBold(cBlue, 16),
+                        doneStyle: textStyleCustomBold(cBlue, 16),
                         itemStyle: textStyleCustomBold(
                             Theme.of(context).iconTheme.color!, 18),
                       ),
@@ -931,8 +931,8 @@ class RegisterState extends ConsumerState<Register>
                             width: 1.0,
                             color:
                                 Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black
-                                    : Colors.white)),
+                                    ? cBlack
+                                    : cWhite)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -941,8 +941,8 @@ class RegisterState extends ConsumerState<Register>
                             _dateBirthday ?? DateTime.now(), localeLanguage),
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
-                                ? Colors.black
-                                : Colors.white,
+                                ? cBlack
+                                : cWhite,
                             24),
                         textScaleFactor: 1.0),
                   ),
@@ -970,8 +970,8 @@ class RegisterState extends ConsumerState<Register>
                               style: textStyleCustomBold(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   14,
                                   TextDecoration.underline),
                               textScaleFactor: 1.0)),
@@ -998,8 +998,8 @@ class RegisterState extends ConsumerState<Register>
                                         child: CircularProgressIndicator(
                                           color: Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           strokeWidth: 1.0,
                                         ),
                                       ),
@@ -1010,8 +1010,8 @@ class RegisterState extends ConsumerState<Register>
                                       style: textStyleCustomMedium(
                                           Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           23),
                                       textScaleFactor: 1.0))),
                     ],
@@ -1036,8 +1036,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_five"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           const SizedBox(
@@ -1070,7 +1070,7 @@ class RegisterState extends ConsumerState<Register>
                   boxDecoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(5.0)),
-                  barrierColor: Colors.black.withOpacity(0.5),
+                  barrierColor: cBlack.withOpacity(0.5),
                   dialogSize: Size(MediaQuery.of(context).size.width - 20,
                       MediaQuery.of(context).size.height / 1.5),
                   textStyle: Theme.of(context).textTheme.titleSmall,
@@ -1116,8 +1116,8 @@ class RegisterState extends ConsumerState<Register>
                               style: textStyleCustomBold(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   14,
                                   TextDecoration.underline),
                               textScaleFactor: 1.0)),
@@ -1144,8 +1144,8 @@ class RegisterState extends ConsumerState<Register>
                                         child: CircularProgressIndicator(
                                           color: Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           strokeWidth: 1.0,
                                         ),
                                       ),
@@ -1156,8 +1156,8 @@ class RegisterState extends ConsumerState<Register>
                                       style: textStyleCustomMedium(
                                           Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           23),
                                       textScaleFactor: 1.0))),
                     ],
@@ -1182,8 +1182,8 @@ class RegisterState extends ConsumerState<Register>
                   .translate("register_screen", "step_six"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                      ? cBlack
+                      : cWhite,
                   14),
               textScaleFactor: 1.0),
           Expanded(
@@ -1212,9 +1212,9 @@ class RegisterState extends ConsumerState<Register>
                           height: 300,
                           width: 250,
                           decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
+                              color: cBlue.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(color: Colors.blue),
+                              border: Border.all(color: cBlue),
                               image: DecorationImage(
                                   image: FileImage(validProfilePicture!),
                                   fit: BoxFit.cover,
@@ -1231,17 +1231,17 @@ class RegisterState extends ConsumerState<Register>
                             width: 60.0,
                             alignment: Alignment.center,
                             decoration: const BoxDecoration(
-                                color: Colors.white,
+                                color: cWhite,
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.blue,
+                                    color: cBlue,
                                     blurRadius: 5,
                                   )
                                 ]),
                             child: const Icon(
                               Icons.photo_camera,
-                              color: Colors.blue,
+                              color: cBlue,
                               size: 40.0,
                             ),
                           )))
@@ -1269,8 +1269,8 @@ class RegisterState extends ConsumerState<Register>
                               style: textStyleCustomBold(
                                   Theme.of(context).brightness ==
                                           Brightness.light
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? cBlack
+                                      : cWhite,
                                   14,
                                   TextDecoration.underline),
                               textScaleFactor: 1.0)),
@@ -1311,8 +1311,8 @@ class RegisterState extends ConsumerState<Register>
                                         child: CircularProgressIndicator(
                                           color: Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           strokeWidth: 1.0,
                                         ),
                                       ),
@@ -1323,8 +1323,8 @@ class RegisterState extends ConsumerState<Register>
                                       style: textStyleCustomMedium(
                                           Theme.of(context).brightness ==
                                                   Brightness.light
-                                              ? Colors.black
-                                              : Colors.white,
+                                              ? cBlack
+                                              : cWhite,
                                           23),
                                       textScaleFactor: 1.0))),
                     ],

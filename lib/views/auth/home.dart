@@ -44,8 +44,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             AppLocalization.of(context).translate("home_screen", "home"),
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                    ? cBlack
+                    : cWhite,
                 23),
             textScaleFactor: 1.0),
       ),
@@ -59,8 +59,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       .translate("home_screen", "push_token"),
                   style: textStyleCustomMedium(
                       Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                          ? cBlack
+                          : cWhite,
                       14),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0),
@@ -72,8 +72,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       tokenNotif,
                       style: textStyleCustomMedium(
                           Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                              ? cBlack
+                              : cWhite,
                           14),
                       textAlign: TextAlign.center,
                     )
@@ -82,8 +82,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                           .translate("home_screen", "no_token"),
                       style: textStyleCustomMedium(
                           Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                              ? cBlack
+                              : cWhite,
                           14),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0),

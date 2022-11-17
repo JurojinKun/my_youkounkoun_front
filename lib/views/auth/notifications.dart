@@ -39,8 +39,8 @@ class _NotificationsState extends State<Notifications>
               .translate("notifications_screen", "notifications"),
           style: textStyleCustomBold(
               Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+                  ? cBlack
+                  : cWhite,
               23),
           textScaleFactor: 1.0),
     ));
