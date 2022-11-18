@@ -1297,7 +1297,7 @@ class RegisterState extends ConsumerState<Register>
                                               "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
                                           validCGU: true,
                                           validPrivacyPolicy: true,
-                                          validEmail: true));
+                                          validEmail: false));
                                   setState(() {
                                     _loadingStepSixth = false;
                                   });

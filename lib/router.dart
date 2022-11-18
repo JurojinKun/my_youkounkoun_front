@@ -8,6 +8,7 @@ import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
+import 'package:my_boilerplate/views/auth/validate_user.dart';
 import 'package:my_boilerplate/views/nonAuth/login.dart';
 import 'package:my_boilerplate/views/nonAuth/register.dart';
 import 'package:my_boilerplate/views/nonAuth/welcome.dart';
@@ -42,6 +43,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
   switch (settings.name) {
     case bottomNav:
       return MaterialPageRoute(builder: (_) => const BottomNavController());
+    case validateUser:
+      return MaterialPageRoute(builder: (_) => const ValidateUser());
     case editAccount:
       return MaterialPageRoute(builder: (_) => const EditAccount());
     default:

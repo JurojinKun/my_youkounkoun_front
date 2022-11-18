@@ -3,11 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:my_boilerplate/components/custom_nav_bar.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/main.dart';
+import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/router.dart';
+import 'package:my_boilerplate/views/auth/validate_user.dart';
 
 /// Method called when user clic LOCALE notifications
 void selectLocaleNotification(String? payload, BuildContext context) {
@@ -29,6 +32,16 @@ class BottomNavController extends ConsumerStatefulWidget {
 class BottomNavControllerState extends ConsumerState<BottomNavController>
     with TickerProviderStateMixin {
   late TabController _tabController;
+
+  Future _validateUserBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: false,
+        builder: (context) {
+          return const ValidateUser();
+        });
+  }
 
   @override
   void initState() {
@@ -103,6 +116,12 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     navChatKey = GlobalKey<NavigatorState>();
     navNotificationsKey = GlobalKey<NavigatorState>();
     navProfileKey = GlobalKey<NavigatorState>();
+
+    Future.delayed(const Duration(seconds: 0), () {
+      if (!ref.read(userNotifierProvider).validEmail) {
+        _validateUserBottomSheet(navAuthKey.currentContext!);
+      }
+    });
   }
 
   @override
@@ -113,30 +132,32 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: () async {
-      if (_tabController.index == 0) {
-        return !(await navHomeKey!.currentState!.maybePop());
-      } else if (_tabController.index == 1) {
-        return !(await navChatKey!.currentState!.maybePop());
-      } else if (_tabController.index == 2) {
-        return !(await navNotificationsKey!.currentState!.maybePop());
-      } else if (_tabController.index == 3) {
-        return !(await navProfileKey!.currentState!.maybePop());
-      } else {
-        return false;
-      }
-    }, child: Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Stack(
-        children: [
-          TabBarView(
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: tabNavs()),
-          CustomNavBar(tabController: _tabController)
-        ],
-      ),
-    ));
+    return WillPopScope(
+        onWillPop: () async {
+          if (_tabController.index == 0) {
+            return !(await navHomeKey!.currentState!.maybePop());
+          } else if (_tabController.index == 1) {
+            return !(await navChatKey!.currentState!.maybePop());
+          } else if (_tabController.index == 2) {
+            return !(await navNotificationsKey!.currentState!.maybePop());
+          } else if (_tabController.index == 3) {
+            return !(await navProfileKey!.currentState!.maybePop());
+          } else {
+            return false;
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Stack(
+            children: [
+              TabBarView(
+                  controller: _tabController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: tabNavs()),
+              CustomNavBar(tabController: _tabController)
+            ],
+          ),
+        ));
   }
 
   List<Widget> tabNavs() {
@@ -144,14 +165,12 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       Navigator(
         key: navHomeKey,
         initialRoute: home,
-        onGenerateRoute: (settings) =>
-            generateRouteAuthHome(settings, context),
+        onGenerateRoute: (settings) => generateRouteAuthHome(settings, context),
       ),
       Navigator(
         key: navChatKey,
         initialRoute: chat,
-        onGenerateRoute: (settings) =>
-            generateRouteAuthChat(settings, context),
+        onGenerateRoute: (settings) => generateRouteAuthChat(settings, context),
       ),
       Navigator(
         key: navNotificationsKey,
