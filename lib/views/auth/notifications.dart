@@ -41,7 +41,7 @@ class _NotificationsState extends State<Notifications>
               Theme.of(context).brightness == Brightness.light
                   ? cBlack
                   : cWhite,
-              23),
+              20),
           textScaleFactor: 1.0),
     ));
   }

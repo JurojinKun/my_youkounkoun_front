@@ -73,5 +73,13 @@
     },
     "edit_account_screen": {
         "my_account": "Mon compte"
+    },
+    "validate_user_screen": {
+        "send_mail": "Un mail vous a été envoyé",
+        "error_send_mail": "Erreur\nLe mail n'a pas pu s'envoyer",
+        "check_account": "Vérifier mon compte",
+        "content": "Afin de valider ton compte, tu peux demander un code qui te sera envoyé sur l'adresse mail lié à celui-ci.",
+        "send_code": "M'envoyer un code",
+        "check_validity": "Vérifier"
     }
 }

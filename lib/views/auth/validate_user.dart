@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
+import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:my_boilerplate/translations/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ValidateUser extends ConsumerStatefulWidget {
@@ -13,6 +16,116 @@ class ValidateUser extends ConsumerStatefulWidget {
 
 class ValidateUserState extends ConsumerState<ValidateUser> {
   late TextEditingController _codeController;
+
+  bool _isCheckLoading = false;
+
+  Future _showDialogSendCode(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.pop(context);
+          });
+          return Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40.0,
+                    width: 40.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                    child: Icon(Icons.check,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite),
+                  ),
+                  const SizedBox(height: 15.0),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Text(AppLocalization.of(context).translate("validate_user_screen", "send_mail"),
+                        textScaleFactor: 1.0,
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            16),
+                        textAlign: TextAlign.center),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future _showDialogErrorSendCode(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.pop(context);
+          });
+          return Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40.0,
+                    width: 40.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                    child: Icon(Icons.clear,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite),
+                  ),
+                  const SizedBox(height: 15.0),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Text(AppLocalization.of(context).translate("validate_user_screen", "error_send_mail"),
+                        textScaleFactor: 1.0,
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            16),
+                        textAlign: TextAlign.center),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   void initState() {
@@ -39,7 +152,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Vérifier mon compte",
+            AppLocalization.of(context).translate("validate_user_screen", "check_account"),
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
                     ? Colors.black
@@ -66,10 +179,10 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
             children: [
               Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Afin de valider ton compte, tu peux demander un code qui te sera envoyé sur l'adresse mail lié à celui-ci.",
+                    AppLocalization.of(context).translate("validate_user_screen", "content"),
                     style: textStyleCustomMedium(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack
@@ -79,74 +192,117 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     textScaleFactor: 1.0,
                   ),
                   TextButton(
-                      onPressed: () {},
-                      child: Text("M'envoyer un code",
+                      onPressed: () {
+                        //set logic send code mail user
+                        try {
+                          if (kDebugMode) {
+                            print(ref.read(userNotifierProvider).email);
+                          }
+                          _showDialogSendCode(context);
+                        } catch (e) {
+                          if (kDebugMode) {
+                            print(e);
+                          }
+                          _showDialogErrorSendCode(context);
+                        }
+                      },
+                      child: Text(AppLocalization.of(context).translate("validate_user_screen", "send_code"),
                           style: textStyleCustomBold(cBlue, 14.0),
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.0)),
                 ],
               )),
-              Expanded(child: Center(
+              Expanded(
+                  child: Center(
                 child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: PinCodeTextField(
-                          appContext: context,
-                          textStyle: textStyleCustomBold(Colors.white,
-                              18 / MediaQuery.of(context).textScaleFactor),
-                          length: 6,
-                          animationType: AnimationType.fade,
-                          autoDisposeControllers: false,
-                          pinTheme: PinTheme(
-                              shape: PinCodeFieldShape.underline,
-                              fieldHeight: 30,
-                              fieldWidth: 30,
-                              activeColor: Colors.white,
-                              inactiveColor: Colors.white,
-                              selectedColor: Colors.white),
-                          cursorColor: Colors.white,
-                          animationDuration: const Duration(milliseconds: 300),
-                          controller: _codeController,
-                          keyboardType: TextInputType.number,
-                          onCompleted: (value) {
-                            Helpers.hideKeyboard(context);
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              value = _codeController.text;
-                            });
-                          },
-                          enablePinAutofill: false,
-                        )),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: PinCodeTextField(
+                      appContext: context,
+                      textStyle: textStyleCustomBold(Colors.white,
+                          18 / MediaQuery.of(context).textScaleFactor),
+                      length: 6,
+                      animationType: AnimationType.fade,
+                      autoDisposeControllers: false,
+                      pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.underline,
+                          fieldHeight: 30,
+                          fieldWidth: 30,
+                          activeColor: Colors.white,
+                          inactiveColor: Colors.white,
+                          selectedColor: Colors.white),
+                      cursorColor: Colors.white,
+                      animationDuration: const Duration(milliseconds: 300),
+                      controller: _codeController,
+                      keyboardType: TextInputType.number,
+                      onCompleted: (value) {
+                        Helpers.hideKeyboard(context);
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          value = _codeController.text;
+                        });
+                      },
+                      enablePinAutofill: false,
+                    )),
               )),
               Expanded(
                   child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: SizedBox(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: cBlue,
-                                foregroundColor: cWhite,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                )),
-                            child: Text(
-                              "Vérifier",
-                              textScaleFactor: 1.0,
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness == Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          if (_codeController.text.isNotEmpty &&
+                              _codeController.text.length == 6) {
+                            setState(() {
+                              _isCheckLoading = true;
+                            });
+                            //set logic ws check code
+                            await Future.delayed(const Duration(seconds: 2), () {
+                              navAuthKey.currentState!.pop();
+                            });
+                            setState(() {
+                              _isCheckLoading = false;
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: cBlue,
+                            foregroundColor: cWhite,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             )),
-                      ),
-                    ),
-                  ))
+                        child: _isCheckLoading
+                            ? SizedBox(
+                                height: 15.0,
+                                width: 15.0,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1.0,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                AppLocalization.of(context).translate("validate_user_screen", "check_validity"),
+                                textScaleFactor: 1.0,
+                                style: textStyleCustomBold(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    20),
+                              )),
+                  ),
+                ),
+              ))
             ],
           ),
         ),

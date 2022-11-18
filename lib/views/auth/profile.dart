@@ -43,7 +43,7 @@ class ProfileState extends ConsumerState<Profile>
                 Theme.of(context).brightness == Brightness.light
                     ? cBlack
                     : cWhite,
-                23),
+                20),
             textScaleFactor: 1.0),
         actions: [
           IconButton(

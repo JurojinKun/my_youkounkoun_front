@@ -46,7 +46,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                 Theme.of(context).brightness == Brightness.light
                     ? cBlack
                     : cWhite,
-                23),
+                20),
             textScaleFactor: 1.0),
       ),
       body: Padding(

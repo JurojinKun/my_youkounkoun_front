@@ -8,6 +8,7 @@ import 'package:my_boilerplate/components/custom_nav_bar.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/main.dart';
+import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/router.dart';
 import 'package:my_boilerplate/views/auth/validate_user.dart';
@@ -118,8 +119,11 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     navProfileKey = GlobalKey<NavigatorState>();
 
     Future.delayed(const Duration(seconds: 0), () {
-      if (!ref.read(userNotifierProvider).validEmail) {
-        _validateUserBottomSheet(navAuthKey.currentContext!);
+      if (!ref.read(checkValidUserNotifierProvider)) {
+        if (!ref.read(userNotifierProvider).validEmail) {
+          _validateUserBottomSheet(navAuthKey.currentContext!);
+        }
+        ref.read(checkValidUserNotifierProvider.notifier).checkValidUser();
       }
     });
   }
