@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
@@ -151,6 +154,17 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
           elevation: 0,
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,
+          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            ? Platform.isIOS
+                ? SystemUiOverlayStyle.dark
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.dark)
+            : Platform.isIOS
+                ? SystemUiOverlayStyle.light
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light),
           title: Text(
             AppLocalization.of(context).translate("validate_user_screen", "check_account"),
             style: textStyleCustomBold(
@@ -218,7 +232,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: PinCodeTextField(
                       appContext: context,
-                      textStyle: textStyleCustomBold(Colors.white,
+                      textStyle: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
                           18 / MediaQuery.of(context).textScaleFactor),
                       length: 6,
                       animationType: AnimationType.fade,
@@ -227,10 +241,10 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                           shape: PinCodeFieldShape.underline,
                           fieldHeight: 30,
                           fieldWidth: 30,
-                          activeColor: Colors.white,
-                          inactiveColor: Colors.white,
-                          selectedColor: Colors.white),
-                      cursorColor: Colors.white,
+                          activeColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
+                          inactiveColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
+                          selectedColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite),
+                      cursorColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
                       animationDuration: const Duration(milliseconds: 300),
                       controller: _codeController,
                       keyboardType: TextInputType.number,

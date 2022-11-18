@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
 import 'package:my_boilerplate/providers/theme_app_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -23,6 +27,7 @@ class SettingsState extends ConsumerState<Settings> {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(userNotifierProvider.notifier).clearUser();
+      ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       prefs.remove("token");
     } catch (e) {
       if (kDebugMode) {
@@ -123,6 +128,17 @@ class SettingsState extends ConsumerState<Settings> {
         elevation: 0,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.transparent,
+        systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            ? Platform.isIOS
+                ? SystemUiOverlayStyle.dark
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.dark)
+            : Platform.isIOS
+                ? SystemUiOverlayStyle.light
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light),
         leading: IconButton(
           onPressed: () => navProfileKey!.currentState!.pop(),
           icon: Icon(

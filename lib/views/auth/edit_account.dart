@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -19,6 +22,17 @@ class EditAccountState extends ConsumerState<EditAccount> {
         elevation: 0,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.transparent,
+        systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            ? Platform.isIOS
+                ? SystemUiOverlayStyle.dark
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.dark)
+            : Platform.isIOS
+                ? SystemUiOverlayStyle.light
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light),
         leading: IconButton(
             onPressed: () => navAuthKey.currentState!.pop(),
             icon: Icon(Icons.arrow_back_ios,

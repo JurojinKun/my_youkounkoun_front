@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +77,17 @@ class LoginState extends ConsumerState<Login> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
+          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            ? Platform.isIOS
+                ? SystemUiOverlayStyle.dark
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.dark)
+            : Platform.isIOS
+                ? SystemUiOverlayStyle.light
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light),
           leading: IconButton(
               onPressed: () => navNonAuthKey.currentState!.pop(),
               icon: Icon(
@@ -202,12 +216,15 @@ class LoginState extends ConsumerState<Login> {
                         }
                       },
                       child: _loadingLogin
-                          ? const SizedBox(
+                          ? SizedBox(
                               height: 15,
                               width: 15,
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  color: cWhite,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
                                   strokeWidth: 1.0,
                                 ),
                               ),

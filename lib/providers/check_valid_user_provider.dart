@@ -8,4 +8,8 @@ class CheckValidUserProvider extends StateNotifier<bool> {
   checkValidUser() {
     state = true;
   }
+
+  clearValidUser() {
+    state = false;
+  }
 }

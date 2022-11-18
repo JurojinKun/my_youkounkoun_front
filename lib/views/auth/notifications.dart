@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 
@@ -34,6 +37,17 @@ class _NotificationsState extends State<Notifications>
       elevation: 0,
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
+      systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            ? Platform.isIOS
+                ? SystemUiOverlayStyle.dark
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.dark)
+            : Platform.isIOS
+                ? SystemUiOverlayStyle.light
+                : const SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    statusBarIconBrightness: Brightness.light),
       title: Text(
           AppLocalization.of(context)
               .translate("notifications_screen", "notifications"),
