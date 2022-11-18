@@ -64,9 +64,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             textScaleFactor: 1.0),
       ),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                   AppLocalization.of(context)
@@ -79,7 +78,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0),
               const SizedBox(
-                height: 5.0,
+                height: 15.0,
               ),
               tokenNotif.trim() != ""
                   ? SelectableText(

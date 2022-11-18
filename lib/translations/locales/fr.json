@@ -62,7 +62,9 @@
         "notifications": "Notifications"
     },
     "profile_screen": {
-        "profile": "Profil"
+        "profile": "Profil",
+        "years_old": " ans",
+        "message_continue": "Ajoute ce que tu veux sur ce profil, c'est à toi de jouer maintenant pour ton app !"
     },
     "settings_screen": {
         "settings_user": "Paramètres",

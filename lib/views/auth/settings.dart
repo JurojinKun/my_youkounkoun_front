@@ -204,7 +204,7 @@ class SettingsState extends ConsumerState<Settings> {
                   color: Theme.of(context).brightness == Brightness.light
                       ? cBlack
                       : cWhite,
-                  size: 23,
+                  size: 20,
                 ),
                 const SizedBox(width: 15.0),
                 Text(

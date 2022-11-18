@@ -84,11 +84,11 @@ class MyAppState extends ConsumerState<MyApp> {
           token: "tokenTest1234",
           email: "ccommunay@gmail.com",
           pseudo: "0ruj",
-          gender: "male",
+          gender: "Male",
           age: 25,
-          nationality: "French",
+          nationality: "FR",
           profilePictureUrl:
-              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
+              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
           validCGU: true,
           validPrivacyPolicy: true,
           validEmail: false));

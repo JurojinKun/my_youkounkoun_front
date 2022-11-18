@@ -43,7 +43,7 @@ class RegisterState extends ConsumerState<Register>
   DateTime? _dateBirthday;
   bool validBirthday = false;
 
-  CountryCode? _selectedCountry;
+  String? _selectedCountry;
 
   File? validProfilePicture;
 
@@ -158,7 +158,7 @@ class RegisterState extends ConsumerState<Register>
 
   pickImage(ImageSource src) async {
     try {
-      final image = await ImagePicker().pickImage(source: src);
+      final image = await ImagePicker().pickImage(source: src, imageQuality: 50);
       if (image != null) {
         if (mounted) {
           Navigator.pop(context);
@@ -1068,11 +1068,11 @@ class RegisterState extends ConsumerState<Register>
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   onInit: (countryCode) {
-                    _selectedCountry = countryCode!;
+                    _selectedCountry = countryCode!.code;
                   },
                   onChanged: (countryCode) {
                     setState(() {
-                      _selectedCountry = countryCode;
+                      _selectedCountry = countryCode.code;
                     });
                   },
                   initialSelection: 'FR',
@@ -1139,6 +1139,9 @@ class RegisterState extends ConsumerState<Register>
                           child: ElevatedButton(
                               onPressed: () async {
                                 if (_selectedCountry != null) {
+                                  if (kDebugMode) {
+                                    print(_selectedCountry);
+                                  }
                                   setState(() {
                                     _loadingStepFifth = true;
                                   });
@@ -1302,11 +1305,11 @@ class RegisterState extends ConsumerState<Register>
                                           token: "tokenTest1234",
                                           email: "ccommunay@gmail.com",
                                           pseudo: "0ruj",
-                                          gender: "male",
+                                          gender: "Male",
                                           age: 25,
-                                          nationality: "French",
+                                          nationality: "FR",
                                           profilePictureUrl:
-                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg:large",
+                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
                                           validCGU: true,
                                           validPrivacyPolicy: true,
                                           validEmail: false));

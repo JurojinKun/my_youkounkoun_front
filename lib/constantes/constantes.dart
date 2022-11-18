@@ -55,6 +55,7 @@ textStyleCustomRegular(Color color, double fontSize,
 const Color cBlue = Colors.blue;
 const Color cWhite = Colors.white;
 const Color cBlack = Colors.black;
+const Color cGrey = Colors.grey;
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
