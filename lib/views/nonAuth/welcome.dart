@@ -90,7 +90,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
                                     : cWhite,
-                                23),
+                                20),
                             textScaleFactor: 1.0)),
                   ),
                   const SizedBox(
@@ -109,7 +109,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
                                     : cWhite,
-                                23),
+                                20),
                             textScaleFactor: 1.0)),
                   )
                 ],

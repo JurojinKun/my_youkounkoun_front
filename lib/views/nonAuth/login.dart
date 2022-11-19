@@ -4,7 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -27,6 +29,16 @@ class LoginState extends ConsumerState<Login> {
   bool _passwordObscure = true;
   bool _loadingLogin = false;
 
+  Future _forgotPasswordBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: false,
+        builder: (context) {
+          return const ForgotPassword();
+        });
+  }
+
   Future<void> _tryLogin() async {
     await Future.delayed(const Duration(seconds: 2));
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,8 +51,7 @@ class LoginState extends ConsumerState<Login> {
         gender: "Male",
         age: 25,
         nationality: "FR",
-        profilePictureUrl:
-            "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+        profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
         validCGU: true,
         validPrivacyPolicy: true,
         validEmail: false));
@@ -78,16 +89,16 @@ class LoginState extends ConsumerState<Login> {
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
+              ? Platform.isIOS
+                  ? SystemUiOverlayStyle.dark
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.dark)
+              : Platform.isIOS
+                  ? SystemUiOverlayStyle.light
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.light),
           leading: IconButton(
               onPressed: () => navNonAuthKey.currentState!.pop(),
               icon: Icon(
@@ -131,12 +142,10 @@ class LoginState extends ConsumerState<Login> {
                         .translate("login_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(cBlue,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus
-                            ? cBlue
-                            : Colors.grey),
+                        color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -146,9 +155,8 @@ class LoginState extends ConsumerState<Login> {
                             },
                             icon: Icon(
                               Icons.clear,
-                              color: _mailFocusNode.hasFocus
-                                  ? cBlue
-                                  : Colors.grey,
+                              color:
+                                  _mailFocusNode.hasFocus ? cBlue : Colors.grey,
                             ))
                         : const SizedBox()),
               ),
@@ -175,12 +183,11 @@ class LoginState extends ConsumerState<Login> {
                         .translate("login_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(cBlue,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
-                        color: _passwordFocusNode.hasFocus
-                            ? cBlue
-                            : Colors.grey),
+                        color:
+                            _passwordFocusNode.hasFocus ? cBlue : Colors.grey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -191,10 +198,20 @@ class LoginState extends ConsumerState<Login> {
                           _passwordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: _passwordFocusNode.hasFocus
-                              ? cBlue
-                              : Colors.grey,
+                          color:
+                              _passwordFocusNode.hasFocus ? cBlue : Colors.grey,
                         ))),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () => _forgotPasswordBottomSheet(context),
+                    child: Text(
+                      AppLocalization.of(context).translate("login_screen", "forgot_password"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0,
+                    )),
               ),
               const SizedBox(
                 height: 55.0,
@@ -237,7 +254,7 @@ class LoginState extends ConsumerState<Login> {
                                           Brightness.light
                                       ? cBlack
                                       : cWhite,
-                                  23),
+                                  20),
                               textScaleFactor: 1.0))),
               const SizedBox(
                 height: 15.0,

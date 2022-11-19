@@ -551,7 +551,7 @@ class RegisterState extends ConsumerState<Register>
                                               Brightness.light
                                           ? cBlack
                                           : cWhite,
-                                      23),
+                                      20),
                                   textScaleFactor: 1.0))),
                 )
         ],
@@ -690,7 +690,7 @@ class RegisterState extends ConsumerState<Register>
                                                   Brightness.light
                                               ? cBlack
                                               : cWhite,
-                                          23),
+                                          20),
                                       textScaleFactor: 1.0))),
                     ],
                   ),
@@ -867,7 +867,7 @@ class RegisterState extends ConsumerState<Register>
                                                   Brightness.light
                                               ? cBlack
                                               : cWhite,
-                                          23),
+                                          20),
                                       textScaleFactor: 1.0))),
                     ],
                   ),
@@ -1024,7 +1024,7 @@ class RegisterState extends ConsumerState<Register>
                                                   Brightness.light
                                               ? cBlack
                                               : cWhite,
-                                          23),
+                                          20),
                                       textScaleFactor: 1.0))),
                     ],
                   ),
@@ -1173,7 +1173,7 @@ class RegisterState extends ConsumerState<Register>
                                                   Brightness.light
                                               ? cBlack
                                               : cWhite,
-                                          23),
+                                          20),
                                       textScaleFactor: 1.0))),
                     ],
                   ),
@@ -1302,7 +1302,7 @@ class RegisterState extends ConsumerState<Register>
                                       .read(userNotifierProvider.notifier)
                                       .initUser(User(
                                           id: 1,
-                                          token: "tokenTest1234",
+                                          token: "tokenTest1204",
                                           email: "ccommunay@gmail.com",
                                           pseudo: "0ruj",
                                           gender: "Male",
@@ -1340,7 +1340,7 @@ class RegisterState extends ConsumerState<Register>
                                                   Brightness.light
                                               ? cBlack
                                               : cWhite,
-                                          23),
+                                          20),
                                       textScaleFactor: 1.0))),
                     ],
                   ),

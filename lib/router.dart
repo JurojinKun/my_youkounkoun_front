@@ -9,6 +9,7 @@ import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
 import 'package:my_boilerplate/views/auth/validate_user.dart';
+import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
 import 'package:my_boilerplate/views/nonAuth/login.dart';
 import 'package:my_boilerplate/views/nonAuth/register.dart';
 import 'package:my_boilerplate/views/nonAuth/welcome.dart';
@@ -24,6 +25,8 @@ Route<dynamic> generateRouteNonAuth(
       return MaterialPageRoute(builder: (_) => const Login());
     case register:
       return MaterialPageRoute(builder: (_) => const Register());
+    case forgotPassword:
+      return MaterialPageRoute(builder: (_) => const ForgotPassword());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

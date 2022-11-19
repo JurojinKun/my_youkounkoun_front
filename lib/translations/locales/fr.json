@@ -5,7 +5,8 @@
         "notifications": "Notifications",
         "profile": "Profil",
         "btn_confirm": "Confirmer",
-        "btn_cancel": "Annuler"
+        "btn_cancel": "Annuler",
+        "btn_send": "Envoyer"
     },
     "welcome_screen": {
         "login": "Connexion",
@@ -22,7 +23,15 @@
         "mail": "Email",
         "password": "Mot de passe",
         "no_account": "Pas encore de compte ?",
-        "sign_up": " Inscris-toi"
+        "sign_up": " Inscris-toi",
+        "forgot_password": "Mot de passe oublié"
+    },
+    "forgot_password_screen": {
+        "forgot_password": "Mot de passe oublié",
+        "content": "Saissis le mail associé à ton compte afin de recevoir un mail pour modifier ton mot de passe.",
+        "mail": "Email",
+        "send_mail": "Un mail vous a été envoyé",
+        "error_send_mail": "Erreur\nLe mail n'a pas pu s'envoyer"
     },
     "register_screen": {
         "add_picture_profile": "Ajout d'une photo de profil",

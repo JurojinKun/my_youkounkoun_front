@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const String welcome = "Welcome";
 const String login = "Login";
 const String register = "Register";
+const String forgotPassword = "Forgot password";
 
 //route names for generated routes auth
 const String bottomNav = "BottomNav";

@@ -5,7 +5,8 @@
         "notifications": "Notifications",
         "profile": "Profile",
         "btn_confirm": "Confirm",
-        "btn_cancel": "Cancel"
+        "btn_cancel": "Cancel",
+        "btn_send": "Send"
     },
     "welcome_screen": {
         "login": "Sign in",
@@ -22,7 +23,15 @@
         "mail": "Email",
         "password": "Password",
         "no_account": "No account yet ?",
-        "sign_up": " Sign up"
+        "sign_up": " Sign up",
+        "forgot_password": "Forgot password"
+    },
+    "forgot_password_screen": {
+        "forgot_password": "Forgot password",
+        "content": "Enter the email associated with your account to receive an email to change your password.",
+        "mail": "Email",
+        "send_mail": "An email has been sent to you",
+        "error_send_mail": "Error\nEmail could not be sent"
     },
     "register_screen": {
         "add_picture_profile": "Add a profile picture",
