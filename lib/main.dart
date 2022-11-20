@@ -1,13 +1,14 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/providers/locale_language_provider.dart';
-import 'package:my_boilerplate/providers/theme_app_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -16,6 +17,10 @@ import 'package:my_boilerplate/models/user_model.dart';
 import 'package:my_boilerplate/providers/token_notifications_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/providers/locale_language_provider.dart';
+import 'package:my_boilerplate/providers/theme_app_provider.dart';
+import 'package:my_boilerplate/views/connectivity/connectivity_device.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -68,6 +73,31 @@ class MyApp extends ConsumerStatefulWidget {
 class MyAppState extends ConsumerState<MyApp> {
   String themeApp = "";
 
+  //connectivity
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  ConnectivityResult _connectivityStatus = ConnectivityResult.none;
+
+  Future<ConnectivityResult> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        print('Couldn\'t check connectivity status: $e');
+      }
+    }
+
+    return result;
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectivityStatus = result;
+    });
+  }
+
   Future<void> initApp(WidgetRef ref) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -75,6 +105,17 @@ class MyAppState extends ConsumerState<MyApp> {
     String theme = prefs.getString("theme") ?? "";
     ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
 
+    ConnectivityResult result = await initConnectivity();
+    _updateConnectionStatus(result);
+    if (result != ConnectivityResult.none) {
+      //logic load datas user
+      await _loadDataUser(prefs);
+    }
+
+    FlutterNativeSplash.remove();
+  }
+
+  Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
     String token = prefs.getString("token") ?? "";
 
@@ -87,8 +128,7 @@ class MyAppState extends ConsumerState<MyApp> {
           gender: "Male",
           age: 25,
           nationality: "FR",
-          profilePictureUrl:
-              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+          profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
           validCGU: true,
           validPrivacyPolicy: true,
           validEmail: false));
@@ -104,14 +144,30 @@ class MyAppState extends ConsumerState<MyApp> {
           .read(tokenNotificationsNotifierProvider.notifier)
           .updateTokenNotif(tokenPush);
     }
-
-    FlutterNativeSplash.remove();
   }
 
   @override
   void initState() {
     super.initState();
     initApp(ref);
+
+    _connectivitySubscription = _connectivity.onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      if (result == ConnectivityResult.none) {
+        _updateConnectionStatus(result);
+      } else if (result != ConnectivityResult.none &&
+          _connectivityStatus == ConnectivityResult.none) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await _loadDataUser(prefs);
+        _updateConnectionStatus(result);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -149,7 +205,9 @@ class MyAppState extends ConsumerState<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         AppLocalization.delegate
       ],
-      home: const LogController(),
+      home: _connectivityStatus == ConnectivityResult.none
+          ? const ConnectivityDevice()
+          : const LogController(),
     );
   }
 }

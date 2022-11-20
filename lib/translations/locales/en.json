@@ -8,6 +8,9 @@
         "btn_cancel": "Cancel",
         "btn_send": "Send"
     },
+    "connectivity_screen": {
+        "no_connectivity": "No connection at the moment"
+    },
     "welcome_screen": {
         "login": "Sign in",
         "register": "Sign up",

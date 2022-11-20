@@ -33,6 +33,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   flag: ^6.0.0
   cached_network_image: ^3.2.2
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:
