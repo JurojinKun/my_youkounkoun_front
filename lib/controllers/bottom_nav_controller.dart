@@ -120,11 +120,9 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     navProfileKey = GlobalKey<NavigatorState>();
 
     Future.delayed(const Duration(seconds: 0), () {
-      if (!ref.read(checkValidUserNotifierProvider)) {
-        if (!ref.read(userNotifierProvider).validEmail) {
-          _validateUserBottomSheet(navAuthKey.currentContext!);
-        }
-        ref.read(checkValidUserNotifierProvider.notifier).checkValidUser();
+      if (!ref.read(userNotifierProvider).validEmail &&
+          !ref.read(checkValidUserNotifierProvider)) {
+        _validateUserBottomSheet(navAuthKey.currentContext!);
       }
     });
   }

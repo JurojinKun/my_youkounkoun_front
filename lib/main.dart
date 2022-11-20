@@ -93,20 +93,22 @@ class MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    print("je passe dans l'update");
     setState(() {
       _connectivityStatus = result;
     });
   }
 
   Future<void> initApp(WidgetRef ref) async {
+    ConnectivityResult result = await initConnectivity();
+    _updateConnectionStatus(result);
+    
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     //logic theme system or theme choice user
     String theme = prefs.getString("theme") ?? "";
     ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
 
-    ConnectivityResult result = await initConnectivity();
-    _updateConnectionStatus(result);
     if (result != ConnectivityResult.none) {
       //logic load datas user
       await _loadDataUser(prefs);
