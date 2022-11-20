@@ -17,13 +17,23 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
+  late Image imageConnectivity;
+
   @override
   void initState() {
     super.initState();
 
+    imageConnectivity = Image.asset("assets/ic_splash.png");
+
     _animationController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this)..repeat();
+  }
+
+  @override 
+  void didChangeDependencies() {
+    precacheImage(imageConnectivity.image, context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -57,11 +67,7 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
                 RotationTransition(
                   turns:
                       Tween(begin: 0.0, end: 1.0).animate(_animationController),
-                  child: Image.asset(
-                    "assets/ic_splash.png",
-                    height: 75.0,
-                    width: 75.0,
-                  ),
+                  child: imageConnectivity,
                 ),
                 const SizedBox(height: 25.0),
                 Text(
