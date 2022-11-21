@@ -73,6 +73,9 @@ class MyApp extends ConsumerStatefulWidget {
 class MyAppState extends ConsumerState<MyApp> {
   String themeApp = "";
 
+  //add all assets in our app here
+  List<Image> imagesApp = [Image.asset("assets/ic_splash.png")];
+
   //connectivity
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -93,7 +96,6 @@ class MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    print("je passe dans l'update");
     setState(() {
       _connectivityStatus = result;
     });
@@ -102,7 +104,7 @@ class MyAppState extends ConsumerState<MyApp> {
   Future<void> initApp(WidgetRef ref) async {
     ConnectivityResult result = await initConnectivity();
     _updateConnectionStatus(result);
-    
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     //logic theme system or theme choice user
@@ -151,6 +153,7 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
+
     initApp(ref);
 
     _connectivitySubscription = _connectivity.onConnectivityChanged
@@ -164,6 +167,15 @@ class MyAppState extends ConsumerState<MyApp> {
         _updateConnectionStatus(result);
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    //logic precache all assets in our app => faster load on app
+    for (var i=0; i<imagesApp.length; i++) {
+      precacheImage(imagesApp[i].image, context);
+    }
+    super.didChangeDependencies();
   }
 
   @override

@@ -58,7 +58,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("assets/ic_splash.png"),
+                    Image.asset("assets/ic_splash.png", height: 100, width: 100),
                     const SizedBox(
                       height: 25.0,
                     ),
