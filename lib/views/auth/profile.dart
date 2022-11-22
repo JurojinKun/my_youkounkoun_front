@@ -31,7 +31,6 @@ class ProfileState extends ConsumerState<Profile>
     } else {
       _gender = Icons.female;
     }
-    
   }
 
   @override
@@ -94,15 +93,16 @@ class ProfileState extends ConsumerState<Profile>
               children: [
                 user.profilePictureUrl.trim() != ""
                     ? Container(
-                  height: 125,
-                  width: 125,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: cBlue),
-                    color: cGrey,
-                    image: DecorationImage(image: NetworkImage(user.profilePictureUrl), fit: BoxFit.cover)
-                  ),
-                )
+                        height: 125,
+                        width: 125,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: cBlue),
+                            color: cGrey,
+                            image: DecorationImage(
+                                image: NetworkImage(user.profilePictureUrl),
+                                fit: BoxFit.cover)),
+                      )
                     : Container(
                         height: 125,
                         width: 125,
@@ -113,33 +113,72 @@ class ProfileState extends ConsumerState<Profile>
                         ),
                         child: const Icon(Icons.person, color: cGrey, size: 75),
                       ),
-                      const SizedBox(height: 15.0,),
+                const SizedBox(
+                  height: 15.0,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Flag.fromString(
-                  user.nationality,
-                  height: 25,
-                  width: 50,
-                  fit: BoxFit.contain,
-                  replacement: const SizedBox(),
-                ),
-                Text(user.pseudo, style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 23), textScaleFactor: 1.0, textAlign: TextAlign.center,),
+                      user.nationality,
+                      height: 25,
+                      width: 50,
+                      fit: BoxFit.contain,
+                      replacement: const SizedBox(),
+                    ),
+                    Text(
+                      user.pseudo,
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          23),
+                      textScaleFactor: 1.0,
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(_gender, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite),
-                    Text(" - ", style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 18),),
-                    Text(user.age.toString() + AppLocalization.of(context).translate("profile_screen", "years_old"), style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 18.0))
+                    Icon(_gender,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite),
+                    Text(
+                      " - ",
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          18),
+                    ),
+                    Text(
+                        user.age.toString() +
+                            AppLocalization.of(context)
+                                .translate("profile_screen", "years_old"),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            18.0))
                   ],
                 ),
                 Container(
                   height: 150.0,
                   alignment: Alignment.center,
-                  child: Text(AppLocalization.of(context).translate("profile_screen", "message_continue"), style: textStyleCustomMedium(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 14), textAlign: TextAlign.center, textScaleFactor: 1.0,),
+                  child: Text(
+                    AppLocalization.of(context)
+                        .translate("profile_screen", "message_continue"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.0,
+                  ),
                 )
               ],
             ),

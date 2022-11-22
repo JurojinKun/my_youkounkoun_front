@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/models/user_model.dart';
+import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
@@ -14,8 +16,12 @@ class EditAccount extends ConsumerStatefulWidget {
 }
 
 class EditAccountState extends ConsumerState<EditAccount> {
+  late User user;
+
   @override
   Widget build(BuildContext context) {
+    user = ref.watch(userNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
