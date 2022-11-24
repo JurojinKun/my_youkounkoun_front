@@ -4,6 +4,7 @@ import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
 import 'package:my_boilerplate/views/auth/chat.dart';
 import 'package:my_boilerplate/views/auth/edit_account.dart';
+import 'package:my_boilerplate/views/auth/edit_security.dart';
 import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/notifications.dart';
@@ -50,6 +51,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(builder: (_) => const ValidateUser());
     case editAccount:
       return MaterialPageRoute(builder: (_) => const EditAccount());
+    case editSecurity:
+      return MaterialPageRoute(builder: (_) => const EditSecurity());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

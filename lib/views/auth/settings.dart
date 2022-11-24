@@ -177,6 +177,8 @@ class SettingsState extends ConsumerState<Settings> {
             child: Column(
               children: [
                 accountSettings(),
+                const SizedBox(height: 15.0,),
+                securitySettings(),
                 const SizedBox(height: 15.0),
                 themeSettings(),
               ],
@@ -210,6 +212,49 @@ class SettingsState extends ConsumerState<Settings> {
                 Text(
                     AppLocalization.of(context)
                         .translate("settings_screen", "my_account"),
+                    style: textStyleCustomBold(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        16),
+                    textScaleFactor: 1.0)
+              ],
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? cBlack
+                  : cWhite,
+              size: 18,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget securitySettings() {
+    return InkWell(
+      onTap: () => navAuthKey.currentState!.pushNamed(editSecurity),
+      child: Container(
+        height: 60.0,
+        decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.lock,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  size: 20,
+                ),
+                const SizedBox(width: 15.0),
+                Text(
+                    AppLocalization.of(context).translate("settings_screen", "security_account"),
                     style: textStyleCustomBold(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack

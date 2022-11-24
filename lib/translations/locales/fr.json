@@ -80,13 +80,17 @@
     },
     "settings_screen": {
         "settings_user": "Paramètres",
-        "my_account": "Mon compte",
+        "my_account": "Informations du compte",
+        "security_account": "Sécurité du compte",
         "theme": "Thème",
         "logout_title": "Déconnexion",
         "logout_content": "Es-tu sûr de vouloir te déconnecter ?"
     },
     "edit_account_screen": {
-        "my_account": "Mon compte"
+        "my_account": "Informations du compte"
+    },
+    "edit_security_screen": {
+        "security_account": "Sécurité du compte"
     },
     "validate_user_screen": {
         "send_mail": "Un mail vous a été envoyé",

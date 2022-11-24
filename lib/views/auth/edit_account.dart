@@ -56,6 +56,74 @@ class EditAccountState extends ConsumerState<EditAccount> {
           textScaleFactor: 1.0,
         ),
       ),
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20.0,),
+              Text("Tu peux modifier tes informations de ton compte directement ici !", style: textStyleCustomRegular(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16), textScaleFactor: 1.0,),
+              const SizedBox(height: 25.0,),
+              Text(
+                "Image de profil",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    18),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
+              ),
+              const SizedBox(height: 15.0,),
+              Text(
+                "Pseudonyme",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    18),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
+              ),
+              const SizedBox(height: 15.0,),
+              Text(
+                "Genre",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    18),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
+              ),
+              const SizedBox(height: 15.0,),
+              Text(
+                "Date de naissance",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    18),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
+              ),
+              const SizedBox(height: 15.0,),
+              Text(
+                "Nationnalité",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    18),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

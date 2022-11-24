@@ -15,6 +15,7 @@ const String profile = "Profile";
 const String settingsUser = "Settings user";
 const String validateUser = "Validate user";
 const String editAccount = "Edit account";
+const String editSecurity = "Edit security";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

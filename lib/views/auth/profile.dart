@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,13 +96,18 @@ class ProfileState extends ConsumerState<Profile>
                     ? Container(
                         height: 125,
                         width: 125,
-                        decoration: BoxDecoration(
+                        foregroundDecoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: cBlue),
-                            color: cGrey,
                             image: DecorationImage(
                                 image: NetworkImage(user.profilePictureUrl),
                                 fit: BoxFit.cover)),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: cBlue),
+                          color: cGrey,
+                        ),
+                        child: const Icon(Icons.person, color: cBlue, size: 75),
                       )
                     : Container(
                         height: 125,
@@ -111,7 +117,7 @@ class ProfileState extends ConsumerState<Profile>
                           border: Border.all(color: cBlue),
                           color: cGrey,
                         ),
-                        child: const Icon(Icons.person, color: cGrey, size: 75),
+                        child: const Icon(Icons.person, color: cBlue, size: 75),
                       ),
                 const SizedBox(
                   height: 15.0,
@@ -119,13 +125,6 @@ class ProfileState extends ConsumerState<Profile>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flag.fromString(
-                      user.nationality,
-                      height: 25,
-                      width: 50,
-                      fit: BoxFit.contain,
-                      replacement: const SizedBox(),
-                    ),
                     Text(
                       user.pseudo,
                       style: textStyleCustomBold(
@@ -136,6 +135,13 @@ class ProfileState extends ConsumerState<Profile>
                       textScaleFactor: 1.0,
                       textAlign: TextAlign.center,
                     ),
+                    Flag.fromString(
+                      user.nationality,
+                      height: 25,
+                      width: 50,
+                      fit: BoxFit.contain,
+                      replacement: const SizedBox(),
+                    )
                   ],
                 ),
                 const SizedBox(height: 10.0),
