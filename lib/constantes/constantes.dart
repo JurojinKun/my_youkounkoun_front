@@ -55,6 +55,7 @@ textStyleCustomRegular(Color color, double fontSize,
 
 //colors app
 const Color cBlue = Colors.blue;
+const Color cRed = Colors.red;
 const Color cWhite = Colors.white;
 const Color cBlack = Colors.black;
 const Color cGrey = Colors.grey;

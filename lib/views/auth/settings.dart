@@ -79,7 +79,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                     AppLocalization.of(context)
                         .translate("general", "btn_cancel"),
-                    style: textStyleCustomMedium(Colors.red, 14),
+                    style: textStyleCustomMedium(cRed, 14),
                   ))
             ],
           );
