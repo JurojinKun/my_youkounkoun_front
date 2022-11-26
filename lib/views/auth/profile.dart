@@ -94,8 +94,8 @@ class ProfileState extends ConsumerState<Profile>
               children: [
                 user.profilePictureUrl.trim() != ""
                     ? Container(
-                        height: 125,
-                        width: 125,
+                        height: 155,
+                        width: 155,
                         foregroundDecoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: cBlue),
@@ -105,17 +105,17 @@ class ProfileState extends ConsumerState<Profile>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: cBlue),
-                          color: cGrey,
+                          color: cGrey.withOpacity(0.2),
                         ),
                         child: const Icon(Icons.person, color: cBlue, size: 75),
                       )
                     : Container(
-                        height: 125,
-                        width: 125,
+                        height: 155,
+                        width: 155,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: cBlue),
-                          color: cGrey,
+                          color: cGrey.withOpacity(0.2),
                         ),
                         child: const Icon(Icons.person, color: cBlue, size: 75),
                       ),

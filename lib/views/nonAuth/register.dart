@@ -158,7 +158,8 @@ class RegisterState extends ConsumerState<Register>
 
   pickImage(ImageSource src) async {
     try {
-      final image = await ImagePicker().pickImage(source: src, imageQuality: 50);
+      final image =
+          await ImagePicker().pickImage(source: src, imageQuality: 50);
       if (image != null) {
         if (mounted) {
           Navigator.pop(context);
@@ -249,16 +250,16 @@ class RegisterState extends ConsumerState<Register>
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
+              ? Platform.isIOS
+                  ? SystemUiOverlayStyle.dark
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.dark)
+              : Platform.isIOS
+                  ? SystemUiOverlayStyle.light
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.light),
           leading: IconButton(
               onPressed: () => navNonAuthKey.currentState!.pop(),
               icon: Icon(
@@ -352,12 +353,10 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(cBlue,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus
-                            ? cBlue
-                            : Colors.grey),
+                        color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -367,9 +366,8 @@ class RegisterState extends ConsumerState<Register>
                             },
                             icon: Icon(
                               Icons.clear,
-                              color: _mailFocusNode.hasFocus
-                                  ? cBlue
-                                  : Colors.grey,
+                              color:
+                                  _mailFocusNode.hasFocus ? cBlue : Colors.grey,
                             ))
                         : const SizedBox()),
               ),
@@ -396,12 +394,11 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(cBlue,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
-                        color: _passwordFocusNode.hasFocus
-                            ? cBlue
-                            : Colors.grey),
+                        color:
+                            _passwordFocusNode.hasFocus ? cBlue : Colors.grey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -412,9 +409,8 @@ class RegisterState extends ConsumerState<Register>
                           _passwordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: _passwordFocusNode.hasFocus
-                              ? cBlue
-                              : Colors.grey,
+                          color:
+                              _passwordFocusNode.hasFocus ? cBlue : Colors.grey,
                         ))),
               ),
               const SizedBox(height: 55.0),
@@ -605,12 +601,10 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "pseudo"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(cBlue,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
-                        color: _pseudoFocusNode.hasFocus
-                            ? cBlue
-                            : Colors.grey),
+                        color: _pseudoFocusNode.hasFocus ? cBlue : Colors.grey),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -1204,36 +1198,46 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Center(
             child: SizedBox(
-              height: 310,
-              width: 260,
+              height: 155,
+              width: 155,
               child: Stack(
                 children: [
                   validProfilePicture == null
                       ? Container(
-                          height: 300,
-                          width: 250,
+                          height: 155,
+                          width: 155,
                           decoration: BoxDecoration(
                               color: Colors.grey.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(color: Colors.grey)),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cBlue)),
                           alignment: Alignment.center,
                           child: const Icon(
                             Icons.person,
-                            color: Colors.grey,
+                            color: cBlue,
                             size: 60.0,
                           ),
                         )
                       : Container(
-                          height: 300,
-                          width: 250,
-                          decoration: BoxDecoration(
-                              color: cBlue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10.0),
+                          height: 155,
+                          width: 155,
+                          foregroundDecoration: BoxDecoration(
+                              color: cGrey.withOpacity(0.2),
+                              shape: BoxShape.circle,
                               border: Border.all(color: cBlue),
                               image: DecorationImage(
                                   image: FileImage(validProfilePicture!),
                                   fit: BoxFit.cover,
                                   filterQuality: FilterQuality.high)),
+                          decoration: BoxDecoration(
+                            color: cGrey.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: cBlue),
+                          ),
+                          child: const Icon(
+                            Icons.person,
+                            color: cBlue,
+                            size: 60.0,
+                          ),
                         ),
                   Align(
                       alignment: Alignment.bottomRight,
@@ -1242,8 +1246,8 @@ class RegisterState extends ConsumerState<Register>
                             showOptionsImage();
                           },
                           child: Container(
-                            height: 60.0,
-                            width: 60.0,
+                            height: 50.0,
+                            width: 50.0,
                             alignment: Alignment.center,
                             decoration: const BoxDecoration(
                                 color: cWhite,
@@ -1257,7 +1261,7 @@ class RegisterState extends ConsumerState<Register>
                             child: const Icon(
                               Icons.photo_camera,
                               color: cBlue,
-                              size: 40.0,
+                              size: 30.0,
                             ),
                           )))
                 ],
