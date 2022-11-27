@@ -30,6 +30,10 @@ class BirthdayRegisterProvider extends StateNotifier<bool> {
   void updateBirthday(bool newState) {
     state = newState;
   }
+
+  void clearBirthday() {
+    state = false;
+  }
 }
 
 class ProfilePictureRegisterProvider extends StateNotifier<File?> {
@@ -37,5 +41,9 @@ class ProfilePictureRegisterProvider extends StateNotifier<File?> {
 
   void addNewProfilePicture(File newFile) {
     state = newFile;
+  }
+
+  void clearProfilePicture() {
+    state = null;
   }
 }

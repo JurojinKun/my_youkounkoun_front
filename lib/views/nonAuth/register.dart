@@ -43,7 +43,7 @@ class RegisterState extends ConsumerState<Register>
   DateTime? _dateBirthday;
   bool validBirthday = false;
 
-  String? _selectedCountry;
+  String? _selectedCountry = "FR";
 
   File? validProfilePicture;
 
@@ -261,7 +261,16 @@ class RegisterState extends ConsumerState<Register>
                       statusBarColor: Colors.transparent,
                       statusBarIconBrightness: Brightness.light),
           leading: IconButton(
-              onPressed: () => navNonAuthKey.currentState!.pop(),
+              onPressed: () {
+                ref.read(genderRegisterNotifierProvider.notifier).clearGender();
+                ref
+                    .read(birthdayRegisterNotifierProvider.notifier)
+                    .clearBirthday();
+                ref
+                    .read(profilePictureRegisterNotifierProvider.notifier)
+                    .clearProfilePicture();
+                navNonAuthKey.currentState!.pop();
+              },
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Theme.of(context).brightness == Brightness.light
@@ -280,17 +289,42 @@ class RegisterState extends ConsumerState<Register>
           centerTitle: false,
           actions: [stepRegister()],
         ),
-        body: TabBarView(
-            controller: _tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              firstStepRegister(),
-              secondStepRegister(),
-              thirdStepRegister(),
-              fourthStepRegister(),
-              fifthStepRegister(),
-              sixthStepRegister()
-            ]),
+        body: WillPopScope(
+          onWillPop: () async {
+            ref.read(genderRegisterNotifierProvider.notifier).clearGender();
+            ref.read(birthdayRegisterNotifierProvider.notifier).clearBirthday();
+            ref
+                .read(profilePictureRegisterNotifierProvider.notifier)
+                .clearProfilePicture();
+            navNonAuthKey.currentState!.pop();
+            return false;
+          },
+          child: GestureDetector(
+            onHorizontalDragStart: (details) {
+              if (Platform.isIOS && details.globalPosition.dx <= 70) {
+                ref.read(genderRegisterNotifierProvider.notifier).clearGender();
+                ref
+                    .read(birthdayRegisterNotifierProvider.notifier)
+                    .clearBirthday();
+                ref
+                    .read(profilePictureRegisterNotifierProvider.notifier)
+                    .clearProfilePicture();
+                navNonAuthKey.currentState!.pop();
+              }
+            },
+            child: TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  firstStepRegister(),
+                  secondStepRegister(),
+                  thirdStepRegister(),
+                  fourthStepRegister(),
+                  fifthStepRegister(),
+                  sixthStepRegister()
+                ]),
+          ),
+        ),
       ),
     );
   }
@@ -1061,15 +1095,12 @@ class RegisterState extends ConsumerState<Register>
                 child: CountryCodePicker(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  onInit: (countryCode) {
-                    _selectedCountry = countryCode!.code;
-                  },
                   onChanged: (countryCode) {
                     setState(() {
                       _selectedCountry = countryCode.code;
                     });
                   },
-                  initialSelection: 'FR',
+                  initialSelection: _selectedCountry,
                   showCountryOnly: true,
                   showOnlyCountryWhenClosed: true,
                   alignLeft: true,
