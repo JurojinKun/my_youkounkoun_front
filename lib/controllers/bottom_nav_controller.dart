@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flag/flag_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,7 +15,7 @@ import 'package:my_boilerplate/views/auth/validate_user.dart';
 
 /// Method called when user clic LOCALE notifications
 void selectLocaleNotification(String? payload, BuildContext context) {
-  Navigator.pushNamed(context, notifications);
+  Navigator.pushNamed(context, activities);
 }
 
 void onDidReceiveLocalNotification(
@@ -71,7 +70,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       if (message != null) {
         Navigator.pushNamed(
           context,
-          notifications,
+          activities,
         );
       }
     });
@@ -109,14 +108,14 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       }
       Navigator.pushNamed(
         context,
-        notifications,
+        activities,
       );
     });
 
     _tabController = TabController(length: 4, vsync: this);
     navHomeKey = GlobalKey<NavigatorState>();
-    navChatKey = GlobalKey<NavigatorState>();
-    navNotificationsKey = GlobalKey<NavigatorState>();
+    navSearchKey = GlobalKey<NavigatorState>();
+    navActivitiesKey = GlobalKey<NavigatorState>();
     navProfileKey = GlobalKey<NavigatorState>();
 
     Future.delayed(const Duration(seconds: 0), () {
@@ -140,9 +139,9 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
           if (_tabController.index == 0) {
             return !(await navHomeKey!.currentState!.maybePop());
           } else if (_tabController.index == 1) {
-            return !(await navChatKey!.currentState!.maybePop());
+            return !(await navSearchKey!.currentState!.maybePop());
           } else if (_tabController.index == 2) {
-            return !(await navNotificationsKey!.currentState!.maybePop());
+            return !(await navActivitiesKey!.currentState!.maybePop());
           } else if (_tabController.index == 3) {
             return !(await navProfileKey!.currentState!.maybePop());
           } else {
@@ -171,15 +170,15 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         onGenerateRoute: (settings) => generateRouteAuthHome(settings, context),
       ),
       Navigator(
-        key: navChatKey,
-        initialRoute: chat,
-        onGenerateRoute: (settings) => generateRouteAuthChat(settings, context),
+        key: navSearchKey,
+        initialRoute: search,
+        onGenerateRoute: (settings) => generateRouteAuthSearch(settings, context),
       ),
       Navigator(
-        key: navNotificationsKey,
-        initialRoute: notifications,
+        key: navActivitiesKey,
+        initialRoute: activities,
         onGenerateRoute: (settings) =>
-            generateRouteAuthNotifications(settings, context),
+            generateRouteAuthActivities(settings, context),
       ),
       Navigator(
         key: navProfileKey,

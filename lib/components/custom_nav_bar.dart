@@ -85,7 +85,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                   onTap: () {
                     if (!widget.tabController.indexIsChanging) {
                       if (widget.tabController.index == 1) {
-                        navChatKey!.currentState!
+                        navSearchKey!.currentState!
                             .popUntil((route) => route.isFirst);
                       } else {
                         setState(() {
@@ -99,8 +99,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                     children: [
                       Icon(
                         widget.tabController.index == 1
-                            ? Icons.send
-                            : Icons.send_outlined,
+                            ? Icons.search
+                            : Icons.search_outlined,
                         size: 30,
                         color: widget.tabController.index == 1
                             ? cBlue
@@ -111,7 +111,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                       ),
                       Text(
                           AppLocalization.of(context)
-                              .translate("general", "chat"),
+                              .translate("general", "search"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 1
                                   ? cBlue
@@ -126,7 +126,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                   onTap: () {
                     if (!widget.tabController.indexIsChanging) {
                       if (widget.tabController.index == 2) {
-                        navNotificationsKey!.currentState!
+                        navActivitiesKey!.currentState!
                             .popUntil((route) => route.isFirst);
                       } else {
                         setState(() {
@@ -140,8 +140,8 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                     children: [
                       Icon(
                         widget.tabController.index == 2
-                            ? Icons.notifications_active
-                            : Icons.notifications_active_outlined,
+                            ? Icons.mail
+                            : Icons.mail_outlined,
                         size: 30,
                         color: widget.tabController.index == 2
                             ? cBlue
@@ -152,7 +152,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                       ),
                       Text(
                           AppLocalization.of(context)
-                              .translate("general", "notifications"),
+                              .translate("general", "activities"),
                           style: textStyleCustomRegular(
                               widget.tabController.index == 2
                                   ? cBlue

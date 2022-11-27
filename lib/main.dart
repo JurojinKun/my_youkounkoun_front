@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_boilerplate/providers/notifications_active_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -137,6 +138,9 @@ class MyAppState extends ConsumerState<MyApp> {
           validCGU: true,
           validPrivacyPolicy: true,
           validEmail: false));
+        
+      bool notificationsActive = prefs.getBool("notifications") ?? true;
+      ref.read(notificationsActiveNotifierProvider.notifier).updateNotificationsActive(notificationsActive);
     }
 
     //get push token device

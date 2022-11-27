@@ -1,62 +1,48 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({Key? key}) : super(key: key);
 
-  @override
+  @override 
   ChatState createState() => ChatState();
 }
 
 class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
-  @override
+
+  @override 
   void initState() {
     super.initState();
   }
 
-  @override
+  @override 
+  bool get wantKeepAlive => true;
+
+  @override 
   void dispose() {
     super.dispose();
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
+  @override 
   Widget build(BuildContext context) {
     super.build(context);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
-        title: Text(
-            AppLocalization.of(context).translate("chat_screen", "chat"),
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                20),
-            textScaleFactor: 1.0),
-      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Container(
+        height: 150,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.send, color: Theme.of(context).brightness == Brightness.light ? cBlack: cWhite, size: 40,),
+            const SizedBox(height: 15.0),
+            Text("Work in progress", style: textStyleCustomMedium(Theme.of(context).brightness == Brightness.light ? cBlack: cWhite, 14), textAlign: TextAlign.center, textScaleFactor: 1.0,)
+          ],
+        ),
+      )
     );
   }
 }

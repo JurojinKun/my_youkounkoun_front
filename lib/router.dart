@@ -2,12 +2,13 @@ import "package:flutter/material.dart";
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
-import 'package:my_boilerplate/views/auth/chat.dart';
+import 'package:my_boilerplate/views/auth/new_conversation.dart';
+import 'package:my_boilerplate/views/auth/search.dart';
 import 'package:my_boilerplate/views/auth/edit_account.dart';
 import 'package:my_boilerplate/views/auth/edit_security.dart';
 import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/settings.dart';
-import 'package:my_boilerplate/views/auth/notifications.dart';
+import 'package:my_boilerplate/views/auth/activities.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
 import 'package:my_boilerplate/views/auth/validate_user.dart';
 import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
@@ -53,6 +54,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(builder: (_) => const EditAccount());
     case editSecurity:
       return MaterialPageRoute(builder: (_) => const EditSecurity());
+    case newConversation: 
+      return MaterialPageRoute(builder: (_) => const NewConversation());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -81,13 +84,13 @@ Route<dynamic> generateRouteAuthHome(
   }
 }
 
-Route<dynamic> generateRouteAuthChat(
+Route<dynamic> generateRouteAuthSearch(
     RouteSettings settings, BuildContext context) {
   final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
-    case chat:
-      return MaterialPageRoute(builder: (_) => const Chat());
+    case search:
+      return MaterialPageRoute(builder: (_) => const Search());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -99,13 +102,13 @@ Route<dynamic> generateRouteAuthChat(
   }
 }
 
-Route<dynamic> generateRouteAuthNotifications(
+Route<dynamic> generateRouteAuthActivities(
     RouteSettings settings, BuildContext context) {
   final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
-    case notifications:
-      return MaterialPageRoute(builder: (_) => const Notifications());
+    case activities:
+      return MaterialPageRoute(builder: (_) => const Activities());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

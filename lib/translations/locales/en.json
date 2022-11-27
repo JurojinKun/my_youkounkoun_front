@@ -1,8 +1,8 @@
 {
     "general": {
         "home": "Home",
-        "chat": "Chat",
-        "notifications": "Notifications",
+        "search": "Search",
+        "activities": "Activités",
         "profile": "Profile",
         "btn_confirm": "Confirm",
         "btn_cancel": "Cancel",
@@ -67,10 +67,12 @@
         "push_token": "Push token of the device to test push notifications via Firebase Cloud Messaging:",
         "no_token": "No token"
     },
-    "chat_screen": {
-        "chat": "Chat"
+    "search_screen": {
+        "search": "Search"
     },
-    "notifications_screen": {
+    "activities_screen": {
+        "activities": "Activities",
+        "chat": "Chat",
         "notifications": "Notifications"
     },
     "profile_screen": {
@@ -83,6 +85,7 @@
         "my_account": "Account information",
         "security_account": "Account security",
         "theme": "Theme",
+        "notifications": "Notifications",
         "logout_title": "Logout",
         "logout_content": "Are you sure you want to disconnect ?"
     },
@@ -99,5 +102,8 @@
         "content": "In order to validate your account, you can request a code that will be sent to the email address linked to it.",
         "send_code": "Send me a code",
         "check_validity": "Check"
+    },
+    "new_conversation_screen": {
+        "new_conversation": "New message"
     }
 }

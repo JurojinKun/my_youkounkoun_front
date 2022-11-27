@@ -9,20 +9,21 @@ const String forgotPassword = "Forgot password";
 //route names for generated routes auth
 const String bottomNav = "BottomNav";
 const String home = "Home";
-const String chat = "Chat";
-const String notifications = "Notifications";
+const String search = "Search";
+const String activities = "Activities";
 const String profile = "Profile";
 const String settingsUser = "Settings user";
 const String validateUser = "Validate user";
 const String editAccount = "Edit account";
 const String editSecurity = "Edit security";
+const String newConversation = "New conversation";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> navAuthKey = GlobalKey<NavigatorState>();
 GlobalKey<NavigatorState>? navHomeKey;
-GlobalKey<NavigatorState>? navChatKey;
-GlobalKey<NavigatorState>? navNotificationsKey;
+GlobalKey<NavigatorState>? navSearchKey;
+GlobalKey<NavigatorState>? navActivitiesKey;
 GlobalKey<NavigatorState>? navProfileKey;
 
 //fonts app

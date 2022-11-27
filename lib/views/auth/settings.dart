@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
+import 'package:my_boilerplate/providers/notifications_active_provider.dart';
 import 'package:my_boilerplate/providers/theme_app_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -22,6 +23,7 @@ class Settings extends ConsumerStatefulWidget {
 
 class SettingsState extends ConsumerState<Settings> {
   bool _isDarkTheme = false;
+  bool _notificationsActive = true;
 
   Future<void> _tryLogOut() async {
     try {
@@ -121,6 +123,8 @@ class SettingsState extends ConsumerState<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    _notificationsActive = ref.watch(notificationsActiveNotifierProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -181,6 +185,8 @@ class SettingsState extends ConsumerState<Settings> {
                 securitySettings(),
                 const SizedBox(height: 15.0),
                 themeSettings(),
+                const SizedBox(height: 15.0),
+                notificationsSettings()
               ],
             ),
           ),
@@ -337,6 +343,68 @@ class SettingsState extends ConsumerState<Settings> {
                     }
                   }),
               Icon(Icons.dark_mode,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget notificationsSettings() {
+    return Container(
+      height: 60.0,
+      decoration: const BoxDecoration(
+          border: Border(
+        bottom: BorderSide(color: Colors.grey, width: 0.5),
+      )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.notifications,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  size: 20),
+              const SizedBox(
+                width: 15.0,
+              ),
+              Text(
+                  AppLocalization.of(context).translate("settings_screen", "notifications"),
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      16),
+                  textScaleFactor: 1.0),
+            ],
+          ),
+          Row(
+            children: [
+              Icon(Icons.notifications_off,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite),
+              Switch(
+                  activeColor: cBlue,
+                  value: _notificationsActive,
+                  onChanged: (newSettingsNotifications) async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    ref.read(notificationsActiveNotifierProvider.notifier).updateNotificationsActive(newSettingsNotifications);
+
+                    if (newSettingsNotifications) {
+                      await prefs.setBool("notifications", true);
+                    } else {
+                      await prefs.setBool("notifications", false);
+                    }
+                  }),
+              Icon(Icons.notifications_active,
                   color: Theme.of(context).brightness == Brightness.light
                       ? cBlack
                       : cWhite),
