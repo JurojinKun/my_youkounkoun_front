@@ -172,12 +172,11 @@ class SettingsState extends ConsumerState<Settings> {
               ))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      body: SizedBox.expand(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            padding: const EdgeInsets.only(top: 20.0, bottom: 80.0, left: 20.0, right: 20.0),
             child: Column(
               children: [
                 accountSettings(),
