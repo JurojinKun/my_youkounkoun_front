@@ -4,7 +4,7 @@ class User {
   String email;
   String pseudo;
   String gender;
-  int age;
+  String birthday;
   String nationality;
   String profilePictureUrl;
   bool validCGU;
@@ -17,7 +17,7 @@ class User {
       required this.email,
       required this.pseudo,
       required this.gender,
-      required this.age,
+      required this.birthday,
       required this.nationality,
       required this.profilePictureUrl,
       required this.validCGU,
@@ -30,7 +30,7 @@ class User {
         email = jsonMap["email"] ?? "",
         pseudo = jsonMap["pseudo"] ?? "",
         gender = jsonMap["gender"] ?? "",
-        age = jsonMap["age"] ?? "",
+        birthday = jsonMap["birthday"] ?? "",
         nationality = jsonMap["nationality"] ?? "",
         profilePictureUrl = jsonMap["profilePictureUrl"] ?? "",
         validCGU = jsonMap["validCGU"] ?? false,
@@ -44,7 +44,7 @@ class User {
         email: email,
         pseudo: pseudo,
         gender: gender,
-        age: age,
+        birthday: birthday,
         nationality: nationality,
         profilePictureUrl: profilePictureUrl,
         validCGU: validCGU,

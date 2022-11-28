@@ -36,7 +36,7 @@ class EditAccountState extends ConsumerState<EditAccount>
 
   String? _selectedCountry;
 
-  bool _isEdit = false;
+  bool isEdit = false;
   bool _isKeyboard = false;
 
   showOptionsImage() {
@@ -165,8 +165,10 @@ class EditAccountState extends ConsumerState<EditAccount>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _pseudoController = TextEditingController();
+    _pseudoController = TextEditingController(text: ref.read(userNotifierProvider).pseudo);
     _pseudoFocusNode = FocusNode();
+
+    _dateBirthday = Helpers.convertStringToDateTime(ref.read(userNotifierProvider).birthday);
 
   }
 
@@ -249,7 +251,7 @@ class EditAccountState extends ConsumerState<EditAccount>
           body: Stack(
             children: [
               _editAccount(),
-              _isEdit && !_isKeyboard ? _saveEditAccount() : const SizedBox()
+              isEdit && !_isKeyboard ? _saveEditAccount() : const SizedBox()
             ],
           )),
     );
@@ -259,7 +261,7 @@ class EditAccountState extends ConsumerState<EditAccount>
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       child: Padding(
-        padding: EdgeInsets.only(bottom: _isEdit ? 110 : 10, left: 20, right: 20.0),
+        padding: EdgeInsets.only(bottom: isEdit ? 110 : 10, left: 20, right: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -457,10 +459,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                                     decoration: BoxDecoration(
                                         color: cBlue,
                                         border: Border.all(
-                                            color: Theme.of(context).brightness ==
-                                                    Brightness.light
-                                                ? cBlack
-                                                : cWhite),
+                                            color: cBlue),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: Center(

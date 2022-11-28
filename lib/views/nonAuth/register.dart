@@ -776,10 +776,7 @@ class RegisterState extends ConsumerState<Register>
                                         color: cBlue,
                                         border: Border.all(
                                             color:
-                                                Theme.of(context).brightness ==
-                                                        Brightness.light
-                                                    ? cBlack
-                                                    : cWhite),
+                                                cBlue),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: Center(
@@ -1341,7 +1338,7 @@ class RegisterState extends ConsumerState<Register>
                                           email: "ccommunay@gmail.com",
                                           pseudo: "0ruj",
                                           gender: "Male",
-                                          age: 25,
+                                          birthday: "1997-06-06 00:00",
                                           nationality: "FR",
                                           profilePictureUrl:
                                               "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",

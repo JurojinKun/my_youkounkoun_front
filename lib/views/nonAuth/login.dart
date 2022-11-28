@@ -49,7 +49,7 @@ class LoginState extends ConsumerState<Login> {
         email: "ccommunay@gmail.com",
         pseudo: "0ruj",
         gender: "Male",
-        age: 25,
+        birthday: "1997-06-06 00:00",
         nationality: "FR",
         profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
         validCGU: true,

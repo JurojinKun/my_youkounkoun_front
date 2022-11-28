@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:age_calculator/age_calculator.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
+import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/models/user_model.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -21,6 +23,7 @@ class ProfileState extends ConsumerState<Profile>
     with AutomaticKeepAliveClientMixin {
   late User user;
   late IconData _gender;
+  late DateDuration ageUser;
 
   @override
   void initState() {
@@ -31,6 +34,8 @@ class ProfileState extends ConsumerState<Profile>
     } else {
       _gender = Icons.female;
     }
+
+    ageUser = AgeCalculator.age(Helpers.convertStringToDateTime(ref.read(userNotifierProvider).birthday));
   }
 
   @override
@@ -159,9 +164,8 @@ class ProfileState extends ConsumerState<Profile>
                               : cWhite,
                           18),
                     ),
-                    //flutter age calculator à partir d'une date de naissance
                     Text(
-                        user.age.toString() +
+                        ageUser.years.toString() +
                             AppLocalization.of(context)
                                 .translate("profile_screen", "years_old"),
                         style: textStyleCustomBold(

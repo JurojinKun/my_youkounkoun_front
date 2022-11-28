@@ -24,7 +24,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
       _actualPasswordFocusNode,
       _newPasswordFocusNode;
 
-  bool _isEdit = false;
+  bool isEdit = false;
   bool _isKeyboard = false;
   bool _actualPasswordObscure = true;
   bool _newPasswordObscure = true;
@@ -112,7 +112,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
           body: Stack(
             children: [
               _editSecurity(),
-              _isEdit && !_isKeyboard ? _saveEditSecurity() : const SizedBox()
+              isEdit && !_isKeyboard ? _saveEditSecurity() : const SizedBox()
             ],
           )),
     );
@@ -124,7 +124,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         child: Padding(
-          padding: EdgeInsets.only(bottom: _isEdit ? 110 : 10, left: 20, right: 20),
+          padding: EdgeInsets.only(bottom: isEdit ? 110 : 10, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -24,4 +24,26 @@ class Helpers {
 
     return format.format(date).toString();
   }
+
+  static String dateFormat(String dateString) {
+    String dateFormated = "";
+    DateTime date;
+    if (dateString.contains("00:00")) {
+      date = DateFormat('yyyy-MM-dd hh:mm').parse(dateString);
+    } else {
+      date = DateFormat('yyyy-MM-dd').parse(dateString);
+    }
+    dateFormated = DateFormat('dd/MM/yyyy').format(date);
+    return dateFormated;
+  }
+
+  static DateTime convertStringToDateTime(String dateString) {
+    DateTime date;
+    if (dateString.contains("00:00")) {
+      date = DateFormat('yyyy-MM-dd hh:mm').parse(dateString);
+    } else {
+      date = DateFormat('yyyy-MM-dd').parse(dateString);
+    }
+    return date;
+  }
 }

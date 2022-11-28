@@ -9,6 +9,5 @@ class LocaleLanguageProvider extends StateNotifier<String> {
 
   setLocaleLanguage(String localeLanguage) {
     state = localeLanguage;
-    print(state);
   }
 }
