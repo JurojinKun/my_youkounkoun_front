@@ -6,7 +6,9 @@
         "profile": "Profile",
         "btn_confirm": "Confirm",
         "btn_cancel": "Cancel",
-        "btn_send": "Send"
+        "btn_send": "Send",
+        "btn_save": "Save",
+        "message_error": "A problem occurred"
     },
     "connectivity_screen": {
         "no_connectivity": "No connection at the moment"
@@ -90,7 +92,14 @@
         "logout_content": "Are you sure you want to disconnect ?"
     },
     "edit_account_screen": {
-        "my_account": "Account information"
+        "my_account": "Account information",
+        "message_success_update_account": "Your profile has been updated",
+        "content": "You can change your account information right here!",
+        "picture_profile": "Profile picture",
+        "pseudo_profile": "Pseudonym",
+        "gender_profile": "Gender",
+        "birthday_profile": "Birthdate",
+        "nationality_profile": "Nationality"
     },
     "edit_security_screen": {
         "security_account": "Account security"

@@ -7,9 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_boilerplate/components/message_user_custom.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
 import 'package:my_boilerplate/models/user_model.dart';
+import 'package:my_boilerplate/providers/edit_account_provider.dart';
 import 'package:my_boilerplate/providers/locale_language_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -23,17 +25,16 @@ class EditAccount extends ConsumerStatefulWidget {
 
 class EditAccountState extends ConsumerState<EditAccount>
     with WidgetsBindingObserver {
-      late String localeLanguage;
+  late String localeLanguage;
 
   late User user;
 
+  File? editPictureProfile;
   late TextEditingController _pseudoController;
   late FocusNode _pseudoFocusNode;
-
   List genders = [];
-
+  String _selectedGender = "";
   DateTime? _dateBirthday;
-
   String? _selectedCountry;
 
   bool isEdit = false;
@@ -49,8 +50,22 @@ class EditAccountState extends ConsumerState<EditAccount>
                 topLeft: Radius.circular(15.0),
                 topRight: Radius.circular(15.0))),
         builder: (BuildContext context) {
-          return SizedBox(
+          return Container(
             height: Platform.isIOS ? 180 : 160,
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)
+              ),
+              boxShadow: [
+                  BoxShadow(
+                    color: cBlue.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: const Offset(0.0, -5.0),
+                  )
+                ]
+            ),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Column(
@@ -140,14 +155,14 @@ class EditAccountState extends ConsumerState<EditAccount>
   pickImage(ImageSource src) async {
     try {
       final image =
-          await ImagePicker().pickImage(source: src, imageQuality: 50);
+          await ImagePicker().pickImage(source: src, imageQuality: 75);
       if (image != null) {
         if (mounted) {
           Navigator.pop(context);
         }
-        // ref
-        //     .read(profilePictureRegisterNotifierProvider.notifier)
-        //     .addNewProfilePicture(File(image.path));
+        ref
+            .read(editProfilePictureUserNotifierProvider.notifier)
+            .editProfilePicture(File(image.path));
       } else {
         if (mounted) {
           Navigator.pop(context);
@@ -160,16 +175,95 @@ class EditAccountState extends ConsumerState<EditAccount>
     }
   }
 
+  void updatePseudo() {
+    if (_pseudoController.text.trim().isNotEmpty &&
+        _pseudoController.text != ref.read(userNotifierProvider).pseudo &&
+        _pseudoController.text.length >= 3) {
+      ref.read(editPseudoUserNotifierProvider.notifier).editPseudo(true);
+    } else {
+      ref.read(editPseudoUserNotifierProvider.notifier).editPseudo(false);
+    }
+  }
+
+  Future<void> _saveModifUser() async {
+    //logic à modifier lorsque câbler avec le back
+    try {
+      Map<String, dynamic> mapUser = {
+        "id": 1,
+        "token": "tokenTest1234",
+        "email": "ccommunay@gmail.com",
+        "pseudo": _pseudoController.text,
+        "gender": _selectedGender,
+        "birthday": _dateBirthday.toString(),
+        "nationality": _selectedCountry,
+        "profilePictureUrl": "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+        "validCGU": true,
+        "validPrivacyPolicy": true,
+        "validEmail": false
+      };
+      User user = User.fromJSON(mapUser);
+      ref.read(userNotifierProvider.notifier).updateUser(user);
+
+      _pseudoController.text = user.pseudo;
+      ref
+          .read(editProfilePictureUserNotifierProvider.notifier)
+          .clearEditProfilePicture();
+      ref.read(editPseudoUserNotifierProvider.notifier).clearPseudo();
+      ref
+          .read(editGenderUserNotifierProvider.notifier)
+          .clearGender(user.gender);
+      ref
+          .read(editBirthdayUserNotifierProvider.notifier)
+          .clearBirthday(Helpers.convertStringToDateTime(user.birthday));
+      ref
+          .read(editNationalityUserNotifierProvider.notifier)
+          .clearNationality(user.nationality);
+      
+      messageUser(context, AppLocalization.of(context).translate("edit_account_screen", "message_success_update_account"));
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      messageUser(context, AppLocalization.of(context).translate("general", "message_error"));
+    }
+  }
+
+  Future<void> _canceledModifUser() async {
+    _pseudoController.text = user.pseudo;
+    ref
+        .read(editProfilePictureUserNotifierProvider.notifier)
+        .clearEditProfilePicture();
+    ref.read(editPseudoUserNotifierProvider.notifier).clearPseudo();
+    ref.read(editGenderUserNotifierProvider.notifier).clearGender(user.gender);
+    ref
+        .read(editBirthdayUserNotifierProvider.notifier)
+        .clearBirthday(Helpers.convertStringToDateTime(user.birthday));
+    ref
+        .read(editNationalityUserNotifierProvider.notifier)
+        .clearNationality(user.nationality);
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _pseudoController = TextEditingController(text: ref.read(userNotifierProvider).pseudo);
+    _pseudoController =
+        TextEditingController(text: ref.read(userNotifierProvider).pseudo);
     _pseudoFocusNode = FocusNode();
+    _pseudoController.addListener(() {
+      updatePseudo();
+    });
 
-    _dateBirthday = Helpers.convertStringToDateTime(ref.read(userNotifierProvider).birthday);
-
+    ref
+        .read(editGenderUserNotifierProvider.notifier)
+        .initGender(ref.read(userNotifierProvider).gender);
+    ref.read(editBirthdayUserNotifierProvider.notifier).initBirthday(
+        Helpers.convertStringToDateTime(
+            ref.read(userNotifierProvider).birthday));
+    ref
+        .read(editNationalityUserNotifierProvider.notifier)
+        .initNationality(ref.read(userNotifierProvider).nationality);
   }
 
   @override
@@ -182,6 +276,14 @@ class EditAccountState extends ConsumerState<EditAccount>
       });
     }
     super.didChangeMetrics();
+  }
+
+  @override
+  void deactivate() {
+    _pseudoController.removeListener(() {
+      updatePseudo();
+    });
+    super.deactivate();
   }
 
   @override
@@ -211,6 +313,15 @@ class EditAccountState extends ConsumerState<EditAccount>
 
     localeLanguage = ref.watch(localeLanguageNotifierProvider);
     user = ref.watch(userNotifierProvider);
+    editPictureProfile = ref.watch(editProfilePictureUserNotifierProvider);
+    _selectedGender = ref.watch(editGenderUserNotifierProvider);
+    _dateBirthday = ref.watch(editBirthdayUserNotifierProvider);
+    _selectedCountry = ref.watch(editNationalityUserNotifierProvider);
+
+    final editProfile = ref.watch(editProfileNotifierProvider);
+    if (editProfile.asData != null) {
+      isEdit = editProfile.asData!.value;
+    }
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
@@ -259,9 +370,11 @@ class EditAccountState extends ConsumerState<EditAccount>
 
   Widget _editAccount() {
     return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      physics:
+          const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       child: Padding(
-        padding: EdgeInsets.only(bottom: isEdit ? 110 : 10, left: 20, right: 20.0),
+        padding:
+            EdgeInsets.only(bottom: isEdit ? 120 : 20, left: 20, right: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -269,7 +382,7 @@ class EditAccountState extends ConsumerState<EditAccount>
               height: 20.0,
             ),
             Text(
-              "Tu peux modifier tes informations de ton compte directement ici !",
+             AppLocalization.of(context).translate("edit_account_screen", "content"),
               style: textStyleCustomRegular(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -281,7 +394,7 @@ class EditAccountState extends ConsumerState<EditAccount>
               height: 25.0,
             ),
             Text(
-              "Image de profil",
+              AppLocalization.of(context).translate("edit_account_screen", "picture_profile"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -297,22 +410,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                 width: 155,
                 child: Stack(
                   children: [
-                    user.profilePictureUrl.trim() == ""
+                    editPictureProfile != null
                         ? Container(
-                            height: 155,
-                            width: 155,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                                border: Border.all(color: cBlue)),
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.person,
-                              color: cBlue,
-                              size: 60.0,
-                            ),
-                          )
-                        : Container(
                             height: 155,
                             width: 155,
                             foregroundDecoration: BoxDecoration(
@@ -320,7 +419,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                                 shape: BoxShape.circle,
                                 border: Border.all(color: cBlue),
                                 image: DecorationImage(
-                                    image: NetworkImage(user.profilePictureUrl),
+                                    image: FileImage(editPictureProfile!),
                                     fit: BoxFit.cover,
                                     filterQuality: FilterQuality.high)),
                             decoration: BoxDecoration(
@@ -333,7 +432,45 @@ class EditAccountState extends ConsumerState<EditAccount>
                               color: cBlue,
                               size: 60.0,
                             ),
-                          ),
+                          )
+                        : user.profilePictureUrl.trim() == ""
+                            ? Container(
+                                height: 155,
+                                width: 155,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue)),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.person,
+                                  color: cBlue,
+                                  size: 60.0,
+                                ),
+                              )
+                            : Container(
+                                height: 155,
+                                width: 155,
+                                foregroundDecoration: BoxDecoration(
+                                    color: cGrey.withOpacity(0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            user.profilePictureUrl),
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.high)),
+                                decoration: BoxDecoration(
+                                  color: cGrey.withOpacity(0.2),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: cBlue),
+                                ),
+                                child: const Icon(
+                                  Icons.person,
+                                  color: cBlue,
+                                  size: 60.0,
+                                ),
+                              ),
                     Align(
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(
@@ -344,10 +481,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                               height: 50.0,
                               width: 50.0,
                               alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                  color: cWhite,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).scaffoldBackgroundColor,
                                   shape: BoxShape.circle,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: cBlue,
                                       blurRadius: 5,
@@ -367,7 +504,7 @@ class EditAccountState extends ConsumerState<EditAccount>
               height: 20.0,
             ),
             Text(
-              "Pseudonyme",
+              AppLocalization.of(context).translate("edit_account_screen", "pseudo_profile"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -394,9 +531,9 @@ class EditAccountState extends ConsumerState<EditAccount>
                 },
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
-                        .translate("register_screen", "pseudo"),
-                    hintStyle: textStyleCustomRegular(
-                        Colors.grey, 14 / MediaQuery.of(context).textScaleFactor),
+                        .translate("edit_account_screen", "pseudo_profile"),
+                    hintStyle: textStyleCustomRegular(Colors.grey,
+                        14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
@@ -410,8 +547,9 @@ class EditAccountState extends ConsumerState<EditAccount>
                             },
                             icon: Icon(
                               Icons.clear,
-                              color:
-                                  _pseudoFocusNode.hasFocus ? cBlue : Colors.grey,
+                              color: _pseudoFocusNode.hasFocus
+                                  ? cBlue
+                                  : Colors.grey,
                             ))
                         : const SizedBox()),
               ),
@@ -420,7 +558,7 @@ class EditAccountState extends ConsumerState<EditAccount>
               height: 20.0,
             ),
             Text(
-              "Genre",
+              AppLocalization.of(context).translate("edit_account_screen", "gender_profile"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -444,33 +582,24 @@ class EditAccountState extends ConsumerState<EditAccount>
                   itemBuilder: (_, int index) {
                     var element = genders[index];
 
-                    return user.gender == element["id"]
+                    return _selectedGender == element["id"]
                         ? Column(
                             children: [
                               Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    // ref
-                                    //     .read(genderRegisterNotifierProvider
-                                    //         .notifier)
-                                    //     .clearGender();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: cBlue,
-                                        border: Border.all(
-                                            color: cBlue),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Icon(
-                                        element["icon"],
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite,
-                                        size: 50,
-                                      ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: cBlue,
+                                      border: Border.all(color: cBlue),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  child: Center(
+                                    child: Icon(
+                                      element["icon"],
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      size: 50,
                                     ),
                                   ),
                                 ),
@@ -486,10 +615,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    // ref
-                                    //     .read(genderRegisterNotifierProvider
-                                    //         .notifier)
-                                    //     .choiceGender(element["id"]);
+                                    ref
+                                        .read(editGenderUserNotifierProvider
+                                            .notifier)
+                                        .updateGender(element["id"]);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -518,7 +647,7 @@ class EditAccountState extends ConsumerState<EditAccount>
               height: 20.0,
             ),
             Text(
-              "Date de naissance",
+             AppLocalization.of(context).translate("edit_account_screen", "birthday_profile"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -532,70 +661,63 @@ class EditAccountState extends ConsumerState<EditAccount>
             ),
             Center(
               child: GestureDetector(
-                  onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        locale: localeLanguage == "fr"
-                            ? LocaleType.fr
-                            : LocaleType.en,
-                        theme: DatePickerTheme(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          cancelStyle: textStyleCustomBold(cBlue, 16),
-                          doneStyle: textStyleCustomBold(cBlue, 16),
-                          itemStyle: textStyleCustomBold(
-                              Theme.of(context).iconTheme.color!, 18),
-                        ),
-                        minTime: DateTime(1900, 1, 1),
-                        maxTime: DateTime.now(), onConfirm: (date) {
-                      setState(() {
-                        _dateBirthday = date;
-                      });
-                      //verif 18 years old or not
-                      final verif =
-                          DateTime.now().subtract(const Duration(days: 6570));
-                      if (_dateBirthday!.isBefore(verif)) {
-                        // ref
-                        //     .read(birthdayRegisterNotifierProvider.notifier)
-                        //     .updateBirthday(true);
-                      } else {
-                        // ref
-                        //     .read(birthdayRegisterNotifierProvider.notifier)
-                        //     .updateBirthday(false);
-                      }
-                    }, currentTime: _dateBirthday ?? DateTime.now());
-                  },
-                  child: Container(
-                    height: 34.0,
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1.0,
-                              color:
-                                  Theme.of(context).brightness == Brightness.light
-                                      ? cBlack
-                                      : cWhite)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                          Helpers.formattingDate(
-                              _dateBirthday ?? DateTime.now(), localeLanguage),
-                          style: textStyleCustomBold(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              24),
-                          textScaleFactor: 1.0),
-                    ),
+                onTap: () {
+                  DatePicker.showDatePicker(context,
+                      showTitleActions: true,
+                      locale: localeLanguage == "fr"
+                          ? LocaleType.fr
+                          : LocaleType.en,
+                      theme: DatePickerTheme(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        cancelStyle: textStyleCustomBold(cBlue, 16),
+                        doneStyle: textStyleCustomBold(cBlue, 16),
+                        itemStyle: textStyleCustomBold(
+                            Theme.of(context).iconTheme.color!, 18),
+                      ),
+                      minTime: DateTime(1900, 1, 1),
+                      maxTime: DateTime.now(), onConfirm: (date) {
+                    //verif 18 years old or not
+                    final verif =
+                        DateTime.now().subtract(const Duration(days: 6570));
+                    if (date.isBefore(verif)) {
+                      ref
+                          .read(editBirthdayUserNotifierProvider.notifier)
+                          .updateBirthday(date);
+                    }
+                  }, currentTime: _dateBirthday ?? DateTime.now());
+                },
+                child: Container(
+                  height: 34.0,
+                  decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            width: 1.0,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                        Helpers.formattingDate(
+                            _dateBirthday ?? DateTime.now(), localeLanguage),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            24),
+                        textScaleFactor: 1.0),
                   ),
                 ),
+              ),
             ),
             const SizedBox(
               height: 20.0,
             ),
             Text(
-              "Nationnalité",
+              AppLocalization.of(context).translate("edit_account_screen", "nationality_profile"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -616,22 +738,25 @@ class EditAccountState extends ConsumerState<EditAccount>
                       borderRadius: BorderRadius.circular(5.0)),
                   child: CountryCodePicker(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                    barrierColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                    closeIcon: Icon(Icons.clear, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, size: 28),
                     onChanged: (countryCode) {
-                      setState(() {
-                        _selectedCountry = countryCode.code;
-                      });
+                      if (countryCode.code != null) {
+                        ref
+                            .read(editNationalityUserNotifierProvider.notifier)
+                            .updateNationality(countryCode.code!);
+                      }
                     },
-                    initialSelection: user.nationality,
+                    initialSelection: _selectedCountry,
                     showCountryOnly: true,
                     showOnlyCountryWhenClosed: true,
                     alignLeft: true,
                     boxDecoration: BoxDecoration(
                         color: Theme.of(context).canvasColor,
                         borderRadius: BorderRadius.circular(5.0)),
-                    barrierColor: cBlack.withOpacity(0.5),
-                    dialogSize: Size(MediaQuery.of(context).size.width - 20,
-                        MediaQuery.of(context).size.height / 1.5),
+                    dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
+                        MediaQuery.of(context).size.height / 1.25),
                     textStyle: Theme.of(context).textTheme.titleSmall,
                     dialogTextStyle: Theme.of(context).textTheme.titleSmall,
                     flagWidth: 30,
@@ -648,8 +773,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                       )),
                     ),
                     emptySearchBuilder: (_) => Text(
-                        AppLocalization.of(context)
-                            .translate("register_screen", "empty_search_country"),
+                        AppLocalization.of(context).translate(
+                            "register_screen", "empty_search_country"),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall,
                         textScaleFactor: 1.0),
@@ -677,8 +802,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                 child: SizedBox(
                     height: 50.0,
                     child: ElevatedButton(
-                        onPressed: () async {},
-                        child: Text("Sauvegarder",
+                        onPressed: () async {
+                          await _saveModifUser();
+                        },
+                        child: Text(AppLocalization.of(context).translate("general", "btn_save"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -697,8 +824,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                           foregroundColor: Colors.white,
                           shadowColor: Colors.transparent,
                         ),
-                        onPressed: () async {},
-                        child: Text("Annuler",
+                        onPressed: () async {
+                          await _canceledModifUser();
+                        },
+                        child: Text(AppLocalization.of(context).translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack

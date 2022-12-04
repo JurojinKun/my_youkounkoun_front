@@ -6,7 +6,9 @@
         "profile": "Profil",
         "btn_confirm": "Confirmer",
         "btn_cancel": "Annuler",
-        "btn_send": "Envoyer"
+        "btn_send": "Envoyer",
+        "btn_save": "Sauvegarder",
+        "message_error": "Un problème est survenu"
     },
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"
@@ -90,7 +92,14 @@
         "logout_content": "Es-tu sûr de vouloir te déconnecter ?"
     },
     "edit_account_screen": {
-        "my_account": "Informations du compte"
+        "my_account": "Informations du compte",
+        "message_success_update_account": "Ton profil a bien été mis à jour",
+        "content": "Tu peux modifier tes informations de ton compte directement ici !",
+        "picture_profile": "Image de profil",
+        "pseudo_profile": "Pseudonyme",
+        "gender_profile": "Genre",
+        "birthday_profile": "Date de naissance",
+        "nationality_profile": "Nationnalité"
     },
     "edit_security_screen": {
         "security_account": "Sécurité du compte"

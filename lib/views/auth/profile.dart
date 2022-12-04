@@ -22,20 +22,10 @@ class Profile extends ConsumerStatefulWidget {
 class ProfileState extends ConsumerState<Profile>
     with AutomaticKeepAliveClientMixin {
   late User user;
-  late IconData _gender;
-  late DateDuration ageUser;
 
   @override
   void initState() {
     super.initState();
-
-    if (ref.read(userNotifierProvider).gender == "Male") {
-      _gender = Icons.male;
-    } else {
-      _gender = Icons.female;
-    }
-
-    ageUser = AgeCalculator.age(Helpers.convertStringToDateTime(ref.read(userNotifierProvider).birthday));
   }
 
   @override
@@ -139,20 +129,22 @@ class ProfileState extends ConsumerState<Profile>
                       textScaleFactor: 1.0,
                       textAlign: TextAlign.center,
                     ),
-                    Flag.fromString(
-                      user.nationality,
-                      height: 25,
-                      width: 50,
-                      fit: BoxFit.contain,
-                      replacement: const SizedBox(),
-                    )
+                    Flag.flagsCode.contains(user.nationality.toUpperCase())
+                        ? Flag.fromString(
+                            user.nationality.toUpperCase(),
+                            height: 25,
+                            width: 50,
+                            fit: BoxFit.contain,
+                            replacement: const SizedBox(),
+                          )
+                        : const SizedBox()
                   ],
                 ),
                 const SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(_gender,
+                    Icon(user.gender == "Male" ? Icons.male : Icons.female,
                         color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
                             : cWhite),
@@ -165,7 +157,10 @@ class ProfileState extends ConsumerState<Profile>
                           18),
                     ),
                     Text(
-                        ageUser.years.toString() +
+                        AgeCalculator.age(Helpers.convertStringToDateTime(
+                                    user.birthday))
+                                .years
+                                .toString() +
                             AppLocalization.of(context)
                                 .translate("profile_screen", "years_old"),
                         style: textStyleCustomBold(

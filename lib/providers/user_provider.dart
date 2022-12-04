@@ -23,6 +23,10 @@ class UserProvider extends StateNotifier<User> {
     state = user;
   }
 
+  Future<void> updateUser(User user) async {
+    state = user;
+  }
+
   void clearUser() {
     state = User(
         id: 0,

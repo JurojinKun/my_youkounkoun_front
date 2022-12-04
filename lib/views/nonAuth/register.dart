@@ -68,8 +68,22 @@ class RegisterState extends ConsumerState<Register>
                 topLeft: Radius.circular(15.0),
                 topRight: Radius.circular(15.0))),
         builder: (BuildContext context) {
-          return SizedBox(
+          return Container(
             height: Platform.isIOS ? 180 : 160,
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)
+              ),
+              boxShadow: [
+                  BoxShadow(
+                    color: cBlue.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: const Offset(0.0, -5.0),
+                  )
+                ]
+            ),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Column(
@@ -1091,7 +1105,9 @@ class RegisterState extends ConsumerState<Register>
                     borderRadius: BorderRadius.circular(5.0)),
                 child: CountryCodePicker(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                    barrierColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                    closeIcon: Icon(Icons.clear, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, size: 28),
                   onChanged: (countryCode) {
                     setState(() {
                       _selectedCountry = countryCode.code;
@@ -1104,9 +1120,8 @@ class RegisterState extends ConsumerState<Register>
                   boxDecoration: BoxDecoration(
                       color: Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(5.0)),
-                  barrierColor: cBlack.withOpacity(0.5),
-                  dialogSize: Size(MediaQuery.of(context).size.width - 20,
-                      MediaQuery.of(context).size.height / 1.5),
+                  dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
+                      MediaQuery.of(context).size.height / 1.25),
                   textStyle: Theme.of(context).textTheme.titleSmall,
                   dialogTextStyle: Theme.of(context).textTheme.titleSmall,
                   flagWidth: 30,
@@ -1277,10 +1292,10 @@ class RegisterState extends ConsumerState<Register>
                             height: 50.0,
                             width: 50.0,
                             alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                                color: cWhite,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).scaffoldBackgroundColor,
                                 shape: BoxShape.circle,
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                     color: cBlue,
                                     blurRadius: 5,
