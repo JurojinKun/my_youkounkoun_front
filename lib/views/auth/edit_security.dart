@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
+import 'package:my_boilerplate/providers/edit_security_account.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 
@@ -24,10 +27,65 @@ class EditSecurityState extends ConsumerState<EditSecurity>
       _actualPasswordFocusNode,
       _newPasswordFocusNode;
 
-  bool isEdit = false;
   bool _isKeyboard = false;
   bool _actualPasswordObscure = true;
   bool _newPasswordObscure = true;
+
+  bool validEditMail = false;
+  bool validEditPassword = false;
+
+  void _updateMail() {
+    if (_mailController.text.trim().isNotEmpty &&
+        _mailController.text != ref.read(userNotifierProvider).email &&
+        EmailValidator.validate(_mailController.text)) {
+      ref.read(editMailUserNotifierProvider.notifier).updateEditMail(true);
+    } else {
+      ref.read(editMailUserNotifierProvider.notifier).updateEditMail(false);
+    }
+  }
+
+  void _updatePassword() {
+    if (_actualPasswordController.text.trim().isNotEmpty &&
+        _newPasswordController.text.trim().isNotEmpty &&
+        _actualPasswordController.text != _newPasswordController.text &&
+        _newPasswordController.text.length >= 3) {
+      ref
+          .read(editPasswordUserNotifierProvider.notifier)
+          .updateEditPassword(true);
+    } else {
+      ref
+          .read(editPasswordUserNotifierProvider.notifier)
+          .updateEditPassword(false);
+    }
+  }
+
+  Future<void> _saveUpdateMail() async {
+    try {
+      print("save update mail");
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future<void> _saveUpdatePassword() async {
+    try {
+      print("save update password");
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  void _cancelUpdateSecurity() {
+    _mailController.text = ref.read(userNotifierProvider).email;
+    _actualPasswordController.clear();
+    _newPasswordController.clear();
+    ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
+    ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
+  }
 
   @override
   void initState() {
@@ -42,6 +100,16 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     _mailFocusNode = FocusNode();
     _actualPasswordFocusNode = FocusNode();
     _newPasswordFocusNode = FocusNode();
+
+    _mailController.addListener(() {
+      _updateMail();
+    });
+    _actualPasswordController.addListener(() {
+      _updatePassword();
+    });
+    _newPasswordController.addListener(() {
+      _updatePassword();
+    });
   }
 
   @override
@@ -54,6 +122,20 @@ class EditSecurityState extends ConsumerState<EditSecurity>
       });
     }
     super.didChangeMetrics();
+  }
+
+  @override
+  void deactivate() {
+    _mailController.removeListener(() {
+      _updateMail();
+    });
+    _actualPasswordController.removeListener(() {
+      _updatePassword();
+    });
+    _newPasswordController.removeListener(() {
+      _updatePassword();
+    });
+    super.deactivate();
   }
 
   @override
@@ -72,6 +154,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
 
   @override
   Widget build(BuildContext context) {
+    validEditMail = ref.watch(editMailUserNotifierProvider);
+    validEditPassword = ref.watch(editPasswordUserNotifierProvider);
+
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
@@ -112,7 +197,15 @@ class EditSecurityState extends ConsumerState<EditSecurity>
           body: Stack(
             children: [
               _editSecurity(),
-              isEdit && !_isKeyboard ? _saveEditSecurity() : const SizedBox()
+              !_isKeyboard
+                  ? (validEditMail && validEditPassword)
+                      ? _errorSaveSecurity()
+                      : validEditMail
+                          ? _saveEditMail()
+                          : validEditPassword
+                              ? _saveEditPassword()
+                              : const SizedBox()
+                  : const SizedBox()
             ],
           )),
     );
@@ -122,9 +215,13 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
         child: Padding(
-          padding: EdgeInsets.only(bottom: isEdit ? 110 : 10, left: 20, right: 20),
+          padding: EdgeInsets.only(
+              bottom: validEditMail || validEditPassword ? 110 : 10,
+              left: 20,
+              right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -132,7 +229,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 height: 20.0,
               ),
               Text(
-                "Tu peux modifier la sécurité de ton compte directement ici !",
+                "Tu peux modifier la sécurité de ton compte directement ici.\nAttention, tu ne pourras pas modifier ton mail et ton mot de passe en même temps !",
                 style: textStyleCustomRegular(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -300,7 +397,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     );
   }
 
-  Widget _saveEditSecurity() {
+  Widget _saveEditMail() {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -316,8 +413,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 child: SizedBox(
                     height: 50.0,
                     child: ElevatedButton(
-                        onPressed: () async {},
-                        child: Text("Sauvegarder",
+                        onPressed: () async {
+                          await _saveUpdateMail();
+                        },
+                        child: Text("Modifier mail",
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -336,7 +435,67 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                           foregroundColor: Colors.white,
                           shadowColor: Colors.transparent,
                         ),
-                        onPressed: () async {},
+                        onPressed: () {
+                          _cancelUpdateSecurity();
+                        },
+                        child: Text("Annuler",
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                20),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 1.0))),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _saveEditPassword() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        height: 100.0,
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: SizedBox(
+                    height: 50.0,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          await _saveUpdatePassword();
+                        },
+                        child: Text("Modifier mot de passe",
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                20),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 1.0))),
+              ),
+              const SizedBox(width: 15.0),
+              Expanded(
+                child: SizedBox(
+                    height: 50.0,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: cRed,
+                          foregroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          _cancelUpdateSecurity();
+                        },
                         child: Text("Annuler",
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
@@ -348,6 +507,24 @@ class EditSecurityState extends ConsumerState<EditSecurity>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _errorSaveSecurity() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        height: 100.0,
+        alignment: Alignment.center,
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Text(
+                "Impossible de modifier ton mail et ton mot de passe en même temps ! Chaque chose en son temps..",
+                style: textStyleCustomBold(cRed, 16),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0)),
       ),
     );
   }

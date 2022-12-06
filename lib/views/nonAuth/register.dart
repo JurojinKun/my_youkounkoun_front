@@ -561,7 +561,7 @@ class RegisterState extends ConsumerState<Register>
                           onPressed: () async {
                             if (_mailController.text.isNotEmpty &&
                                 EmailValidator.validate(_mailController.text) &&
-                                _passwordController.text.isNotEmpty &&
+                                _passwordController.text.isNotEmpty && _passwordController.text.length >= 3 &&
                                 _validCGU &&
                                 _validPrivacypolicy) {
                               setState(() {

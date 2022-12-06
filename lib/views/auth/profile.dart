@@ -137,7 +137,16 @@ class ProfileState extends ConsumerState<Profile>
                             fit: BoxFit.contain,
                             replacement: const SizedBox(),
                           )
-                        : const SizedBox()
+                        : Flag.flagsCode
+                                .contains(user.nationality.toLowerCase())
+                            ? Flag.fromString(
+                                user.nationality.toLowerCase(),
+                                height: 25,
+                                width: 50,
+                                fit: BoxFit.contain,
+                                replacement: const SizedBox(),
+                              )
+                            : const SizedBox()
                   ],
                 ),
                 const SizedBox(height: 10.0),
