@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +16,8 @@ import 'package:my_boilerplate/providers/edit_account_provider.dart';
 import 'package:my_boilerplate/providers/locale_language_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image/image.dart' as img;
 
 class EditAccount extends ConsumerStatefulWidget {
   const EditAccount({Key? key}) : super(key: key);
@@ -155,14 +158,25 @@ class EditAccountState extends ConsumerState<EditAccount>
   pickImage(ImageSource src) async {
     try {
       final image =
-          await ImagePicker().pickImage(source: src, imageQuality: 75);
+          await ImagePicker().pickImage(source: src, imageQuality: 75, maxHeight: 750, maxWidth: 750);
       if (image != null) {
+        File finalFile;
+        if (!image.path.contains("jpg") || !image.path.contains("jpeg")) {
+          final tempDir = await getTemporaryDirectory();
+          int random = math.Random().nextInt(10000);
+
+          final decodeImg = img.decodeImage(File(image.path).readAsBytesSync());
+          finalFile = File('${tempDir.path}/img_$random.jpg')
+            ..writeAsBytesSync(img.encodeJpg(decodeImg!, quality: 75));
+        } else {
+          finalFile = File(image.path);
+        }
         if (mounted) {
           Navigator.pop(context);
         }
         ref
             .read(editProfilePictureUserNotifierProvider.notifier)
-            .editProfilePicture(File(image.path));
+            .editProfilePicture(finalFile);
       } else {
         if (mounted) {
           Navigator.pop(context);
