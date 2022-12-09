@@ -5,9 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/providers/edit_security_account.dart';
+import 'package:my_boilerplate/models/user_model.dart';
+import 'package:my_boilerplate/providers/edit_security_account_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 
@@ -22,17 +24,22 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     with WidgetsBindingObserver {
   late TextEditingController _mailController,
       _actualPasswordController,
-      _newPasswordController;
+      _newPasswordController,
+      _validModifPasswordController;
   late FocusNode _mailFocusNode,
       _actualPasswordFocusNode,
-      _newPasswordFocusNode;
+      _newPasswordFocusNode,
+      _validModifPasswordFocusNode;
 
   bool _isKeyboard = false;
   bool _actualPasswordObscure = true;
   bool _newPasswordObscure = true;
+  bool _validModifPasswordObscure = true;
+  bool _isModifMail = false;
 
   bool validEditMail = false;
   bool validEditPassword = false;
+  bool validModif = false;
 
   void _updateMail() {
     if (_mailController.text.trim().isNotEmpty &&
@@ -59,19 +66,265 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     }
   }
 
-  Future<void> _saveUpdateMail() async {
-    try {
-      print("save update mail");
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+  _showVerifModif() {
+    double sizeModalVerif = Platform.isIOS
+        ? MediaQuery.of(context).size.height / 2 + 20.0
+        : MediaQuery.of(context).size.height / 2;
+
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: false,
+        enableDrag: true,
+        elevation: 6,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0))),
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return SafeArea(
+              left: false,
+              right: false,
+              bottom: false,
+              top: true,
+              child: GestureDetector(
+                onTap: () {
+                  Helpers.hideKeyboard(context);
+                  sizeModalVerif = Platform.isIOS
+                      ? MediaQuery.of(context).size.height / 2 + 20.0
+                      : MediaQuery.of(context).size.height / 2;
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 750),
+                  height: sizeModalVerif,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: cBlue.withOpacity(0.5),
+                          blurRadius: 10,
+                          offset: const Offset(0.0, -5.0),
+                        )
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Text(
+                                    AppLocalization.of(context).translate("edit_security_screen", "verify_validity"),
+                                    style: textStyleCustomBold(
+                                        Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                        16),
+                                    textAlign: TextAlign.left,
+                                    textScaleFactor: 1.0),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(Icons.clear,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite))
+                          ],
+                        ),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 35,
+                              ),
+                              Text(
+                                  AppLocalization.of(context).translate("edit_security_screen", "content_verify"),
+                                  style: textStyleCustomMedium(
+                                      Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      14),
+                                  textScaleFactor: 1.0),
+                              const SizedBox(
+                                height: 25.0,
+                              ),
+                              TextField(
+                                controller: _validModifPasswordController,
+                                focusNode: _validModifPasswordFocusNode,
+                                maxLines: 1,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.text,
+                                obscureText: _validModifPasswordObscure,
+                                onTap: () {
+                                  if (Platform.isIOS) {
+                                    sizeModalVerif = sizeModalVerif ==
+                                            MediaQuery.of(context).size.height /
+                                                    2 +
+                                                20.0
+                                        ? MediaQuery.of(context).size.height
+                                        : MediaQuery.of(context).size.height /
+                                                2 +
+                                            20.0;
+                                  } else {
+                                    sizeModalVerif = sizeModalVerif ==
+                                            MediaQuery.of(context).size.height /
+                                                2
+                                        ? MediaQuery.of(context).size.height
+                                        : MediaQuery.of(context).size.height /
+                                            2;
+                                  }
+                                },
+                                onChanged: (val) {
+                                  setState(() {
+                                    val = _validModifPasswordController.text;
+                                  });
+                                },
+                                onSubmitted: (val) {
+                                  Helpers.hideKeyboard(context);
+                                  sizeModalVerif = Platform.isIOS
+                                      ? MediaQuery.of(context).size.height / 2 +
+                                          20.0
+                                      : MediaQuery.of(context).size.height / 2;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: AppLocalization.of(context).translate("edit_security_screen", "password"),
+                                    hintStyle: textStyleCustomRegular(
+                                        Colors.grey,
+                                        14 /
+                                            MediaQuery.of(context)
+                                                .textScaleFactor),
+                                    labelStyle: textStyleCustomRegular(
+                                        cBlue,
+                                        14 /
+                                            MediaQuery.of(context)
+                                                .textScaleFactor),
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: _validModifPasswordFocusNode
+                                                .hasFocus
+                                            ? cBlue
+                                            : Colors.grey),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _validModifPasswordObscure =
+                                                !_validModifPasswordObscure;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _validModifPasswordObscure
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: _validModifPasswordFocusNode
+                                                  .hasFocus
+                                              ? cBlue
+                                              : Colors.grey,
+                                        ))),
+                              ),
+                              const SizedBox(
+                                height: 45.0,
+                              ),
+                              SizedBox(
+                                  height: 50.0,
+                                  width: 125.0,
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                        if (_validModifPasswordController
+                                                .text.isNotEmpty &&
+                                            !validModif) {
+                                          setState(() {
+                                            validModif = true;
+                                          });
+                                          await _saveUpdateSecurity();
+                                          setState(() {
+                                            validModif = false;
+                                          });
+                                        }
+                                      },
+                                      child: validModif
+                                          ? const SizedBox(
+                                              height: 15.0,
+                                              width: 15.0,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: cWhite,
+                                                  strokeWidth: 1.0,
+                                                ),
+                                              ),
+                                            )
+                                          : Text(AppLocalization.of(context).translate("general", "btn_validate"),
+                                              style: textStyleCustomMedium(
+                                                  Theme.of(context)
+                                                              .brightness ==
+                                                          Brightness.light
+                                                      ? cBlack
+                                                      : cWhite,
+                                                  20),
+                                              textAlign: TextAlign.center,
+                                              textScaleFactor: 1.0)))
+                            ],
+                          ),
+                        ))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
   }
 
-  Future<void> _saveUpdatePassword() async {
+  Future<void> _saveUpdateSecurity() async {
     try {
-      print("save update password");
+      if (_isModifMail) {
+        //logic ws vérification bon mot de passe pour modifier le mail
+        await Future.delayed(const Duration(seconds: 3));
+
+        Map<String, dynamic> mapUser = {
+          "id": 1,
+          "token": "tokenTest1234",
+          "email": _mailController.text,
+          "pseudo": ref.read(userNotifierProvider).pseudo,
+          "gender": ref.read(userNotifierProvider).gender,
+          "birthday": ref.read(userNotifierProvider).birthday,
+          "nationality": ref.read(userNotifierProvider).nationality,
+          "profilePictureUrl":
+              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+          "validCGU": true,
+          "validPrivacyPolicy": true,
+          "validEmail": false
+        };
+        User user = User.fromJSON(mapUser);
+        ref.read(userNotifierProvider.notifier).updateUser(user);
+      } else {
+        //logic ws vérification bon mot de passe pour modifier le mot de passe
+        await Future.delayed(const Duration(seconds: 3));
+      }
+
+      _mailController.text = ref.read(userNotifierProvider).email;
+      _actualPasswordController.clear();
+      _newPasswordController.clear();
+      ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
+      ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -96,10 +349,12 @@ class EditSecurityState extends ConsumerState<EditSecurity>
         TextEditingController(text: ref.read(userNotifierProvider).email);
     _actualPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
+    _validModifPasswordController = TextEditingController();
 
     _mailFocusNode = FocusNode();
     _actualPasswordFocusNode = FocusNode();
     _newPasswordFocusNode = FocusNode();
+    _validModifPasswordFocusNode = FocusNode();
 
     _mailController.addListener(() {
       _updateMail();
@@ -145,10 +400,12 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     _mailFocusNode.dispose();
     _actualPasswordFocusNode.dispose();
     _newPasswordFocusNode.dispose();
+    _validModifPasswordController.dispose();
 
     _mailController.dispose();
     _actualPasswordController.dispose();
     _newPasswordController.dispose();
+    _validModifPasswordFocusNode.dispose();
     super.dispose();
   }
 
@@ -229,7 +486,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 height: 20.0,
               ),
               Text(
-                "Tu peux modifier la sécurité de ton compte directement ici.\nAttention, tu ne pourras pas modifier ton mail et ton mot de passe en même temps !",
+                AppLocalization.of(context).translate("edit_security_screen", "content"),
                 style: textStyleCustomRegular(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -241,7 +498,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 height: 25.0,
               ),
               Text(
-                "Email",
+                AppLocalization.of(context).translate("edit_security_screen", "mail"),
                 style: textStyleCustomBold(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -268,7 +525,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                   Helpers.hideKeyboard(context);
                 },
                 decoration: InputDecoration(
-                    hintText: "Email",
+                    hintText: AppLocalization.of(context).translate("edit_security_screen", "mail"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
@@ -293,7 +550,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 height: 45.0,
               ),
               Text(
-                "Mot de passe",
+                AppLocalization.of(context).translate("edit_security_screen", "password"),
                 style: textStyleCustomBold(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -323,7 +580,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                   });
                 },
                 decoration: InputDecoration(
-                    hintText: "Actuel mot de passe",
+                    hintText: AppLocalization.of(context).translate("edit_security_screen", "actual_password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
@@ -366,7 +623,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                   Helpers.hideKeyboard(context);
                 },
                 decoration: InputDecoration(
-                    hintText: "Nouveau mot de passe",
+                    hintText: AppLocalization.of(context).translate("edit_security_screen", "new_password"),
                     hintStyle: textStyleCustomRegular(Colors.grey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
@@ -414,9 +671,13 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                     height: 50.0,
                     child: ElevatedButton(
                         onPressed: () async {
-                          await _saveUpdateMail();
+                          if (_validModifPasswordController.text.isNotEmpty) {
+                            _validModifPasswordController.clear();
+                          }
+                          _isModifMail = true;
+                          await _showVerifModif();
                         },
-                        child: Text("Modifier mail",
+                        child: Text(AppLocalization.of(context).translate("edit_security_screen", "update_mail"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -438,7 +699,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         onPressed: () {
                           _cancelUpdateSecurity();
                         },
-                        child: Text("Annuler",
+                        child: Text(AppLocalization.of(context).translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -471,9 +732,13 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                     height: 50.0,
                     child: ElevatedButton(
                         onPressed: () async {
-                          await _saveUpdatePassword();
+                          if (_validModifPasswordController.text.isNotEmpty) {
+                            _validModifPasswordController.clear();
+                          }
+                          _isModifMail = false;
+                          await _showVerifModif();
                         },
-                        child: Text("Modifier mot de passe",
+                        child: Text(AppLocalization.of(context).translate("edit_security_screen", "update_password"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -496,7 +761,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         onPressed: () {
                           _cancelUpdateSecurity();
                         },
-                        child: Text("Annuler",
+                        child: Text(AppLocalization.of(context).translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -521,7 +786,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-                "Impossible de modifier ton mail et ton mot de passe en même temps ! Chaque chose en son temps..",
+                AppLocalization.of(context).translate("edit_security_screen", "error_update"),
                 style: textStyleCustomBold(cRed, 16),
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.0)),

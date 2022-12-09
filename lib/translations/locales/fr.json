@@ -8,6 +8,7 @@
         "btn_cancel": "Annuler",
         "btn_send": "Envoyer",
         "btn_save": "Sauvegarder",
+        "btn_validate": "Valider",
         "message_error": "Un problème est survenu"
     },
     "connectivity_screen": {
@@ -102,7 +103,17 @@
         "nationality_profile": "Nationnalité"
     },
     "edit_security_screen": {
-        "security_account": "Sécurité du compte"
+        "security_account": "Sécurité du compte",
+        "content": "Tu peux modifier la sécurité de ton compte directement ici.\nAttention, tu ne pourras pas modifier ton mail et ton mot de passe en même temps !",
+        "mail": "Email",
+        "password": "Mot de passe",
+        "actual_password": "Actuel mot de passe",
+        "new_password": "Nouveau mot de passe",
+        "update_mail": "Modifier mail",
+        "update_password": "Modifier mot de passe",
+        "error_update": "Impossible de modifier ton mail et ton mot de passe en même temps ! Chaque chose en son temps..",
+        "verify_validity": "Vérification pour valider la modification",
+        "content_verify": "Entre ton mot de passe actuel afin de vérifier et valider ta modification en cours"
     },
     "validate_user_screen": {
         "send_mail": "Un mail vous a été envoyé",

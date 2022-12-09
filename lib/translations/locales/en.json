@@ -8,6 +8,7 @@
         "btn_cancel": "Cancel",
         "btn_send": "Send",
         "btn_save": "Save",
+        "btn_validate": "Validate",
         "message_error": "A problem occurred"
     },
     "connectivity_screen": {
@@ -102,7 +103,17 @@
         "nationality_profile": "Nationality"
     },
     "edit_security_screen": {
-        "security_account": "Account security"
+        "security_account": "Account security",
+        "content": "You can change the security of your account directly here.\nPlease note that you will not be able to change your email and your password at the same time !",
+        "mail": "Email",
+        "password": "Password",
+        "actual_password": "Current password",
+        "new_password": "New password",
+        "update_mail": "Edit mail",
+        "update_password": "Edit password",
+        "error_update": "You can't change your email and password at the same time! One thing at a time..",
+        "verify_validity": "Check to validate the change",
+        "content_verify": "Enter your current password to verify and validate your current change"
     },
     "validate_user_screen": {
         "send_mail": "An email has been sent to you",
