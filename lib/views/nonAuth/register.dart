@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:my_boilerplate/constantes/constantes.dart';
@@ -18,8 +18,6 @@ import 'package:my_boilerplate/providers/locale_language_provider.dart';
 import 'package:my_boilerplate/providers/register_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as img;
 
 class Register extends ConsumerStatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -74,19 +72,17 @@ class RegisterState extends ConsumerState<Register>
           return Container(
             height: Platform.isIOS ? 180 : 160,
             decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0)
-              ),
-              boxShadow: [
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15.0),
+                    topRight: Radius.circular(15.0)),
+                boxShadow: [
                   BoxShadow(
                     color: cBlue.withOpacity(0.5),
                     blurRadius: 10,
                     offset: const Offset(0.0, -5.0),
                   )
-                ]
-            ),
+                ]),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Column(
@@ -175,30 +171,59 @@ class RegisterState extends ConsumerState<Register>
 
   pickImage(ImageSource src) async {
     try {
-      final image =
-          await ImagePicker().pickImage(source: src, imageQuality: 75, maxHeight: 750, maxWidth: 750);
+      final image = await ImagePicker().pickImage(
+          source: src, imageQuality: 75, maxHeight: 1800, maxWidth: 1800);
       if (image != null) {
-        File finalFile;
-        if (!image.path.contains("jpg") || !image.path.contains("jpeg")) {
-          final tempDir = await getTemporaryDirectory();
-          int random = math.Random().nextInt(10000);
-
-          final decodeImg = img.decodeImage(File(image.path).readAsBytesSync());
-          finalFile = File('${tempDir.path}/img_$random.jpg')
-            ..writeAsBytesSync(img.encodeJpg(decodeImg!, quality: 75));
-        } else {
-          finalFile = File(image.path);
-        }
+        await cropImage(image.path);
         if (mounted) {
           Navigator.pop(context);
         }
-        ref
-            .read(profilePictureRegisterNotifierProvider.notifier)
-            .addNewProfilePicture(finalFile);
       } else {
         if (mounted) {
           Navigator.pop(context);
         }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  cropImage(String filePath) async {
+    try {
+      final croppedImage = await ImageCropper().cropImage(
+          uiSettings: [
+            AndroidUiSettings(
+              dimmedLayerColor: cBlack,
+                toolbarTitle: "Format de l'image",
+                toolbarColor: Theme.of(context).scaffoldBackgroundColor,
+                toolbarWidgetColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                cropFrameColor: cWhite,
+                cropGridColor: cWhite,
+                activeControlsWidgetColor: cBlue,
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false,
+                hideBottomControls: true,
+                ),
+            IOSUiSettings(
+              title: "Format de l'image",
+            ),
+          ],
+          sourcePath: filePath,
+          maxWidth: 1080,
+          maxHeight: 1080,
+          compressQuality: 75,
+          compressFormat: ImageCompressFormat.jpg,
+          cropStyle: CropStyle.circle);
+      if (croppedImage != null) {
+        File finalFile = File(croppedImage.path);
+        ref
+            .read(profilePictureRegisterNotifierProvider.notifier)
+            .addNewProfilePicture(finalFile);
       }
     } catch (e) {
       if (kDebugMode) {
@@ -575,7 +600,8 @@ class RegisterState extends ConsumerState<Register>
                           onPressed: () async {
                             if (_mailController.text.isNotEmpty &&
                                 EmailValidator.validate(_mailController.text) &&
-                                _passwordController.text.isNotEmpty && _passwordController.text.length >= 3 &&
+                                _passwordController.text.isNotEmpty &&
+                                _passwordController.text.length >= 3 &&
                                 _validCGU &&
                                 _validPrivacypolicy) {
                               setState(() {
@@ -802,9 +828,7 @@ class RegisterState extends ConsumerState<Register>
                                   child: Container(
                                     decoration: BoxDecoration(
                                         color: cBlue,
-                                        border: Border.all(
-                                            color:
-                                                cBlue),
+                                        border: Border.all(color: cBlue),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: Center(
@@ -1119,9 +1143,17 @@ class RegisterState extends ConsumerState<Register>
                     borderRadius: BorderRadius.circular(5.0)),
                 child: CountryCodePicker(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
-                    barrierColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
-                    closeIcon: Icon(Icons.clear, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, size: 28),
+                  backgroundColor: Theme.of(context)
+                      .scaffoldBackgroundColor
+                      .withOpacity(0.8),
+                  barrierColor: Theme.of(context)
+                      .scaffoldBackgroundColor
+                      .withOpacity(0.8),
+                  closeIcon: Icon(Icons.clear,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      size: 28),
                   onChanged: (countryCode) {
                     setState(() {
                       _selectedCountry = countryCode.code;
@@ -1307,7 +1339,8 @@ class RegisterState extends ConsumerState<Register>
                             width: 50.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 shape: BoxShape.circle,
                                 boxShadow: const [
                                   BoxShadow(

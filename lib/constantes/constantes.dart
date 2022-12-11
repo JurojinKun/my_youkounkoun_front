@@ -65,11 +65,13 @@ const Color cGrey = Colors.grey;
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: const Color(0XFFF8FFFF),
+  backgroundColor: Colors.purple,
   primarySwatch: Colors.blue,
 );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0XFF151515),
+  backgroundColor: Colors.purple,
   primarySwatch: Colors.blue,
 );
