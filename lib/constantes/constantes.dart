@@ -17,6 +17,7 @@ const String validateUser = "Validate user";
 const String editAccount = "Edit account";
 const String editSecurity = "Edit security";
 const String newConversation = "New conversation";
+const String recentSearches = "Recent searches";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();
@@ -65,13 +66,11 @@ const Color cGrey = Colors.grey;
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: const Color(0XFFF8FFFF),
-  backgroundColor: Colors.purple,
   primarySwatch: Colors.blue,
 );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0XFF151515),
-  backgroundColor: Colors.purple,
   primarySwatch: Colors.blue,
 );

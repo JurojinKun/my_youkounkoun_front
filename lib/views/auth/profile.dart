@@ -184,7 +184,7 @@ class ProfileState extends ConsumerState<Profile>
                   alignment: Alignment.center,
                   child: Text(
                     AppLocalization.of(context)
-                        .translate("profile_screen", "message_continue"),
+                        .translate("general", "message_continue"),
                     style: textStyleCustomMedium(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack

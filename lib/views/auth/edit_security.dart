@@ -203,7 +203,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                 decoration: InputDecoration(
                                     hintText: AppLocalization.of(context).translate("edit_security_screen", "password"),
                                     hintStyle: textStyleCustomRegular(
-                                        Colors.grey,
+                                        cGrey,
                                         14 /
                                             MediaQuery.of(context)
                                                 .textScaleFactor),
@@ -216,7 +216,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                         color: _validModifPasswordFocusNode
                                                 .hasFocus
                                             ? cBlue
-                                            : Colors.grey),
+                                            : cGrey),
                                     suffixIcon: IconButton(
                                         onPressed: () {
                                           setState(() {
@@ -231,7 +231,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                           color: _validModifPasswordFocusNode
                                                   .hasFocus
                                               ? cBlue
-                                              : Colors.grey,
+                                              : cGrey,
                                         ))),
                               ),
                               const SizedBox(
@@ -526,12 +526,12 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 },
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context).translate("edit_security_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
+                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -542,7 +542,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                             icon: Icon(
                               Icons.clear,
                               color:
-                                  _mailFocusNode.hasFocus ? cBlue : Colors.grey,
+                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -581,14 +581,14 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 },
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context).translate("edit_security_screen", "actual_password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _actualPasswordFocusNode.hasFocus
                             ? cBlue
-                            : Colors.grey),
+                            : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -601,7 +601,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                               : Icons.visibility_off,
                           color: _actualPasswordFocusNode.hasFocus
                               ? cBlue
-                              : Colors.grey,
+                              : cGrey,
                         ))),
               ),
               const SizedBox(
@@ -624,14 +624,14 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 },
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context).translate("edit_security_screen", "new_password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _newPasswordFocusNode.hasFocus
                             ? cBlue
-                            : Colors.grey),
+                            : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -644,7 +644,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                               : Icons.visibility_off,
                           color: _newPasswordFocusNode.hasFocus
                               ? cBlue
-                              : Colors.grey,
+                              : cGrey,
                         ))),
               ),
             ],

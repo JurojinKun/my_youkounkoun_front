@@ -9,7 +9,8 @@
         "btn_send": "Envoyer",
         "btn_save": "Sauvegarder",
         "btn_validate": "Valider",
-        "message_error": "Un problème est survenu"
+        "message_error": "Un problème est survenu",
+        "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !"
     },
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"
@@ -80,8 +81,7 @@
     },
     "profile_screen": {
         "profile": "Profil",
-        "years_old": " ans",
-        "message_continue": "Ajoute ce que tu veux sur ce profil, c'est à toi de jouer maintenant pour ton app !"
+        "years_old": " ans"
     },
     "settings_screen": {
         "settings_user": "Paramètres",

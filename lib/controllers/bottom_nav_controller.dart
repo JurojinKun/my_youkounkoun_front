@@ -31,8 +31,10 @@ class BottomNavController extends ConsumerStatefulWidget {
 }
 
 class BottomNavControllerState extends ConsumerState<BottomNavController>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late TabController _tabController;
+
+  bool _isKeyboard = false;
 
   Future _validateUserBottomSheet(BuildContext context) async {
     return showMaterialModalBottomSheet(
@@ -47,6 +49,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
 
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
@@ -127,7 +131,21 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   }
 
   @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    final newValue = bottomInset > 0.0;
+    if (newValue != _isKeyboard) {
+      setState(() {
+        _isKeyboard = newValue;
+      });
+    }
+    super.didChangeMetrics();
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
     _tabController.dispose();
     super.dispose();
   }
@@ -156,7 +174,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
                   controller: _tabController,
                   physics: const NeverScrollableScrollPhysics(),
                   children: tabNavs()),
-              CustomNavBar(tabController: _tabController)
+              !_isKeyboard ? CustomNavBar(tabController: _tabController) : const SizedBox()
             ],
           ),
         ));

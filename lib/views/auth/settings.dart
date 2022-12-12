@@ -200,7 +200,7 @@ class SettingsState extends ConsumerState<Settings> {
       child: Container(
         height: 60.0,
         decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
+            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -244,7 +244,7 @@ class SettingsState extends ConsumerState<Settings> {
       child: Container(
         height: 60.0,
         decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
+            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -286,7 +286,7 @@ class SettingsState extends ConsumerState<Settings> {
       height: 60.0,
       decoration: const BoxDecoration(
           border: Border(
-        bottom: BorderSide(color: Colors.grey, width: 0.5),
+        bottom: BorderSide(color: cGrey, width: 0.5),
       )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -357,7 +357,7 @@ class SettingsState extends ConsumerState<Settings> {
       height: 60.0,
       decoration: const BoxDecoration(
           border: Border(
-        bottom: BorderSide(color: Colors.grey, width: 0.5),
+        bottom: BorderSide(color: cGrey, width: 0.5),
       )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

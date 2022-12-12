@@ -63,7 +63,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         size: 30,
                         color: widget.tabController.index == 0
                             ? cBlue
-                            : Colors.grey,
+                            : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -74,7 +74,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 0
                                   ? cBlue
-                                  : Colors.grey,
+                                  : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -104,7 +104,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         size: 30,
                         color: widget.tabController.index == 1
                             ? cBlue
-                            : Colors.grey,
+                            : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -115,7 +115,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 1
                                   ? cBlue
-                                  : Colors.grey,
+                                  : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -145,7 +145,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         size: 30,
                         color: widget.tabController.index == 2
                             ? cBlue
-                            : Colors.grey,
+                            : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -156,7 +156,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 2
                                   ? cBlue
-                                  : Colors.grey,
+                                  : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -186,7 +186,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                         size: 30,
                         color: widget.tabController.index == 3
                             ? cBlue
-                            : Colors.grey,
+                            : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -197,7 +197,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 3
                                   ? cBlue
-                                  : Colors.grey,
+                                  : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],

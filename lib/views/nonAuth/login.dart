@@ -140,12 +140,12 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
+                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -156,7 +156,7 @@ class LoginState extends ConsumerState<Login> {
                             icon: Icon(
                               Icons.clear,
                               color:
-                                  _mailFocusNode.hasFocus ? cBlue : Colors.grey,
+                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -181,13 +181,13 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color:
-                            _passwordFocusNode.hasFocus ? cBlue : Colors.grey),
+                            _passwordFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -199,7 +199,7 @@ class LoginState extends ConsumerState<Login> {
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color:
-                              _passwordFocusNode.hasFocus ? cBlue : Colors.grey,
+                              _passwordFocusNode.hasFocus ? cBlue : cGrey,
                         ))),
               ),
               Align(

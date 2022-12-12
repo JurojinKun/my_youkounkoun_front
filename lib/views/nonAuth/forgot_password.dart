@@ -238,12 +238,12 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
               },
               decoration: InputDecoration(
                   hintText: "Email",
-                  hintStyle: textStyleCustomRegular(Colors.grey,
+                  hintStyle: textStyleCustomRegular(cGrey,
                       14 / MediaQuery.of(context).textScaleFactor),
                   labelStyle: textStyleCustomRegular(
                       cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   prefixIcon: Icon(Icons.mail,
-                      color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                   suffixIcon: _mailController.text.isNotEmpty
                       ? IconButton(
                           onPressed: () {
@@ -254,7 +254,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                           icon: Icon(
                             Icons.clear,
                             color:
-                                _mailFocusNode.hasFocus ? cBlue : Colors.grey,
+                                _mailFocusNode.hasFocus ? cBlue : cGrey,
                           ))
                       : const SizedBox()),
             ),

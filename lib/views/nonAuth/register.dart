@@ -438,12 +438,12 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : Colors.grey),
+                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -454,7 +454,7 @@ class RegisterState extends ConsumerState<Register>
                             icon: Icon(
                               Icons.clear,
                               color:
-                                  _mailFocusNode.hasFocus ? cBlue : Colors.grey,
+                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -479,13 +479,13 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "password"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color:
-                            _passwordFocusNode.hasFocus ? cBlue : Colors.grey),
+                            _passwordFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -497,7 +497,7 @@ class RegisterState extends ConsumerState<Register>
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color:
-                              _passwordFocusNode.hasFocus ? cBlue : Colors.grey,
+                              _passwordFocusNode.hasFocus ? cBlue : cGrey,
                         ))),
               ),
               const SizedBox(height: 55.0),
@@ -687,12 +687,12 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "pseudo"),
-                    hintStyle: textStyleCustomRegular(Colors.grey,
+                    hintStyle: textStyleCustomRegular(cGrey,
                         14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
-                        color: _pseudoFocusNode.hasFocus ? cBlue : Colors.grey),
+                        color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? IconButton(
                             onPressed: () {
@@ -704,7 +704,7 @@ class RegisterState extends ConsumerState<Register>
                               Icons.clear,
                               color: _pseudoFocusNode.hasFocus
                                   ? cBlue
-                                  : Colors.grey,
+                                  : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -862,13 +862,13 @@ class RegisterState extends ConsumerState<Register>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
+                                        border: Border.all(color: cGrey),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: Center(
                                       child: Icon(
                                         element["icon"],
-                                        color: Colors.grey,
+                                        color: cGrey,
                                         size: 50,
                                       ),
                                     ),
@@ -877,7 +877,7 @@ class RegisterState extends ConsumerState<Register>
                               ),
                               const SizedBox(height: 5.0),
                               Text(element["type"],
-                                  style: textStyleCustomBold(Colors.grey, 16),
+                                  style: textStyleCustomBold(cGrey, 16),
                                   textScaleFactor: 1.0)
                             ],
                           );
@@ -1139,7 +1139,7 @@ class RegisterState extends ConsumerState<Register>
                 height: 45,
                 decoration: BoxDecoration(
                     color: Theme.of(context).canvasColor,
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: cGrey),
                     borderRadius: BorderRadius.circular(5.0)),
                 child: CountryCodePicker(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -1296,7 +1296,7 @@ class RegisterState extends ConsumerState<Register>
                           height: 155,
                           width: 155,
                           decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.2),
+                              color: cGrey.withOpacity(0.2),
                               shape: BoxShape.circle,
                               border: Border.all(color: cBlue)),
                           alignment: Alignment.center,

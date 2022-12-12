@@ -13,7 +13,8 @@ class Search extends ConsumerStatefulWidget {
   SearchState createState() => SearchState();
 }
 
-class SearchState extends ConsumerState<Search> with AutomaticKeepAliveClientMixin {
+class SearchState extends ConsumerState<Search>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -56,6 +57,64 @@ class SearchState extends ConsumerState<Search> with AutomaticKeepAliveClientMix
                     : cWhite,
                 20),
             textScaleFactor: 1.0),
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(65.0),
+            child: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              height: 65.0,
+              alignment: Alignment.center,
+              child: Padding(padding: const EdgeInsets.all(10.0), child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 6,
+                          backgroundColor: Theme.of(context).canvasColor,
+                          foregroundColor: cBlue,
+                          shadowColor: Colors.transparent,
+                          side: BorderSide(color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite),
+                          shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ) 
+                        ),
+                        onPressed: () => navSearchKey!.currentState!.pushNamed(recentSearches),
+                        child: Row(
+                          children: [
+                            Icon(Icons.search, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite),
+                            const SizedBox(width: 15.0),
+                            Expanded(child: Text(
+                            "Recherche un utilisateur",
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                16),
+                            textScaleFactor: 1.0))
+                          ],
+                        )))),
+            )),
+      ),
+      body: SizedBox.expand(
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
+          child: Column(
+            children: [
+              const SizedBox(height: 50.0),
+              Text(
+              AppLocalization.of(context)
+                  .translate("general", "message_continue"),
+              style: textStyleCustomMedium(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  14),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
+            ),
+            ],
+          )
+        ),
       ),
     );
   }

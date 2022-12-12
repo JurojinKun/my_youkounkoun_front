@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
 import 'package:my_boilerplate/views/auth/new_conversation.dart';
+import 'package:my_boilerplate/views/auth/recent_searches.dart';
 import 'package:my_boilerplate/views/auth/search.dart';
 import 'package:my_boilerplate/views/auth/edit_account.dart';
 import 'package:my_boilerplate/views/auth/edit_security.dart';
@@ -91,6 +92,8 @@ Route<dynamic> generateRouteAuthSearch(
   switch (settings.name) {
     case search:
       return MaterialPageRoute(builder: (_) => const Search());
+    case recentSearches:
+      return MaterialPageRoute(builder: (_) => const RecentSearches());
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
