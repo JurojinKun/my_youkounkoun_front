@@ -196,7 +196,7 @@ class RegisterState extends ConsumerState<Register>
           uiSettings: [
             AndroidUiSettings(
               dimmedLayerColor: cBlack,
-                toolbarTitle: "Format de l'image",
+                toolbarTitle: AppLocalization.of(context).translate("general", "title_cropper"),
                 toolbarColor: Theme.of(context).scaffoldBackgroundColor,
                 toolbarWidgetColor:
                     Theme.of(context).brightness == Brightness.light
@@ -210,7 +210,7 @@ class RegisterState extends ConsumerState<Register>
                 hideBottomControls: true,
                 ),
             IOSUiSettings(
-              title: "Format de l'image",
+              title: AppLocalization.of(context).translate("general", "title_cropper"),
             ),
           ],
           sourcePath: filePath,

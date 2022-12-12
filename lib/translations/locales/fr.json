@@ -10,6 +10,7 @@
         "btn_save": "Sauvegarder",
         "btn_validate": "Valider",
         "message_error": "Un problème est survenu",
+        "title_cropper": "Format de l'image",
         "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !"
     },
     "connectivity_screen": {

@@ -10,6 +10,7 @@
         "btn_save": "Save",
         "btn_validate": "Validate",
         "message_error": "A problem occurred",
+        "title_cropper": "Image format",
         "message_continue": "Add what you want on this section, it's up to you now for your app !"
     },
     "connectivity_screen": {
