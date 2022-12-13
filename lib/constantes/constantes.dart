@@ -58,19 +58,21 @@ textStyleCustomRegular(Color color, double fontSize,
 //colors app
 const Color cBlue = Colors.blue;
 const Color cRed = Colors.red;
-const Color cWhite = Colors.white;
-const Color cBlack = Colors.black;
+const Color cWhite = Color(0xFFFEFFFF);
+const Color cBlack = Color(0xFF030303);
 const Color cGrey = Colors.grey;
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  scaffoldBackgroundColor: const Color(0XFFF8FFFF),
+  scaffoldBackgroundColor: const Color(0XFFF3FAFA),
   primarySwatch: Colors.blue,
+  canvasColor: const Color(0xFFFCFFFF)
 );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0XFF151515),
   primarySwatch: Colors.blue,
+  canvasColor: const Color(0xFF060606)
 );
