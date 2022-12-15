@@ -45,6 +45,7 @@ class EditAccountState extends ConsumerState<EditAccount>
     return showModalBottomSheet(
         context: context,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        barrierColor: Colors.black54,
         elevation: 6,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -178,21 +179,23 @@ class EditAccountState extends ConsumerState<EditAccount>
           uiSettings: [
             AndroidUiSettings(
               dimmedLayerColor: cBlack,
-                toolbarTitle: AppLocalization.of(context).translate("general", "title_cropper"),
-                toolbarColor: Theme.of(context).scaffoldBackgroundColor,
-                toolbarWidgetColor:
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                cropFrameColor: cWhite,
-                cropGridColor: cWhite,
-                activeControlsWidgetColor: cBlue,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false,
-                hideBottomControls: true,
-                ),
+              toolbarTitle: AppLocalization.of(context)
+                  .translate("general", "title_cropper"),
+              toolbarColor: Theme.of(context).scaffoldBackgroundColor,
+              toolbarWidgetColor:
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+              cropFrameColor: cWhite,
+              cropGridColor: cWhite,
+              activeControlsWidgetColor: cBlue,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false,
+              hideBottomControls: true,
+            ),
             IOSUiSettings(
-              title: AppLocalization.of(context).translate("general", "title_cropper"),
+              title: AppLocalization.of(context)
+                  .translate("general", "title_cropper"),
             ),
           ],
           sourcePath: filePath,
@@ -579,8 +582,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("edit_account_screen", "pseudo_profile"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
@@ -594,9 +597,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                             },
                             icon: Icon(
                               Icons.clear,
-                              color: _pseudoFocusNode.hasFocus
-                                  ? cBlue
-                                  : cGrey,
+                              color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -788,12 +789,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                       borderRadius: BorderRadius.circular(5.0)),
                   child: CountryCodePicker(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    backgroundColor: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.8),
-                    barrierColor: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.8),
+                    backgroundColor: Colors.black54.withOpacity(0.7),
+                    dialogBackgroundColor:
+                        Theme.of(context).scaffoldBackgroundColor,
+                    barrierColor: Colors.transparent,
                     closeIcon: Icon(Icons.clear,
                         color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
@@ -810,9 +809,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                     showCountryOnly: true,
                     showOnlyCountryWhenClosed: true,
                     alignLeft: true,
-                    boxDecoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        borderRadius: BorderRadius.circular(5.0)),
+                    enabled: true,
                     dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
                         MediaQuery.of(context).size.height / 1.25),
                     textStyle: Theme.of(context).textTheme.titleSmall,

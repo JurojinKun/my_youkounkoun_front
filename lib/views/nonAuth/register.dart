@@ -196,21 +196,23 @@ class RegisterState extends ConsumerState<Register>
           uiSettings: [
             AndroidUiSettings(
               dimmedLayerColor: cBlack,
-                toolbarTitle: AppLocalization.of(context).translate("general", "title_cropper"),
-                toolbarColor: Theme.of(context).scaffoldBackgroundColor,
-                toolbarWidgetColor:
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                cropFrameColor: cWhite,
-                cropGridColor: cWhite,
-                activeControlsWidgetColor: cBlue,
-                initAspectRatio: CropAspectRatioPreset.original,
-                lockAspectRatio: false,
-                hideBottomControls: true,
-                ),
+              toolbarTitle: AppLocalization.of(context)
+                  .translate("general", "title_cropper"),
+              toolbarColor: Theme.of(context).scaffoldBackgroundColor,
+              toolbarWidgetColor:
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+              cropFrameColor: cWhite,
+              cropGridColor: cWhite,
+              activeControlsWidgetColor: cBlue,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false,
+              hideBottomControls: true,
+            ),
             IOSUiSettings(
-              title: AppLocalization.of(context).translate("general", "title_cropper"),
+              title: AppLocalization.of(context)
+                  .translate("general", "title_cropper"),
             ),
           ],
           sourcePath: filePath,
@@ -438,8 +440,8 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
@@ -453,8 +455,7 @@ class RegisterState extends ConsumerState<Register>
                             },
                             icon: Icon(
                               Icons.clear,
-                              color:
-                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -479,13 +480,12 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "password"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
-                        color:
-                            _passwordFocusNode.hasFocus ? cBlue : cGrey),
+                        color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -496,8 +496,7 @@ class RegisterState extends ConsumerState<Register>
                           _passwordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color:
-                              _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                          color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
                         ))),
               ),
               const SizedBox(height: 55.0),
@@ -687,8 +686,8 @@ class RegisterState extends ConsumerState<Register>
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "pseudo"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.person,
@@ -702,9 +701,7 @@ class RegisterState extends ConsumerState<Register>
                             },
                             icon: Icon(
                               Icons.clear,
-                              color: _pseudoFocusNode.hasFocus
-                                  ? cBlue
-                                  : cGrey,
+                              color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -1136,60 +1133,56 @@ class RegisterState extends ConsumerState<Register>
               child: Align(
             alignment: Alignment.topCenter,
             child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
-                    border: Border.all(color: cGrey),
-                    borderRadius: BorderRadius.circular(5.0)),
-                child: CountryCodePicker(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  backgroundColor: Theme.of(context)
-                      .scaffoldBackgroundColor
-                      .withOpacity(0.8),
-                  barrierColor: Theme.of(context)
-                      .scaffoldBackgroundColor
-                      .withOpacity(0.8),
-                  closeIcon: Icon(Icons.clear,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      size: 28),
-                  onChanged: (countryCode) {
-                    setState(() {
-                      _selectedCountry = countryCode.code;
-                    });
-                  },
-                  initialSelection: _selectedCountry,
-                  showCountryOnly: true,
-                  showOnlyCountryWhenClosed: true,
-                  alignLeft: true,
-                  boxDecoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.circular(5.0)),
-                  dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
-                      MediaQuery.of(context).size.height / 1.25),
-                  textStyle: Theme.of(context).textTheme.titleSmall,
-                  dialogTextStyle: Theme.of(context).textTheme.titleSmall,
-                  flagWidth: 30,
-                  searchDecoration: InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    fillColor: Theme.of(context).canvasColor,
-                    filled: true,
-                    labelText: AppLocalization.of(context)
+              height: 45,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  border: Border.all(color: cGrey),
+                  borderRadius: BorderRadius.circular(5.0)),
+              child: CountryCodePicker(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                backgroundColor: Colors.black54.withOpacity(0.7),
+                dialogBackgroundColor:
+                    Theme.of(context).scaffoldBackgroundColor,
+                barrierColor: Colors.transparent,
+                closeIcon: Icon(Icons.clear,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 28),
+                onChanged: (countryCode) {
+                  setState(() {
+                    _selectedCountry = countryCode.code;
+                  });
+                },
+                initialSelection: _selectedCountry,
+                showCountryOnly: true,
+                showOnlyCountryWhenClosed: true,
+                alignLeft: true,
+                enabled: true,
+                dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
+                    MediaQuery.of(context).size.height / 1.25),
+                textStyle: Theme.of(context).textTheme.titleSmall,
+                dialogTextStyle: Theme.of(context).textTheme.titleSmall,
+                flagWidth: 30,
+                searchDecoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  fillColor: Theme.of(context).canvasColor,
+                  filled: true,
+                  labelText: AppLocalization.of(context)
                         .translate("register_screen", "search_country"),
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
-                  ),
-                  emptySearchBuilder: (_) => Text(
-                      AppLocalization.of(context)
+                  border: const OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  )),
+                ),
+                emptySearchBuilder: (_) => Text(
+                    AppLocalization.of(context)
                           .translate("register_screen", "empty_search_country"),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textScaleFactor: 1.0),
-                )),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleSmall,
+                    textScaleFactor: 1.0),
+              )),
           )),
           Container(
             height: 150,
