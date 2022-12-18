@@ -11,6 +11,7 @@ import 'package:my_boilerplate/views/auth/home.dart';
 import 'package:my_boilerplate/views/auth/settings.dart';
 import 'package:my_boilerplate/views/auth/activities.dart';
 import 'package:my_boilerplate/views/auth/profile.dart';
+import 'package:my_boilerplate/views/auth/user_profile.dart';
 import 'package:my_boilerplate/views/auth/validate_user.dart';
 import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
 import 'package:my_boilerplate/views/nonAuth/login.dart';
@@ -55,7 +56,7 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(builder: (_) => const EditAccount());
     case editSecurity:
       return MaterialPageRoute(builder: (_) => const EditSecurity());
-    case newConversation: 
+    case newConversation:
       return MaterialPageRoute(builder: (_) => const NewConversation());
     default:
       return MaterialPageRoute(
@@ -94,6 +95,9 @@ Route<dynamic> generateRouteAuthSearch(
       return MaterialPageRoute(builder: (_) => const Search());
     case recentSearches:
       return MaterialPageRoute(builder: (_) => const RecentSearches());
+    case userProfile:
+      return MaterialPageRoute(
+          builder: (_) => UserProfile(user: args![0]));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

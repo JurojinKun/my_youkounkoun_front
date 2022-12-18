@@ -18,6 +18,7 @@ const String editAccount = "Edit account";
 const String editSecurity = "Edit security";
 const String newConversation = "New conversation";
 const String recentSearches = "Recent searches";
+const String userProfile = "User profile";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

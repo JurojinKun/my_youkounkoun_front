@@ -11,6 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/providers/notifications_active_provider.dart';
+import 'package:my_boilerplate/providers/recent_searches_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -138,9 +139,15 @@ class MyAppState extends ConsumerState<MyApp> {
           validCGU: true,
           validPrivacyPolicy: true,
           validEmail: false));
-        
+
+      ref
+          .read(recentSearchesNotifierProvider.notifier)
+          .initRecentSearches(recentSearchesDatasMockes);
+
       bool notificationsActive = prefs.getBool("notifications") ?? true;
-      ref.read(notificationsActiveNotifierProvider.notifier).updateNotificationsActive(notificationsActive);
+      ref
+          .read(notificationsActiveNotifierProvider.notifier)
+          .updateNotificationsActive(notificationsActive);
     }
 
     //get push token device
@@ -177,7 +184,7 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void didChangeDependencies() {
     //logic precache all assets in our app => faster load on app
-    for (var i=0; i<imagesApp.length; i++) {
+    for (var i = 0; i < imagesApp.length; i++) {
       precacheImage(imagesApp[i].image, context);
     }
     super.didChangeDependencies();

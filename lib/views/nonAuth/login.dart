@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:my_boilerplate/providers/recent_searches_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
 import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,6 +56,9 @@ class LoginState extends ConsumerState<Login> {
         validCGU: true,
         validPrivacyPolicy: true,
         validEmail: false));
+    ref
+        .read(recentSearchesNotifierProvider.notifier)
+        .initRecentSearches(recentSearchesDatasMockes);
   }
 
   @override
@@ -140,8 +144,8 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.mail,
@@ -155,8 +159,7 @@ class LoginState extends ConsumerState<Login> {
                             },
                             icon: Icon(
                               Icons.clear,
-                              color:
-                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
                             ))
                         : const SizedBox()),
               ),
@@ -181,13 +184,12 @@ class LoginState extends ConsumerState<Login> {
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("login_screen", "password"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
-                        color:
-                            _passwordFocusNode.hasFocus ? cBlue : cGrey),
+                        color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -198,8 +200,7 @@ class LoginState extends ConsumerState<Login> {
                           _passwordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color:
-                              _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                          color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
                         ))),
               ),
               Align(
@@ -207,7 +208,8 @@ class LoginState extends ConsumerState<Login> {
                 child: TextButton(
                     onPressed: () => _forgotPasswordBottomSheet(context),
                     child: Text(
-                      AppLocalization.of(context).translate("login_screen", "forgot_password"),
+                      AppLocalization.of(context)
+                          .translate("login_screen", "forgot_password"),
                       style: textStyleCustomMedium(cBlue, 14),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0,

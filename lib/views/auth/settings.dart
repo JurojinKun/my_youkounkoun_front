@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_boilerplate/constantes/constantes.dart';
 import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
 import 'package:my_boilerplate/providers/notifications_active_provider.dart';
+import 'package:my_boilerplate/providers/recent_searches_provider.dart';
 import 'package:my_boilerplate/providers/theme_app_provider.dart';
 import 'package:my_boilerplate/providers/user_provider.dart';
 import 'package:my_boilerplate/translations/app_localizations.dart';
@@ -30,6 +31,7 @@ class SettingsState extends ConsumerState<Settings> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(userNotifierProvider.notifier).clearUser();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
+      ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
       prefs.remove("token");
     } catch (e) {
       if (kDebugMode) {
