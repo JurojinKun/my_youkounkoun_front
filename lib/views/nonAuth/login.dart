@@ -121,12 +121,27 @@ class LoginState extends ConsumerState<Login> {
               textScaleFactor: 1.0),
           centerTitle: false,
         ),
-        body: Center(
+        body: SizedBox.expand(
           child: ListView(
             shrinkWrap: true,
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             children: [
+              Image.asset("assets/images/ic_app.png", height: 100, width: 100),
+              const SizedBox(
+                height: 25.0,
+              ),
+              Text("My boilerplate",
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      33),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0),
+                  const SizedBox(
+                height: 45.0,
+              ),
               TextField(
                 controller: _mailController,
                 focusNode: _mailFocusNode,

@@ -589,7 +589,7 @@ class RegisterState extends ConsumerState<Register>
           _isKeyboard
               ? const SizedBox()
               : Container(
-                  height: 150,
+                  height: 75,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                   child: SizedBox(
@@ -708,7 +708,7 @@ class RegisterState extends ConsumerState<Register>
             ],
           )),
           Container(
-            height: 150,
+            height: 115,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -807,6 +807,7 @@ class RegisterState extends ConsumerState<Register>
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10),
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: genders.length,
                   itemBuilder: (_, int index) {
                     var element = genders[index];
@@ -880,7 +881,7 @@ class RegisterState extends ConsumerState<Register>
                           );
                   })),
           Container(
-            height: 150,
+            height: 115,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1037,7 +1038,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           ),
           Container(
-            height: 150,
+            height: 115,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1185,7 +1186,7 @@ class RegisterState extends ConsumerState<Register>
               )),
           )),
           Container(
-            height: 150,
+            height: 115,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1352,7 +1353,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 150,
+            height: 115,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard

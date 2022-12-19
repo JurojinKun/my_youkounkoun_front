@@ -324,7 +324,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             ),
                             trailing: IconButton(
                                 onPressed: () {
-                                  print("delete recent search");
+                                  //add logic back
+                                  ref.read(recentSearchesNotifierProvider.notifier).deleteRecentSearches(user);
                                 },
                                 icon: Icon(Icons.clear,
                                     color: Theme.of(context).brightness ==
@@ -430,8 +431,11 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           child: ListTile(
                             contentPadding:
                                 const EdgeInsets.symmetric(vertical: 5.0),
-                            onTap: () => navSearchKey!.currentState!
-                                .pushNamed(userProfile, arguments: [user]),
+                            onTap: () {
+                              ref.read(recentSearchesNotifierProvider.notifier).addRecentSearches(user);
+                              navSearchKey!.currentState!
+                                .pushNamed(userProfile, arguments: [user]);
+                            },
                             leading: user.profilePictureUrl.trim() != ""
                                 ? Container(
                                     height: 65,
