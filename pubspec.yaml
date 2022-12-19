@@ -43,13 +43,27 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: "^0.11.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/logos/ic_launcher.png"
+  web:
+    generate: false
 
 flutter_native_splash:
+  fullscreen: true
   color: "#F3FAFA"
   color_dark: "#151515"
-  fullscreen: true
-  image: assets/ic_splash.png
-  image_dark: assets/ic_splash.png
+  image: assets/logos/ic_splash.png
+  image_dark: assets/logos/ic_splash.png
+  android12:
+    color: "#F3FAFA"
+    color_dark: "#151515"
+    image: assets/logos/ic_splash.png
+    image_dark: assets/logos/ic_splash.png
   android: true
   ios: true
   web: false
@@ -71,6 +85,8 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
 
   assets: 
-    - assets/ic_splash.png
+    - assets/images/ic_app.png
+    - assets/logos/ic_launcher.png
+    - assets/logos/ic_splash.png
     - lib/translations/locales/fr.json
     - lib/translations/locales/en.json

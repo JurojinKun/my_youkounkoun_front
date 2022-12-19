@@ -77,7 +77,7 @@ class MyAppState extends ConsumerState<MyApp> {
   String themeApp = "";
 
   //add all assets in our app here
-  List<Image> imagesApp = [Image.asset("assets/ic_splash.png")];
+  List<Image> imagesApp = [Image.asset("assets/images/ic_app.png")];
 
   //connectivity
   final Connectivity _connectivity = Connectivity();
