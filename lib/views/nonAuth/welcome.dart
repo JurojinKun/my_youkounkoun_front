@@ -4,9 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class Welcome extends ConsumerStatefulWidget {
@@ -62,7 +62,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                     const SizedBox(
                       height: 25.0,
                     ),
-                    Text("My boilerplate",
+                    Text("My youkounkoun",
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -158,7 +158,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                                 }),
                           TextSpan(
                             text: AppLocalization.of(context)
-                                .translate("welcome_screen", "boilerplate"),
+                                .translate("welcome_screen", "youkounkoun"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack

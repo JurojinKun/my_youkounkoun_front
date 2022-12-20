@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:my_boilerplate/components/custom_nav_bar.dart';
+import 'package:myyoukounkoun/components/custom_nav_bar.dart';
 
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/main.dart';
-import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/router.dart';
-import 'package:my_boilerplate/views/auth/validate_user.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/main.dart';
+import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/router.dart';
+import 'package:myyoukounkoun/views/auth/validate_user.dart';
 
 /// Method called when user clic LOCALE notifications
 void selectLocaleNotification(String? payload, BuildContext context) {

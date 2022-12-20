@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class CustomNavBar extends ConsumerStatefulWidget {
   final TabController tabController;

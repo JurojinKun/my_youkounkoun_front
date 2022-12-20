@@ -6,13 +6,13 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
-import 'package:my_boilerplate/providers/notifications_active_provider.dart';
-import 'package:my_boilerplate/providers/recent_searches_provider.dart';
-import 'package:my_boilerplate/providers/theme_app_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
+import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
+import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/theme_app_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends ConsumerStatefulWidget {

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:my_boilerplate/providers/recent_searches_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
-import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/models/user_model.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:myyoukounkoun/views/nonAuth/forgot_password.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -131,7 +131,7 @@ class LoginState extends ConsumerState<Login> {
               const SizedBox(
                 height: 25.0,
               ),
-              Text("My boilerplate",
+              Text("My youkounkoun",
                   style: textStyleCustomBold(
                       Theme.of(context).brightness == Brightness.light
                           ? cBlack

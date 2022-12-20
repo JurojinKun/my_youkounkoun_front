@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/providers/check_valid_user_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ValidateUser extends ConsumerStatefulWidget {

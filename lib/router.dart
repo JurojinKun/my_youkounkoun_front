@@ -1,22 +1,22 @@
 import "package:flutter/material.dart";
 
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/controllers/bottom_nav_controller.dart';
-import 'package:my_boilerplate/views/auth/new_conversation.dart';
-import 'package:my_boilerplate/views/auth/recent_searches.dart';
-import 'package:my_boilerplate/views/auth/search.dart';
-import 'package:my_boilerplate/views/auth/edit_account.dart';
-import 'package:my_boilerplate/views/auth/edit_security.dart';
-import 'package:my_boilerplate/views/auth/home.dart';
-import 'package:my_boilerplate/views/auth/settings.dart';
-import 'package:my_boilerplate/views/auth/activities.dart';
-import 'package:my_boilerplate/views/auth/profile.dart';
-import 'package:my_boilerplate/views/auth/user_profile.dart';
-import 'package:my_boilerplate/views/auth/validate_user.dart';
-import 'package:my_boilerplate/views/nonAuth/forgot_password.dart';
-import 'package:my_boilerplate/views/nonAuth/login.dart';
-import 'package:my_boilerplate/views/nonAuth/register.dart';
-import 'package:my_boilerplate/views/nonAuth/welcome.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
+import 'package:myyoukounkoun/views/auth/new_conversation.dart';
+import 'package:myyoukounkoun/views/auth/recent_searches.dart';
+import 'package:myyoukounkoun/views/auth/search.dart';
+import 'package:myyoukounkoun/views/auth/edit_account.dart';
+import 'package:myyoukounkoun/views/auth/edit_security.dart';
+import 'package:myyoukounkoun/views/auth/home.dart';
+import 'package:myyoukounkoun/views/auth/settings.dart';
+import 'package:myyoukounkoun/views/auth/activities.dart';
+import 'package:myyoukounkoun/views/auth/profile.dart';
+import 'package:myyoukounkoun/views/auth/user_profile.dart';
+import 'package:myyoukounkoun/views/auth/validate_user.dart';
+import 'package:myyoukounkoun/views/nonAuth/forgot_password.dart';
+import 'package:myyoukounkoun/views/nonAuth/login.dart';
+import 'package:myyoukounkoun/views/nonAuth/register.dart';
+import 'package:myyoukounkoun/views/nonAuth/welcome.dart';
 
 Route<dynamic> generateRouteNonAuth(
     RouteSettings settings, BuildContext context) {

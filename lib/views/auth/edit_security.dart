@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/models/user_model.dart';
-import 'package:my_boilerplate/providers/edit_security_account_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/edit_security_account_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditSecurity extends ConsumerStatefulWidget {
   const EditSecurity({Key? key}) : super(key: key);

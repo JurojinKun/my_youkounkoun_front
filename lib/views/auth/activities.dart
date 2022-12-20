@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
-import 'package:my_boilerplate/views/auth/chat.dart';
-import 'package:my_boilerplate/views/auth/new_conversation.dart';
-import 'package:my_boilerplate/views/auth/notifications.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:myyoukounkoun/views/auth/chat.dart';
+import 'package:myyoukounkoun/views/auth/new_conversation.dart';
+import 'package:myyoukounkoun/views/auth/notifications.dart';
 
 class Activities extends ConsumerStatefulWidget {
   const Activities({Key? key}) : super(key: key);

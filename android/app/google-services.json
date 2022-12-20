@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "207701830444",
-    "project_id": "my-boilerplate-7044b",
-    "storage_bucket": "my-boilerplate-7044b.appspot.com"
+    "project_number": "878551705966",
+    "project_id": "my-youkounkoun",
+    "storage_bucket": "my-youkounkoun.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:207701830444:android:46051abfdc992d04b25a89",
+        "mobilesdk_app_id": "1:878551705966:android:368b78954bcb95e447797f",
         "android_client_info": {
-          "package_name": "com.example.my_boilerplate"
+          "package_name": "com.example.myyoukounkoun"
         }
       },
       "oauth_client": [
         {
-          "client_id": "207701830444-o63adn8cjf1g5f6friqsvieon4a1tkkd.apps.googleusercontent.com",
+          "client_id": "878551705966-pnv31c9bh1ovl92acl1bprtbdft97hdp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAqGUOiSYknXCUnG71zpFHW9fsAr-RVVi0"
+          "current_key": "AIzaSyDgUoTbuT_AiwC7uhGLBkoM70OoL9LenZw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "207701830444-o63adn8cjf1g5f6friqsvieon4a1tkkd.apps.googleusercontent.com",
+              "client_id": "878551705966-pnv31c9bh1ovl92acl1bprtbdft97hdp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

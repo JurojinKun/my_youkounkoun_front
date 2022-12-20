@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
 
 final editProfilePictureUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfilePictureUserProvider, File?>((ref) => EditProfilePictureUserProvider());
 final editPseudoUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfilePseudoUserProvider, bool>((ref) => EditProfilePseudoUserProvider());

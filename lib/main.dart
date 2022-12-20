@@ -10,20 +10,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_boilerplate/providers/notifications_active_provider.dart';
-import 'package:my_boilerplate/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
+import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:my_boilerplate/controllers/log_controller.dart';
-import 'package:my_boilerplate/models/user_model.dart';
-import 'package:my_boilerplate/providers/token_notifications_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/providers/locale_language_provider.dart';
-import 'package:my_boilerplate/providers/theme_app_provider.dart';
-import 'package:my_boilerplate/views/connectivity/connectivity_device.dart';
+import 'package:myyoukounkoun/controllers/log_controller.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
+import 'package:myyoukounkoun/providers/theme_app_provider.dart';
+import 'package:myyoukounkoun/views/connectivity/connectivity_device.dart';
 
 // // Initialize the [FlutterLocalNotificationsPlugin] package.
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -201,7 +201,7 @@ class MyAppState extends ConsumerState<MyApp> {
     themeApp = ref.watch(themeAppNotifierProvider);
 
     return MaterialApp(
-      title: 'My boilerplate',
+      title: 'My youkounkoun',
       debugShowCheckedModeBanner: false,
       themeMode: themeApp.trim() == ""
           ? ThemeMode.system

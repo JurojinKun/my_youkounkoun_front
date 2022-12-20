@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.my_boilerplate">
+    package="com.example.myyoukounkoun">
     <uses-permission
         android:name="android.permission.INTERNET"/>
     <application
-        android:label="My boilerplate"
+        android:label="My youkounkoun"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

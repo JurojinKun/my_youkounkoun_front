@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_boilerplate/models/user_model.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
 
 //datas mockés recent searches users
 List<User> recentSearchesDatasMockes = [

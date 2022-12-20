@@ -8,14 +8,14 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_boilerplate/components/message_user_custom.dart';
-import 'package:my_boilerplate/constantes/constantes.dart';
-import 'package:my_boilerplate/helpers/helpers.dart';
-import 'package:my_boilerplate/models/user_model.dart';
-import 'package:my_boilerplate/providers/edit_account_provider.dart';
-import 'package:my_boilerplate/providers/locale_language_provider.dart';
-import 'package:my_boilerplate/providers/user_provider.dart';
-import 'package:my_boilerplate/translations/app_localizations.dart';
+import 'package:myyoukounkoun/components/message_user_custom.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/edit_account_provider.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
   const EditAccount({Key? key}) : super(key: key);
