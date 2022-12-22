@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
@@ -25,8 +26,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   List<User> recentSearchesUsers = [];
   List<User> resultsSearch = [];
   bool searching = false;
-  Timer? _timer;
   String currentSearch = "";
+  Timer? _timer;
 
   void _scrollListener() {
     if (_scrollController.offset != 0.0 && _searchFocusNode.hasFocus) {
@@ -34,33 +35,21 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
     }
   }
 
-  void _searchListener() {
-    if (!searching) {
-      if (_timer != null && _timer!.isActive) _timer!.cancel();
-      _timer = Timer(const Duration(seconds: 1), () async {
-        if (_searchController.text.isNotEmpty &&
-            currentSearch != _searchController.text) {
-          await _searchUsers();
-          currentSearch = _searchController.text;
-        }
-      });
-    }
-
-    if (_searchController.text.isEmpty) {
-      resultsSearch.clear();
-    }
-  }
-
   Future<void> _searchUsers() async {
     setState(() {
       searching = true;
     });
+
     //à modifier plutôt avec la logique back
+    resultsSearch.clear();
     for (var element in potentialsResultsSearchDatasMockes) {
-      if (element.pseudo.toLowerCase().startsWith(_searchController.text.toLowerCase()) && !resultsSearch.contains(element)) {
+      if (element.pseudo
+          .toLowerCase()
+          .startsWith(_searchController.text.toLowerCase())) {
         resultsSearch.add(element);
       }
     }
+
     setState(() {
       searching = false;
     });
@@ -72,7 +61,6 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
 
     _searchController = TextEditingController();
     _searchFocusNode = FocusNode();
-    _searchController.addListener(_searchListener);
 
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
@@ -80,7 +68,9 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
 
   @override
   void deactivate() {
-    _searchController.removeListener(_searchListener);
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+    }
     _scrollController.removeListener(_scrollListener);
     super.deactivate();
   }
@@ -192,22 +182,24 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                 .requestFocus(_searchFocusNode);
                           });
                         },
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           setState(() {
                             value = _searchController.text;
                           });
-                        },
-                        onEditingComplete: () async {
+
                           if (_timer != null && _timer!.isActive) {
-                            _timer?.cancel();
+                            _timer!.cancel();
                           }
+                          _timer = Timer(const Duration(seconds: 1), () async {
+                            if (_searchController.text.isNotEmpty &&
+                                currentSearch != _searchController.text) {
+                              await _searchUsers();
+                              currentSearch = _searchController.text;
+                            }
+                          });
+                        },
+                        onEditingComplete: () {
                           Helpers.hideKeyboard(context);
-                          if (_searchController.text.isNotEmpty &&
-                              !searching &&
-                              currentSearch != _searchController.text) {
-                            await _searchUsers();
-                            currentSearch = _searchController.text;
-                          }
                         },
                       ),
                     ),
@@ -325,7 +317,10 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             trailing: IconButton(
                                 onPressed: () {
                                   //add logic back
-                                  ref.read(recentSearchesNotifierProvider.notifier).deleteRecentSearches(user);
+                                  ref
+                                      .read(recentSearchesNotifierProvider
+                                          .notifier)
+                                      .deleteRecentSearches(user);
                                 },
                                 icon: Icon(Icons.clear,
                                     color: Theme.of(context).brightness ==
@@ -432,9 +427,11 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             contentPadding:
                                 const EdgeInsets.symmetric(vertical: 5.0),
                             onTap: () {
-                              ref.read(recentSearchesNotifierProvider.notifier).addRecentSearches(user);
+                              ref
+                                  .read(recentSearchesNotifierProvider.notifier)
+                                  .addRecentSearches(user);
                               navSearchKey!.currentState!
-                                .pushNamed(userProfile, arguments: [user]);
+                                  .pushNamed(userProfile, arguments: [user]);
                             },
                             leading: user.profilePictureUrl.trim() != ""
                                 ? Container(
