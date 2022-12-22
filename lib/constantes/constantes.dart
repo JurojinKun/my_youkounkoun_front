@@ -19,6 +19,7 @@ const String editSecurity = "Edit security";
 const String newConversation = "New conversation";
 const String recentSearches = "Recent searches";
 const String userProfile = "User profile";
+const String chatDetails = "Chat details";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

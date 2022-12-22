@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
+import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 import 'package:myyoukounkoun/views/auth/recent_searches.dart';
 import 'package:myyoukounkoun/views/auth/search.dart';
@@ -58,6 +59,11 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(builder: (_) => const EditSecurity());
     case newConversation:
       return MaterialPageRoute(builder: (_) => const NewConversation());
+    case chatDetails: 
+      return MaterialPageRoute(builder: (_) => ChatDetails(user: args![0], openWithModal: args[1],));
+    case userProfile:
+      return MaterialPageRoute(
+          builder: (_) => UserProfile(user: args![0]));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

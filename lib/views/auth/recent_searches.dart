@@ -118,7 +118,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: Theme.of(context).canvasColor.withOpacity(0.2),
+              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
               alignment: Alignment.bottomCenter,
               child: Row(
                 children: [
