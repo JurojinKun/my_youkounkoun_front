@@ -69,15 +69,20 @@ class ProfileState extends ConsumerState<Profile>
                 20),
             textScaleFactor: 1.0),
         actions: [
-          IconButton(
-              onPressed: () =>
-                  navProfileKey!.currentState!.pushNamed(settingsUser),
-              icon: Icon(
-                Icons.settings,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-              )),
+          Material(
+            color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+            child: IconButton(
+                onPressed: () =>
+                    navProfileKey!.currentState!.pushNamed(settingsUser),
+                icon: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                )),
+          ),
         ],
       ),
       body: Padding(

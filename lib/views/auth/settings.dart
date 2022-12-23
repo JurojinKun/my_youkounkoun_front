@@ -145,13 +145,18 @@ class SettingsState extends ConsumerState<Settings> {
                 : const SystemUiOverlayStyle(
                     statusBarColor: Colors.transparent,
                     statusBarIconBrightness: Brightness.light),
-        leading: IconButton(
-          onPressed: () => navProfileKey!.currentState!.pop(),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Theme.of(context).brightness == Brightness.light
-                ? cBlack
-                : cWhite,
+        leading: Material(
+          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+          child: IconButton(
+            onPressed: () => navProfileKey!.currentState!.pop(),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? cBlack
+                  : cWhite,
+            ),
           ),
         ),
         title: Text(
@@ -164,19 +169,24 @@ class SettingsState extends ConsumerState<Settings> {
                 20),
             textScaleFactor: 1.0),
         actions: [
-          IconButton(
-              onPressed: () => _showDialogLogout(),
-              icon: Icon(
-                Icons.logout,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-              ))
+          Material(
+            color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+            child: IconButton(
+                onPressed: () => _showDialogLogout(),
+                icon: Icon(
+                  Icons.logout,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                )),
+          )
         ],
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0, bottom: 80.0, left: 20.0, right: 20.0),
             child: Column(

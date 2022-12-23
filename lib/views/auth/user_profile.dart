@@ -63,14 +63,19 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 : const SystemUiOverlayStyle(
                     statusBarColor: Colors.transparent,
                     statusBarIconBrightness: Brightness.light),
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-            )),
+        leading: Material(
+          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+          child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite,
+              )),
+        ),
         title: Text("${AppLocalization.of(context).translate("user_profile_screen", "profile_of")} ${widget.user.pseudo}",
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
@@ -82,14 +87,19 @@ class UserProfileState extends ConsumerState<UserProfile> {
         actions: [
           widget.user.id == ref.read(userNotifierProvider).id
               ? const SizedBox()
-              : IconButton(
-                  onPressed: () =>
-                      _conversationBottomSheet(navAuthKey.currentContext!),
-                  icon: Icon(Icons.edit_note,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      size: 33))
+              : Material(
+                color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                child: IconButton(
+                    onPressed: () =>
+                        _conversationBottomSheet(navAuthKey.currentContext!),
+                    icon: Icon(Icons.edit_note,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        size: 33)),
+              )
         ],
       ),
       body: Padding(

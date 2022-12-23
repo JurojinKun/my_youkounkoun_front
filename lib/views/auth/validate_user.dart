@@ -198,19 +198,24 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
               textScaleFactor: 1.0,
             ),
             actions: [
-              IconButton(
-                  onPressed: () async {
-                    await ref
-                        .read(checkValidUserNotifierProvider.notifier)
-                        .checkValidUser();
-                    navAuthKey.currentState!.pop();
-                  },
-                  icon: Icon(
-                    Icons.clear,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ))
+              Material(
+                color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                child: IconButton(
+                    onPressed: () async {
+                      await ref
+                          .read(checkValidUserNotifierProvider.notifier)
+                          .checkValidUser();
+                      navAuthKey.currentState!.pop();
+                    },
+                    icon: Icon(
+                      Icons.clear,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    )),
+              )
             ],
             centerTitle: false,
           ),

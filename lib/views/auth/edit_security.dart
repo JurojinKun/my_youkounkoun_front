@@ -133,13 +133,18 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                     textScaleFactor: 1.0),
                               ),
                             ),
-                            IconButton(
-                                onPressed: () => Navigator.pop(context),
-                                icon: Icon(Icons.clear,
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? cBlack
-                                        : cWhite))
+                            Material(
+                              color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: Icon(Icons.clear,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite)),
+                            )
                           ],
                         ),
                         Expanded(
@@ -217,22 +222,27 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                                 .hasFocus
                                             ? cBlue
                                             : cGrey),
-                                    suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _validModifPasswordObscure =
-                                                !_validModifPasswordObscure;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          _validModifPasswordObscure
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                          color: _validModifPasswordFocusNode
-                                                  .hasFocus
-                                              ? cBlue
-                                              : cGrey,
-                                        ))),
+                                    suffixIcon: Material(
+                                      color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _validModifPasswordObscure =
+                                                  !_validModifPasswordObscure;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            _validModifPasswordObscure
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            color: _validModifPasswordFocusNode
+                                                    .hasFocus
+                                                ? cBlue
+                                                : cGrey,
+                                          )),
+                                    )),
                               ),
                               const SizedBox(
                                 height: 45.0,
@@ -434,12 +444,17 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                     : const SystemUiOverlayStyle(
                         statusBarColor: Colors.transparent,
                         statusBarIconBrightness: Brightness.light),
-            leading: IconButton(
-                onPressed: () => navAuthKey.currentState!.pop(),
-                icon: Icon(Icons.arrow_back_ios,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite)),
+            leading: Material(
+              color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+              child: IconButton(
+                  onPressed: () => navAuthKey.currentState!.pop(),
+                  icon: Icon(Icons.arrow_back_ios,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite)),
+            ),
             centerTitle: false,
             title: Text(
                 AppLocalization.of(context)
@@ -533,17 +548,22 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _mailController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color:
-                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
-                            ))
+                        ? Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _mailController.clear();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.clear,
+                                color:
+                                    _mailFocusNode.hasFocus ? cBlue : cGrey,
+                              )),
+                        )
                         : const SizedBox()),
               ),
               const SizedBox(
@@ -589,20 +609,25 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         color: _actualPasswordFocusNode.hasFocus
                             ? cBlue
                             : cGrey),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _actualPasswordObscure = !_actualPasswordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _actualPasswordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _actualPasswordFocusNode.hasFocus
-                              ? cBlue
-                              : cGrey,
-                        ))),
+                    suffixIcon: Material(
+                      color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _actualPasswordObscure = !_actualPasswordObscure;
+                            });
+                          },
+                          icon: Icon(
+                            _actualPasswordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: _actualPasswordFocusNode.hasFocus
+                                ? cBlue
+                                : cGrey,
+                          )),
+                    )),
               ),
               const SizedBox(
                 height: 25.0,
@@ -632,20 +657,25 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         color: _newPasswordFocusNode.hasFocus
                             ? cBlue
                             : cGrey),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _newPasswordObscure = !_newPasswordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _newPasswordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _newPasswordFocusNode.hasFocus
-                              ? cBlue
-                              : cGrey,
-                        ))),
+                    suffixIcon: Material(
+                      color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _newPasswordObscure = !_newPasswordObscure;
+                            });
+                          },
+                          icon: Icon(
+                            _newPasswordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: _newPasswordFocusNode.hasFocus
+                                ? cBlue
+                                : cGrey,
+                          )),
+                    )),
               ),
             ],
           ),

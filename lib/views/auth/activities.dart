@@ -91,14 +91,20 @@ class ActivitiesState extends ConsumerState<Activities>
         centerTitle: false,
         actions: [
           _tabController.index == 0
-              ? IconButton(
-                  onPressed: () =>
-                      _newConversationBottomSheet(navAuthKey.currentContext!),
-                  icon: Icon(Icons.edit_note,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      size: 33))
+              ? Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () => _newConversationBottomSheet(
+                          navAuthKey.currentContext!),
+                      icon: Icon(Icons.edit_note,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                          size: 33)),
+                )
               : const SizedBox()
         ],
       ),
@@ -127,12 +133,15 @@ class ActivitiesState extends ConsumerState<Activities>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(_tabController.index == 0 ? Icons.send : Icons.send_outlined),
+                        Icon(_tabController.index == 0
+                            ? Icons.send
+                            : Icons.send_outlined),
                         const SizedBox(
                           width: 5.0,
                         ),
                         Text(
-                          AppLocalization.of(context).translate("activities_screen", "chat"),
+                          AppLocalization.of(context)
+                              .translate("activities_screen", "chat"),
                         )
                       ],
                     ),
@@ -141,11 +150,14 @@ class ActivitiesState extends ConsumerState<Activities>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(_tabController.index == 1 ? Icons.notifications_active : Icons.notifications_active_outlined),
+                        Icon(_tabController.index == 1
+                            ? Icons.notifications_active
+                            : Icons.notifications_active_outlined),
                         const SizedBox(
                           width: 5.0,
                         ),
-                        Text(AppLocalization.of(context).translate("activities_screen", "notifications"))
+                        Text(AppLocalization.of(context)
+                            .translate("activities_screen", "notifications"))
                       ],
                     ),
                   )

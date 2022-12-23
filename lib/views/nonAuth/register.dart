@@ -101,13 +101,18 @@ class RegisterState extends ConsumerState<Register>
                                     : cWhite,
                                 16),
                             textScaleFactor: 1.0),
-                        IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(Icons.clear,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? cBlack
-                                    : cWhite))
+                        Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.clear,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite)),
+                        )
                       ],
                     ),
                   ),
@@ -315,23 +320,30 @@ class RegisterState extends ConsumerState<Register>
                   : const SystemUiOverlayStyle(
                       statusBarColor: Colors.transparent,
                       statusBarIconBrightness: Brightness.light),
-          leading: IconButton(
-              onPressed: () {
-                ref.read(genderRegisterNotifierProvider.notifier).clearGender();
-                ref
-                    .read(birthdayRegisterNotifierProvider.notifier)
-                    .clearBirthday();
-                ref
-                    .read(profilePictureRegisterNotifierProvider.notifier)
-                    .clearProfilePicture();
-                navNonAuthKey.currentState!.pop();
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-              )),
+          leading: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            child: IconButton(
+                onPressed: () {
+                  ref
+                      .read(genderRegisterNotifierProvider.notifier)
+                      .clearGender();
+                  ref
+                      .read(birthdayRegisterNotifierProvider.notifier)
+                      .clearBirthday();
+                  ref
+                      .read(profilePictureRegisterNotifierProvider.notifier)
+                      .clearProfilePicture();
+                  navNonAuthKey.currentState!.pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                )),
+          ),
           title: Text(
               AppLocalization.of(context)
                   .translate("register_screen", "register"),
@@ -447,16 +459,22 @@ class RegisterState extends ConsumerState<Register>
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _mailController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
-                            ))
+                        ? Material(
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _mailController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  color:
+                                      _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                )),
+                          )
                         : const SizedBox()),
               ),
               const SizedBox(
@@ -486,18 +504,23 @@ class RegisterState extends ConsumerState<Register>
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _passwordObscure = !_passwordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _passwordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
-                        ))),
+                    suffixIcon: Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordObscure = !_passwordObscure;
+                            });
+                          },
+                          icon: Icon(
+                            _passwordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                          )),
+                    )),
               ),
               const SizedBox(height: 55.0),
               Padding(
@@ -693,16 +716,22 @@ class RegisterState extends ConsumerState<Register>
                     prefixIcon: Icon(Icons.person,
                         color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _pseudoController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _pseudoController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                            ))
+                        ? Material(
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _pseudoController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  color:
+                                      _pseudoFocusNode.hasFocus ? cBlue : cGrey,
+                                )),
+                          )
                         : const SizedBox()),
               ),
             ],
@@ -1134,56 +1163,56 @@ class RegisterState extends ConsumerState<Register>
               child: Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  border: Border.all(color: cGrey),
-                  borderRadius: BorderRadius.circular(5.0)),
-              child: CountryCodePicker(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                backgroundColor: Colors.black54.withOpacity(0.7),
-                dialogBackgroundColor:
-                    Theme.of(context).scaffoldBackgroundColor,
-                barrierColor: Colors.transparent,
-                closeIcon: Icon(Icons.clear,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    size: 28),
-                onChanged: (countryCode) {
-                  setState(() {
-                    _selectedCountry = countryCode.code;
-                  });
-                },
-                initialSelection: _selectedCountry,
-                showCountryOnly: true,
-                showOnlyCountryWhenClosed: true,
-                alignLeft: true,
-                enabled: true,
-                dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
-                    MediaQuery.of(context).size.height / 1.25),
-                textStyle: Theme.of(context).textTheme.titleSmall,
-                dialogTextStyle: Theme.of(context).textTheme.titleSmall,
-                flagWidth: 30,
-                searchDecoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
-                  fillColor: Theme.of(context).canvasColor,
-                  filled: true,
-                  labelText: AppLocalization.of(context)
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    border: Border.all(color: cGrey),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: CountryCodePicker(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  backgroundColor: Colors.black54.withOpacity(0.7),
+                  dialogBackgroundColor:
+                      Theme.of(context).scaffoldBackgroundColor,
+                  barrierColor: Colors.transparent,
+                  closeIcon: Icon(Icons.clear,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      size: 28),
+                  onChanged: (countryCode) {
+                    setState(() {
+                      _selectedCountry = countryCode.code;
+                    });
+                  },
+                  initialSelection: _selectedCountry,
+                  showCountryOnly: true,
+                  showOnlyCountryWhenClosed: true,
+                  alignLeft: true,
+                  enabled: true,
+                  dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
+                      MediaQuery.of(context).size.height / 1.25),
+                  textStyle: Theme.of(context).textTheme.titleSmall,
+                  dialogTextStyle: Theme.of(context).textTheme.titleSmall,
+                  flagWidth: 30,
+                  searchDecoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    fillColor: Theme.of(context).canvasColor,
+                    filled: true,
+                    labelText: AppLocalization.of(context)
                         .translate("register_screen", "search_country"),
-                  border: const OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  )),
-                ),
-                emptySearchBuilder: (_) => Text(
-                    AppLocalization.of(context)
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    )),
+                  ),
+                  emptySearchBuilder: (_) => Text(
+                      AppLocalization.of(context)
                           .translate("register_screen", "empty_search_country"),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleSmall,
-                    textScaleFactor: 1.0),
-              )),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textScaleFactor: 1.0),
+                )),
           )),
           Container(
             height: 115,

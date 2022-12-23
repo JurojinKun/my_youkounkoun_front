@@ -103,14 +103,19 @@ class LoginState extends ConsumerState<Login> {
                   : const SystemUiOverlayStyle(
                       statusBarColor: Colors.transparent,
                       statusBarIconBrightness: Brightness.light),
-          leading: IconButton(
-              onPressed: () => navNonAuthKey.currentState!.pop(),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-              )),
+          leading: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            child: IconButton(
+                onPressed: () => navNonAuthKey.currentState!.pop(),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                )),
+          ),
           title: Text(
               AppLocalization.of(context).translate("login_screen", "login"),
               style: textStyleCustomBold(
@@ -139,7 +144,7 @@ class LoginState extends ConsumerState<Login> {
                       33),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0),
-                  const SizedBox(
+              const SizedBox(
                 height: 45.0,
               ),
               TextField(
@@ -166,16 +171,22 @@ class LoginState extends ConsumerState<Login> {
                     prefixIcon: Icon(Icons.mail,
                         color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _mailController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
-                            ))
+                        ? Material(
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _mailController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  color:
+                                      _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                )),
+                          )
                         : const SizedBox()),
               ),
               const SizedBox(
@@ -205,18 +216,23 @@ class LoginState extends ConsumerState<Login> {
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _passwordObscure = !_passwordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _passwordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
-                        ))),
+                    suffixIcon: Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordObscure = !_passwordObscure;
+                            });
+                          },
+                          icon: Icon(
+                            _passwordObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                          )),
+                    )),
               ),
               Align(
                 alignment: Alignment.centerLeft,

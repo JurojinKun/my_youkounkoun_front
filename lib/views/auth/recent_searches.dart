@@ -165,19 +165,24 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                               size: 20,
                             ),
                             suffixIcon: _searchController.text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _searchController.clear();
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.clear,
-                                      size: 20,
-                                      color: _searchFocusNode.hasFocus
-                                          ? cBlue
-                                          : cGrey,
-                                    ))
+                                ? Material(
+                                  color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _searchController.clear();
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.clear,
+                                        size: 20,
+                                        color: _searchFocusNode.hasFocus
+                                            ? cBlue
+                                            : cGrey,
+                                      )),
+                                )
                                 : const SizedBox()),
                         onTap: () {
                           setState(() {
@@ -317,19 +322,24 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                   16),
                               textScaleFactor: 1.0,
                             ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  //add logic back
-                                  ref
-                                      .read(recentSearchesNotifierProvider
-                                          .notifier)
-                                      .deleteRecentSearches(user);
-                                },
-                                icon: Icon(Icons.clear,
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? cBlack
-                                        : cWhite)),
+                            trailing: Material(
+                              color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                  onPressed: () {
+                                    //add logic back
+                                    ref
+                                        .read(recentSearchesNotifierProvider
+                                            .notifier)
+                                        .deleteRecentSearches(user);
+                                  },
+                                  icon: Icon(Icons.clear,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite)),
+                            ),
                           ),
                         );
                       })

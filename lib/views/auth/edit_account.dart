@@ -84,13 +84,18 @@ class EditAccountState extends ConsumerState<EditAccount>
                                     : cWhite,
                                 16),
                             textScaleFactor: 1.0),
-                        IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: Icon(Icons.clear,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? cBlack
-                                    : cWhite))
+                        Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.clear,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite)),
+                        )
                       ],
                     ),
                   ),
@@ -388,12 +393,17 @@ class EditAccountState extends ConsumerState<EditAccount>
                     : const SystemUiOverlayStyle(
                         statusBarColor: Colors.transparent,
                         statusBarIconBrightness: Brightness.light),
-            leading: IconButton(
-                onPressed: () => navAuthKey.currentState!.pop(),
-                icon: Icon(Icons.arrow_back_ios,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite)),
+            leading: Material(
+              color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+              child: IconButton(
+                  onPressed: () => navAuthKey.currentState!.pop(),
+                  icon: Icon(Icons.arrow_back_ios,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite)),
+            ),
             title: Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "my_account"),
@@ -589,16 +599,21 @@ class EditAccountState extends ConsumerState<EditAccount>
                     prefixIcon: Icon(Icons.person,
                         color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _pseudoController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _pseudoController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                            ))
+                        ? Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _pseudoController.clear();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.clear,
+                                color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
+                              )),
+                        )
                         : const SizedBox()),
               ),
             ),

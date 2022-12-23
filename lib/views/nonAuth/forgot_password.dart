@@ -195,12 +195,17 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
           ),
           centerTitle: false,
           actions: [
-            IconButton(
-                onPressed: () => navNonAuthKey.currentState!.pop(),
-                icon: Icon(Icons.clear,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite))
+            Material(
+              color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+              child: IconButton(
+                  onPressed: () => navNonAuthKey.currentState!.pop(),
+                  icon: Icon(Icons.clear,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite)),
+            )
           ],
         ),
         body: ListView(
@@ -245,17 +250,22 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                   prefixIcon: Icon(Icons.mail,
                       color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                   suffixIcon: _mailController.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _mailController.clear();
-                            });
-                          },
-                          icon: Icon(
-                            Icons.clear,
-                            color:
-                                _mailFocusNode.hasFocus ? cBlue : cGrey,
-                          ))
+                      ? Material(
+                        color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _mailController.clear();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.clear,
+                              color:
+                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            )),
+                      )
                       : const SizedBox()),
             ),
             const SizedBox(
