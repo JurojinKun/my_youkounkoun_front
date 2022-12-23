@@ -71,7 +71,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                   ? cBlack
                   : cWhite,
             )),
-        title: Text("Profil de ${widget.user.pseudo}",
+        title: Text("${AppLocalization.of(context).translate("user_profile_screen", "profile_of")} ${widget.user.pseudo}",
             style: textStyleCustomBold(
                 Theme.of(context).brightness == Brightness.light
                     ? cBlack
@@ -196,7 +196,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                                     .years
                                     .toString() +
                                 AppLocalization.of(context)
-                                    .translate("profile_screen", "years_old"),
+                                    .translate("user_profile_screen", "years_old"),
                             style: textStyleCustomBold(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack

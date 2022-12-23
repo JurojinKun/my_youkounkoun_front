@@ -20,6 +20,8 @@ class ChatDetails extends ConsumerStatefulWidget {
 }
 
 class ChatDetailsState extends ConsumerState<ChatDetails> {
+  AppBar appBar = AppBar();
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +56,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
 
   PreferredSizeWidget _customAppBarDetailsChat() {
     return PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width, 60),
+      preferredSize:
+          Size(MediaQuery.of(context).size.width, appBar.preferredSize.height),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -65,16 +68,22 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                 children: [
                   widget.openWithModal
                       ? const SizedBox()
-                      : IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(Icons.arrow_back_ios,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? cBlack
-                                  : cWhite)),
+                      : Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.arrow_back_ios,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite)),
+                        ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: widget.openWithModal ? 15.0 : 0.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: widget.openWithModal ? 15.0 : 0.0),
                       child: GestureDetector(
                         onTap: () => navAuthKey.currentState!
                             .pushNamed(userProfile, arguments: [widget.user]),
@@ -82,8 +91,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           children: [
                             widget.user.profilePictureUrl.trim() != ""
                                 ? Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: 45,
+                                    width: 45,
                                     foregroundDecoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(color: cBlue),
@@ -97,18 +106,18 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                       color: cGrey.withOpacity(0.2),
                                     ),
                                     child: const Icon(Icons.person,
-                                        color: cBlue, size: 30),
+                                        color: cBlue, size: 23),
                                   )
                                 : Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: 45,
+                                    width: 45,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(color: cBlue),
                                       color: cGrey.withOpacity(0.2),
                                     ),
                                     child: const Icon(Icons.person,
-                                        color: cBlue, size: 20),
+                                        color: cBlue, size: 23),
                                   ),
                             const SizedBox(
                               width: 15.0,
@@ -127,13 +136,21 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                     ),
                   ),
                   widget.openWithModal
-                      ? IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(Icons.clear,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? cBlack
-                                  : cWhite))
+                      ? Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(
+                                Icons.clear,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                size: 30,
+                              )),
+                        )
                       : const SizedBox()
                 ],
               ),

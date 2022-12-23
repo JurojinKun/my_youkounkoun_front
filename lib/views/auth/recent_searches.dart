@@ -10,6 +10,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class RecentSearches extends ConsumerStatefulWidget {
   const RecentSearches({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   bool searching = false;
   String currentSearch = "";
   Timer? _timer;
+
+  AppBar appBar = AppBar();
 
   void _scrollListener() {
     if (_scrollController.offset != 0.0 && _searchFocusNode.hasFocus) {
@@ -113,7 +116,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
 
   PreferredSizeWidget _customAppBarSearch() {
     return PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width, 60),
+      preferredSize: Size(MediaQuery.of(context).size.width, appBar.preferredSize.height),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -146,7 +149,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             filled: true,
                             fillColor:
                                 Theme.of(context).scaffoldBackgroundColor,
-                            hintText: 'Rechercher un utilisateur',
+                            hintText: AppLocalization.of(context).translate("general", "search_user"),
                             hintStyle: textStyleCustomMedium(
                                 _searchFocusNode.hasFocus ? cBlue : cGrey, 14),
                             enabledBorder: OutlineInputBorder(
@@ -209,7 +212,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                     child: TextButton(
                       onPressed: () => navSearchKey!.currentState!.pop(),
                       child: Text(
-                        "Annuler",
+                        AppLocalization.of(context).translate("general", "btn_cancel"),
                         style: textStyleCustomMedium(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -240,7 +243,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
             children: [
               const SizedBox(height: 15.0),
               Text(
-                "Recherches récentes",
+                AppLocalization.of(context).translate("recent_searches_screen", "recent_searches"),
                 style: textStyleCustomBold(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -252,7 +255,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                   ? Container(
                       height: 150.0,
                       alignment: Alignment.center,
-                      child: Text("Pas encore de recherches récentes",
+                      child: Text(AppLocalization.of(context).translate("recent_searches_screen", "no_recent_searches"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
                                   ? cBlack
@@ -361,8 +364,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                       ),
                       Text(
                         _searchController.text.length < 10
-                            ? 'Recherche de "${_searchController.text}.."'
-                            : 'Recherche de "${_searchController.text.substring(0, 10)}.."',
+                            ? '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text}.."'
+                            : '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text.substring(0, 10)}.."',
                         style: textStyleCustomMedium(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -394,7 +397,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
             children: [
               const SizedBox(height: 15.0),
               Text(
-                "Résultats",
+                AppLocalization.of(context).translate("recent_searches_screen", "results"),
                 style: textStyleCustomBold(
                     Theme.of(context).brightness == Brightness.light
                         ? cBlack
@@ -406,7 +409,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                   ? Container(
                       height: 150.0,
                       alignment: Alignment.center,
-                      child: Text("Pas de résultats pour cette recherche",
+                      child: Text(AppLocalization.of(context).translate("recent_searches_screen", "no_results"),
                           style: textStyleCustomMedium(
                               Theme.of(context).brightness == Brightness.light
                                   ? cBlack

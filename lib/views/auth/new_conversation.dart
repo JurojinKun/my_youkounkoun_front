@@ -11,6 +11,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
@@ -37,6 +38,8 @@ class NewConversationState extends ConsumerState<NewConversation>
   late FocusNode _searchFocusNode;
 
   bool _isKeyboard = false;
+
+  AppBar appBar = AppBar();
 
   void _scrollListener() {
     if (_scrollController.offset != 0.0 && _searchFocusNode.hasFocus) {
@@ -148,13 +151,14 @@ class NewConversationState extends ConsumerState<NewConversation>
 
   PreferredSizeWidget _customAppBarNewConv() {
     return PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width, 60),
+      preferredSize:
+          Size(MediaQuery.of(context).size.width, appBar.preferredSize.height),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
-                alignment: Alignment.bottomCenter,
+                color:
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                 child: AppBar(
                   automaticallyImplyLeading: false,
                   elevation: 0,
@@ -179,6 +183,7 @@ class NewConversationState extends ConsumerState<NewConversation>
                               Theme.of(context).brightness == Brightness.light
                                   ? cBlack
                                   : cWhite,
+                          size: 30,
                         ))
                   ],
                 ))),
@@ -200,7 +205,7 @@ class NewConversationState extends ConsumerState<NewConversation>
                 physics: const AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
                 children: [
-                  const SizedBox(height: 25.0),
+                  const SizedBox(height: 15.0),
                   Container(
                     height: 40.0,
                     alignment: Alignment.center,
@@ -220,7 +225,8 @@ class NewConversationState extends ConsumerState<NewConversation>
                               const EdgeInsets.only(top: 15.0, left: 15.0),
                           filled: true,
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
-                          hintText: 'Rechercher un utilisateur',
+                          hintText: AppLocalization.of(context)
+                              .translate("general", "search_user"),
                           hintStyle: textStyleCustomMedium(
                               _searchFocusNode.hasFocus ? cBlue : cGrey, 14),
                           enabledBorder: OutlineInputBorder(
@@ -304,7 +310,10 @@ class NewConversationState extends ConsumerState<NewConversation>
                               _conversationBottomSheet(
                                   navAuthKey.currentContext!, choiceUser!);
                             },
-                            child: Text("Démarrer conversation",
+                            child: Text(
+                                AppLocalization.of(context).translate(
+                                    "new_conversation_screen",
+                                    "start_conversation"),
                                 style: textStyleCustomMedium(
                                     Theme.of(context).brightness ==
                                             Brightness.light
@@ -324,7 +333,8 @@ class NewConversationState extends ConsumerState<NewConversation>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Interactions récentes",
+          AppLocalization.of(context)
+              .translate("new_conversation_screen", "recent_interactions"),
           style: textStyleCustomBold(
               Theme.of(context).brightness == Brightness.light
                   ? cBlack
@@ -337,7 +347,8 @@ class NewConversationState extends ConsumerState<NewConversation>
                 height: 150.0,
                 alignment: Alignment.center,
                 child: Text(
-                    "Pas encore d'interactions récentes avec des utilisateurs",
+                    AppLocalization.of(context).translate(
+                        "new_conversation_screen", "no_recent_interactions"),
                     style: textStyleCustomMedium(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack
@@ -395,17 +406,19 @@ class NewConversationState extends ConsumerState<NewConversation>
                             16),
                         textScaleFactor: 1.0,
                       ),
-                      trailing: Radio(
-                          activeColor: cBlue,
-                          toggleable: true,
-                          value: user.pseudo,
-                          groupValue: choice,
-                          onChanged: (String? value) {
-                            setState(() {
-                              choice = value;
-                              choiceUser = user;
-                            });
-                          }),
+                      trailing: user.id == ref.read(userNotifierProvider).id
+                          ? const SizedBox()
+                          : Radio(
+                              activeColor: cBlue,
+                              toggleable: true,
+                              value: user.pseudo,
+                              groupValue: choice,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  choice = value;
+                                  choiceUser = user;
+                                });
+                              }),
                     ),
                   );
                 })
@@ -434,8 +447,8 @@ class NewConversationState extends ConsumerState<NewConversation>
                 ),
                 Text(
                   _searchController.text.length < 10
-                      ? 'Recherche de "${_searchController.text}.."'
-                      : 'Recherche de "${_searchController.text.substring(0, 10)}.."',
+                      ? '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text}.."'
+                      : '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text.substring(0, 10)}.."',
                   style: textStyleCustomMedium(
                       Theme.of(context).brightness == Brightness.light
                           ? cBlack
@@ -455,7 +468,7 @@ class NewConversationState extends ConsumerState<NewConversation>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Résultats",
+          AppLocalization.of(context).translate("new_conversation_screen", "results"),
           style: textStyleCustomBold(
               Theme.of(context).brightness == Brightness.light
                   ? cBlack
@@ -467,7 +480,7 @@ class NewConversationState extends ConsumerState<NewConversation>
             ? Container(
                 height: 150.0,
                 alignment: Alignment.center,
-                child: Text("Pas encore de résultats pour cette recherche",
+                child: Text(AppLocalization.of(context).translate("new_conversation_screen", "no_results"),
                     style: textStyleCustomMedium(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack
@@ -525,17 +538,19 @@ class NewConversationState extends ConsumerState<NewConversation>
                             16),
                         textScaleFactor: 1.0,
                       ),
-                      trailing: Radio(
-                          activeColor: cBlue,
-                          toggleable: true,
-                          value: user.pseudo,
-                          groupValue: choice,
-                          onChanged: (String? value) {
-                            setState(() {
-                              choice = value;
-                              choiceUser = user;
-                            });
-                          }),
+                      trailing: user.id == ref.read(userNotifierProvider).id
+                          ? const SizedBox()
+                          : Radio(
+                              activeColor: cBlue,
+                              toggleable: true,
+                              value: user.pseudo,
+                              groupValue: choice,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  choice = value;
+                                  choiceUser = user;
+                                });
+                              }),
                     ),
                   );
                 })

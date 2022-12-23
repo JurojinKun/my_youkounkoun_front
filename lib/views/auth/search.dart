@@ -83,7 +83,7 @@ class SearchState extends ConsumerState<Search>
                             Icon(Icons.search, color: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite),
                             const SizedBox(width: 15.0),
                             Expanded(child: Text(
-                            "Recherche un utilisateur",
+                            AppLocalization.of(context).translate("general", "search_user"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack

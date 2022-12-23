@@ -11,7 +11,9 @@
         "btn_validate": "Valider",
         "message_error": "Un problème est survenu",
         "title_cropper": "Format de l'image",
-        "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !"
+        "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !",
+        "search_user": "Rechercher un utilisateur",
+        "search_of": "Recherche de "
     },
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"
@@ -125,6 +127,21 @@
         "check_validity": "Vérifier"
     },
     "new_conversation_screen": {
-        "new_conversation": "Nouvelle conversation"
+        "new_conversation": "Nouvelle conversation",
+        "start_conversation": "Démarrer conversation",
+        "recent_interactions": "Interactions récentes",
+        "no_recent_interactions": "Pas encore d'interactions récentes avec des utilisateurs",
+        "results": "Résultats",
+        "no_results": "Pas encore de résultats pour cette recherche"
+    },
+    "recent_searches_screen": {
+        "recent_searches": "Recherches récentes",
+        "no_recent_searches": "Pas encore de recherches récentes",
+        "results": "Résultats",
+        "no_results": "Pas de résultats pour cette recherche"
+    },
+    "user_profile_screen": {
+        "profile_of": "Profil de ",
+        "years_old": " ans"
     }
 }
