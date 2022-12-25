@@ -116,12 +116,12 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
 
   PreferredSizeWidget _customAppBarSearch() {
     return PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width, appBar.preferredSize.height),
+      preferredSize:
+          Size(MediaQuery.of(context).size.width, appBar.preferredSize.height),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
               alignment: Alignment.bottomCenter,
               child: Row(
                 children: [
@@ -149,7 +149,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             filled: true,
                             fillColor:
                                 Theme.of(context).scaffoldBackgroundColor,
-                            hintText: AppLocalization.of(context).translate("general", "search_user"),
+                            hintText: AppLocalization.of(context)
+                                .translate("general", "search_user"),
                             hintStyle: textStyleCustomMedium(
                                 _searchFocusNode.hasFocus ? cBlue : cGrey, 14),
                             enabledBorder: OutlineInputBorder(
@@ -166,23 +167,23 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             ),
                             suffixIcon: _searchController.text.isNotEmpty
                                 ? Material(
-                                  color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _searchController.clear();
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.clear,
-                                        size: 20,
-                                        color: _searchFocusNode.hasFocus
-                                            ? cBlue
-                                            : cGrey,
-                                      )),
-                                )
+                                    color: Colors.transparent,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _searchController.clear();
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.clear,
+                                          size: 20,
+                                          color: _searchFocusNode.hasFocus
+                                              ? cBlue
+                                              : cGrey,
+                                        )),
+                                  )
                                 : const SizedBox()),
                         onTap: () {
                           setState(() {
@@ -217,7 +218,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                     child: TextButton(
                       onPressed: () => navSearchKey!.currentState!.pop(),
                       child: Text(
-                        AppLocalization.of(context).translate("general", "btn_cancel"),
+                        AppLocalization.of(context)
+                            .translate("general", "btn_cancel"),
                         style: textStyleCustomMedium(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -235,118 +237,133 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   }
 
   Widget _recentSearches() {
-    return Column(
-      children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListView(
-            controller: _scrollController,
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            children: [
-              const SizedBox(height: 15.0),
-              Text(
-                AppLocalization.of(context).translate("recent_searches_screen", "recent_searches"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    16),
-                textScaleFactor: 1.0,
-              ),
-              recentSearchesUsers.isEmpty
-                  ? Container(
-                      height: 150.0,
-                      alignment: Alignment.center,
-                      child: Text(AppLocalization.of(context).translate("recent_searches_screen", "no_recent_searches"),
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 1.0))
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: recentSearchesUsers.length,
-                      itemBuilder: (_, index) {
-                        User user = recentSearchesUsers[index];
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(
+            10.0, appBar.preferredSize.height + 40.0, 10.0, 0.0),
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalization.of(context)
+                  .translate("recent_searches_screen", "recent_searches"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+              textScaleFactor: 1.0,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            recentSearchesUsers.isEmpty
+                ? Container(
+                    height: 150.0,
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.search,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                            size: 40),
+                        const SizedBox(height: 10.0),
+                        Text(
+                            AppLocalization.of(context).translate(
+                                "recent_searches_screen", "no_recent_searches"),
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                14),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 1.0)
+                      ],
+                    ))
+                : ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: recentSearchesUsers.length,
+                    itemBuilder: (_, index) {
+                      User user = recentSearchesUsers[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: ListTile(
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 5.0),
-                            onTap: () => navSearchKey!.currentState!
-                                .pushNamed(userProfile, arguments: [user]),
-                            leading: user.profilePictureUrl.trim() != ""
-                                ? Container(
-                                    height: 65,
-                                    width: 65,
-                                    foregroundDecoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cBlue),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                user.profilePictureUrl),
-                                            fit: BoxFit.cover)),
-                                    decoration: BoxDecoration(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 5.0),
+                          onTap: () => navSearchKey!.currentState!
+                              .pushNamed(userProfile, arguments: [user]),
+                          leading: user.profilePictureUrl.trim() != ""
+                              ? Container(
+                                  height: 65,
+                                  width: 65,
+                                  foregroundDecoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(color: cBlue),
-                                      color: cGrey.withOpacity(0.2),
-                                    ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 30),
-                                  )
-                                : Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      color: cGrey.withOpacity(0.2),
-                                    ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 30),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              user.profilePictureUrl),
+                                          fit: BoxFit.cover)),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    color: cGrey.withOpacity(0.2),
                                   ),
-                            title: Text(
-                              user.pseudo,
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  16),
-                              textScaleFactor: 1.0,
-                            ),
-                            trailing: Material(
-                              color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  onPressed: () {
-                                    //add logic back
-                                    ref
-                                        .read(recentSearchesNotifierProvider
-                                            .notifier)
-                                        .deleteRecentSearches(user);
-                                  },
-                                  icon: Icon(Icons.clear,
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? cBlack
-                                          : cWhite)),
-                            ),
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30),
+                                )
+                              : Container(
+                                  height: 65,
+                                  width: 65,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    color: cGrey.withOpacity(0.2),
+                                  ),
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30),
+                                ),
+                          title: Text(
+                            user.pseudo,
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                16),
+                            textScaleFactor: 1.0,
                           ),
-                        );
-                      })
-            ],
-          ),
-        ))
-      ],
+                          trailing: Material(
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  //add logic back
+                                  ref
+                                      .read(recentSearchesNotifierProvider
+                                          .notifier)
+                                      .deleteRecentSearches(user);
+                                },
+                                icon: Icon(Icons.clear,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite)),
+                          ),
+                        ),
+                      );
+                    })
+          ],
+        ),
+      ),
     );
   }
 
@@ -394,105 +411,120 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   }
 
   Widget _resultsSearch() {
-    return Column(
-      children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListView(
-            controller: _scrollController,
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            children: [
-              const SizedBox(height: 15.0),
-              Text(
-                AppLocalization.of(context).translate("recent_searches_screen", "results"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    16),
-                textScaleFactor: 1.0,
-              ),
-              resultsSearch.isEmpty
-                  ? Container(
-                      height: 150.0,
-                      alignment: Alignment.center,
-                      child: Text(AppLocalization.of(context).translate("recent_searches_screen", "no_results"),
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 1.0))
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: resultsSearch.length,
-                      itemBuilder: (_, index) {
-                        User user = resultsSearch[index];
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        padding: EdgeInsets.fromLTRB(
+            10.0, appBar.preferredSize.height + 40.0, 10.0, 0.0),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalization.of(context)
+                  .translate("recent_searches_screen", "results"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+              textScaleFactor: 1.0,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            resultsSearch.isEmpty
+                ? Container(
+                    height: 150.0,
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.search,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                            size: 40),
+                        const SizedBox(height: 10.0),
+                        Text(
+                            AppLocalization.of(context).translate(
+                                "recent_searches_screen", "no_results"),
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                14),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 1.0)
+                      ],
+                    ))
+                : ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: resultsSearch.length,
+                    itemBuilder: (_, index) {
+                      User user = resultsSearch[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: ListTile(
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 5.0),
-                            onTap: () {
-                              ref
-                                  .read(recentSearchesNotifierProvider.notifier)
-                                  .addRecentSearches(user);
-                              navSearchKey!.currentState!
-                                  .pushNamed(userProfile, arguments: [user]);
-                            },
-                            leading: user.profilePictureUrl.trim() != ""
-                                ? Container(
-                                    height: 65,
-                                    width: 65,
-                                    foregroundDecoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cBlue),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                user.profilePictureUrl),
-                                            fit: BoxFit.cover)),
-                                    decoration: BoxDecoration(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 5.0),
+                          onTap: () {
+                            ref
+                                .read(recentSearchesNotifierProvider.notifier)
+                                .addRecentSearches(user);
+                            navSearchKey!.currentState!
+                                .pushNamed(userProfile, arguments: [user]);
+                          },
+                          leading: user.profilePictureUrl.trim() != ""
+                              ? Container(
+                                  height: 65,
+                                  width: 65,
+                                  foregroundDecoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(color: cBlue),
-                                      color: cGrey.withOpacity(0.2),
-                                    ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 30),
-                                  )
-                                : Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      color: cGrey.withOpacity(0.2),
-                                    ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 30),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              user.profilePictureUrl),
+                                          fit: BoxFit.cover)),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    color: cGrey.withOpacity(0.2),
                                   ),
-                            title: Text(
-                              user.pseudo,
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  16),
-                              textScaleFactor: 1.0,
-                            ),
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30),
+                                )
+                              : Container(
+                                  height: 65,
+                                  width: 65,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    color: cGrey.withOpacity(0.2),
+                                  ),
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30),
+                                ),
+                          title: Text(
+                            user.pseudo,
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                16),
+                            textScaleFactor: 1.0,
                           ),
-                        );
-                      })
-            ],
-          ),
-        ))
-      ],
+                        ),
+                      );
+                    })
+          ],
+        ),
+      ),
     );
   }
 }

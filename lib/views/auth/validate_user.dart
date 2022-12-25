@@ -200,8 +200,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
             actions: [
               Material(
                 color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.hardEdge,
                 child: IconButton(
                     onPressed: () async {
                       await ref
@@ -327,7 +327,10 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                               //set logic ws check code
                               await Future.delayed(const Duration(seconds: 2),
                                   () {
-                                ref.read(checkValidUserNotifierProvider.notifier).checkValidUser();
+                                ref
+                                    .read(
+                                        checkValidUserNotifierProvider.notifier)
+                                    .checkValidUser();
                                 navAuthKey.currentState!.pop();
                               });
                               setState(() {

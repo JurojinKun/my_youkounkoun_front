@@ -115,7 +115,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                 ],
               )),
               Container(
-                height: 30.0,
+                height: 40.0,
                 alignment: Alignment.center,
                 child: RichText(
                     textAlign: TextAlign.center,
@@ -168,7 +168,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                         ])),
               ),
               Container(
-                height: 30.0,
+                height: 60.0,
                 alignment: Alignment.center,
                 child: Text(
                     AppLocalization.of(context)

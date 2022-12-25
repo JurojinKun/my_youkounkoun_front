@@ -38,7 +38,7 @@
     },
     "forgot_password_screen": {
         "forgot_password": "Mot de passe oublié",
-        "content": "Saissis le mail associé à ton compte afin de recevoir un mail pour modifier ton mot de passe.",
+        "content": "Saisis le mail associé à ton compte afin de recevoir un mail pour modifier ton mot de passe.",
         "mail": "Email",
         "send_mail": "Un mail vous a été envoyé",
         "error_send_mail": "Erreur\nLe mail n'a pas pu s'envoyer"

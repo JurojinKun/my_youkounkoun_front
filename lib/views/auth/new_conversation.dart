@@ -151,137 +151,131 @@ class NewConversationState extends ConsumerState<NewConversation>
 
   PreferredSizeWidget _customAppBarNewConv() {
     return PreferredSize(
-      preferredSize:
-          Size(MediaQuery.of(context).size.width, appBar.preferredSize.height + 50.0),
+      preferredSize: Size(MediaQuery.of(context).size.width,
+          appBar.preferredSize.height + 50.0),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-                color:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
-                child: AppBar(
-                  automaticallyImplyLeading: false,
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                  backgroundColor: Colors.transparent,
-                  title: Text(
-                    AppLocalization.of(context).translate(
-                        "new_conversation_screen", "new_conversation"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              title: Text(
+                AppLocalization.of(context)
+                    .translate("new_conversation_screen", "new_conversation"),
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    20),
+              ),
+              centerTitle: false,
+              actions: [
+                Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () => navAuthKey.currentState!.pop(),
+                      icon: Icon(
+                        Icons.clear,
+                        color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
                             : cWhite,
-                        20),
-                  ),
-                  centerTitle: false,
-                  actions: [
-                    Material(
-                      color: Colors.transparent,
-                      shape: const CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () => navAuthKey.currentState!.pop(),
-                          icon: Icon(
-                            Icons.clear,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            size: 30,
-                          )),
-                    )
-                  ],
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(50),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-                      child: Container(
-                        height: 40.0,
-                        alignment: Alignment.center,
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          cursorColor: Theme.of(context).colorScheme.primary,
-                          textInputAction: TextInputAction.search,
-                          maxLines: 1,
-                          style: textStyleCustomMedium(
-                              _searchFocusNode.hasFocus
-                                  ? Theme.of(context).colorScheme.primary
-                                  : cGrey,
-                              14),
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.only(top: 15.0, left: 15.0),
-                              filled: true,
-                              fillColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              hintText: AppLocalization.of(context)
-                                  .translate("general", "search_user"),
-                              hintStyle: textStyleCustomMedium(
-                                  _searchFocusNode.hasFocus ? cBlue : cGrey, 14),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: cGrey),
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: cBlue,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: const Icon(
-                                Icons.search_sharp,
-                                size: 20,
+                        size: 30,
+                      )),
+                )
+              ],
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+                  child: Container(
+                    height: 40.0,
+                    alignment: Alignment.center,
+                    child: TextField(
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      cursorColor: Theme.of(context).colorScheme.primary,
+                      textInputAction: TextInputAction.search,
+                      maxLines: 1,
+                      style: textStyleCustomMedium(
+                          _searchFocusNode.hasFocus
+                              ? Theme.of(context).colorScheme.primary
+                              : cGrey,
+                          14),
+                      decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.only(top: 15.0, left: 15.0),
+                          filled: true,
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
+                          hintText: AppLocalization.of(context)
+                              .translate("general", "search_user"),
+                          hintStyle: textStyleCustomMedium(
+                              _searchFocusNode.hasFocus ? cBlue : cGrey, 14),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: cGrey),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: cBlue,
                               ),
-                              suffixIcon: _searchController.text.isNotEmpty
-                                  ? Material(
-                                      color: Colors.transparent,
-                                      shape: const CircleBorder(),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _searchController.clear();
-                                            });
-                                            Helpers.hideKeyboard(context);
-                                          },
-                                          icon: Icon(
-                                            Icons.clear,
-                                            size: 20,
-                                            color: _searchFocusNode.hasFocus
-                                                ? cBlue
-                                                : cGrey,
-                                          )),
-                                    )
-                                  : const SizedBox()),
-                          onTap: () {
-                            setState(() {
-                              FocusScope.of(context)
-                                  .requestFocus(_searchFocusNode);
-                            });
-                          },
-                          onChanged: (value) async {
-                            setState(() {
-                              value = _searchController.text;
-                            });
-                    
-                            if (_timer != null && _timer!.isActive) {
-                              _timer!.cancel();
-                            }
-                            _timer = Timer(const Duration(seconds: 1), () async {
-                              if (_searchController.text.isNotEmpty &&
-                                  currentSearch != _searchController.text) {
-                                await _searchUsers();
-                                currentSearch = _searchController.text;
-                              }
-                            });
-                          },
-                          onEditingComplete: () {
-                            Helpers.hideKeyboard(context);
-                          },
-                        ),
-                      ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          prefixIcon: const Icon(
+                            Icons.search_sharp,
+                            size: 20,
+                          ),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? Material(
+                                  color: Colors.transparent,
+                                  shape: const CircleBorder(),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _searchController.clear();
+                                        });
+                                        Helpers.hideKeyboard(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.clear,
+                                        size: 20,
+                                        color: _searchFocusNode.hasFocus
+                                            ? cBlue
+                                            : cGrey,
+                                      )),
+                                )
+                              : const SizedBox()),
+                      onTap: () {
+                        setState(() {
+                          FocusScope.of(context).requestFocus(_searchFocusNode);
+                        });
+                      },
+                      onChanged: (value) async {
+                        setState(() {
+                          value = _searchController.text;
+                        });
+
+                        if (_timer != null && _timer!.isActive) {
+                          _timer!.cancel();
+                        }
+                        _timer = Timer(const Duration(seconds: 1), () async {
+                          if (_searchController.text.isNotEmpty &&
+                              currentSearch != _searchController.text) {
+                            await _searchUsers();
+                            currentSearch = _searchController.text;
+                          }
+                        });
+                      },
+                      onEditingComplete: () {
+                        Helpers.hideKeyboard(context);
+                      },
                     ),
                   ),
-                ))),
+                ),
+              ),
+            )),
       ),
     );
   }
@@ -289,25 +283,17 @@ class NewConversationState extends ConsumerState<NewConversation>
   Widget _choiceNewConv() {
     return Stack(
       children: [
-        Column(
-          children: [
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: ListView(
-                controller: _scrollController,
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                children: [
-                  const SizedBox(height: 15.0),
-                  _searchController.text.isNotEmpty
-                      ? _searches()
-                      : _recentsInteractionsUsers()
-                ],
-              ),
-            ))
-          ],
+        SizedBox.expand(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            padding: EdgeInsets.fromLTRB(
+                10.0, appBar.preferredSize.height + 100.0, 10.0, 0.0),
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
+            child: _searchController.text.isNotEmpty
+                ? _searches()
+                : _recentsInteractionsUsers(),
+          ),
         ),
         choice == null || _isKeyboard
             ? const SizedBox()
@@ -359,22 +345,38 @@ class NewConversationState extends ConsumerState<NewConversation>
               16),
           textScaleFactor: 1.0,
         ),
+        const SizedBox(
+          height: 10.0,
+        ),
         recentSearchesUsers.isEmpty
             ? Container(
                 height: 150.0,
                 alignment: Alignment.center,
-                child: Text(
-                    AppLocalization.of(context).translate(
-                        "new_conversation_screen", "no_recent_interactions"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search,
+                        color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
                             : cWhite,
-                        14),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.0))
+                        size: 40),
+                    const SizedBox(height: 10.0),
+                    Text(
+                        AppLocalization.of(context).translate(
+                            "new_conversation_screen",
+                            "no_recent_interactions"),
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            14),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0)
+                  ],
+                ))
             : ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: recentSearchesUsers.length,
                 itemBuilder: (_, index) {
@@ -494,22 +496,37 @@ class NewConversationState extends ConsumerState<NewConversation>
               16),
           textScaleFactor: 1.0,
         ),
+        const SizedBox(
+          height: 10.0,
+        ),
         resultsSearch.isEmpty
             ? Container(
                 height: 150.0,
                 alignment: Alignment.center,
-                child: Text(
-                    AppLocalization.of(context)
-                        .translate("new_conversation_screen", "no_results"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search,
+                        color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
                             : cWhite,
-                        14),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.0))
+                        size: 40),
+                    const SizedBox(height: 10.0),
+                    Text(
+                        AppLocalization.of(context)
+                            .translate("new_conversation_screen", "no_results"),
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            14),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0)
+                  ],
+                ))
             : ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: resultsSearch.length,
                 itemBuilder: (_, index) {

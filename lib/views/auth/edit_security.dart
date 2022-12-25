@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -40,6 +41,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   bool validEditMail = false;
   bool validEditPassword = false;
   bool validModif = false;
+
+  AppBar appBar = AppBar();
 
   void _updateMail() {
     if (_mailController.text.trim().isNotEmpty &&
@@ -122,7 +125,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0),
                                 child: Text(
-                                    AppLocalization.of(context).translate("edit_security_screen", "verify_validity"),
+                                    AppLocalization.of(context).translate(
+                                        "edit_security_screen",
+                                        "verify_validity"),
                                     style: textStyleCustomBold(
                                         Theme.of(context).brightness ==
                                                 Brightness.light
@@ -135,8 +140,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                             ),
                             Material(
                               color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
+                              shape: const CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
                               child: IconButton(
                                   onPressed: () => Navigator.pop(context),
                                   icon: Icon(Icons.clear,
@@ -156,7 +161,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                 height: 35,
                               ),
                               Text(
-                                  AppLocalization.of(context).translate("edit_security_screen", "content_verify"),
+                                  AppLocalization.of(context).translate(
+                                      "edit_security_screen", "content_verify"),
                                   style: textStyleCustomMedium(
                                       Theme.of(context).brightness ==
                                               Brightness.light
@@ -206,7 +212,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                       : MediaQuery.of(context).size.height / 2;
                                 },
                                 decoration: InputDecoration(
-                                    hintText: AppLocalization.of(context).translate("edit_security_screen", "password"),
+                                    hintText: AppLocalization.of(context)
+                                        .translate(
+                                            "edit_security_screen", "password"),
                                     hintStyle: textStyleCustomRegular(
                                         cGrey,
                                         14 /
@@ -224,8 +232,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                             : cGrey),
                                     suffixIcon: Material(
                                       color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
+                                      shape: const CircleBorder(),
+                                      clipBehavior: Clip.hardEdge,
                                       child: IconButton(
                                           onPressed: () {
                                             setState(() {
@@ -276,7 +284,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                                 ),
                                               ),
                                             )
-                                          : Text(AppLocalization.of(context).translate("general", "btn_validate"),
+                                          : Text(
+                                              AppLocalization.of(context)
+                                                  .translate("general",
+                                                      "btn_validate"),
                                               style: textStyleCustomMedium(
                                                   Theme.of(context)
                                                               .brightness ==
@@ -427,44 +438,56 @@ class EditSecurityState extends ConsumerState<EditSecurity>
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
+          extendBodyBehindAppBar: true,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
-            leading: Material(
-              color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-              child: IconButton(
-                  onPressed: () => navAuthKey.currentState!.pop(),
-                  icon: Icon(Icons.arrow_back_ios,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite)),
+          appBar: PreferredSize(
+            preferredSize: Size(
+                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBar(
+                  automaticallyImplyLeading: false,
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  systemOverlayStyle:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Platform.isIOS
+                              ? SystemUiOverlayStyle.dark
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.dark)
+                          : Platform.isIOS
+                              ? SystemUiOverlayStyle.light
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.light),
+                  leading: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navAuthKey.currentState!.pop(),
+                        icon: Icon(Icons.arrow_back_ios,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                  ),
+                  centerTitle: false,
+                  title: Text(
+                      AppLocalization.of(context).translate(
+                          "edit_security_screen", "security_account"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          20),
+                      textScaleFactor: 1.0),
+                ),
+              ),
             ),
-            centerTitle: false,
-            title: Text(
-                AppLocalization.of(context)
-                    .translate("edit_security_screen", "security_account"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    20),
-                textScaleFactor: 1.0),
           ),
           body: Stack(
             children: [
@@ -484,71 +507,66 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   }
 
   Widget _editSecurity() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
+    return SizedBox.expand(
       child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 40.0, 20.0, validEditMail || validEditPassword ? 110 : 10),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
-        child: Padding(
-          padding: EdgeInsets.only(
-              bottom: validEditMail || validEditPassword ? 110 : 10,
-              left: 20,
-              right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                AppLocalization.of(context).translate("edit_security_screen", "content"),
-                style: textStyleCustomRegular(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    16),
-                textScaleFactor: 1.0,
-              ),
-              const SizedBox(
-                height: 25.0,
-              ),
-              Text(
-                AppLocalization.of(context).translate("edit_security_screen", "mail"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    18),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.0,
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextField(
-                controller: _mailController,
-                focusNode: _mailFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (val) {
-                  setState(() {
-                    val = _mailController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  Helpers.hideKeyboard(context);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context).translate("edit_security_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: _mailController.text.isNotEmpty
-                        ? Material(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalization.of(context)
+                  .translate("edit_security_screen", "content"),
+              style: textStyleCustomRegular(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+              textScaleFactor: 1.0,
+            ),
+            const SizedBox(
+              height: 25.0,
+            ),
+            Text(
+              AppLocalization.of(context)
+                  .translate("edit_security_screen", "mail"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  18),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            TextField(
+              controller: _mailController,
+              focusNode: _mailFocusNode,
+              maxLines: 1,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (val) {
+                setState(() {
+                  val = _mailController.text;
+                });
+              },
+              onSubmitted: (val) {
+                Helpers.hideKeyboard(context);
+              },
+              decoration: InputDecoration(
+                  hintText: AppLocalization.of(context)
+                      .translate("edit_security_screen", "mail"),
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                  labelStyle: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  prefixIcon: Icon(Icons.mail,
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                  suffixIcon: _mailController.text.isNotEmpty
+                      ? Material(
                           color: Colors.transparent,
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
@@ -564,121 +582,119 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                     _mailFocusNode.hasFocus ? cBlue : cGrey,
                               )),
                         )
-                        : const SizedBox()),
-              ),
-              const SizedBox(
-                height: 45.0,
-              ),
-              Text(
-                AppLocalization.of(context).translate("edit_security_screen", "password"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    18),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.0,
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              TextField(
-                controller: _actualPasswordController,
-                focusNode: _actualPasswordFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.text,
-                obscureText: _actualPasswordObscure,
-                onChanged: (val) {
-                  setState(() {
-                    val = _actualPasswordController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  setState(() {
-                    FocusScope.of(context).requestFocus(_newPasswordFocusNode);
-                  });
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context).translate("edit_security_screen", "actual_password"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.lock,
-                        color: _actualPasswordFocusNode.hasFocus
-                            ? cBlue
-                            : cGrey),
-                    suffixIcon: Material(
-                      color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _actualPasswordObscure = !_actualPasswordObscure;
-                            });
-                          },
-                          icon: Icon(
-                            _actualPasswordObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: _actualPasswordFocusNode.hasFocus
-                                ? cBlue
-                                : cGrey,
-                          )),
-                    )),
-              ),
-              const SizedBox(
-                height: 25.0,
-              ),
-              TextField(
-                controller: _newPasswordController,
-                focusNode: _newPasswordFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                obscureText: _newPasswordObscure,
-                onChanged: (val) {
-                  setState(() {
-                    val = _newPasswordController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  Helpers.hideKeyboard(context);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context).translate("edit_security_screen", "new_password"),
-                    hintStyle: textStyleCustomRegular(cGrey,
-                        14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.lock,
-                        color: _newPasswordFocusNode.hasFocus
-                            ? cBlue
-                            : cGrey),
-                    suffixIcon: Material(
-                      color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _newPasswordObscure = !_newPasswordObscure;
-                            });
-                          },
-                          icon: Icon(
-                            _newPasswordObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: _newPasswordFocusNode.hasFocus
-                                ? cBlue
-                                : cGrey,
-                          )),
-                    )),
-              ),
-            ],
-          ),
+                      : const SizedBox()),
+            ),
+            const SizedBox(
+              height: 45.0,
+            ),
+            Text(
+              AppLocalization.of(context)
+                  .translate("edit_security_screen", "password"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  18),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
+            ),
+            const SizedBox(
+              height: 15.0,
+            ),
+            TextField(
+              controller: _actualPasswordController,
+              focusNode: _actualPasswordFocusNode,
+              maxLines: 1,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.text,
+              obscureText: _actualPasswordObscure,
+              onChanged: (val) {
+                setState(() {
+                  val = _actualPasswordController.text;
+                });
+              },
+              onSubmitted: (val) {
+                setState(() {
+                  FocusScope.of(context).requestFocus(_newPasswordFocusNode);
+                });
+              },
+              decoration: InputDecoration(
+                  hintText: AppLocalization.of(context)
+                      .translate("edit_security_screen", "actual_password"),
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                  labelStyle: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  prefixIcon: Icon(Icons.lock,
+                      color:
+                          _actualPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                  suffixIcon: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _actualPasswordObscure = !_actualPasswordObscure;
+                          });
+                        },
+                        icon: Icon(
+                          _actualPasswordObscure
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: _actualPasswordFocusNode.hasFocus
+                              ? cBlue
+                              : cGrey,
+                        )),
+                  )),
+            ),
+            const SizedBox(
+              height: 25.0,
+            ),
+            TextField(
+              controller: _newPasswordController,
+              focusNode: _newPasswordFocusNode,
+              maxLines: 1,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.text,
+              obscureText: _newPasswordObscure,
+              onChanged: (val) {
+                setState(() {
+                  val = _newPasswordController.text;
+                });
+              },
+              onSubmitted: (val) {
+                Helpers.hideKeyboard(context);
+              },
+              decoration: InputDecoration(
+                  hintText: AppLocalization.of(context)
+                      .translate("edit_security_screen", "new_password"),
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                  labelStyle: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  prefixIcon: Icon(Icons.lock,
+                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                  suffixIcon: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _newPasswordObscure = !_newPasswordObscure;
+                          });
+                        },
+                        icon: Icon(
+                          _newPasswordObscure
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color:
+                              _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                        )),
+                  )),
+            ),
+          ],
         ),
       ),
     );
@@ -707,7 +723,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                           _isModifMail = true;
                           await _showVerifModif();
                         },
-                        child: Text(AppLocalization.of(context).translate("edit_security_screen", "update_mail"),
+                        child: Text(
+                            AppLocalization.of(context).translate(
+                                "edit_security_screen", "update_mail"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -729,7 +747,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         onPressed: () {
                           _cancelUpdateSecurity();
                         },
-                        child: Text(AppLocalization.of(context).translate("general", "btn_cancel"),
+                        child: Text(
+                            AppLocalization.of(context)
+                                .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -768,7 +788,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                           _isModifMail = false;
                           await _showVerifModif();
                         },
-                        child: Text(AppLocalization.of(context).translate("edit_security_screen", "update_password"),
+                        child: Text(
+                            AppLocalization.of(context).translate(
+                                "edit_security_screen", "update_password"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -791,7 +813,9 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                         onPressed: () {
                           _cancelUpdateSecurity();
                         },
-                        child: Text(AppLocalization.of(context).translate("general", "btn_cancel"),
+                        child: Text(
+                            AppLocalization.of(context)
+                                .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -816,7 +840,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-                AppLocalization.of(context).translate("edit_security_screen", "error_update"),
+                AppLocalization.of(context)
+                    .translate("edit_security_screen", "error_update"),
                 style: textStyleCustomBold(cRed, 16),
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.0)),

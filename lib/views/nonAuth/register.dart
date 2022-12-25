@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -58,6 +59,8 @@ class RegisterState extends ConsumerState<Register>
   bool _loadingStepSixth = false;
 
   late String localeLanguage;
+
+  AppBar appBar = AppBar();
 
   showOptionsImage() {
     return showModalBottomSheet(
@@ -305,56 +308,69 @@ class RegisterState extends ConsumerState<Register>
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-              ? Platform.isIOS
-                  ? SystemUiOverlayStyle.dark
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.dark)
-              : Platform.isIOS
-                  ? SystemUiOverlayStyle.light
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.light),
-          leading: Material(
-            color: Colors.transparent,
-            shape: const CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            child: IconButton(
-                onPressed: () {
-                  ref
-                      .read(genderRegisterNotifierProvider.notifier)
-                      .clearGender();
-                  ref
-                      .read(birthdayRegisterNotifierProvider.notifier)
-                      .clearBirthday();
-                  ref
-                      .read(profilePictureRegisterNotifierProvider.notifier)
-                      .clearProfilePicture();
-                  navNonAuthKey.currentState!.pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                )),
+        extendBodyBehindAppBar: true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: PreferredSize(
+          preferredSize: Size(
+              MediaQuery.of(context).size.width, appBar.preferredSize.height),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                systemOverlayStyle:
+                    Theme.of(context).brightness == Brightness.light
+                        ? Platform.isIOS
+                            ? SystemUiOverlayStyle.dark
+                            : const SystemUiOverlayStyle(
+                                statusBarColor: Colors.transparent,
+                                statusBarIconBrightness: Brightness.dark)
+                        : Platform.isIOS
+                            ? SystemUiOverlayStyle.light
+                            : const SystemUiOverlayStyle(
+                                statusBarColor: Colors.transparent,
+                                statusBarIconBrightness: Brightness.light),
+                leading: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () {
+                        ref
+                            .read(genderRegisterNotifierProvider.notifier)
+                            .clearGender();
+                        ref
+                            .read(birthdayRegisterNotifierProvider.notifier)
+                            .clearBirthday();
+                        ref
+                            .read(
+                                profilePictureRegisterNotifierProvider.notifier)
+                            .clearProfilePicture();
+                        navNonAuthKey.currentState!.pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                      )),
+                ),
+                title: Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "register"),
+                    style: textStyleCustomBold(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        20),
+                    textScaleFactor: 1.0),
+                centerTitle: false,
+                actions: [stepRegister()],
+              ),
+            ),
           ),
-          title: Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "register"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  20),
-              textScaleFactor: 1.0),
-          centerTitle: false,
-          actions: [stepRegister()],
         ),
         body: WillPopScope(
           onWillPop: () async {
@@ -409,210 +425,213 @@ class RegisterState extends ConsumerState<Register>
   }
 
   firstStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 25.0,
-      ),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_one"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
+              child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(height: 55.0),
-              TextField(
-                controller: _mailController,
-                focusNode: _mailFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (val) {
-                  setState(() {
-                    val = _mailController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context)
-                        .translate("register_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: _mailController.text.isNotEmpty
-                        ? Material(
-                            color: Colors.transparent,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _mailController.clear();
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.clear,
-                                  color:
-                                      _mailFocusNode.hasFocus ? cBlue : cGrey,
-                                )),
-                          )
-                        : const SizedBox()),
-              ),
-              const SizedBox(
-                height: 55.0,
-              ),
-              TextField(
-                controller: _passwordController,
-                focusNode: _passwordFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                obscureText: _passwordObscure,
-                onChanged: (val) {
-                  setState(() {
-                    val = _passwordController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  Helpers.hideKeyboard(context);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context)
-                        .translate("register_screen", "password"),
-                    hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.lock,
-                        color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: Material(
-                      color: Colors.transparent,
-                      shape: const CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _passwordObscure = !_passwordObscure;
-                            });
-                          },
-                          icon: Icon(
-                            _passwordObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
-                          )),
-                    )),
-              ),
-              const SizedBox(height: 55.0),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: CheckboxListTile(
-                    value: _validCGU,
-                    dense: false,
-                    checkColor: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    activeColor: cBlue,
-                    side: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.light
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_one"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
                             ? cBlack
-                            : cWhite),
-                    title: RichText(
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.0,
-                        text: TextSpan(
-                            text: AppLocalization.of(context)
-                                .translate("register_screen", "accept_cgu"),
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
-                            children: [
-                              TextSpan(
-                                  text: AppLocalization.of(context)
-                                      .translate("register_screen", "cgu"),
-                                  style: textStyleCustomBold(cBlue, 14),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      //change url google to url cgu
-                                      Helpers.launchMyUrl(
-                                          "https://www.google.fr/");
-                                    }),
-                            ])),
-                    onChanged: (value) {
-                      setState(() {
-                        _validCGU = value!;
-                      });
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: CheckboxListTile(
-                    value: _validPrivacypolicy,
-                    dense: false,
-                    checkColor: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    activeColor: cBlue,
-                    side: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite),
-                    title: RichText(
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.0,
-                        text: TextSpan(
-                            text: AppLocalization.of(context).translate(
-                                "register_screen", "accept_policy_privacy"),
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
-                            children: [
-                              TextSpan(
-                                  text: AppLocalization.of(context).translate(
-                                      "register_screen", "policy_privacy"),
-                                  style: textStyleCustomBold(cBlue, 14),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      //change url google to url cgu
-                                      Helpers.launchMyUrl(
-                                          "https://www.google.fr/");
-                                    }),
-                            ])),
-                    onChanged: (value) {
-                      setState(() {
-                        _validPrivacypolicy = value!;
-                      });
-                    }),
-              ),
-            ],
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                const SizedBox(height: 55.0),
+                TextField(
+                  controller: _mailController,
+                  focusNode: _mailFocusNode,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _mailController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  },
+                  decoration: InputDecoration(
+                      hintText: AppLocalization.of(context)
+                          .translate("register_screen", "mail"),
+                      hintStyle: textStyleCustomRegular(
+                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      labelStyle: textStyleCustomRegular(
+                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      prefixIcon: Icon(Icons.mail,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                      suffixIcon: _mailController.text.isNotEmpty
+                          ? Material(
+                              color: Colors.transparent,
+                              shape: const CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _mailController.clear();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color:
+                                        _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                  )),
+                            )
+                          : const SizedBox()),
+                ),
+                const SizedBox(
+                  height: 55.0,
+                ),
+                TextField(
+                  controller: _passwordController,
+                  focusNode: _passwordFocusNode,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
+                  obscureText: _passwordObscure,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _passwordController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    Helpers.hideKeyboard(context);
+                  },
+                  decoration: InputDecoration(
+                      hintText: AppLocalization.of(context)
+                          .translate("register_screen", "password"),
+                      hintStyle: textStyleCustomRegular(
+                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      labelStyle: textStyleCustomRegular(
+                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      prefixIcon: Icon(Icons.lock,
+                          color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
+                      suffixIcon: Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _passwordObscure = !_passwordObscure;
+                              });
+                            },
+                            icon: Icon(
+                              _passwordObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color:
+                                  _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            )),
+                      )),
+                ),
+                const SizedBox(height: 55.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: CheckboxListTile(
+                      value: _validCGU,
+                      dense: false,
+                      checkColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                      activeColor: cBlue,
+                      side: BorderSide(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite),
+                      title: RichText(
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.0,
+                          text: TextSpan(
+                              text: AppLocalization.of(context)
+                                  .translate("register_screen", "accept_cgu"),
+                              style: textStyleCustomMedium(
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  14),
+                              children: [
+                                TextSpan(
+                                    text: AppLocalization.of(context)
+                                        .translate("register_screen", "cgu"),
+                                    style: textStyleCustomBold(cBlue, 14),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        //change url google to url cgu
+                                        Helpers.launchMyUrl(
+                                            "https://www.google.fr/");
+                                      }),
+                              ])),
+                      onChanged: (value) {
+                        setState(() {
+                          _validCGU = value!;
+                        });
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: CheckboxListTile(
+                      value: _validPrivacypolicy,
+                      dense: false,
+                      checkColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                      activeColor: cBlue,
+                      side: BorderSide(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite),
+                      title: RichText(
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.0,
+                          text: TextSpan(
+                              text: AppLocalization.of(context).translate(
+                                  "register_screen", "accept_policy_privacy"),
+                              style: textStyleCustomMedium(
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  14),
+                              children: [
+                                TextSpan(
+                                    text: AppLocalization.of(context).translate(
+                                        "register_screen", "policy_privacy"),
+                                    style: textStyleCustomBold(cBlue, 14),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        //change url google to url cgu
+                                        Helpers.launchMyUrl(
+                                            "https://www.google.fr/");
+                                      }),
+                              ])),
+                      onChanged: (value) {
+                        setState(() {
+                          _validPrivacypolicy = value!;
+                        });
+                      }),
+                ),
+              ],
+            ),
           )),
           _isKeyboard
               ? const SizedBox()
               : Container(
-                  height: 75,
+                  height: 115,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                   child: SizedBox(
@@ -666,75 +685,74 @@ class RegisterState extends ConsumerState<Register>
   }
 
   secondStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_two"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
+              child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 15.0),
-            children: [
-              const SizedBox(
-                height: 55.0,
-              ),
-              TextField(
-                controller: _pseudoController,
-                focusNode: _pseudoFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                onChanged: (val) {
-                  setState(() {
-                    val = _pseudoController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  Helpers.hideKeyboard(context);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context)
-                        .translate("register_screen", "pseudo"),
-                    hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.person,
-                        color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: _pseudoController.text.isNotEmpty
-                        ? Material(
-                            color: Colors.transparent,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _pseudoController.clear();
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.clear,
-                                  color:
-                                      _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                                )),
-                          )
-                        : const SizedBox()),
-              ),
-            ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_two"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                const SizedBox(
+                  height: 55.0,
+                ),
+                TextField(
+                  controller: _pseudoController,
+                  focusNode: _pseudoFocusNode,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _pseudoController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    Helpers.hideKeyboard(context);
+                  },
+                  decoration: InputDecoration(
+                      hintText: AppLocalization.of(context)
+                          .translate("register_screen", "pseudo"),
+                      hintStyle: textStyleCustomRegular(
+                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      labelStyle: textStyleCustomRegular(
+                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      prefixIcon: Icon(Icons.person,
+                          color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
+                      suffixIcon: _pseudoController.text.isNotEmpty
+                          ? Material(
+                              color: Colors.transparent,
+                              shape: const CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _pseudoController.clear();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: _pseudoFocusNode.hasFocus
+                                        ? cBlue
+                                        : cGrey,
+                                  )),
+                            )
+                          : const SizedBox()),
+                ),
+              ],
+            ),
           )),
           Container(
             height: 115,
@@ -809,106 +827,110 @@ class RegisterState extends ConsumerState<Register>
   }
 
   thirdStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_three"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
-          const SizedBox(
-            height: 55.0,
-          ),
           Expanded(
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: genders.length,
-                  itemBuilder: (_, int index) {
-                    var element = genders[index];
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_three"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                const SizedBox(height: 20.0),
+                GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: genders.length,
+                    itemBuilder: (_, int index) {
+                      var element = genders[index];
 
-                    return validGender == element["id"]
-                        ? Column(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    ref
-                                        .read(genderRegisterNotifierProvider
-                                            .notifier)
-                                        .clearGender();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: cBlue,
-                                        border: Border.all(color: cBlue),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Icon(
-                                        element["icon"],
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite,
-                                        size: 50,
+                      return validGender == element["id"]
+                          ? Column(
+                              children: [
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ref
+                                          .read(genderRegisterNotifierProvider
+                                              .notifier)
+                                          .clearGender();
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: cBlue,
+                                          border: Border.all(color: cBlue),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Center(
+                                        child: Icon(
+                                          element["icon"],
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? cBlack
+                                              : cWhite,
+                                          size: 50,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 5.0),
-                              Text(element["type"],
-                                  style: textStyleCustomBold(cBlue, 16),
-                                  textScaleFactor: 1.0)
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    ref
-                                        .read(genderRegisterNotifierProvider
-                                            .notifier)
-                                        .choiceGender(element["id"]);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: cGrey),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Icon(
-                                        element["icon"],
-                                        color: cGrey,
-                                        size: 50,
+                                const SizedBox(height: 5.0),
+                                Text(element["type"],
+                                    style: textStyleCustomBold(cBlue, 16),
+                                    textScaleFactor: 1.0)
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ref
+                                          .read(genderRegisterNotifierProvider
+                                              .notifier)
+                                          .choiceGender(element["id"]);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: cGrey),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      child: Center(
+                                        child: Icon(
+                                          element["icon"],
+                                          color: cGrey,
+                                          size: 50,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 5.0),
-                              Text(element["type"],
-                                  style: textStyleCustomBold(cGrey, 16),
-                                  textScaleFactor: 1.0)
-                            ],
-                          );
-                  })),
+                                const SizedBox(height: 5.0),
+                                Text(element["type"],
+                                    style: textStyleCustomBold(cGrey, 16),
+                                    textScaleFactor: 1.0)
+                              ],
+                            );
+                    })
+              ],
+            ),
+          )),
           Container(
             height: 115,
             width: MediaQuery.of(context).size.width,
@@ -982,90 +1004,93 @@ class RegisterState extends ConsumerState<Register>
   }
 
   fourthStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_four"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
-          const SizedBox(
-            height: 55.0,
-          ),
           Expanded(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: GestureDetector(
-                onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      locale: localeLanguage == "fr"
-                          ? LocaleType.fr
-                          : LocaleType.en,
-                      theme: DatePickerTheme(
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        cancelStyle: textStyleCustomBold(cBlue, 16),
-                        doneStyle: textStyleCustomBold(cBlue, 16),
-                        itemStyle: textStyleCustomBold(
-                            Theme.of(context).iconTheme.color!, 18),
-                      ),
-                      minTime: DateTime(1900, 1, 1),
-                      maxTime: DateTime.now(), onConfirm: (date) {
-                    setState(() {
-                      _dateBirthday = date;
-                    });
-                    //verif 18 years old or not
-                    final verif =
-                        DateTime.now().subtract(const Duration(days: 6570));
-                    if (_dateBirthday!.isBefore(verif)) {
-                      ref
-                          .read(birthdayRegisterNotifierProvider.notifier)
-                          .updateBirthday(true);
-                    } else {
-                      ref
-                          .read(birthdayRegisterNotifierProvider.notifier)
-                          .updateBirthday(false);
-                    }
-                  }, currentTime: _dateBirthday ?? DateTime.now());
-                },
-                child: Container(
-                  height: 34.0,
-                  decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 1.0,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_four"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                const SizedBox(
+                  height: 55.0,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          locale: localeLanguage == "fr"
+                              ? LocaleType.fr
+                              : LocaleType.en,
+                          theme: DatePickerTheme(
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            cancelStyle: textStyleCustomBold(cBlue, 16),
+                            doneStyle: textStyleCustomBold(cBlue, 16),
+                            itemStyle: textStyleCustomBold(
+                                Theme.of(context).iconTheme.color!, 18),
+                          ),
+                          minTime: DateTime(1900, 1, 1),
+                          maxTime: DateTime.now(), onConfirm: (date) {
+                        setState(() {
+                          _dateBirthday = date;
+                        });
+                        //verif 18 years old or not
+                        final verif =
+                            DateTime.now().subtract(const Duration(days: 6570));
+                        if (_dateBirthday!.isBefore(verif)) {
+                          ref
+                              .read(birthdayRegisterNotifierProvider.notifier)
+                              .updateBirthday(true);
+                        } else {
+                          ref
+                              .read(birthdayRegisterNotifierProvider.notifier)
+                              .updateBirthday(false);
+                        }
+                      }, currentTime: _dateBirthday ?? DateTime.now());
+                    },
+                    child: Container(
+                      height: 34.0,
+                      decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
                                     ? cBlack
                                     : cWhite)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                        Helpers.formattingDate(
-                            _dateBirthday ?? DateTime.now(), localeLanguage),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            24),
-                        textScaleFactor: 1.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                            Helpers.formattingDate(
+                                _dateBirthday ?? DateTime.now(),
+                                localeLanguage),
+                            style: textStyleCustomBold(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                24),
+                            textScaleFactor: 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
+          )),
           Container(
             height: 115,
             width: MediaQuery.of(context).size.width,
@@ -1139,80 +1164,82 @@ class RegisterState extends ConsumerState<Register>
   }
 
   fifthStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_five"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
-          const SizedBox(
-            height: 55.0,
-          ),
           Expanded(
-              child: Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
-                    border: Border.all(color: cGrey),
-                    borderRadius: BorderRadius.circular(5.0)),
-                child: CountryCodePicker(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  backgroundColor: Colors.black54.withOpacity(0.7),
-                  dialogBackgroundColor:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  barrierColor: Colors.transparent,
-                  closeIcon: Icon(Icons.clear,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      size: 28),
-                  onChanged: (countryCode) {
-                    setState(() {
-                      _selectedCountry = countryCode.code;
-                    });
-                  },
-                  initialSelection: _selectedCountry,
-                  showCountryOnly: true,
-                  showOnlyCountryWhenClosed: true,
-                  alignLeft: true,
-                  enabled: true,
-                  dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
-                      MediaQuery.of(context).size.height / 1.25),
-                  textStyle: Theme.of(context).textTheme.titleSmall,
-                  dialogTextStyle: Theme.of(context).textTheme.titleSmall,
-                  flagWidth: 30,
-                  searchDecoration: InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                    fillColor: Theme.of(context).canvasColor,
-                    filled: true,
-                    labelText: AppLocalization.of(context)
-                        .translate("register_screen", "search_country"),
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_five"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                const SizedBox(
+                  height: 55.0,
+                ),
+                Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        border: Border.all(color: cGrey),
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: CountryCodePicker(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      backgroundColor: Colors.black54.withOpacity(0.7),
+                      dialogBackgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      barrierColor: Colors.transparent,
+                      closeIcon: Icon(Icons.clear,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                          size: 28),
+                      onChanged: (countryCode) {
+                        setState(() {
+                          _selectedCountry = countryCode.code;
+                        });
+                      },
+                      initialSelection: _selectedCountry,
+                      showCountryOnly: true,
+                      showOnlyCountryWhenClosed: true,
+                      alignLeft: true,
+                      enabled: true,
+                      dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
+                          MediaQuery.of(context).size.height / 1.25),
+                      textStyle: Theme.of(context).textTheme.titleSmall,
+                      dialogTextStyle: Theme.of(context).textTheme.titleSmall,
+                      flagWidth: 30,
+                      searchDecoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
+                        fillColor: Theme.of(context).canvasColor,
+                        filled: true,
+                        labelText: AppLocalization.of(context)
+                            .translate("register_screen", "search_country"),
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                        )),
+                      ),
+                      emptySearchBuilder: (_) => Text(
+                          AppLocalization.of(context).translate(
+                              "register_screen", "empty_search_country"),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleSmall,
+                          textScaleFactor: 1.0),
                     )),
-                  ),
-                  emptySearchBuilder: (_) => Text(
-                      AppLocalization.of(context)
-                          .translate("register_screen", "empty_search_country"),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textScaleFactor: 1.0),
-                )),
+              ],
+            ),
           )),
           Container(
             height: 115,
@@ -1290,95 +1317,98 @@ class RegisterState extends ConsumerState<Register>
   }
 
   sixthStepRegister() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    return SizedBox.expand(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Text(
-              AppLocalization.of(context)
-                  .translate("register_screen", "step_six"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textScaleFactor: 1.0),
           Expanded(
-              child: Center(
-            child: SizedBox(
-              height: 155,
-              width: 155,
-              child: Stack(
-                children: [
-                  validProfilePicture == null
-                      ? Container(
-                          height: 155,
-                          width: 155,
-                          decoration: BoxDecoration(
-                              color: cGrey.withOpacity(0.2),
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue)),
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.person,
-                            color: cBlue,
-                            size: 60.0,
-                          ),
-                        )
-                      : Container(
-                          height: 155,
-                          width: 155,
-                          foregroundDecoration: BoxDecoration(
-                              color: cGrey.withOpacity(0.2),
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
-                              image: DecorationImage(
-                                  image: FileImage(validProfilePicture!),
-                                  fit: BoxFit.cover,
-                                  filterQuality: FilterQuality.high)),
-                          decoration: BoxDecoration(
-                            color: cGrey.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: cBlue),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            color: cBlue,
-                            size: 60.0,
-                          ),
-                        ),
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      child: GestureDetector(
-                          onTap: () {
-                            showOptionsImage();
-                          },
-                          child: Container(
-                            height: 50.0,
-                            width: 50.0,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                shape: BoxShape.circle,
-                                boxShadow: const [
-                                  BoxShadow(
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "step_six"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textScaleFactor: 1.0),
+                Expanded(
+                  child: Center(
+                    child: SizedBox(
+                      height: 175,
+                      width: 175,
+                      child: Stack(
+                        children: [
+                          validProfilePicture == null
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color: cGrey.withOpacity(0.2),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue)),
+                                  alignment: Alignment.center,
+                                  child: const Icon(
+                                    Icons.person,
                                     color: cBlue,
-                                    blurRadius: 5,
-                                  )
-                                ]),
-                            child: const Icon(
-                              Icons.photo_camera,
-                              color: cBlue,
-                              size: 30.0,
-                            ),
-                          )))
-                ],
-              ),
+                                    size: 75.0,
+                                  ),
+                                )
+                              : Container(
+                                  foregroundDecoration: BoxDecoration(
+                                      color: cGrey.withOpacity(0.2),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      image: DecorationImage(
+                                          image:
+                                              FileImage(validProfilePicture!),
+                                          fit: BoxFit.cover,
+                                          filterQuality: FilterQuality.high)),
+                                  decoration: BoxDecoration(
+                                    color: cGrey.withOpacity(0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                  ),
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: cBlue,
+                                    size: 75.0,
+                                  ),
+                                ),
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: GestureDetector(
+                                  onTap: () {
+                                    showOptionsImage();
+                                  },
+                                  child: Container(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        shape: BoxShape.circle,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: cBlue,
+                                            blurRadius: 5,
+                                          )
+                                        ]),
+                                    child: const Icon(
+                                      Icons.photo_camera,
+                                      color: cBlue,
+                                      size: 30.0,
+                                    ),
+                                  )))
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           )),
           Container(

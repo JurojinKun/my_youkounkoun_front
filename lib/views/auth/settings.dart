@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ class Settings extends ConsumerStatefulWidget {
 class SettingsState extends ConsumerState<Settings> {
   bool _isDarkTheme = false;
   bool _notificationsActive = true;
+
+  AppBar appBar = AppBar();
 
   Future<void> _tryLogOut() async {
     try {
@@ -128,78 +131,90 @@ class SettingsState extends ConsumerState<Settings> {
     _notificationsActive = ref.watch(notificationsActiveNotifierProvider);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
-        leading: Material(
-          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-          child: IconButton(
-            onPressed: () => navProfileKey!.currentState!.pop(),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+      appBar: PreferredSize(
+        preferredSize: Size(
+            MediaQuery.of(context).size.width, appBar.preferredSize.height),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              systemOverlayStyle:
+                  Theme.of(context).brightness == Brightness.light
+                      ? Platform.isIOS
+                          ? SystemUiOverlayStyle.dark
+                          : const SystemUiOverlayStyle(
+                              statusBarColor: Colors.transparent,
+                              statusBarIconBrightness: Brightness.dark)
+                      : Platform.isIOS
+                          ? SystemUiOverlayStyle.light
+                          : const SystemUiOverlayStyle(
+                              statusBarColor: Colors.transparent,
+                              statusBarIconBrightness: Brightness.light),
+              leading: Material(
+                color: Colors.transparent,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: IconButton(
+                  onPressed: () => navProfileKey!.currentState!.pop(),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                  ),
+                ),
+              ),
+              title: Text(
+                  AppLocalization.of(context)
+                      .translate("settings_screen", "settings_user"),
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      20),
+                  textScaleFactor: 1.0),
+              actions: [
+                Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () => _showDialogLogout(),
+                      icon: Icon(
+                        Icons.logout,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                      )),
+                )
+              ],
             ),
           ),
         ),
-        title: Text(
-            AppLocalization.of(context)
-                .translate("settings_screen", "settings_user"),
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                20),
-            textScaleFactor: 1.0),
-        actions: [
-          Material(
-            color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-            child: IconButton(
-                onPressed: () => _showDialogLogout(),
-                icon: Icon(
-                  Icons.logout,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                )),
-          )
-        ],
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 80.0, left: 20.0, right: 20.0),
-            child: Column(
-              children: [
-                accountSettings(),
-                const SizedBox(height: 15.0,),
-                securitySettings(),
-                const SizedBox(height: 15.0),
-                themeSettings(),
-                const SizedBox(height: 15.0),
-                notificationsSettings()
-              ],
-            ),
+          padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 30.0, 20.0, 80.0),
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
+          child: Column(
+            children: [
+              accountSettings(),
+              const SizedBox(
+                height: 15.0,
+              ),
+              securitySettings(),
+              const SizedBox(height: 15.0),
+              themeSettings(),
+              const SizedBox(height: 15.0),
+              notificationsSettings()
+            ],
           ),
         ),
       ),
@@ -271,7 +286,8 @@ class SettingsState extends ConsumerState<Settings> {
                 ),
                 const SizedBox(width: 15.0),
                 Text(
-                    AppLocalization.of(context).translate("settings_screen", "security_account"),
+                    AppLocalization.of(context)
+                        .translate("settings_screen", "security_account"),
                     style: textStyleCustomBold(
                         Theme.of(context).brightness == Brightness.light
                             ? cBlack
@@ -385,7 +401,8 @@ class SettingsState extends ConsumerState<Settings> {
                 width: 15.0,
               ),
               Text(
-                  AppLocalization.of(context).translate("settings_screen", "notifications"),
+                  AppLocalization.of(context)
+                      .translate("settings_screen", "notifications"),
                   style: textStyleCustomBold(
                       Theme.of(context).brightness == Brightness.light
                           ? cBlack
@@ -407,7 +424,9 @@ class SettingsState extends ConsumerState<Settings> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
 
-                    ref.read(notificationsActiveNotifierProvider.notifier).updateNotificationsActive(newSettingsNotifications);
+                    ref
+                        .read(notificationsActiveNotifierProvider.notifier)
+                        .updateNotificationsActive(newSettingsNotifications);
 
                     if (newSettingsNotifications) {
                       await prefs.setBool("notifications", true);

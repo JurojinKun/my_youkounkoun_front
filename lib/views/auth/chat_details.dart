@@ -35,6 +35,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: _customAppBarDetailsChat(),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -49,7 +50,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                 : const SystemUiOverlayStyle(
                     statusBarColor: Colors.transparent,
                     statusBarIconBrightness: Brightness.light),
-        child: const SizedBox(),
+        child: SizedBox.expand(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 50.0, 20.0, 0.0),
+            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            child: const SizedBox()
+          ),
+        ),
       ),
     );
   }
@@ -62,9 +69,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
               alignment: Alignment.bottomCenter,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   widget.openWithModal
                       ? const SizedBox()

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -40,6 +41,8 @@ class EditAccountState extends ConsumerState<EditAccount>
 
   bool isEdit = false;
   bool _isKeyboard = false;
+
+  AppBar appBar = AppBar();
 
   showOptionsImage() {
     return showModalBottomSheet(
@@ -377,42 +380,55 @@ class EditAccountState extends ConsumerState<EditAccount>
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
-            leading: Material(
-              color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-              child: IconButton(
-                  onPressed: () => navAuthKey.currentState!.pop(),
-                  icon: Icon(Icons.arrow_back_ios,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite)),
-            ),
-            title: Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "my_account"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  20),
-              textScaleFactor: 1.0,
+          extendBodyBehindAppBar: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: PreferredSize(
+            preferredSize: Size(
+                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBar(
+                  automaticallyImplyLeading: false,
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                  backgroundColor: Colors.transparent,
+                  systemOverlayStyle:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Platform.isIOS
+                              ? SystemUiOverlayStyle.dark
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.dark)
+                          : Platform.isIOS
+                              ? SystemUiOverlayStyle.light
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.light),
+                  leading: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navAuthKey.currentState!.pop(),
+                        icon: Icon(Icons.arrow_back_ios,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                  ),
+                  title: Text(
+                    AppLocalization.of(context)
+                        .translate("edit_account_screen", "my_account"),
+                    style: textStyleCustomBold(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        20),
+                    textScaleFactor: 1.0,
+                  ),
+                ),
+              ),
             ),
           ),
           body: Stack(
@@ -425,18 +441,15 @@ class EditAccountState extends ConsumerState<EditAccount>
   }
 
   Widget _editAccount() {
-    return SingleChildScrollView(
-      physics:
-          const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      child: Padding(
-        padding:
-            EdgeInsets.only(bottom: isEdit ? 120 : 20, left: 20, right: 20.0),
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 40.0,
+            20.0, isEdit ? 120.0 : 20.0),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20.0,
-            ),
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "content"),
@@ -600,20 +613,21 @@ class EditAccountState extends ConsumerState<EditAccount>
                         color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _pseudoController.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                color: _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                              )),
-                        )
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _pseudoController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  color:
+                                      _pseudoFocusNode.hasFocus ? cBlue : cGrey,
+                                )),
+                          )
                         : const SizedBox()),
               ),
             ),
@@ -634,79 +648,79 @@ class EditAccountState extends ConsumerState<EditAccount>
             const SizedBox(
               height: 20.0,
             ),
-            Center(
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: genders.length,
-                  itemBuilder: (_, int index) {
-                    var element = genders[index];
+            GridView.builder(
+                padding: EdgeInsets.zero,
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: genders.length,
+                itemBuilder: (_, int index) {
+                  var element = genders[index];
 
-                    return _selectedGender == element["id"]
-                        ? Column(
-                            children: [
-                              Expanded(
+                  return _selectedGender == element["id"]
+                      ? Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: cBlue,
+                                    border: Border.all(color: cBlue),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0)),
+                                child: Center(
+                                  child: Icon(
+                                    element["icon"],
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    size: 50,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5.0),
+                            Text(element["type"],
+                                style: textStyleCustomBold(cBlue, 16),
+                                textScaleFactor: 1.0)
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  ref
+                                      .read(editGenderUserNotifierProvider
+                                          .notifier)
+                                      .updateGender(element["id"]);
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: cBlue,
-                                      border: Border.all(color: cBlue),
+                                      border: Border.all(color: cGrey),
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                   child: Center(
                                     child: Icon(
                                       element["icon"],
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? cBlack
-                                          : cWhite,
+                                      color: cGrey,
                                       size: 50,
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 5.0),
-                              Text(element["type"],
-                                  style: textStyleCustomBold(cBlue, 16),
-                                  textScaleFactor: 1.0)
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    ref
-                                        .read(editGenderUserNotifierProvider
-                                            .notifier)
-                                        .updateGender(element["id"]);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: cGrey),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Center(
-                                      child: Icon(
-                                        element["icon"],
-                                        color: cGrey,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 5.0),
-                              Text(element["type"],
-                                  style: textStyleCustomBold(cGrey, 16),
-                                  textScaleFactor: 1.0)
-                            ],
-                          );
-                  }),
-            ),
+                            ),
+                            const SizedBox(height: 5.0),
+                            Text(element["type"],
+                                style: textStyleCustomBold(cGrey, 16),
+                                textScaleFactor: 1.0)
+                          ],
+                        );
+                }),
             const SizedBox(
               height: 20.0,
             ),

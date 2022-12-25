@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -21,6 +22,8 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
   late FocusNode _mailFocusNode;
 
   bool _loadingForgotPassword = false;
+
+  AppBar appBar = AppBar();
 
   Future _showDialogSendForgotPassword(BuildContext context) async {
     return showDialog(
@@ -167,57 +170,82 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-              ? Platform.isIOS
-                  ? SystemUiOverlayStyle.dark
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.dark)
-              : Platform.isIOS
-                  ? SystemUiOverlayStyle.light
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.light),
-          title: Text(
-            AppLocalization.of(context).translate("forgot_password_screen", "forgot_password"),
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                20),
-            textScaleFactor: 1.0,
-          ),
-          centerTitle: false,
-          actions: [
-            Material(
-              color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-              child: IconButton(
-                  onPressed: () => navNonAuthKey.currentState!.pop(),
-                  icon: Icon(Icons.clear,
-                      color: Theme.of(context).brightness == Brightness.light
+        appBar: PreferredSize(
+          preferredSize: Size(
+                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBar(
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                shadowColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
+                systemOverlayStyle:
+                    Theme.of(context).brightness == Brightness.light
+                        ? Platform.isIOS
+                            ? SystemUiOverlayStyle.dark
+                            : const SystemUiOverlayStyle(
+                                statusBarColor: Colors.transparent,
+                                statusBarIconBrightness: Brightness.dark)
+                        : Platform.isIOS
+                            ? SystemUiOverlayStyle.light
+                            : const SystemUiOverlayStyle(
+                                statusBarColor: Colors.transparent,
+                                statusBarIconBrightness: Brightness.light),
+                title: Text(
+                  AppLocalization.of(context)
+                      .translate("forgot_password_screen", "forgot_password"),
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
                           ? cBlack
-                          : cWhite)),
-            )
-          ],
+                          : cWhite,
+                      20),
+                  textScaleFactor: 1.0,
+                ),
+                centerTitle: false,
+                actions: [
+                  Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navNonAuthKey.currentState!.pop(),
+                        icon: Icon(Icons.clear,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
-        body: ListView(
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height / 3,
-              alignment: Alignment.center,
-              child: Text(
-              AppLocalization.of(context).translate("forgot_password_screen", "content"),
+        body: SizedBox.expand(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(25.0, appBar.preferredSize.height + 25.0, 25.0, 0.0),
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                Image.asset("assets/images/ic_app.png", height: 125, width: 125),
+            const SizedBox(
+              height: 25.0,
+            ),
+            Text("My youkounkoun",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    33),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0),
+            const SizedBox(height: 45.0),
+            Text(
+              AppLocalization.of(context)
+                  .translate("forgot_password_screen", "content"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -226,7 +254,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
-            ),
+            const SizedBox(height: 45.0),
             TextField(
               controller: _mailController,
               focusNode: _mailFocusNode,
@@ -243,29 +271,28 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
               },
               decoration: InputDecoration(
                   hintText: "Email",
-                  hintStyle: textStyleCustomRegular(cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                   labelStyle: textStyleCustomRegular(
                       cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   prefixIcon: Icon(Icons.mail,
                       color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                   suffixIcon: _mailController.text.isNotEmpty
                       ? Material(
-                        color: Colors.transparent,
+                          color: Colors.transparent,
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
-                        child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _mailController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.clear,
-                              color:
-                                  _mailFocusNode.hasFocus ? cBlue : cGrey,
-                            )),
-                      )
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _mailController.clear();
+                                });
+                              },
+                              icon: Icon(
+                                Icons.clear,
+                                color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                              )),
+                        )
                       : const SizedBox()),
             ),
             const SizedBox(
@@ -273,6 +300,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
             ),
             SizedBox(
                 height: 50.0,
+                width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                     onPressed: () async {
                       if (_mailController.text.isNotEmpty &&
@@ -300,15 +328,18 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                               ),
                             ),
                           )
-                        : Text(AppLocalization.of(context).translate("general", "btn_send"),
+                        : Text(
+                            AppLocalization.of(context)
+                                .translate("general", "btn_send"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness ==
-                                        Brightness.light
+                                Theme.of(context).brightness == Brightness.light
                                     ? cBlack
                                     : cWhite,
                                 20),
                             textScaleFactor: 1.0))),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

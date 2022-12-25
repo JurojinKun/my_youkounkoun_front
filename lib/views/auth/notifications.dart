@@ -5,41 +5,61 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 class Notifications extends ConsumerStatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 
-  @override 
+  @override
   NotificationsState createState() => NotificationsState();
 }
 
-class NotificationsState extends ConsumerState<Notifications> with AutomaticKeepAliveClientMixin {
+class NotificationsState extends ConsumerState<Notifications>
+    with AutomaticKeepAliveClientMixin {
+  AppBar appBar = AppBar();
 
-  @override 
+  @override
   void initState() {
     super.initState();
   }
 
-  @override 
+  @override
   bool get wantKeepAlive => true;
 
-  @override 
+  @override
   void dispose() {
     super.dispose();
   }
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Container(
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(
+          10.0, appBar.preferredSize.height + 90.0, 10.0, 0.0),
+      physics:
+          const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      child: Container(
         height: 150,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.notifications_active, color: Theme.of(context).brightness == Brightness.light ? cBlack: cWhite, size: 40,),
+            Icon(
+              Icons.notifications_active,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? cBlack
+                  : cWhite,
+              size: 40,
+            ),
             const SizedBox(height: 15.0),
-            Text("Work in progress", style: textStyleCustomMedium(Theme.of(context).brightness == Brightness.light ? cBlack: cWhite, 14), textAlign: TextAlign.center, textScaleFactor: 1.0,)
+            Text(
+              "Pas encore de notifications",
+              style: textStyleCustomMedium(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  14),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
+            )
           ],
         ),
       ),

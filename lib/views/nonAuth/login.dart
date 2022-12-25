@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,8 @@ class LoginState extends ConsumerState<Login> {
 
   bool _passwordObscure = true;
   bool _loadingLogin = false;
+
+  AppBar appBar = AppBar();
 
   Future _forgotPasswordBottomSheet(BuildContext context) async {
     return showMaterialModalBottomSheet(
@@ -88,234 +91,253 @@ class LoginState extends ConsumerState<Login> {
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-              ? Platform.isIOS
-                  ? SystemUiOverlayStyle.dark
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.dark)
-              : Platform.isIOS
-                  ? SystemUiOverlayStyle.light
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.light),
-          leading: Material(
-            color: Colors.transparent,
-            shape: const CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            child: IconButton(
-                onPressed: () => navNonAuthKey.currentState!.pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                )),
-          ),
-          title: Text(
-              AppLocalization.of(context).translate("login_screen", "login"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  20),
-              textScaleFactor: 1.0),
-          centerTitle: false,
-        ),
-        body: SizedBox.expand(
-          child: ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            children: [
-              Image.asset("assets/images/ic_app.png", height: 100, width: 100),
-              const SizedBox(
-                height: 25.0,
-              ),
-              Text("My youkounkoun",
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      33),
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.0),
-              const SizedBox(
-                height: 45.0,
-              ),
-              TextField(
-                controller: _mailController,
-                focusNode: _mailFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (val) {
-                  setState(() {
-                    val = _mailController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context)
-                        .translate("login_screen", "mail"),
-                    hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: _mailController.text.isNotEmpty
-                        ? Material(
-                            color: Colors.transparent,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _mailController.clear();
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.clear,
-                                  color:
-                                      _mailFocusNode.hasFocus ? cBlue : cGrey,
-                                )),
-                          )
-                        : const SizedBox()),
-              ),
-              const SizedBox(
-                height: 55.0,
-              ),
-              TextField(
-                controller: _passwordController,
-                focusNode: _passwordFocusNode,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                obscureText: _passwordObscure,
-                onChanged: (val) {
-                  setState(() {
-                    val = _passwordController.text;
-                  });
-                },
-                onSubmitted: (val) {
-                  Helpers.hideKeyboard(context);
-                },
-                decoration: InputDecoration(
-                    hintText: AppLocalization.of(context)
-                        .translate("login_screen", "password"),
-                    hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                    labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.lock,
-                        color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
-                    suffixIcon: Material(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          extendBodyBehindAppBar: true,
+          appBar: PreferredSize(
+            preferredSize: Size(
+                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBar(
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    systemOverlayStyle:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Platform.isIOS
+                                ? SystemUiOverlayStyle.dark
+                                : const SystemUiOverlayStyle(
+                                    statusBarColor: Colors.transparent,
+                                    statusBarIconBrightness: Brightness.dark)
+                            : Platform.isIOS
+                                ? SystemUiOverlayStyle.light
+                                : const SystemUiOverlayStyle(
+                                    statusBarColor: Colors.transparent,
+                                    statusBarIconBrightness: Brightness.light),
+                    leading: Material(
                       color: Colors.transparent,
                       shape: const CircleBorder(),
                       clipBehavior: Clip.hardEdge,
                       child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _passwordObscure = !_passwordObscure;
-                            });
-                          },
+                          onPressed: () => navNonAuthKey.currentState!.pop(),
                           icon: Icon(
-                            _passwordObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            Icons.arrow_back_ios,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
                           )),
-                    )),
+                    ),
+                    title: Text(
+                        AppLocalization.of(context)
+                            .translate("login_screen", "login"),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            20),
+                        textScaleFactor: 1.0),
+                    centerTitle: false,
+                ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                    onPressed: () => _forgotPasswordBottomSheet(context),
-                    child: Text(
-                      AppLocalization.of(context)
-                          .translate("login_screen", "forgot_password"),
-                      style: textStyleCustomMedium(cBlue, 14),
-                      textAlign: TextAlign.center,
-                      textScaleFactor: 1.0,
-                    )),
-              ),
-              const SizedBox(
-                height: 55.0,
-              ),
-              SizedBox(
-                  height: 50.0,
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        if (_mailController.text.isNotEmpty &&
-                            EmailValidator.validate(_mailController.text) &&
-                            _passwordController.text.isNotEmpty) {
-                          setState(() {
-                            _loadingLogin = true;
-                          });
-                          await _tryLogin();
-                          setState(() {
-                            _loadingLogin = false;
-                          });
-                        }
-                      },
-                      child: _loadingLogin
-                          ? SizedBox(
-                              height: 15,
-                              width: 15,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  strokeWidth: 1.0,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              AppLocalization.of(context)
-                                  .translate("login_screen", "login"),
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  20),
-                              textScaleFactor: 1.0))),
-              const SizedBox(
-                height: 15.0,
-              ),
-              RichText(
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
-                  text: TextSpan(
-                      text: AppLocalization.of(context)
-                          .translate("login_screen", "no_account"),
-                      style: textStyleCustomMedium(
+            ),
+          ),
+          body: SizedBox.expand(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(25.0, appBar.preferredSize.height + 25.0, 25.0, 0.0),
+              physics: const AlwaysScrollableScrollPhysics(
+                  ),
+              child: Column(
+                children: [
+                  Image.asset("assets/images/ic_app.png",
+                      height: 125, width: 125),
+                  const SizedBox(
+                    height: 25.0,
+                  ),
+                  Text("My youkounkoun",
+                      style: textStyleCustomBold(
                           Theme.of(context).brightness == Brightness.light
                               ? cBlack
                               : cWhite,
-                          14),
-                      children: [
-                        TextSpan(
-                            text: AppLocalization.of(context)
-                                .translate("login_screen", "sign_up"),
-                            style: textStyleCustomMedium(cBlue, 14),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => navNonAuthKey.currentState!
-                                  .pushNamed(register)),
-                      ]))
-            ],
+                          33),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0),
+                  const SizedBox(
+                    height: 45.0,
+                  ),
+                  TextField(
+                    controller: _mailController,
+                    focusNode: _mailFocusNode,
+                    maxLines: 1,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (val) {
+                      setState(() {
+                        val = _mailController.text;
+                      });
+                    },
+                    onSubmitted: (val) {
+                      FocusScope.of(context).requestFocus(_passwordFocusNode);
+                    },
+                    decoration: InputDecoration(
+                        hintText: AppLocalization.of(context)
+                            .translate("login_screen", "mail"),
+                        hintStyle: textStyleCustomRegular(
+                            cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        labelStyle: textStyleCustomRegular(
+                            cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        prefixIcon: Icon(Icons.mail,
+                            color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                        suffixIcon: _mailController.text.isNotEmpty
+                            ? Material(
+                                color: Colors.transparent,
+                                shape: const CircleBorder(),
+                                clipBehavior: Clip.hardEdge,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _mailController.clear();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color:
+                                          _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                    )),
+                              )
+                            : const SizedBox()),
+                  ),
+                  const SizedBox(
+                    height: 55.0,
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    maxLines: 1,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    obscureText: _passwordObscure,
+                    onChanged: (val) {
+                      setState(() {
+                        val = _passwordController.text;
+                      });
+                    },
+                    onSubmitted: (val) {
+                      Helpers.hideKeyboard(context);
+                    },
+                    decoration: InputDecoration(
+                        hintText: AppLocalization.of(context)
+                            .translate("login_screen", "password"),
+                        hintStyle: textStyleCustomRegular(
+                            cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        labelStyle: textStyleCustomRegular(
+                            cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        prefixIcon: Icon(Icons.lock,
+                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
+                        suffixIcon: Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _passwordObscure = !_passwordObscure;
+                                });
+                              },
+                              icon: Icon(
+                                _passwordObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color:
+                                    _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                              )),
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                        onPressed: () => _forgotPasswordBottomSheet(context),
+                        child: Text(
+                          AppLocalization.of(context)
+                              .translate("login_screen", "forgot_password"),
+                          style: textStyleCustomMedium(cBlue, 14),
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.0,
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 55.0,
+                  ),
+                  SizedBox(
+                      height: 50.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (_mailController.text.isNotEmpty &&
+                                EmailValidator.validate(_mailController.text) &&
+                                _passwordController.text.isNotEmpty) {
+                              setState(() {
+                                _loadingLogin = true;
+                              });
+                              await _tryLogin();
+                              setState(() {
+                                _loadingLogin = false;
+                              });
+                            }
+                          },
+                          child: _loadingLogin
+                              ? SizedBox(
+                                  height: 15,
+                                  width: 15,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      strokeWidth: 1.0,
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  AppLocalization.of(context)
+                                      .translate("login_screen", "login"),
+                                  style: textStyleCustomMedium(
+                                      Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      20),
+                                  textScaleFactor: 1.0))),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  RichText(
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0,
+                      text: TextSpan(
+                          text: AppLocalization.of(context)
+                              .translate("login_screen", "no_account"),
+                          style: textStyleCustomMedium(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                              14),
+                          children: [
+                            TextSpan(
+                                text: AppLocalization.of(context)
+                                    .translate("login_screen", "sign_up"),
+                                style: textStyleCustomMedium(cBlue, 14),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => navNonAuthKey.currentState!
+                                      .pushNamed(register)),
+                          ]))
+                ],
+              ),
+            ),
+          )
           ),
-        ),
-      ),
     );
   }
 }

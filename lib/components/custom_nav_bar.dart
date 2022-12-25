@@ -61,9 +61,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             ? Icons.home
                             : Icons.home_outlined,
                         size: 30,
-                        color: widget.tabController.index == 0
-                            ? cBlue
-                            : cGrey,
+                        color: widget.tabController.index == 0 ? cBlue : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -72,9 +70,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           AppLocalization.of(context)
                               .translate("general", "home"),
                           style: textStyleCustomRegular(
-                              widget.tabController.index == 0
-                                  ? cBlue
-                                  : cGrey,
+                              widget.tabController.index == 0 ? cBlue : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -102,9 +98,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             ? Icons.search
                             : Icons.search_outlined,
                         size: 30,
-                        color: widget.tabController.index == 1
-                            ? cBlue
-                            : cGrey,
+                        color: widget.tabController.index == 1 ? cBlue : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -113,9 +107,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           AppLocalization.of(context)
                               .translate("general", "search"),
                           style: textStyleCustomRegular(
-                              widget.tabController.index == 1
-                                  ? cBlue
-                                  : cGrey,
+                              widget.tabController.index == 1 ? cBlue : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -138,14 +130,29 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        widget.tabController.index == 2
-                            ? Icons.mail
-                            : Icons.mail_outlined,
-                        size: 30,
-                        color: widget.tabController.index == 2
-                            ? cBlue
-                            : cGrey,
+                      Stack(
+                        children: [
+                          Icon(
+                            widget.tabController.index == 2
+                                ? Icons.mail
+                                : Icons.mail_outlined,
+                            size: 30,
+                            color:
+                                widget.tabController.index == 2 ? cBlue : cGrey,
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              height: 10.0,
+                              width: 10.0,
+                              decoration: const BoxDecoration(
+                                color: cBlue,
+                                shape: BoxShape.circle
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -154,9 +161,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           AppLocalization.of(context)
                               .translate("general", "activities"),
                           style: textStyleCustomRegular(
-                              widget.tabController.index == 2
-                                  ? cBlue
-                                  : cGrey,
+                              widget.tabController.index == 2 ? cBlue : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
@@ -184,9 +189,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                             ? Icons.person
                             : Icons.person_outlined,
                         size: 30,
-                        color: widget.tabController.index == 3
-                            ? cBlue
-                            : cGrey,
+                        color: widget.tabController.index == 3 ? cBlue : cGrey,
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -195,9 +198,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           AppLocalization.of(context)
                               .translate("general", "profile"),
                           style: textStyleCustomRegular(
-                              widget.tabController.index == 3
-                                  ? cBlue
-                                  : cGrey,
+                              widget.tabController.index == 3 ? cBlue : cGrey,
                               12),
                           textScaleFactor: 1.0)
                     ],
