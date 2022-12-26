@@ -80,7 +80,9 @@
     "activities_screen": {
         "activities": "Activités",
         "chat": "Messagerie",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "no_chat": "Pas encore de conversations avec d'autres utilisateurs",
+        "no_notifications": "Pas encore de notifications"
     },
     "profile_screen": {
         "profile": "Profil",
@@ -93,7 +95,10 @@
         "theme": "Thème",
         "notifications": "Notifications",
         "logout_title": "Déconnexion",
-        "logout_content": "Es-tu sûr de vouloir te déconnecter ?"
+        "logout_content": "Es-tu sûr de vouloir te déconnecter ?",
+        "language": "Langue",
+        "language_french": "Français",
+        "language_english": "Anglais"
     },
     "edit_account_screen": {
         "my_account": "Informations du compte",

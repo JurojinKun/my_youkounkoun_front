@@ -80,7 +80,9 @@
     "activities_screen": {
         "activities": "Activities",
         "chat": "Chat",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "no_chat": "No conversations with other users yet",
+        "no_notifications": "No notifications yet"
     },
     "profile_screen": {
         "profile": "Profile",
@@ -93,7 +95,10 @@
         "theme": "Theme",
         "notifications": "Notifications",
         "logout_title": "Logout",
-        "logout_content": "Are you sure you want to disconnect ?"
+        "logout_content": "Are you sure you want to disconnect ?",
+        "language": "Language",
+        "language_french": "French",
+        "language_english": "English"
     },
     "edit_account_screen": {
         "my_account": "Account information",

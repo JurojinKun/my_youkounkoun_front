@@ -127,43 +127,47 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                       }
                     }
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            widget.tabController.index == 2
-                                ? Icons.mail
-                                : Icons.mail_outlined,
-                            size: 30,
-                            color:
-                                widget.tabController.index == 2 ? cBlue : cGrey,
-                          ),
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              height: 10.0,
-                              width: 10.0,
-                              decoration: const BoxDecoration(
-                                color: cBlue,
-                                shape: BoxShape.circle
-                              ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              widget.tabController.index == 2
+                                  ? Icons.mail
+                                  : Icons.mail_outlined,
+                              size: 30,
+                              color: widget.tabController.index == 2
+                                  ? cBlue
+                                  : cGrey,
                             ),
-                          )
-                        ],
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(
+                                AppLocalization.of(context)
+                                    .translate("general", "activities"),
+                                style: textStyleCustomRegular(
+                                    widget.tabController.index == 2
+                                        ? cBlue
+                                        : cGrey,
+                                    12),
+                                textScaleFactor: 1.0)
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                          AppLocalization.of(context)
-                              .translate("general", "activities"),
-                          style: textStyleCustomRegular(
-                              widget.tabController.index == 2 ? cBlue : cGrey,
-                              12),
-                          textScaleFactor: 1.0)
+                      Positioned(
+                        top: 8,
+                        right: 23,
+                        child: Container(
+                          height: 10.0,
+                          width: 10.0,
+                          decoration: const BoxDecoration(
+                              color: cBlue, shape: BoxShape.circle),
+                        ),
+                      )
                     ],
                   ),
                 )),

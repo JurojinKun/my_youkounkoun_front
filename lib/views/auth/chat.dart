@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -50,7 +52,7 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
             ),
             const SizedBox(height: 15.0),
             Text(
-              "Pas encore de conversations avec d'autres utilisateurs",
+              AppLocalization.of(context).translate("activities_screen", "no_chat"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack

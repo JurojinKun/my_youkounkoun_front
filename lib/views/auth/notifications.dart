@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Notifications extends ConsumerStatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -51,7 +53,7 @@ class NotificationsState extends ConsumerState<Notifications>
             ),
             const SizedBox(height: 15.0),
             Text(
-              "Pas encore de notifications",
+              AppLocalization.of(context).translate("activities_screen", "no_notifications"),
               style: textStyleCustomMedium(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack

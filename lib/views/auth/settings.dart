@@ -35,11 +35,9 @@ class SettingsState extends ConsumerState<Settings> {
   void dropdownCallback(selectedValue) async {
     try {
       if (selectedValue is Locale) {
-        ref
+        await ref
             .read(localeLanguageNotifierProvider.notifier)
             .updateLocaleLanguage(selectedValue);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString("langue", selectedValue.languageCode);
       }
     } catch (e) {
       if (kDebugMode) {
@@ -354,7 +352,7 @@ class SettingsState extends ConsumerState<Settings> {
               const SizedBox(
                 width: 15.0,
               ),
-              Text("Langue",
+              Text(AppLocalization.of(context).translate("settings_screen", "language"),
                   style: textStyleCustomBold(
                       Theme.of(context).brightness == Brightness.light
                           ? cBlack
@@ -364,10 +362,18 @@ class SettingsState extends ConsumerState<Settings> {
             ],
           ),
           DropdownButton(
-            items: const [
+            style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16),
+            iconSize: 33,
+            iconEnabledColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
+            underline: const SizedBox(),
+            dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+            items: [
               DropdownMenuItem(
-                  value: Locale('fr', ''), child: Text("Français")),
-              DropdownMenuItem(value: Locale('en', ''), child: Text("Anglais"))
+                alignment: Alignment.center,
+                  value: const Locale('fr', ''), child: Text(AppLocalization.of(context).translate("settings_screen", "language_french"), style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16), textScaleFactor: 1.0)),
+              DropdownMenuItem(
+                alignment: Alignment.center,
+                value: const Locale('en', ''), child: Text(AppLocalization.of(context).translate("settings_screen", "language_english"), style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16), textScaleFactor: 1.0))
             ],
             value: _localeLanguage,
             onChanged: dropdownCallback,
