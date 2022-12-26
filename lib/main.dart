@@ -87,6 +87,7 @@ class MyApp extends ConsumerStatefulWidget {
 
 class MyAppState extends ConsumerState<MyApp> {
   String themeApp = "";
+  late Locale localeLanguage;
 
   //add all assets in our app here
   List<Image> imagesApp = [Image.asset("assets/images/ic_app.png")];
@@ -125,6 +126,9 @@ class MyAppState extends ConsumerState<MyApp> {
     //logic theme system or theme choice user
     String theme = prefs.getString("theme") ?? "";
     ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
+
+    //logic langue device or choice user
+    ref.read(localeLanguageNotifierProvider.notifier).setLocaleLanguage(prefs);
 
     if (result != ConnectivityResult.none) {
       //logic load datas user
@@ -199,6 +203,7 @@ class MyAppState extends ConsumerState<MyApp> {
     for (var i = 0; i < imagesApp.length; i++) {
       precacheImage(imagesApp[i].image, context);
     }
+
     super.didChangeDependencies();
   }
 
@@ -211,42 +216,30 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     themeApp = ref.watch(themeAppNotifierProvider);
+    localeLanguage = ref.watch(localeLanguageNotifierProvider);
 
     return MaterialApp(
-      title: 'My youkounkoun',
-      debugShowCheckedModeBanner: false,
-      themeMode: themeApp.trim() == ""
-          ? ThemeMode.system
-          : themeApp == "lightTheme"
-              ? ThemeMode.light
-              : ThemeMode.dark,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      supportedLocales: const [Locale('en', ''), Locale('fr', '')],
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale!.languageCode) {
-            ref
-                .read(localeLanguageNotifierProvider.notifier)
-                .setLocaleLanguage(deviceLocale.languageCode);
-            return deviceLocale;
-          }
-        }
-        ref
-            .read(localeLanguageNotifierProvider.notifier)
-            .setLocaleLanguage(supportedLocales.first.languageCode);
-        return supportedLocales.first;
-      },
-      localizationsDelegates: const [
-        CountryLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        AppLocalization.delegate
-      ],
-      home: _connectivityStatus == ConnectivityResult.none
-          ? const ConnectivityDevice()
-          : const LogController(),
-    );
+          title: 'My youkounkoun',
+          debugShowCheckedModeBanner: false,
+          themeMode: themeApp.trim() == ""
+              ? ThemeMode.system
+              : themeApp == "lightTheme"
+                  ? ThemeMode.light
+                  : ThemeMode.dark,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+          locale: localeLanguage,
+          localizationsDelegates: const [
+            CountryLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalization.delegate
+          ],
+          home: _connectivityStatus == ConnectivityResult.none
+              ? const ConnectivityDevice()
+              : const LogController(),
+        );
   }
 }

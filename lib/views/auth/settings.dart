@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
@@ -27,7 +28,25 @@ class SettingsState extends ConsumerState<Settings> {
   bool _isDarkTheme = false;
   bool _notificationsActive = true;
 
+  late Locale _localeLanguage;
+
   AppBar appBar = AppBar();
+
+  void dropdownCallback(selectedValue) async {
+    try {
+      if (selectedValue is Locale) {
+        ref
+            .read(localeLanguageNotifierProvider.notifier)
+            .updateLocaleLanguage(selectedValue);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("langue", selectedValue.languageCode);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 
   Future<void> _tryLogOut() async {
     try {
@@ -128,6 +147,7 @@ class SettingsState extends ConsumerState<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    _localeLanguage = ref.watch(localeLanguageNotifierProvider);
     _notificationsActive = ref.watch(notificationsActiveNotifierProvider);
 
     return Scaffold(
@@ -200,7 +220,8 @@ class SettingsState extends ConsumerState<Settings> {
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 30.0, 20.0, 80.0),
+          padding: EdgeInsets.fromLTRB(
+              20.0, appBar.preferredSize.height + 30.0, 20.0, 80.0),
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           child: Column(
@@ -211,6 +232,10 @@ class SettingsState extends ConsumerState<Settings> {
               ),
               securitySettings(),
               const SizedBox(height: 15.0),
+              langueSettings(),
+              const SizedBox(
+                height: 15.0,
+              ),
               themeSettings(),
               const SizedBox(height: 15.0),
               notificationsSettings()
@@ -305,6 +330,49 @@ class SettingsState extends ConsumerState<Settings> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget langueSettings() {
+    return Container(
+      height: 60.0,
+      decoration: const BoxDecoration(
+          border: Border(
+        bottom: BorderSide(color: cGrey, width: 0.5),
+      )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.language,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  size: 20),
+              const SizedBox(
+                width: 15.0,
+              ),
+              Text("Langue",
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      16),
+                  textScaleFactor: 1.0),
+            ],
+          ),
+          DropdownButton(
+            items: const [
+              DropdownMenuItem(
+                  value: Locale('fr', ''), child: Text("Français")),
+              DropdownMenuItem(value: Locale('en', ''), child: Text("Anglais"))
+            ],
+            value: _localeLanguage,
+            onChanged: dropdownCallback,
+          )
+        ],
       ),
     );
   }

@@ -247,15 +247,24 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppLocalization.of(context)
-                  .translate("recent_searches_screen", "recent_searches"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
-              textScaleFactor: 1.0,
+            Row(
+              children: [
+                Icon(Icons.history,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite),
+                const SizedBox(width: 5.0),
+                Text(
+                  AppLocalization.of(context)
+                      .translate("recent_searches_screen", "recent_searches"),
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      16),
+                  textScaleFactor: 1.0,
+                )
+              ],
             ),
             const SizedBox(
               height: 10.0,
@@ -421,15 +430,24 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppLocalization.of(context)
-                  .translate("recent_searches_screen", "results"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
-              textScaleFactor: 1.0,
+            Row(
+              children: [
+                Icon(Icons.search,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite),
+                const SizedBox(width: 5.0),
+                Text(
+                  AppLocalization.of(context)
+                      .translate("recent_searches_screen", "results"),
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      16),
+                  textScaleFactor: 1.0,
+                ),
+              ],
             ),
             const SizedBox(
               height: 10.0,

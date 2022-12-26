@@ -287,7 +287,7 @@ class NewConversationState extends ConsumerState<NewConversation>
           child: SingleChildScrollView(
             controller: _scrollController,
             padding: EdgeInsets.fromLTRB(
-                10.0, appBar.preferredSize.height + 100.0, 10.0, 0.0),
+                10.0, appBar.preferredSize.height + 90.0, 10.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: _searchController.text.isNotEmpty
@@ -335,15 +335,24 @@ class NewConversationState extends ConsumerState<NewConversation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocalization.of(context)
-              .translate("new_conversation_screen", "recent_interactions"),
-          style: textStyleCustomBold(
-              Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-              16),
-          textScaleFactor: 1.0,
+        Row(
+          children: [
+            Icon(Icons.history,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite),
+            const SizedBox(width: 5.0),
+            Text(
+              AppLocalization.of(context)
+                  .translate("new_conversation_screen", "recent_interactions"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+              textScaleFactor: 1.0,
+            ),
+          ],
         ),
         const SizedBox(
           height: 10.0,
@@ -486,15 +495,24 @@ class NewConversationState extends ConsumerState<NewConversation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocalization.of(context)
-              .translate("new_conversation_screen", "results"),
-          style: textStyleCustomBold(
-              Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-              16),
-          textScaleFactor: 1.0,
+        Row(
+          children: [
+            Icon(Icons.search,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite),
+            const SizedBox(width: 5.0),
+            Text(
+              AppLocalization.of(context)
+                  .translate("new_conversation_screen", "results"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+              textScaleFactor: 1.0,
+            ),
+          ],
         ),
         const SizedBox(
           height: 10.0,

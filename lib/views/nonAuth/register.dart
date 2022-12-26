@@ -58,7 +58,7 @@ class RegisterState extends ConsumerState<Register>
   bool _loadingStepFifth = false;
   bool _loadingStepSixth = false;
 
-  late String localeLanguage;
+  late Locale localeLanguage;
 
   AppBar appBar = AppBar();
 
@@ -1031,7 +1031,7 @@ class RegisterState extends ConsumerState<Register>
                     onTap: () {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
-                          locale: localeLanguage == "fr"
+                          locale: localeLanguage.languageCode == "fr"
                               ? LocaleType.fr
                               : LocaleType.en,
                           theme: DatePickerTheme(
@@ -1077,7 +1077,7 @@ class RegisterState extends ConsumerState<Register>
                         child: Text(
                             Helpers.formattingDate(
                                 _dateBirthday ?? DateTime.now(),
-                                localeLanguage),
+                                localeLanguage.languageCode),
                             style: textStyleCustomBold(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack

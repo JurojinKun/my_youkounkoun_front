@@ -27,7 +27,7 @@ class EditAccount extends ConsumerStatefulWidget {
 
 class EditAccountState extends ConsumerState<EditAccount>
     with WidgetsBindingObserver {
-  late String localeLanguage;
+  late Locale localeLanguage;
 
   late User user;
 
@@ -743,7 +743,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                 onTap: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
-                      locale: localeLanguage == "fr"
+                      locale: localeLanguage.languageCode == "fr"
                           ? LocaleType.fr
                           : LocaleType.en,
                       theme: DatePickerTheme(
@@ -781,7 +781,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
                         Helpers.formattingDate(
-                            _dateBirthday ?? DateTime.now(), localeLanguage),
+                            _dateBirthday ?? DateTime.now(), localeLanguage.languageCode),
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
