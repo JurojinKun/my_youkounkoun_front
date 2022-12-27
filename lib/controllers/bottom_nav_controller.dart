@@ -55,18 +55,18 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('ic_notif');
-    const IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    const DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     const InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
-            iOS: initializationSettingsIOS);
+            iOS: initializationSettingsDarwin);
 
     /// Set the user clic locale notification handler
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (payload) =>
-            selectLocaleNotification(payload, context));
+        onDidReceiveNotificationResponse: (payload) =>
+            selectLocaleNotification(payload.toString(), context));
 
     FirebaseMessaging.instance
         .getInitialMessage()

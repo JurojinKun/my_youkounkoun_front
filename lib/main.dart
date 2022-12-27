@@ -55,9 +55,9 @@ class MyHttpOverrides extends HttpOverrides {
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   HttpOverrides.global = MyHttpOverrides();
-  await Firebase.initializeApp();
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
