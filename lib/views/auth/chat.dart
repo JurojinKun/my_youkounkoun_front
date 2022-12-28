@@ -33,36 +33,32 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
 
     return SingleChildScrollView(
       padding:
-          EdgeInsets.fromLTRB(10.0, appBar.preferredSize.height + 90.0, 10.0, 0.0),
+          EdgeInsets.fromLTRB(10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
       physics:
           const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      child: Container(
-        height: 150,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.send,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-              size: 40,
-            ),
-            const SizedBox(height: 15.0),
-            Text(
-              AppLocalization.of(context).translate("activities_screen", "no_chat"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.send,
+            color: Theme.of(context).brightness == Brightness.light
+                ? cBlack
+                : cWhite,
+            size: 40,
+          ),
+          const SizedBox(height: 15.0),
+          Text(
+            AppLocalization.of(context).translate("activities_screen", "no_chat"),
+            style: textStyleCustomMedium(
+                Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite,
+                14),
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.0,
+          )
+        ],
       ),
     );
   }

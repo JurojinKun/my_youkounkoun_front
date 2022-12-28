@@ -91,6 +91,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                             : cWhite,
                         20),
                     textScaleFactor: 1.0),
+                    centerTitle: false,
               ),
             ),
           ),
@@ -102,7 +103,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                 parent: BouncingScrollPhysics()),
             enablePullDown: true,
             header: WaterDropMaterialHeader(
-              offset: appBar.preferredSize.height + 40.0,
+              offset: MediaQuery.of(context).padding.top + appBar.preferredSize.height,
               distance: 40.0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               color: cBlue,
@@ -110,7 +111,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             onRefresh: _refreshHome,
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  20.0, appBar.preferredSize.height + 50.0, 20.0, 0.0),
+                  20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 0.0),
               child: Column(
                 children: [
                   Text(

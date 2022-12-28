@@ -197,6 +197,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
+            centerTitle: false,
             actions: [
               Material(
                 color: Colors.transparent,
@@ -217,7 +218,6 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     )),
               )
             ],
-            centerTitle: false,
           ),
           body: Padding(
             padding:

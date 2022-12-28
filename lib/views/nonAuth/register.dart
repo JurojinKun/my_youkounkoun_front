@@ -431,7 +431,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -631,7 +631,7 @@ class RegisterState extends ConsumerState<Register>
           _isKeyboard
               ? const SizedBox()
               : Container(
-                  height: 115,
+                  height: 115 + MediaQuery.of(context).padding.bottom,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                   child: SizedBox(
@@ -691,7 +691,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -755,7 +755,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 115,
+            height: 115 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -833,7 +833,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -932,7 +932,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 115,
+            height: 115 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1010,7 +1010,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1092,7 +1092,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 115,
+            height: 115 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1170,7 +1170,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1242,7 +1242,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 115,
+            height: 115 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard
@@ -1323,7 +1323,7 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, appBar.preferredSize.height + 50.0, 25.0, 0.0),
+                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1412,7 +1412,7 @@ class RegisterState extends ConsumerState<Register>
             ),
           )),
           Container(
-            height: 115,
+            height: 115 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: _isKeyboard

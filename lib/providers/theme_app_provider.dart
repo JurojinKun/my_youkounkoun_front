@@ -5,7 +5,7 @@ final themeAppNotifierProvider = StateNotifierProvider<ThemeAppProvider, String>
 class ThemeAppProvider extends StateNotifier<String> {
   ThemeAppProvider() : super("");
 
-  setThemeApp(String theme) {
+  Future<void> setThemeApp(String theme) async {
     state = theme;
   }
 }

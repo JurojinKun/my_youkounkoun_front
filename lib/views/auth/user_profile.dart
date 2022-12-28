@@ -121,7 +121,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
         body: SizedBox.expand(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                20.0, appBar.preferredSize.height + 50.0, 20.0, 0.0),
+                20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: Column(

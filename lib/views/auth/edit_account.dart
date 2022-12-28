@@ -427,6 +427,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                         20),
                     textScaleFactor: 1.0,
                   ),
+                  centerTitle: false,
                 ),
               ),
             ),
@@ -443,8 +444,8 @@ class EditAccountState extends ConsumerState<EditAccount>
   Widget _editAccount() {
     return SizedBox.expand(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 40.0,
-            20.0, isEdit ? 120.0 : 20.0),
+        padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0,
+            20.0, isEdit ? MediaQuery.of(context).padding.bottom + 120.0 : MediaQuery.of(context).padding.bottom + 20.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(
@@ -875,7 +876,7 @@ class EditAccountState extends ConsumerState<EditAccount>
       alignment: Alignment.bottomCenter,
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        height: 100.0,
+        height: 100.0 + MediaQuery.of(context).padding.bottom,
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),

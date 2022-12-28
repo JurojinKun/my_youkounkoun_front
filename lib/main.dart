@@ -125,10 +125,12 @@ class MyAppState extends ConsumerState<MyApp> {
 
     //logic theme system or theme choice user
     String theme = prefs.getString("theme") ?? "";
-    ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
+    await ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
 
     //logic langue device or choice user
-    ref.read(localeLanguageNotifierProvider.notifier).setLocaleLanguage(prefs);
+    await ref
+        .read(localeLanguageNotifierProvider.notifier)
+        .setLocaleLanguage(prefs);
 
     if (result != ConnectivityResult.none) {
       //logic load datas user
@@ -136,6 +138,9 @@ class MyAppState extends ConsumerState<MyApp> {
     }
 
     FlutterNativeSplash.remove();
+    if (Platform.isIOS) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
   }
 
   Future<void> _loadDataUser(SharedPreferences prefs) async {
@@ -219,27 +224,27 @@ class MyAppState extends ConsumerState<MyApp> {
     localeLanguage = ref.watch(localeLanguageNotifierProvider);
 
     return MaterialApp(
-          title: 'My youkounkoun',
-          debugShowCheckedModeBanner: false,
-          themeMode: themeApp.trim() == ""
-              ? ThemeMode.system
-              : themeApp == "lightTheme"
-                  ? ThemeMode.light
-                  : ThemeMode.dark,
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          supportedLocales: const [Locale('en', ''), Locale('fr', '')],
-          locale: localeLanguage,
-          localizationsDelegates: const [
-            CountryLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            AppLocalization.delegate
-          ],
-          home: _connectivityStatus == ConnectivityResult.none
-              ? const ConnectivityDevice()
-              : const LogController(),
-        );
+      title: 'My youkounkoun',
+      debugShowCheckedModeBanner: false,
+      themeMode: themeApp.trim() == ""
+          ? ThemeMode.system
+          : themeApp == "lightTheme"
+              ? ThemeMode.light
+              : ThemeMode.dark,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+      locale: localeLanguage,
+      localizationsDelegates: const [
+        CountryLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalization.delegate
+      ],
+      home: _connectivityStatus == ConnectivityResult.none
+          ? const ConnectivityDevice()
+          : const LogController(),
+    );
   }
 }

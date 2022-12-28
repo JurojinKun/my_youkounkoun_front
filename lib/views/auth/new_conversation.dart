@@ -287,7 +287,7 @@ class NewConversationState extends ConsumerState<NewConversation>
           child: SingleChildScrollView(
             controller: _scrollController,
             padding: EdgeInsets.fromLTRB(
-                10.0, appBar.preferredSize.height + 90.0, 10.0, 0.0),
+                10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 70.0, 10.0, choice != null ? 100.0 + MediaQuery.of(context).padding.top : MediaQuery.of(context).padding.top),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: _searchController.text.isNotEmpty
@@ -300,9 +300,9 @@ class NewConversationState extends ConsumerState<NewConversation>
             : Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 90,
+                  height: 100 + MediaQuery.of(context).padding.bottom,
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: SizedBox(

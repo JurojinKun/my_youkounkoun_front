@@ -197,6 +197,7 @@ class SettingsState extends ConsumerState<Settings> {
                           : cWhite,
                       20),
                   textScaleFactor: 1.0),
+              centerTitle: false,
               actions: [
                 Material(
                   color: Colors.transparent,
@@ -219,7 +220,7 @@ class SettingsState extends ConsumerState<Settings> {
       body: SizedBox.expand(
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(
-              20.0, appBar.preferredSize.height + 30.0, 20.0, 80.0),
+              20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 80.0),
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           child: Column(
@@ -352,7 +353,9 @@ class SettingsState extends ConsumerState<Settings> {
               const SizedBox(
                 width: 15.0,
               ),
-              Text(AppLocalization.of(context).translate("settings_screen", "language"),
+              Text(
+                  AppLocalization.of(context)
+                      .translate("settings_screen", "language"),
                   style: textStyleCustomBold(
                       Theme.of(context).brightness == Brightness.light
                           ? cBlack
@@ -362,18 +365,42 @@ class SettingsState extends ConsumerState<Settings> {
             ],
           ),
           DropdownButton(
-            style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16),
+            style: textStyleCustomBold(
+                Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite,
+                16),
             iconSize: 33,
-            iconEnabledColor: Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
+            iconEnabledColor: Theme.of(context).brightness == Brightness.light
+                ? cBlack
+                : cWhite,
             underline: const SizedBox(),
             dropdownColor: Theme.of(context).scaffoldBackgroundColor,
             items: [
               DropdownMenuItem(
-                alignment: Alignment.center,
-                  value: const Locale('fr', ''), child: Text(AppLocalization.of(context).translate("settings_screen", "language_french"), style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16), textScaleFactor: 1.0)),
+                  alignment: Alignment.center,
+                  value: const Locale('fr', ''),
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate("settings_screen", "language_french"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          16),
+                      textScaleFactor: 1.0)),
               DropdownMenuItem(
-                alignment: Alignment.center,
-                value: const Locale('en', ''), child: Text(AppLocalization.of(context).translate("settings_screen", "language_english"), style: textStyleCustomBold(Theme.of(context).brightness == Brightness.light ? cBlack : cWhite, 16), textScaleFactor: 1.0))
+                  alignment: Alignment.center,
+                  value: const Locale('en', ''),
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate("settings_screen", "language_english"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          16),
+                      textScaleFactor: 1.0))
             ],
             value: _localeLanguage,
             onChanged: dropdownCallback,

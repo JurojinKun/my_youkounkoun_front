@@ -70,6 +70,7 @@ class SearchState extends ConsumerState<Search>
                           : cWhite,
                       20),
                   textScaleFactor: 1.0),
+              centerTitle: false,
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(65.0),
                   child: Container(
@@ -127,7 +128,7 @@ class SearchState extends ConsumerState<Search>
       body: SizedBox.expand(
         child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                20.0, appBar.preferredSize.height + 115.0, 20.0, 0.0),
+                20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 85.0, 20.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: Column(

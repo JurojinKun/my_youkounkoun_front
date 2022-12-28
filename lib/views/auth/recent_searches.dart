@@ -240,7 +240,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
     return SizedBox.expand(
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(
-            10.0, appBar.preferredSize.height + 40.0, 10.0, 0.0),
+            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
@@ -424,7 +424,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
       child: SingleChildScrollView(
         controller: _scrollController,
         padding: EdgeInsets.fromLTRB(
-            10.0, appBar.preferredSize.height + 40.0, 10.0, 0.0),
+            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(

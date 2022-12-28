@@ -226,7 +226,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
         ),
         body: SizedBox.expand(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(25.0, appBar.preferredSize.height + 25.0, 25.0, 0.0),
+            padding: EdgeInsets.fromLTRB(25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [

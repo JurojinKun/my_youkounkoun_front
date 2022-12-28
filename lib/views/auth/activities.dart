@@ -190,12 +190,11 @@ class ActivitiesState extends ConsumerState<Activities>
                             children: [
                               Center(
                                   child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Center(
-                                    child: Icon(_tabController.index == 1
-                                        ? Icons.notifications_active
-                                        : Icons.notifications_active_outlined),
-                                  ),
+                                  Icon(_tabController.index == 1
+                                      ? Icons.notifications_active
+                                      : Icons.notifications_active_outlined),
                                   const SizedBox(
                                     width: 5.0,
                                   ),

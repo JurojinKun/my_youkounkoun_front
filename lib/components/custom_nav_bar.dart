@@ -158,14 +158,19 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        top: 8,
-                        right: 23,
+                      Align(
+                        alignment: Alignment.center,
                         child: Container(
-                          height: 10.0,
-                          width: 10.0,
-                          decoration: const BoxDecoration(
-                              color: cBlue, shape: BoxShape.circle),
+                          height: 70.0,
+                          width: 50.0,
+                          alignment: Alignment.topRight,
+                          padding: const EdgeInsets.only(top: 5.0, right: 5.0),
+                          child: Container(
+                            height: 10.0,
+                            width: 10.0,
+                            decoration: const BoxDecoration(
+                                color: cBlue, shape: BoxShape.circle),
+                          ),
                         ),
                       )
                     ],

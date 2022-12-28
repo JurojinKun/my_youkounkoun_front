@@ -11,7 +11,7 @@ final localeLanguageNotifierProvider =
 class LocaleLanguageProvider extends StateNotifier<Locale> {
   LocaleLanguageProvider() : super(const Locale('en', ''));
 
-  void setLocaleLanguage(SharedPreferences prefs) {
+  Future<void> setLocaleLanguage(SharedPreferences prefs) async {
     Locale localeLanguage;
     String? languePrefs = prefs.getString("langue");
     if (languePrefs != null) {

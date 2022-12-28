@@ -509,7 +509,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   Widget _editSecurity() {
     return SizedBox.expand(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.0, appBar.preferredSize.height + 40.0, 20.0, validEditMail || validEditPassword ? 110 : 10),
+        padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, validEditMail || validEditPassword ? 120 + MediaQuery.of(context).padding.bottom : MediaQuery.of(context).padding.bottom + 20.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(
@@ -705,7 +705,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
       alignment: Alignment.bottomCenter,
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        height: 100.0,
+        height: 100.0 + MediaQuery.of(context).padding.bottom,
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
