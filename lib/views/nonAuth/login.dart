@@ -100,71 +100,65 @@ class LoginState extends ConsumerState<Login> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: AppBar(
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    systemOverlayStyle:
-                        Theme.of(context).brightness == Brightness.light
-                            ? Platform.isIOS
-                                ? SystemUiOverlayStyle.dark
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.dark)
-                            : Platform.isIOS
-                                ? SystemUiOverlayStyle.light
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.light),
-                    leading: Material(
-                      color: Colors.transparent,
-                      shape: const CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () => navNonAuthKey.currentState!.pop(),
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                          )),
-                    ),
-                    title: Text(
-                        AppLocalization.of(context)
-                            .translate("login_screen", "login"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            20),
-                        textScaleFactor: 1.0),
-                    centerTitle: false,
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  systemOverlayStyle:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Platform.isIOS
+                              ? SystemUiOverlayStyle.dark
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.dark)
+                          : Platform.isIOS
+                              ? SystemUiOverlayStyle.light
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.light),
+                  leading: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navNonAuthKey.currentState!.pop(),
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                        )),
+                  ),
+                  title: Text(
+                      AppLocalization.of(context)
+                          .translate("login_screen", "login"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          20),
+                      textScaleFactor: 1.0),
+                  centerTitle: false,
                 ),
               ),
             ),
           ),
           body: SizedBox.expand(
             child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
-              physics: const AlwaysScrollableScrollPhysics(
-                  ),
+              padding: EdgeInsets.fromLTRB(
+                  25.0,
+                  MediaQuery.of(context).padding.top +
+                      appBar.preferredSize.height +
+                      20.0,
+                  25.0,
+                  MediaQuery.of(context).padding.bottom + 20.0),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   Image.asset("assets/images/ic_app.png",
                       height: 125, width: 125),
                   const SizedBox(
-                    height: 25.0,
-                  ),
-                  Text("My youkounkoun",
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          33),
-                      textAlign: TextAlign.center,
-                      textScaleFactor: 1.0),
-                  const SizedBox(
-                    height: 45.0,
+                    height: 55.0,
                   ),
                   TextField(
                     controller: _mailController,
@@ -202,8 +196,9 @@ class LoginState extends ConsumerState<Login> {
                                     },
                                     icon: Icon(
                                       Icons.clear,
-                                      color:
-                                          _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                      color: _mailFocusNode.hasFocus
+                                          ? cBlue
+                                          : cGrey,
                                     )),
                               )
                             : const SizedBox()),
@@ -223,8 +218,19 @@ class LoginState extends ConsumerState<Login> {
                         val = _passwordController.text;
                       });
                     },
-                    onSubmitted: (val) {
+                    onSubmitted: (val) async {
                       Helpers.hideKeyboard(context);
+                      if (_mailController.text.isNotEmpty &&
+                          EmailValidator.validate(_mailController.text) &&
+                          _passwordController.text.isNotEmpty) {
+                        setState(() {
+                          _loadingLogin = true;
+                        });
+                        await _tryLogin();
+                        setState(() {
+                          _loadingLogin = false;
+                        });
+                      }
                     },
                     decoration: InputDecoration(
                         hintText: AppLocalization.of(context)
@@ -254,6 +260,7 @@ class LoginState extends ConsumerState<Login> {
                               )),
                         )),
                   ),
+                  const SizedBox(height: 10.0),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton(
@@ -336,8 +343,7 @@ class LoginState extends ConsumerState<Login> {
                 ],
               ),
             ),
-          )
-          ),
+          )),
     );
   }
 }

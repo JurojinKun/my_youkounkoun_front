@@ -240,7 +240,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
     return SizedBox.expand(
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(
-            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
+            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, MediaQuery.of(context).padding.bottom + 90.0),
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
@@ -309,7 +309,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 5.0),
                           onTap: () => navSearchKey!.currentState!
-                              .pushNamed(userProfile, arguments: [user]),
+                              .pushNamed(userProfile, arguments: [user, true]),
                           leading: user.profilePictureUrl.trim() != ""
                               ? Container(
                                   height: 65,
@@ -424,7 +424,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
       child: SingleChildScrollView(
         controller: _scrollController,
         padding: EdgeInsets.fromLTRB(
-            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
+            10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, MediaQuery.of(context).padding.bottom + 90.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(
@@ -496,7 +496,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                 .read(recentSearchesNotifierProvider.notifier)
                                 .addRecentSearches(user);
                             navSearchKey!.currentState!
-                                .pushNamed(userProfile, arguments: [user]);
+                                .pushNamed(userProfile, arguments: [user, true]);
                           },
                           leading: user.profilePictureUrl.trim() != ""
                               ? Container(

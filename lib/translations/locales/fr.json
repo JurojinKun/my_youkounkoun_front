@@ -98,7 +98,8 @@
         "logout_content": "Es-tu sûr de vouloir te déconnecter ?",
         "language": "Langue",
         "language_french": "Français",
-        "language_english": "Anglais"
+        "language_english": "Anglais",
+        "infos_app": "Informations sur l'app"
     },
     "edit_account_screen": {
         "my_account": "Informations du compte",
@@ -122,6 +123,12 @@
         "error_update": "Impossible de modifier ton mail et ton mot de passe en même temps ! Chaque chose en son temps..",
         "verify_validity": "Vérification pour valider la modification",
         "content_verify": "Entre ton mot de passe actuel afin de vérifier et valider ta modification en cours"
+    },
+    "infos_app_screen": {
+        "title": "Informations sur l'app",
+        "cgu": "Conditions générales d'utilisation",
+        "policy_privacy": "Politique de confidentialité",
+        "version":"Version"
     },
     "validate_user_screen": {
         "send_mail": "Un mail vous a été envoyé",

@@ -111,7 +111,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
             onRefresh: _refreshHome,
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 0.0),
+                  20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, MediaQuery.of(context).padding.bottom + 90.0),
               child: Column(
                 children: [
                   Text(

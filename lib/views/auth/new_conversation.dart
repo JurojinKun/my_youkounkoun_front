@@ -287,7 +287,7 @@ class NewConversationState extends ConsumerState<NewConversation>
           child: SingleChildScrollView(
             controller: _scrollController,
             padding: EdgeInsets.fromLTRB(
-                10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 70.0, 10.0, choice != null ? 100.0 + MediaQuery.of(context).padding.top : MediaQuery.of(context).padding.top),
+                10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 70.0, 10.0, choice != null ? MediaQuery.of(context).padding.bottom + 120.0 : MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: _searchController.text.isNotEmpty

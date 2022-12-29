@@ -220,7 +220,12 @@ class SettingsState extends ConsumerState<Settings> {
       body: SizedBox.expand(
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(
-              20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 80.0),
+              20.0,
+              MediaQuery.of(context).padding.top +
+                  appBar.preferredSize.height +
+                  20.0,
+              20.0,
+              MediaQuery.of(context).padding.bottom + 90.0),
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           child: Column(
@@ -237,7 +242,9 @@ class SettingsState extends ConsumerState<Settings> {
               ),
               themeSettings(),
               const SizedBox(height: 15.0),
-              notificationsSettings()
+              notificationsSettings(),
+              const SizedBox(height: 15.0),
+              infosAppSettings()
             ],
           ),
         ),
@@ -255,26 +262,31 @@ class SettingsState extends ConsumerState<Settings> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.edit,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  size: 20,
-                ),
-                const SizedBox(width: 15.0),
-                Text(
-                    AppLocalization.of(context)
-                        .translate("settings_screen", "my_account"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        16),
-                    textScaleFactor: 1.0)
-              ],
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.edit,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 15.0),
+                  Expanded(
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "my_account"),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 1.0),
+                  )
+                ],
+              ),
             ),
             Icon(
               Icons.arrow_forward_ios,
@@ -299,26 +311,31 @@ class SettingsState extends ConsumerState<Settings> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.lock,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  size: 20,
-                ),
-                const SizedBox(width: 15.0),
-                Text(
-                    AppLocalization.of(context)
-                        .translate("settings_screen", "security_account"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        16),
-                    textScaleFactor: 1.0)
-              ],
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.lock,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 15.0),
+                  Expanded(
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "security_account"),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 1.0),
+                  )
+                ],
+              ),
             ),
             Icon(
               Icons.arrow_forward_ios,
@@ -343,26 +360,31 @@ class SettingsState extends ConsumerState<Settings> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(Icons.language,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  size: 20),
-              const SizedBox(
-                width: 15.0,
-              ),
-              Text(
-                  AppLocalization.of(context)
-                      .translate("settings_screen", "language"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
-                  textScaleFactor: 1.0),
-            ],
+          Expanded(
+            child: Row(
+              children: [
+                Icon(Icons.language,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Expanded(
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate("settings_screen", "language"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          16),
+                      overflow: TextOverflow.ellipsis,
+                      textScaleFactor: 1.0),
+                ),
+              ],
+            ),
           ),
           DropdownButton(
             style: textStyleCustomBold(
@@ -420,26 +442,31 @@ class SettingsState extends ConsumerState<Settings> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(Icons.brightness_6,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  size: 20),
-              const SizedBox(
-                width: 15.0,
-              ),
-              Text(
-                  AppLocalization.of(context)
-                      .translate("settings_screen", "theme"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
-                  textScaleFactor: 1.0),
-            ],
+          Expanded(
+            child: Row(
+              children: [
+                Icon(Icons.brightness_6,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Expanded(
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate("settings_screen", "theme"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          16),
+                      overflow: TextOverflow.ellipsis,
+                      textScaleFactor: 1.0),
+                ),
+              ],
+            ),
           ),
           Row(
             children: [
@@ -491,26 +518,28 @@ class SettingsState extends ConsumerState<Settings> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(Icons.notifications,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  size: 20),
-              const SizedBox(
-                width: 15.0,
-              ),
-              Text(
-                  AppLocalization.of(context)
-                      .translate("settings_screen", "notifications"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
-                  textScaleFactor: 1.0),
-            ],
+          Expanded(
+            child: Row(
+              children: [
+                Icon(Icons.notifications,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20),
+                const SizedBox(
+                  width: 15.0,
+                ),
+                Text(
+                    AppLocalization.of(context)
+                        .translate("settings_screen", "notifications"),
+                    style: textStyleCustomBold(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        16),
+                    textScaleFactor: 1.0),
+              ],
+            ),
           ),
           Row(
             children: [
@@ -542,6 +571,55 @@ class SettingsState extends ConsumerState<Settings> {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget infosAppSettings() {
+    return InkWell(
+      onTap: () => navAuthKey.currentState!.pushNamed(infosApp),
+      child: Container(
+        height: 60.0,
+        decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 15.0),
+                  Expanded(
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "infos_app"),
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 1.0),
+                  )
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? cBlack
+                  : cWhite,
+              size: 18,
+            )
+          ],
+        ),
       ),
     );
   }

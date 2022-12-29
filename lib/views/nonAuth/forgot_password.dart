@@ -226,23 +226,12 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
         ),
         body: SizedBox.expand(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, 0.0),
+            padding: EdgeInsets.fromLTRB(25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 Image.asset("assets/images/ic_app.png", height: 125, width: 125),
-            const SizedBox(
-              height: 25.0,
-            ),
-            Text("My youkounkoun",
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    33),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.0),
-            const SizedBox(height: 45.0),
+            const SizedBox(height: 35.0),
             Text(
               AppLocalization.of(context)
                   .translate("forgot_password_screen", "content"),

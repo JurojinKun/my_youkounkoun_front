@@ -16,8 +16,9 @@ import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
 class UserProfile extends ConsumerStatefulWidget {
   final User user;
+  final bool bottomNav;
 
-  const UserProfile({Key? key, required this.user}) : super(key: key);
+  const UserProfile({Key? key, required this.user, required this.bottomNav}) : super(key: key);
 
   @override
   UserProfileState createState() => UserProfileState();
@@ -121,7 +122,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
         body: SizedBox.expand(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 0.0),
+                20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, widget.bottomNav ? MediaQuery.of(context).padding.bottom + 90.0 : MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
             child: Column(

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Search extends ConsumerStatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -18,9 +19,23 @@ class SearchState extends ConsumerState<Search>
     with AutomaticKeepAliveClientMixin {
   AppBar appBar = AppBar();
 
+  bool datasEnabled = true;
+
+  Future<void> initDatasSearch() async {
+    await Future.delayed(const Duration(seconds: 6), () {
+      if (mounted) {
+        setState(() {
+          datasEnabled = false;
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    initDatasSearch();
   }
 
   @override
@@ -128,25 +143,39 @@ class SearchState extends ConsumerState<Search>
       body: SizedBox.expand(
         child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 85.0, 20.0, 0.0),
+                20.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    85.0,
+                20.0,
+                MediaQuery.of(context).padding.bottom + 90.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
-            child: Column(
-              children: [
-                Text(
-                  AppLocalization.of(context)
-                      .translate("general", "message_continue"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      14),
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
-                ),
-              ],
-            )),
+            child: datasShimmer()),
       ),
+    );
+  }
+
+  Widget datasShimmer() {
+    return Shimmer.fromColors(
+      baseColor: !datasEnabled ? cBlue : Colors.transparent,
+      highlightColor: cWhite,
+      period: const Duration(milliseconds: 2000),
+      direction: ShimmerDirection.ltr,
+      enabled: datasEnabled,
+      child: ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 25,
+          itemBuilder: (_, int index) {
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                  height: 69.0,
+                  color: cGrey,
+                ));
+          }),
     );
   }
 }

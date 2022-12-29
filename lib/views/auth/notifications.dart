@@ -34,7 +34,7 @@ class NotificationsState extends ConsumerState<Notifications>
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
-          10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, 0.0),
+          10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, MediaQuery.of(context).padding.bottom + 90.0),
       physics:
           const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       child: Column(

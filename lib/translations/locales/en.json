@@ -22,7 +22,7 @@
         "login": "Sign in",
         "register": "Sign up",
         "consult": "You can consult ",
-        "cgu": "CGU",
+        "cgu": "GTC",
         "and": " and ",
         "privacy_policy": "Privacy policy",
         "youkounkoun": " of youkounkoun",
@@ -48,11 +48,11 @@
         "camera": "Camera",
         "galery": "Galery",
         "register": "Sign up",
-        "step_one": "First step, enter your email address and your password to create your account. Don't forget to accept the app's CGU and privacy policy.",
+        "step_one": "First step, enter your email address and your password to create your account. Don't forget to accept the app's GTC and privacy policy.",
         "mail": "Email",
         "password": "Password",
         "accept_cgu": "Accept the ",
-        "cgu": "CGU",
+        "cgu": "GTC",
         "accept_policy_privacy": "Accept the ",
         "policy_privacy": "politique de confidentialité",
         "step_two": "Second step, enter the nickname that will be used to identify your account.",
@@ -98,7 +98,8 @@
         "logout_content": "Are you sure you want to disconnect ?",
         "language": "Language",
         "language_french": "French",
-        "language_english": "English"
+        "language_english": "English",
+        "infos_app": "Information about the app"
     },
     "edit_account_screen": {
         "my_account": "Account information",
@@ -122,6 +123,12 @@
         "error_update": "You can't change your email and password at the same time! One thing at a time..",
         "verify_validity": "Check to validate the change",
         "content_verify": "Enter your current password to verify and validate your current change"
+    },
+    "infos_app_screen": {
+        "title": "Information about the app",
+        "cgu": "General terms and conditions of use ",
+        "policy_privacy": "Privacy policy",
+        "version":"Version"
     },
     "validate_user_screen": {
         "send_mail": "An email has been sent to you",

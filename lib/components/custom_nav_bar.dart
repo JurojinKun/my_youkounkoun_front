@@ -164,7 +164,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           height: 70.0,
                           width: 50.0,
                           alignment: Alignment.topRight,
-                          padding: const EdgeInsets.only(top: 5.0, right: 5.0),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: Container(
                             height: 10.0,
                             width: 10.0,

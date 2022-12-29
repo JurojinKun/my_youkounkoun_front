@@ -20,6 +20,7 @@ const String newConversation = "New conversation";
 const String recentSearches = "Recent searches";
 const String userProfile = "User profile";
 const String chatDetails = "Chat details";
+const String infosApp = "Infos app";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

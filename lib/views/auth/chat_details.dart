@@ -52,7 +52,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                     statusBarIconBrightness: Brightness.light),
         child: SizedBox.expand(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, 0.0),
+            padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
             child: const SizedBox()
           ),
@@ -93,7 +93,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           horizontal: widget.openWithModal ? 15.0 : 0.0),
                       child: GestureDetector(
                         onTap: () => navAuthKey.currentState!
-                            .pushNamed(userProfile, arguments: [widget.user]),
+                            .pushNamed(userProfile, arguments: [widget.user, false]),
                         child: Row(
                           children: [
                             widget.user.profilePictureUrl.trim() != ""
