@@ -431,7 +431,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,6 +465,8 @@ class RegisterState extends ConsumerState<Register>
                   onSubmitted: (val) {
                     FocusScope.of(context).requestFocus(_passwordFocusNode);
                   },
+                  style: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   decoration: InputDecoration(
                       hintText: AppLocalization.of(context)
                           .translate("register_screen", "mail"),
@@ -506,6 +513,8 @@ class RegisterState extends ConsumerState<Register>
                   onSubmitted: (val) {
                     Helpers.hideKeyboard(context);
                   },
+                  style: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   decoration: InputDecoration(
                       hintText: AppLocalization.of(context)
                           .translate("register_screen", "password"),
@@ -691,7 +700,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -722,6 +736,8 @@ class RegisterState extends ConsumerState<Register>
                   onSubmitted: (val) {
                     Helpers.hideKeyboard(context);
                   },
+                  style: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   decoration: InputDecoration(
                       hintText: AppLocalization.of(context)
                           .translate("register_screen", "pseudo"),
@@ -833,7 +849,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1010,7 +1031,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1170,7 +1196,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1323,7 +1354,12 @@ class RegisterState extends ConsumerState<Register>
           Expanded(
               child: Padding(
             padding: EdgeInsets.fromLTRB(
-                25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

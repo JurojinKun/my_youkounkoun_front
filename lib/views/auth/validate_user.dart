@@ -330,7 +330,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         },
                         enablePinAutofill: false,
                       )),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 60.0),
                   SizedBox(
                     height: 50,
                     width: MediaQuery.of(context).size.width,

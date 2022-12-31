@@ -23,27 +23,13 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
 
   AppBar appBar = AppBar();
 
-  late RefreshController refreshController;
-
-  //logic pull to refresh
-  Future<void> _refreshHome() async {
-    await Future.delayed(const Duration(seconds: 2));
-    refreshController.refreshCompleted();
-    if (kDebugMode) {
-      print("refresh home done");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-
-    refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void dispose() {
-    refreshController.dispose();
     super.dispose();
   }
 
@@ -91,64 +77,58 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                             : cWhite,
                         20),
                     textScaleFactor: 1.0),
-                    centerTitle: false,
+                centerTitle: false,
               ),
             ),
           ),
         ),
         body: SizedBox.expand(
-          child: SmartRefresher(
-            controller: refreshController,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+                20.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                20.0,
+                MediaQuery.of(context).padding.bottom + 90.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
-            enablePullDown: true,
-            header: WaterDropMaterialHeader(
-              offset: MediaQuery.of(context).padding.top + appBar.preferredSize.height,
-              distance: 40.0,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              color: cBlue,
-            ),
-            onRefresh: _refreshHome,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                  20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, MediaQuery.of(context).padding.bottom + 90.0),
-              child: Column(
-                children: [
-                  Text(
-                      AppLocalization.of(context)
-                          .translate("home_screen", "push_token"),
-                      style: textStyleCustomMedium(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          14),
-                      textAlign: TextAlign.center,
-                      textScaleFactor: 1.0),
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                  tokenNotif.trim() != ""
-                      ? SelectableText(
-                          tokenNotif,
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
-                          textAlign: TextAlign.center,
-                        )
-                      : Text(
-                          AppLocalization.of(context)
-                              .translate("home_screen", "no_token"),
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 1.0),
-                ],
-              ),
+            child: Column(
+              children: [
+                Text(
+                    AppLocalization.of(context)
+                        .translate("home_screen", "push_token"),
+                    style: textStyleCustomMedium(
+                        Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                        14),
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.0),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                tokenNotif.trim() != ""
+                    ? SelectableText(
+                        tokenNotif,
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            14),
+                        textAlign: TextAlign.center,
+                      )
+                    : Text(
+                        AppLocalization.of(context)
+                            .translate("home_screen", "no_token"),
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            14),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0),
+              ],
             ),
           ),
         ));

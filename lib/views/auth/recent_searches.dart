@@ -142,7 +142,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             _searchFocusNode.hasFocus
                                 ? Theme.of(context).colorScheme.primary
                                 : cGrey,
-                            14),
+                            14 / MediaQuery.of(context).textScaleFactor),
                         decoration: InputDecoration(
                             contentPadding:
                                 const EdgeInsets.only(top: 15.0, left: 15.0),

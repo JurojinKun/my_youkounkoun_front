@@ -211,6 +211,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                           20.0
                                       : MediaQuery.of(context).size.height / 2;
                                 },
+                                style: textStyleCustomRegular(
+                                    cBlue,
+                                    14 /
+                                        MediaQuery.of(context).textScaleFactor),
                                 decoration: InputDecoration(
                                     hintText: AppLocalization.of(context)
                                         .translate(
@@ -509,7 +513,15 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   Widget _editSecurity() {
     return SizedBox.expand(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, validEditMail || validEditPassword ? MediaQuery.of(context).padding.bottom + 120.0 : MediaQuery.of(context).padding.bottom + 20.0),
+        padding: EdgeInsets.fromLTRB(
+            20.0,
+            MediaQuery.of(context).padding.top +
+                appBar.preferredSize.height +
+                20.0,
+            20.0,
+            validEditMail || validEditPassword
+                ? MediaQuery.of(context).padding.bottom + 120.0
+                : MediaQuery.of(context).padding.bottom + 20.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(
@@ -556,6 +568,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
               onSubmitted: (val) {
                 Helpers.hideKeyboard(context);
               },
+              style: textStyleCustomRegular(
+                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "mail"),
@@ -578,8 +592,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                               },
                               icon: Icon(
                                 Icons.clear,
-                                color:
-                                    _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                color: _mailFocusNode.hasFocus ? cBlue : cGrey,
                               )),
                         )
                       : const SizedBox()),
@@ -618,6 +631,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                   FocusScope.of(context).requestFocus(_newPasswordFocusNode);
                 });
               },
+              style: textStyleCustomRegular(
+                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "actual_password"),
@@ -626,8 +641,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                   labelStyle: textStyleCustomRegular(
                       cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                   prefixIcon: Icon(Icons.lock,
-                      color:
-                          _actualPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey),
                   suffixIcon: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -642,9 +656,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                           _actualPasswordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: _actualPasswordFocusNode.hasFocus
-                              ? cBlue
-                              : cGrey,
+                          color:
+                              _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
                         )),
                   )),
             ),
@@ -666,6 +679,8 @@ class EditSecurityState extends ConsumerState<EditSecurity>
               onSubmitted: (val) {
                 Helpers.hideKeyboard(context);
               },
+              style: textStyleCustomRegular(
+                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "new_password"),
@@ -689,8 +704,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                           _newPasswordObscure
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color:
-                              _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                          color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
                         )),
                   )),
             ),

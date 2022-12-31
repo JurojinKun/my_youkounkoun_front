@@ -174,6 +174,8 @@ class LoginState extends ConsumerState<Login> {
                     onSubmitted: (val) {
                       FocusScope.of(context).requestFocus(_passwordFocusNode);
                     },
+                    style: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
                         hintText: AppLocalization.of(context)
                             .translate("login_screen", "mail"),
@@ -232,6 +234,8 @@ class LoginState extends ConsumerState<Login> {
                         });
                       }
                     },
+                    style: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
                         hintText: AppLocalization.of(context)
                             .translate("login_screen", "password"),

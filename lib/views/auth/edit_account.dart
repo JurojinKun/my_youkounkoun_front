@@ -603,6 +603,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                 onSubmitted: (val) {
                   Helpers.hideKeyboard(context);
                 },
+                style: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
                 decoration: InputDecoration(
                     hintText: AppLocalization.of(context)
                         .translate("edit_account_screen", "pseudo_profile"),

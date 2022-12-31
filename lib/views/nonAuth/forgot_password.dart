@@ -174,7 +174,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: PreferredSize(
           preferredSize: Size(
-                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+              MediaQuery.of(context).size.width, appBar.preferredSize.height),
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -226,106 +226,117 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
         ),
         body: SizedBox.expand(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(25.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 25.0, MediaQuery.of(context).padding.bottom + 20.0),
+            padding: EdgeInsets.fromLTRB(
+                25.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
+                25.0,
+                MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
-                Image.asset("assets/images/ic_app.png", height: 125, width: 125),
-            const SizedBox(height: 35.0),
-            Text(
-              AppLocalization.of(context)
-                  .translate("forgot_password_screen", "content"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
-            ),
-            const SizedBox(height: 45.0),
-            TextField(
-              controller: _mailController,
-              focusNode: _mailFocusNode,
-              maxLines: 1,
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (val) {
-                setState(() {
-                  val = _mailController.text;
-                });
-              },
-              onSubmitted: (val) {
-                Helpers.hideKeyboard(context);
-              },
-              decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                  labelStyle: textStyleCustomRegular(
+                Image.asset("assets/images/ic_app.png",
+                    height: 125, width: 125),
+                const SizedBox(height: 35.0),
+                Text(
+                  AppLocalization.of(context)
+                      .translate("forgot_password_screen", "content"),
+                  style: textStyleCustomMedium(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      14),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 45.0),
+                TextField(
+                  controller: _mailController,
+                  focusNode: _mailFocusNode,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _mailController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    Helpers.hideKeyboard(context);
+                  },
+                  style: textStyleCustomRegular(
                       cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.mail,
-                      color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                  suffixIcon: _mailController.text.isNotEmpty
-                      ? Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _mailController.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                color: _mailFocusNode.hasFocus ? cBlue : cGrey,
-                              )),
-                        )
-                      : const SizedBox()),
-            ),
-            const SizedBox(
-              height: 55.0,
-            ),
-            SizedBox(
-                height: 50.0,
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      if (_mailController.text.isNotEmpty &&
-                          EmailValidator.validate(_mailController.text)) {
-                        setState(() {
-                          _loadingForgotPassword = true;
-                        });
-                        await _tryForgotPassword();
-                        setState(() {
-                          _loadingForgotPassword = false;
-                        });
-                      }
-                    },
-                    child: _loadingForgotPassword
-                        ? SizedBox(
-                            height: 15,
-                            width: 15,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                strokeWidth: 1.0,
-                              ),
-                            ),
-                          )
-                        : Text(
-                            AppLocalization.of(context)
-                                .translate("general", "btn_send"),
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
-                            textScaleFactor: 1.0))),
+                  decoration: InputDecoration(
+                      hintText: "Email",
+                      hintStyle: textStyleCustomRegular(
+                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      labelStyle: textStyleCustomRegular(
+                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      prefixIcon: Icon(Icons.mail,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                      suffixIcon: _mailController.text.isNotEmpty
+                          ? Material(
+                              color: Colors.transparent,
+                              shape: const CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _mailController.clear();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color:
+                                        _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                  )),
+                            )
+                          : const SizedBox()),
+                ),
+                const SizedBox(
+                  height: 55.0,
+                ),
+                SizedBox(
+                    height: 50.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          if (_mailController.text.isNotEmpty &&
+                              EmailValidator.validate(_mailController.text)) {
+                            setState(() {
+                              _loadingForgotPassword = true;
+                            });
+                            await _tryForgotPassword();
+                            setState(() {
+                              _loadingForgotPassword = false;
+                            });
+                          }
+                        },
+                        child: _loadingForgotPassword
+                            ? SizedBox(
+                                height: 15,
+                                width: 15,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    strokeWidth: 1.0,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                AppLocalization.of(context)
+                                    .translate("general", "btn_send"),
+                                style: textStyleCustomMedium(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    20),
+                                textScaleFactor: 1.0))),
               ],
             ),
           ),

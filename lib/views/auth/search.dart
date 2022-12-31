@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Search extends ConsumerStatefulWidget {
@@ -19,16 +20,39 @@ class SearchState extends ConsumerState<Search>
     with AutomaticKeepAliveClientMixin {
   AppBar appBar = AppBar();
 
-  bool datasEnabled = true;
+  late RefreshController refreshController;
+
+  int datasItemsCount = 15;
+  bool datasEnabled = false;
 
   Future<void> initDatasSearch() async {
     await Future.delayed(const Duration(seconds: 6), () {
-      if (mounted) {
-        setState(() {
-          datasEnabled = false;
-        });
-      }
+      setState(() {
+        datasEnabled = true;
+      });
     });
+  }
+
+  //logic pull to refresh
+  Future<void> _refreshDatasSearch() async {
+    await Future.delayed(const Duration(seconds: 3));
+    setState(() {
+      datasItemsCount = 15;
+    });
+    refreshController.refreshCompleted(resetFooterState: true);
+  }
+
+  //logic load more datas
+  Future<void> _loadMoreDatasSearch() async {
+    await Future.delayed(const Duration(seconds: 3));
+    if (datasItemsCount < 50) {
+      setState(() {
+        datasItemsCount += 15;
+      });
+      refreshController.loadComplete();
+    } else {
+      refreshController.loadNoData();
+    }
   }
 
   @override
@@ -36,10 +60,13 @@ class SearchState extends ConsumerState<Search>
     super.initState();
 
     initDatasSearch();
+
+    refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void dispose() {
+    refreshController.dispose();
     super.dispose();
   }
 
@@ -88,9 +115,8 @@ class SearchState extends ConsumerState<Search>
               centerTitle: false,
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(65.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 65.0,
-                    alignment: Alignment.center,
                     child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: SizedBox(
@@ -100,14 +126,12 @@ class SearchState extends ConsumerState<Search>
                                 style: ElevatedButton.styleFrom(
                                     elevation: 6,
                                     backgroundColor:
-                                        Theme.of(context).canvasColor,
+                                        cBlue.withOpacity(0.15),
                                     foregroundColor: cBlue,
                                     shadowColor: Colors.transparent,
-                                    side: BorderSide(
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite),
+                                    side: const BorderSide(
+                                      width: 2.0,
+                                        color: cBlue),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     )),
@@ -126,7 +150,7 @@ class SearchState extends ConsumerState<Search>
                                             AppLocalization.of(context)
                                                 .translate(
                                                     "general", "search_user"),
-                                            style: textStyleCustomMedium(
+                                            style: textStyleCustomBold(
                                                 Theme.of(context).brightness ==
                                                         Brightness.light
                                                     ? cBlack
@@ -141,41 +165,153 @@ class SearchState extends ConsumerState<Search>
         ),
       ),
       body: SizedBox.expand(
-        child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(
-                20.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
-                    85.0,
-                20.0,
-                MediaQuery.of(context).padding.bottom + 90.0),
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            child: datasShimmer()),
+        child: !datasEnabled
+            ? SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                    20.0,
+                    MediaQuery.of(context).padding.top +
+                        appBar.preferredSize.height +
+                        85.0,
+                    20.0,
+                    90.0),
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Parcourir",
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            20.0),
+                        textScaleFactor: 1.0),
+                    const SizedBox(height: 25.0),
+                    datasShimmer()
+                  ],
+                ))
+            : SmartRefresher(
+                controller: refreshController,
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                enablePullDown: true,
+                enablePullUp: true,
+                header: WaterDropMaterialHeader(
+                  offset: MediaQuery.of(context).padding.top +
+                      appBar.preferredSize.height +
+                      65.0,
+                  distance: 40.0,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  color: cBlue,
+                ),
+                footer: ClassicFooter(
+                  height: MediaQuery.of(context).padding.bottom + 110.0,
+                  iconPos: IconPosition.top,
+                  loadingText: "",
+                  loadingIcon: const Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CircularProgressIndicator(
+                            color: cBlue, strokeWidth: 1.0)),
+                  ),
+                  noDataText: "",
+                  noMoreIcon: Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      "C'est tout pour le moment",
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          14),
+                      textScaleFactor: 1.0,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                onRefresh: _refreshDatasSearch,
+                onLoading: _loadMoreDatasSearch,
+                child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(
+                        20.0,
+                        MediaQuery.of(context).padding.top +
+                            appBar.preferredSize.height +
+                            85.0,
+                        20.0,
+                        20.0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Parcourir",
+                            style: textStyleCustomBold(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                20.0),
+                            textScaleFactor: 1.0),
+                        const SizedBox(height: 25.0),
+                        datasItems()
+                      ],
+                    )),
+              ),
       ),
     );
   }
 
   Widget datasShimmer() {
     return Shimmer.fromColors(
-      baseColor: !datasEnabled ? cBlue : Colors.transparent,
-      highlightColor: cWhite,
-      period: const Duration(milliseconds: 2000),
-      direction: ShimmerDirection.ltr,
-      enabled: datasEnabled,
-      child: ListView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 25,
-          itemBuilder: (_, int index) {
-            return Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: Container(
-                  height: 69.0,
-                  color: cGrey,
-                ));
-          }),
-    );
+        baseColor: Theme.of(context).scaffoldBackgroundColor,
+        highlightColor: cBlue.withOpacity(0.5),
+        child: GridView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+                childAspectRatio: 1.0,
+                mainAxisExtent: 150.0),
+            itemCount: 10,
+            itemBuilder: (_, int index) {
+              return Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(10.0)),
+              );
+            }));
+  }
+
+  Widget datasItems() {
+    return GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 15,
+            childAspectRatio: 1.0,
+            mainAxisExtent: 150.0),
+        itemCount: datasItemsCount,
+        itemBuilder: (_, int index) {
+          return Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: cBlue),
+                color: cBlue.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Data test $index",
+                style: textStyleCustomBold(
+                    Theme.of(context).brightness == Brightness.light
+                        ? cBlack
+                        : cWhite,
+                    16),
+                textScaleFactor: 1.0),
+          );
+        });
   }
 }
