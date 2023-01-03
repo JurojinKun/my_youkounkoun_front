@@ -444,8 +444,15 @@ class EditAccountState extends ConsumerState<EditAccount>
   Widget _editAccount() {
     return SizedBox.expand(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0,
-            20.0, isEdit ? MediaQuery.of(context).padding.bottom + 120.0 : MediaQuery.of(context).padding.bottom + 20.0),
+        padding: EdgeInsets.fromLTRB(
+            20.0,
+            MediaQuery.of(context).padding.top +
+                appBar.preferredSize.height +
+                20.0,
+            20.0,
+            isEdit
+                ? MediaQuery.of(context).padding.bottom + 120.0
+                : MediaQuery.of(context).padding.bottom + 20.0),
         physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics()),
         child: Column(
@@ -604,8 +611,11 @@ class EditAccountState extends ConsumerState<EditAccount>
                   Helpers.hideKeyboard(context);
                 },
                 style: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    _pseudoFocusNode.hasFocus ? cBlue : cGrey,
+                    14 / MediaQuery.of(context).textScaleFactor),
                 decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.only(top: 15.0, left: 15.0),
                     hintText: AppLocalization.of(context)
                         .translate("edit_account_screen", "pseudo_profile"),
                     hintStyle: textStyleCustomRegular(
@@ -653,11 +663,10 @@ class EditAccountState extends ConsumerState<EditAccount>
             ),
             GridView.builder(
                 padding: EdgeInsets.zero,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: genders.length,
@@ -672,8 +681,7 @@ class EditAccountState extends ConsumerState<EditAccount>
                                 decoration: BoxDecoration(
                                     color: cBlue,
                                     border: Border.all(color: cBlue),
-                                    borderRadius:
-                                        BorderRadius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(10.0)),
                                 child: Center(
                                   child: Icon(
                                     element["icon"],
@@ -783,8 +791,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                        Helpers.formattingDate(
-                            _dateBirthday ?? DateTime.now(), localeLanguage.languageCode),
+                        Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
+                            localeLanguage.languageCode),
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack

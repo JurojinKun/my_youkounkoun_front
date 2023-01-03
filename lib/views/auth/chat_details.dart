@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/providers/notifications_provider.dart';
 
 import '../../models/user_model.dart';
 
@@ -25,6 +27,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
   @override
   void initState() {
     super.initState();
+
+    if (mounted) {
+      Future.delayed(
+          Duration.zero,
+          () => ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
+              context.widget.toString(), widget.user.id.toString()));
+    }
   }
 
   @override
@@ -34,27 +43,47 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: _customAppBarDetailsChat(),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
-        child: SizedBox.expand(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, MediaQuery.of(context).padding.bottom + 20.0),
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-            child: const SizedBox()
+    return GestureDetector(
+      onTap: () => Helpers.hideKeyboard(context),
+      onHorizontalDragStart: (details) {
+        if (Platform.isIOS && details.globalPosition.dx <= 70) {
+          if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
+              "ChatDetails") {
+            ref
+                .read(inChatDetailsNotifierProvider.notifier)
+                .outChatDetails("", "");
+          }
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: _customAppBarDetailsChat(),
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: Theme.of(context).brightness == Brightness.light
+              ? Platform.isIOS
+                  ? SystemUiOverlayStyle.dark
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.dark)
+              : Platform.isIOS
+                  ? SystemUiOverlayStyle.light
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.light),
+          child: SizedBox.expand(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                    20.0,
+                    MediaQuery.of(context).padding.top +
+                        appBar.preferredSize.height +
+                        20.0,
+                    20.0,
+                    MediaQuery.of(context).padding.bottom + 20.0),
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                child: const SizedBox()),
           ),
         ),
       ),
@@ -80,7 +109,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () {
+                                ref
+                                    .read(
+                                        inChatDetailsNotifierProvider.notifier)
+                                    .outChatDetails("", "");
+                                Navigator.pop(context);
+                              },
                               icon: Icon(Icons.arrow_back_ios,
                                   color: Theme.of(context).brightness ==
                                           Brightness.light
@@ -92,8 +127,17 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                       padding: EdgeInsets.symmetric(
                           horizontal: widget.openWithModal ? 15.0 : 0.0),
                       child: GestureDetector(
-                        onTap: () => navAuthKey.currentState!
-                            .pushNamed(userProfile, arguments: [widget.user, false]),
+                        onTap: () {
+                          ref
+                              .read(afterChatDetailsNotifierProvider.notifier)
+                              .updateAfterChat(true);
+                          ref
+                              .read(inChatDetailsNotifierProvider.notifier)
+                              .outChatDetails(
+                                  "UserProfile", widget.user.id.toString());
+                          navAuthKey.currentState!.pushNamed(userProfile,
+                              arguments: [widget.user, false]);
+                        },
                         child: Row(
                           children: [
                             widget.user.profilePictureUrl.trim() != ""
@@ -148,7 +192,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () {
+                                ref
+                                    .read(
+                                        inChatDetailsNotifierProvider.notifier)
+                                    .outChatDetails("", "");
+                                Navigator.pop(context);
+                              },
                               icon: Icon(
                                 Icons.clear,
                                 color: Theme.of(context).brightness ==

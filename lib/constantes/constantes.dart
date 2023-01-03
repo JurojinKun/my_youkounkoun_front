@@ -21,6 +21,7 @@ const String recentSearches = "Recent searches";
 const String userProfile = "User profile";
 const String chatDetails = "Chat details";
 const String infosApp = "Infos app";
+const String dataTest = "Data test";
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();
@@ -29,6 +30,10 @@ GlobalKey<NavigatorState>? navHomeKey;
 GlobalKey<NavigatorState>? navSearchKey;
 GlobalKey<NavigatorState>? navActivitiesKey;
 GlobalKey<NavigatorState>? navProfileKey;
+
+//tab controller app
+TabController? tabControllerBottomNav;
+TabController? tabControllerActivities;
 
 //fonts app
 textStyleCustomBold(Color color, double fontSize,

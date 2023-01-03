@@ -13,7 +13,9 @@
         "title_cropper": "Format de l'image",
         "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !",
         "search_user": "Rechercher un utilisateur",
-        "search_of": "Recherche de "
+        "search_of": "Recherche de ",
+        "problem": "Oups, un problème est survenu",
+        "no_user": "Impossible de trouver cet utilisateur"
     },
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"

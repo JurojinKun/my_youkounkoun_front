@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
@@ -20,8 +21,6 @@ class Activities extends ConsumerStatefulWidget {
 
 class ActivitiesState extends ConsumerState<Activities>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
   AppBar appBar = AppBar();
 
   Future _newConversationBottomSheet(BuildContext context) async {
@@ -38,15 +37,16 @@ class ActivitiesState extends ConsumerState<Activities>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
+    tabControllerActivities ??=
+        TabController(length: 2, initialIndex: 0, vsync: this);
+    tabControllerActivities!.addListener(() {
       setState(() {});
     });
   }
 
   @override
   void deactivate() {
-    _tabController.removeListener(() {
+    tabControllerActivities!.removeListener(() {
       setState(() {});
     });
     super.deactivate();
@@ -54,7 +54,7 @@ class ActivitiesState extends ConsumerState<Activities>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    tabControllerActivities!.dispose();
     super.dispose();
   }
 
@@ -71,7 +71,7 @@ class ActivitiesState extends ConsumerState<Activities>
         appBar: _customAppBarActivities(),
         body: SizedBox.expand(
           child: TabBarView(
-              controller: _tabController,
+              controller: tabControllerActivities,
               physics: const NeverScrollableScrollPhysics(),
               children: const [Chat(), Notifications()]),
         ));
@@ -112,7 +112,7 @@ class ActivitiesState extends ConsumerState<Activities>
                     textScaleFactor: 1.0),
                 centerTitle: false,
                 actions: [
-                  _tabController.index == 0
+                  tabControllerActivities!.index == 0
                       ? Material(
                           color: Colors.transparent,
                           shape: const CircleBorder(),
@@ -134,7 +134,7 @@ class ActivitiesState extends ConsumerState<Activities>
                   child: SizedBox(
                     height: 50.0,
                     child: TabBar(
-                        controller: _tabController,
+                        controller: tabControllerActivities,
                         indicatorColor: Colors.transparent,
                         labelColor:
                             Theme.of(context).brightness == Brightness.light
@@ -158,7 +158,7 @@ class ActivitiesState extends ConsumerState<Activities>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(_tabController.index == 0
+                                    Icon(tabControllerActivities!.index == 0
                                         ? Icons.send
                                         : Icons.send_outlined),
                                     const SizedBox(
@@ -192,7 +192,7 @@ class ActivitiesState extends ConsumerState<Activities>
                                   child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(_tabController.index == 1
+                                  Icon(tabControllerActivities!.index == 1
                                       ? Icons.notifications_active
                                       : Icons.notifications_active_outlined),
                                   const SizedBox(

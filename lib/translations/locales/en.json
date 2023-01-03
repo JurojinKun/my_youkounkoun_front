@@ -13,7 +13,9 @@
         "title_cropper": "Image format",
         "message_continue": "Add what you want on this section, it's up to you now for your app !",
         "search_user": "Search a user",
-        "search_of": "Search for "
+        "search_of": "Search for ",
+        "problem": "Oops, a problem has occurred",
+        "no_user": "Unable to find this user"
     },
     "connectivity_screen": {
         "no_connectivity": "No connection at the moment"

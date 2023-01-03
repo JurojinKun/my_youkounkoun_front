@@ -266,8 +266,11 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     Helpers.hideKeyboard(context);
                   },
                   style: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      _mailFocusNode.hasFocus ? cBlue : cGrey,
+                      14 / MediaQuery.of(context).textScaleFactor),
                   decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.only(top: 15.0, left: 15.0),
                       hintText: "Email",
                       hintStyle: textStyleCustomRegular(
                           cGrey, 14 / MediaQuery.of(context).textScaleFactor),

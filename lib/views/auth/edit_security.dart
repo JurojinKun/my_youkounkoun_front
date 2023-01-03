@@ -212,10 +212,14 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                                       : MediaQuery.of(context).size.height / 2;
                                 },
                                 style: textStyleCustomRegular(
-                                    cBlue,
+                                    _validModifPasswordFocusNode.hasFocus
+                                        ? cBlue
+                                        : cGrey,
                                     14 /
                                         MediaQuery.of(context).textScaleFactor),
                                 decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.only(
+                                        top: 15.0, left: 15.0),
                                     hintText: AppLocalization.of(context)
                                         .translate(
                                             "edit_security_screen", "password"),
@@ -569,8 +573,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 Helpers.hideKeyboard(context);
               },
               style: textStyleCustomRegular(
-                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  _mailFocusNode.hasFocus ? cBlue : cGrey,
+                  14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "mail"),
                   hintStyle: textStyleCustomRegular(
@@ -632,8 +638,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 });
               },
               style: textStyleCustomRegular(
-                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                  14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "actual_password"),
                   hintStyle: textStyleCustomRegular(
@@ -680,8 +688,10 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                 Helpers.hideKeyboard(context);
               },
               style: textStyleCustomRegular(
-                  cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                  14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
                   hintText: AppLocalization.of(context)
                       .translate("edit_security_screen", "new_password"),
                   hintStyle: textStyleCustomRegular(

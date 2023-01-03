@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
+import 'package:myyoukounkoun/views/auth/data_test.dart';
 import 'package:myyoukounkoun/views/auth/infos_app.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 import 'package:myyoukounkoun/views/auth/recent_searches.dart';
@@ -60,13 +61,22 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(builder: (_) => const EditSecurity());
     case newConversation:
       return MaterialPageRoute(builder: (_) => const NewConversation());
-    case chatDetails: 
-      return MaterialPageRoute(builder: (_) => ChatDetails(user: args![0], openWithModal: args[1],));
-    case infosApp: 
+    case chatDetails:
+      return MaterialPageRoute(
+          builder: (_) => ChatDetails(
+                user: args![0],
+                openWithModal: args[1],
+              ));
+    case infosApp:
       return MaterialPageRoute(builder: (_) => const InfosApp());
     case userProfile:
       return MaterialPageRoute(
-          builder: (_) => UserProfile(user: args![0], bottomNav: args[1],));
+          builder: (_) => UserProfile(
+                user: args![0],
+                bottomNav: args[1],
+              ));
+    case dataTest:
+      return MaterialPageRoute(builder: (_) => DataTest(index: args![0], dataTestString: args[1],));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -106,7 +116,10 @@ Route<dynamic> generateRouteAuthSearch(
       return MaterialPageRoute(builder: (_) => const RecentSearches());
     case userProfile:
       return MaterialPageRoute(
-          builder: (_) => UserProfile(user: args![0], bottomNav: args[1],));
+          builder: (_) => UserProfile(
+                user: args![0],
+                bottomNav: args[1],
+              ));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -124,7 +137,9 @@ Route<dynamic> generateRouteAuthActivities(
 
   switch (settings.name) {
     case activities:
-      return MaterialPageRoute(builder: (_) => const Activities());
+      return MaterialPageRoute(
+        builder: (_) => const Activities(),
+      );
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

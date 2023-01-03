@@ -126,12 +126,11 @@ class SearchState extends ConsumerState<Search>
                                 style: ElevatedButton.styleFrom(
                                     elevation: 6,
                                     backgroundColor:
-                                        cBlue.withOpacity(0.15),
+                                        Theme.of(context).canvasColor,
                                     foregroundColor: cBlue,
                                     shadowColor: Colors.transparent,
                                     side: const BorderSide(
-                                      width: 2.0,
-                                        color: cBlue),
+                                        width: 2.0, color: cBlue),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     )),
@@ -298,19 +297,34 @@ class SearchState extends ConsumerState<Search>
             mainAxisExtent: 150.0),
         itemCount: datasItemsCount,
         itemBuilder: (_, int index) {
-          return Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: cBlue),
-                color: cBlue.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(10.0)),
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Data test $index",
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    16),
-                textScaleFactor: 1.0),
+          String dataTestString = "Data test $index";
+          return InkWell(
+            splashColor: cBlue.withOpacity(0.3),
+            highlightColor: cBlue.withOpacity(0.3),
+            onTap: () => navAuthKey.currentState!
+                .pushNamed(dataTest, arguments: [index, dataTestString]),
+            child: Hero(
+              tag: "test $index",
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: cBlue),
+                    color: cBlue.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(10.0)),
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(dataTestString,
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          16),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.0),
+                ),
+              ),
+            ),
           );
         });
   }

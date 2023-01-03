@@ -175,8 +175,11 @@ class LoginState extends ConsumerState<Login> {
                       FocusScope.of(context).requestFocus(_passwordFocusNode);
                     },
                     style: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        _mailFocusNode.hasFocus ? cBlue : cGrey,
+                        14 / MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.only(top: 15.0, left: 15.0),
                         hintText: AppLocalization.of(context)
                             .translate("login_screen", "mail"),
                         hintStyle: textStyleCustomRegular(
@@ -235,8 +238,11 @@ class LoginState extends ConsumerState<Login> {
                       }
                     },
                     style: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                        14 / MediaQuery.of(context).textScaleFactor),
                     decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.only(top: 15.0, left: 15.0),
                         hintText: AppLocalization.of(context)
                             .translate("login_screen", "password"),
                         hintStyle: textStyleCustomRegular(
