@@ -236,7 +236,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
               (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
                   ref.read(inChatDetailsNotifierProvider)["screen"] ==
                       "ChatDetails" &&
-                  ref.read(inChatDetailsNotifierProvider)["userID"] != "45") ||
+                  ref.read(inChatDetailsNotifierProvider)["userID"] != message.data["idSender"]) ||
               (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
                   ref.read(inChatDetailsNotifierProvider)["screen"] ==
                       "UserProfile")) {
