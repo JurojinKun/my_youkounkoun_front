@@ -83,7 +83,7 @@
         "activities": "Activités",
         "chat": "Messagerie",
         "notifications": "Notifications",
-        "no_chat": "Pas encore de conversations avec d'autres utilisateurs",
+        "no_chat": "Pas encore de conversations",
         "no_notifications": "Pas encore de notifications"
     },
     "profile_screen": {

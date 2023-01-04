@@ -3,21 +3,21 @@ class Conversation {
   int lastMessageUserId;
   String lastMessage;
   bool isLastMessageRead;
-  String timestamp;
+  String timestampLastMessage;
 
   Conversation(
       {required this.id,
       required this.lastMessageUserId,
       required this.lastMessage,
       required this.isLastMessageRead,
-      required this.timestamp});
+      required this.timestampLastMessage});
 
   Conversation.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
         lastMessageUserId = jsonMap["lastMessageUserId"] ?? 0,
         lastMessage = jsonMap["lastMessage"] ?? "",
-        isLastMessageRead = jsonMap["isLastMessageRead"] ?? false,
-        timestamp = jsonMap["timestamp"] ?? "";
+        isLastMessageRead = jsonMap["isLastMessageRead"] ?? true,
+        timestampLastMessage = jsonMap["timestamp"] ?? "";
 
   Conversation copy() {
     return Conversation(
@@ -25,6 +25,6 @@ class Conversation {
         lastMessageUserId: lastMessageUserId,
         lastMessage: lastMessage,
         isLastMessageRead: isLastMessageRead,
-        timestamp: timestamp);
+        timestampLastMessage: timestampLastMessage);
   }
 }

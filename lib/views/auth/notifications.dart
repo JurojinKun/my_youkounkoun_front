@@ -13,8 +13,6 @@ class Notifications extends ConsumerStatefulWidget {
 
 class NotificationsState extends ConsumerState<Notifications>
     with AutomaticKeepAliveClientMixin {
-  AppBar appBar = AppBar();
-
   @override
   void initState() {
     super.initState();
@@ -34,32 +32,43 @@ class NotificationsState extends ConsumerState<Notifications>
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
-          10.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 10.0, MediaQuery.of(context).padding.bottom + 90.0),
+          10.0,
+          MediaQuery.of(context).padding.top + 20.0,
+          10.0,
+          MediaQuery.of(context).padding.bottom + 90.0),
       physics:
           const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.notifications_active,
-            color: Theme.of(context).brightness == Brightness.light
-                ? cBlack
-                : cWhite,
-            size: 40,
-          ),
-          const SizedBox(height: 15.0),
-          Text(
-            AppLocalization.of(context).translate("activities_screen", "no_notifications"),
-            style: textStyleCustomMedium(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                14),
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
-          )
-        ],
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height -
+            (MediaQuery.of(context).padding.top +
+                20.0 +
+                MediaQuery.of(context).padding.bottom +
+                90.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.notifications_active,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? cBlack
+                  : cWhite,
+              size: 40,
+            ),
+            const SizedBox(height: 15.0),
+            Text(
+              AppLocalization.of(context)
+                  .translate("activities_screen", "no_notifications"),
+              style: textStyleCustomMedium(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  14),
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
+            )
+          ],
+        ),
       ),
     );
   }

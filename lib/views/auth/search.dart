@@ -301,6 +301,7 @@ class SearchState extends ConsumerState<Search>
           return InkWell(
             splashColor: cBlue.withOpacity(0.3),
             highlightColor: cBlue.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(10.0),
             onTap: () => navAuthKey.currentState!
                 .pushNamed(dataTest, arguments: [index, dataTestString]),
             child: Hero(

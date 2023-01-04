@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';

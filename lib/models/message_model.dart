@@ -22,7 +22,7 @@ class Message {
         idSender = jsonMap["idSender"] ?? 0,
         type = jsonMap["type"] ?? "",
         message = jsonMap["message"] ?? "",
-        isRead = jsonMap["isRead"] ?? false,
+        isRead = jsonMap["isRead"] ?? true,
         timestamp = jsonMap["timestamp"] ?? "";
 
   Message copy() {
