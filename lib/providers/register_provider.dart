@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final genderRegisterNotifierProvider =
-    StateNotifierProvider<GenderRegisterProvider, String>(
+    StateNotifierProvider.autoDispose<GenderRegisterProvider, String>(
         (ref) => GenderRegisterProvider());
 final birthdayRegisterNotifierProvider =
-    StateNotifierProvider<BirthdayRegisterProvider, bool>(
+    StateNotifierProvider.autoDispose<BirthdayRegisterProvider, bool>(
         (ref) => BirthdayRegisterProvider());
 final profilePictureRegisterNotifierProvider =
-    StateNotifierProvider<ProfilePictureRegisterProvider, File?>(
+    StateNotifierProvider.autoDispose<ProfilePictureRegisterProvider, File?>(
         (ref) => ProfilePictureRegisterProvider());
 
 class GenderRegisterProvider extends StateNotifier<String> {

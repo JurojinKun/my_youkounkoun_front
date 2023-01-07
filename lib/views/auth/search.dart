@@ -178,7 +178,7 @@ class SearchState extends ConsumerState<Search>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Parcourir",
+                    Text(AppLocalization.of(context).translate("search_screen", "travel"),
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -219,7 +219,7 @@ class SearchState extends ConsumerState<Search>
                   noMoreIcon: Align(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      "C'est tout pour le moment",
+                      AppLocalization.of(context).translate("general", "no_more_data"),
                       style: textStyleCustomBold(
                           Theme.of(context).brightness == Brightness.light
                               ? cBlack
@@ -306,6 +306,7 @@ class SearchState extends ConsumerState<Search>
                 .pushNamed(dataTest, arguments: [index, dataTestString]),
             child: Hero(
               tag: "test $index",
+              transitionOnUserGestures: true,
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: cBlue),

@@ -55,8 +55,11 @@ class UserProfileState extends ConsumerState<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onHorizontalDragStart: (details) {
-        if (Platform.isIOS && details.globalPosition.dx <= 70) {
+      onHorizontalDragUpdate: (details) {
+        int sensitivity = 8;
+        if (Platform.isIOS &&
+            details.delta.dx > sensitivity &&
+            details.globalPosition.dx <= 70) {
           if (ref.read(afterChatDetailsNotifierProvider)) {
             ref
                 .read(afterChatDetailsNotifierProvider.notifier)

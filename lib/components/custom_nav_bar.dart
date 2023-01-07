@@ -21,6 +21,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
         left: false,
         right: false,
         bottom: true,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(

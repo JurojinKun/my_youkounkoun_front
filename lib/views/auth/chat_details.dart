@@ -45,8 +45,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      onHorizontalDragStart: (details) {
-        if (Platform.isIOS && details.globalPosition.dx <= 70) {
+      onHorizontalDragUpdate: (details) {
+        int sensitivity = 8;
+        if (Platform.isIOS &&
+            details.delta.dx > sensitivity &&
+            details.globalPosition.dx <= 70) {
           if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
               "ChatDetails") {
             ref

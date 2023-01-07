@@ -54,6 +54,7 @@ class ActivitiesState extends ConsumerState<Activities>
   @override
   void dispose() {
     tabControllerActivities!.dispose();
+    tabControllerActivities = null;
     super.dispose();
   }
 
@@ -130,8 +131,11 @@ class ActivitiesState extends ConsumerState<Activities>
                 ],
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(50.0),
-                  child: SizedBox(
+                  child: Container(
                     height: 50.0,
+                    decoration: const BoxDecoration(
+                      border: Border(bottom: BorderSide(color: cGrey, width: 0.2)),
+                    ),
                     child: TabBar(
                         controller: tabControllerActivities,
                         indicatorColor: Colors.transparent,

@@ -314,8 +314,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-
     tabControllerBottomNav!.dispose();
+    tabControllerBottomNav = null;
     super.dispose();
   }
 

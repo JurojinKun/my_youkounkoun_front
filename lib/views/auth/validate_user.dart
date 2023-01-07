@@ -155,8 +155,11 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      onHorizontalDragStart: (details) async {
-        if (Platform.isIOS && details.globalPosition.dx <= 70) {
+      onHorizontalDragUpdate: (details) async {
+        int sensitivity = 8;
+        if (Platform.isIOS &&
+            details.delta.dx > sensitivity &&
+            details.globalPosition.dx <= 70) {
           await ref
               .read(checkValidUserNotifierProvider.notifier)
               .checkValidUser();
@@ -243,8 +246,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                       20.0,
                   20.0,
                   MediaQuery.of(context).padding.bottom + 20.0),
-              physics: const AlwaysScrollableScrollPhysics(
-                  ),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   Image.asset("assets/images/ic_app.png",
@@ -330,7 +332,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         },
                         enablePinAutofill: false,
                       )),
-                      const SizedBox(height: 60.0),
+                  const SizedBox(height: 60.0),
                   SizedBox(
                     height: 50,
                     width: MediaQuery.of(context).size.width,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -22,6 +24,11 @@ class LogControllerState extends ConsumerState<LogController> {
     super.initState();
 
     _heroController = HeroController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -55,7 +62,6 @@ class LogControllerState extends ConsumerState<LogController> {
                     .read(afterChatDetailsNotifierProvider.notifier)
                     .clearAfterChat();
               }
-              
               return !(await navAuthKey.currentState!.maybePop());
             },
           )

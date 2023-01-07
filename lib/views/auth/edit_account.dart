@@ -163,7 +163,7 @@ class EditAccountState extends ConsumerState<EditAccount>
   pickImage(ImageSource src) async {
     try {
       final image = await ImagePicker().pickImage(
-          source: src, imageQuality: 75, maxHeight: 1800, maxWidth: 1800);
+          source: src);
       if (image != null) {
         await cropImage(image.path);
         if (mounted) {
@@ -485,14 +485,14 @@ class EditAccountState extends ConsumerState<EditAccount>
             const SizedBox(height: 20.0),
             Center(
               child: SizedBox(
-                height: 155,
-                width: 155,
+                height: 175,
+                width: 175,
                 child: Stack(
                   children: [
                     editPictureProfile != null
                         ? Container(
-                            height: 155,
-                            width: 155,
+                            height: 175,
+                            width: 175,
                             foregroundDecoration: BoxDecoration(
                                 color: cGrey.withOpacity(0.2),
                                 shape: BoxShape.circle,
@@ -514,8 +514,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                           )
                         : user.profilePictureUrl.trim() == ""
                             ? Container(
-                                height: 155,
-                                width: 155,
+                                height: 175,
+                                width: 175,
                                 decoration: BoxDecoration(
                                     color: cGrey.withOpacity(0.2),
                                     shape: BoxShape.circle,
@@ -528,8 +528,8 @@ class EditAccountState extends ConsumerState<EditAccount>
                                 ),
                               )
                             : Container(
-                                height: 155,
-                                width: 155,
+                                height: 175,
+                                width: 175,
                                 foregroundDecoration: BoxDecoration(
                                     color: cGrey.withOpacity(0.2),
                                     shape: BoxShape.circle,

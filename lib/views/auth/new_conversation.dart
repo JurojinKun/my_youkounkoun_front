@@ -132,19 +132,7 @@ class NewConversationState extends ConsumerState<NewConversation>
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: _customAppBarNewConv(),
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
-            child: _choiceNewConv()),
+        body: _choiceNewConv(),
       ),
     );
   }
@@ -161,6 +149,17 @@ class NewConversationState extends ConsumerState<NewConversation>
               elevation: 0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
+              systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+                ? Platform.isIOS
+                    ? SystemUiOverlayStyle.dark
+                    : const SystemUiOverlayStyle(
+                        statusBarColor: Colors.transparent,
+                        statusBarIconBrightness: Brightness.dark)
+                : Platform.isIOS
+                    ? SystemUiOverlayStyle.light
+                    : const SystemUiOverlayStyle(
+                        statusBarColor: Colors.transparent,
+                        statusBarIconBrightness: Brightness.light),
               title: Text(
                 AppLocalization.of(context)
                     .translate("new_conversation_screen", "new_conversation"),

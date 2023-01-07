@@ -57,6 +57,7 @@ class RegisterState extends ConsumerState<Register>
   bool _loadingStepFourth = false;
   bool _loadingStepFifth = false;
   bool _loadingStepSixth = false;
+  bool _swipeBack = false;
 
   late Locale localeLanguage;
 
@@ -179,8 +180,7 @@ class RegisterState extends ConsumerState<Register>
 
   pickImage(ImageSource src) async {
     try {
-      final image = await ImagePicker().pickImage(
-          source: src, imageQuality: 75, maxHeight: 1800, maxWidth: 1800);
+      final image = await ImagePicker().pickImage(source: src);
       if (image != null) {
         await cropImage(image.path);
         if (mounted) {
@@ -307,106 +307,98 @@ class RegisterState extends ConsumerState<Register>
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: PreferredSize(
-          preferredSize: Size(
-              MediaQuery.of(context).size.width, appBar.preferredSize.height),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                systemOverlayStyle:
-                    Theme.of(context).brightness == Brightness.light
-                        ? Platform.isIOS
-                            ? SystemUiOverlayStyle.dark
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.dark)
-                        : Platform.isIOS
-                            ? SystemUiOverlayStyle.light
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.light),
-                leading: Material(
-                  color: Colors.transparent,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.hardEdge,
-                  child: IconButton(
-                      onPressed: () {
-                        ref
-                            .read(genderRegisterNotifierProvider.notifier)
-                            .clearGender();
-                        ref
-                            .read(birthdayRegisterNotifierProvider.notifier)
-                            .clearBirthday();
-                        ref
-                            .read(
-                                profilePictureRegisterNotifierProvider.notifier)
-                            .clearProfilePicture();
-                        navNonAuthKey.currentState!.pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                      )),
+      onHorizontalDragUpdate: (details) async {
+        int sensitivity = 8;
+        if (Platform.isIOS &&
+            details.delta.dx > sensitivity &&
+            details.globalPosition.dx <= 70 && !_swipeBack) {
+          _swipeBack = true;
+          if (_isKeyboard) {
+            Helpers.hideKeyboard(context);
+            await Future.delayed(const Duration(milliseconds: 200));
+          }
+          navNonAuthKey.currentState!.pop();
+          if (mounted) {
+            _swipeBack = false;
+          }
+        }
+      },
+      child: WillPopScope(
+        onWillPop: () async {
+          navNonAuthKey.currentState!.pop();
+          return false;
+        },
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: PreferredSize(
+            preferredSize: Size(
+                MediaQuery.of(context).size.width, appBar.preferredSize.height),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  systemOverlayStyle:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Platform.isIOS
+                              ? SystemUiOverlayStyle.dark
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.dark)
+                          : Platform.isIOS
+                              ? SystemUiOverlayStyle.light
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.light),
+                  leading: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () async {
+                          if (_isKeyboard) {
+                            Helpers.hideKeyboard(context);
+                            await Future.delayed(const Duration(milliseconds: 200));
+                          }
+                          navNonAuthKey.currentState!.pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                        )),
+                  ),
+                  title: Text(
+                      AppLocalization.of(context)
+                          .translate("register_screen", "register"),
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          20),
+                      textScaleFactor: 1.0),
+                  centerTitle: false,
+                  actions: [stepRegister()],
                 ),
-                title: Text(
-                    AppLocalization.of(context)
-                        .translate("register_screen", "register"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        20),
-                    textScaleFactor: 1.0),
-                centerTitle: false,
-                actions: [stepRegister()],
               ),
             ),
           ),
-        ),
-        body: WillPopScope(
-          onWillPop: () async {
-            ref.read(genderRegisterNotifierProvider.notifier).clearGender();
-            ref.read(birthdayRegisterNotifierProvider.notifier).clearBirthday();
-            ref
-                .read(profilePictureRegisterNotifierProvider.notifier)
-                .clearProfilePicture();
-            navNonAuthKey.currentState!.pop();
-            return false;
-          },
-          child: GestureDetector(
-            onHorizontalDragStart: (details) {
-              if (Platform.isIOS && details.globalPosition.dx <= 70) {
-                ref.read(genderRegisterNotifierProvider.notifier).clearGender();
-                ref
-                    .read(birthdayRegisterNotifierProvider.notifier)
-                    .clearBirthday();
-                ref
-                    .read(profilePictureRegisterNotifierProvider.notifier)
-                    .clearProfilePicture();
-                navNonAuthKey.currentState!.pop();
-              }
-            },
-            child: TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  firstStepRegister(),
-                  secondStepRegister(),
-                  thirdStepRegister(),
-                  fourthStepRegister(),
-                  fifthStepRegister(),
-                  sixthStepRegister()
-                ]),
-          ),
+          body: TabBarView(
+              controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                firstStepRegister(),
+                secondStepRegister(),
+                thirdStepRegister(),
+                fourthStepRegister(),
+                fifthStepRegister(),
+                sixthStepRegister()
+              ]),
         ),
       ),
     );
@@ -1390,6 +1382,8 @@ class RegisterState extends ConsumerState<Register>
                         children: [
                           validProfilePicture == null
                               ? Container(
+                                  height: 175,
+                                  width: 175,
                                   decoration: BoxDecoration(
                                       color: cGrey.withOpacity(0.2),
                                       shape: BoxShape.circle,
@@ -1402,6 +1396,8 @@ class RegisterState extends ConsumerState<Register>
                                   ),
                                 )
                               : Container(
+                                  height: 175,
+                                  width: 175,
                                   foregroundDecoration: BoxDecoration(
                                       color: cGrey.withOpacity(0.2),
                                       shape: BoxShape.circle,
