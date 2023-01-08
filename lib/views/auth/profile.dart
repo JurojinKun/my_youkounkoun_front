@@ -80,7 +80,7 @@ class ProfileState extends ConsumerState<Profile>
                           : cWhite,
                       20),
                   textScaleFactor: 1.0),
-                  centerTitle: false,
+              centerTitle: false,
               actions: [
                 Material(
                   color: Colors.transparent,
@@ -103,7 +103,13 @@ class ProfileState extends ConsumerState<Profile>
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(20.0, MediaQuery.of(context).padding.top + appBar.preferredSize.height + 20.0, 20.0, MediaQuery.of(context).padding.bottom + 90.0),
+          padding: EdgeInsets.fromLTRB(
+              20.0,
+              MediaQuery.of(context).padding.top +
+                  appBar.preferredSize.height +
+                  20.0,
+              20.0,
+              MediaQuery.of(context).padding.bottom + 90.0),
           physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics()),
           child: Column(
@@ -112,19 +118,48 @@ class ProfileState extends ConsumerState<Profile>
                   ? Container(
                       height: 175,
                       width: 175,
-                      foregroundDecoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: cBlue),
-                          image: DecorationImage(
-                              image: NetworkImage(user.profilePictureUrl),
-                              fit: BoxFit.cover)),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: cBlue),
                         color: cGrey.withOpacity(0.2),
                       ),
-                      child: const Icon(Icons.person,
-                          color: cBlue, size: 75),
+                      child: ClipOval(
+                        child: Image.network(
+                          user.profilePictureUrl,
+                          fit: BoxFit.cover,
+                          frameBuilder:
+                              (context, child, frame, wasSynchronouslyLoaded) {
+                            if (frame == null && !wasSynchronouslyLoaded) {
+                              return const Center(
+                                  child: Icon(Icons.person,
+                                      color: cBlue, size: 75));
+                            }
+                            return child;
+                          },
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: cBlue,
+                                strokeWidth: 2.0,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                                child:
+                                    Icon(Icons.person, color: cBlue, size: 75));
+                          },
+                        ),
+                      ),
                     )
                   : Container(
                       height: 175,
@@ -134,8 +169,7 @@ class ProfileState extends ConsumerState<Profile>
                         border: Border.all(color: cBlue),
                         color: cGrey.withOpacity(0.2),
                       ),
-                      child: const Icon(Icons.person,
-                          color: cBlue, size: 75),
+                      child: const Icon(Icons.person, color: cBlue, size: 75),
                     ),
               const SizedBox(
                 height: 15.0,
@@ -161,8 +195,7 @@ class ProfileState extends ConsumerState<Profile>
                           fit: BoxFit.contain,
                           replacement: const SizedBox(),
                         )
-                      : Flag.flagsCode
-                              .contains(user.nationality.toLowerCase())
+                      : Flag.flagsCode.contains(user.nationality.toLowerCase())
                           ? Flag.fromString(
                               user.nationality.toLowerCase(),
                               height: 25,
@@ -178,10 +211,9 @@ class ProfileState extends ConsumerState<Profile>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(user.gender == "Male" ? Icons.male : Icons.female,
-                      color:
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite),
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite),
                   Text(
                     " - ",
                     style: textStyleCustomBold(

@@ -19,10 +19,7 @@ class UserProfile extends ConsumerStatefulWidget {
   final User user;
   final bool bottomNav;
 
-  const UserProfile(
-      {Key? key,
-      required this.user,
-      required this.bottomNav})
+  const UserProfile({Key? key, required this.user, required this.bottomNav})
       : super(key: key);
 
   @override
@@ -172,20 +169,50 @@ class UserProfileState extends ConsumerState<UserProfile> {
                       ? Container(
                           height: 175,
                           width: 175,
-                          foregroundDecoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      widget.user.profilePictureUrl),
-                                  fit: BoxFit.cover)),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: cBlue),
                             color: cGrey.withOpacity(0.2),
                           ),
-                          child:
-                              const Icon(Icons.person, color: cBlue, size: 75),
+                          child: ClipOval(
+                            child: Image.network(
+                              widget.user.profilePictureUrl,
+                              fit: BoxFit.cover,
+                              frameBuilder: (context, child, frame,
+                                  wasSynchronouslyLoaded) {
+                                if (frame == null && !wasSynchronouslyLoaded) {
+                                  return const Center(
+                                      child: Icon(Icons.person,
+                                          color: cBlue, size: 75));
+                                }
+                                return child;
+                              },
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: cBlue,
+                                    strokeWidth: 2.0,
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                    child: Icon(Icons.person,
+                                        color: cBlue, size: 75));
+                              },
+                            ),
+                          ),
                         )
                       : Container(
                           height: 175,

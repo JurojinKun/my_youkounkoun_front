@@ -524,31 +524,60 @@ class EditAccountState extends ConsumerState<EditAccount>
                                 child: const Icon(
                                   Icons.person,
                                   color: cBlue,
-                                  size: 60.0,
+                                  size: 75.0,
                                 ),
                               )
                             : Container(
                                 height: 175,
                                 width: 175,
-                                foregroundDecoration: BoxDecoration(
-                                    color: cGrey.withOpacity(0.2),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            user.profilePictureUrl),
-                                        fit: BoxFit.cover,
-                                        filterQuality: FilterQuality.high)),
                                 decoration: BoxDecoration(
                                   color: cGrey.withOpacity(0.2),
                                   shape: BoxShape.circle,
                                   border: Border.all(color: cBlue),
                                 ),
-                                child: const Icon(
-                                  Icons.person,
-                                  color: cBlue,
-                                  size: 60.0,
-                                ),
+                                child: ClipOval(
+                                      child: Image.network(
+                                        user.profilePictureUrl,
+                                        fit: BoxFit.cover,
+                                        frameBuilder: (context, child, frame,
+                                            wasSynchronouslyLoaded) {
+                                          if (frame == null &&
+                                              !wasSynchronouslyLoaded) {
+                                            return const Center(
+                                                child: Icon(Icons.person,
+                                                    color: cBlue, size: 75));
+                                          }
+                                          return child;
+                                        },
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              color: cBlue,
+                                              strokeWidth: 2.0,
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Center(
+                                              child: Icon(Icons.person,
+                                                  color: cBlue, size: 75));
+                                        },
+                                      ),
+                                    ),
                               ),
                     Align(
                         alignment: Alignment.bottomRight,

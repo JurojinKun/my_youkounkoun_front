@@ -147,20 +147,58 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                 ? Container(
                                     height: 45,
                                     width: 45,
-                                    foregroundDecoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cBlue),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                widget.user.profilePictureUrl),
-                                            fit: BoxFit.cover)),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(color: cBlue),
                                       color: cGrey.withOpacity(0.2),
                                     ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 23),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        widget.user.profilePictureUrl,
+                                        fit: BoxFit.cover,
+                                        frameBuilder: (context, child, frame,
+                                            wasSynchronouslyLoaded) {
+                                          if (frame == null &&
+                                              !wasSynchronouslyLoaded) {
+                                            return const Center(
+                                                child: Icon(Icons.person,
+                                                    color: cBlue, size: 23));
+                                          }
+                                          return child;
+                                        },
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return Center(
+                                            child: SizedBox(
+                                              height: 23,
+                                              width: 23,
+                                              child: CircularProgressIndicator(
+                                                color: cBlue,
+                                                strokeWidth: 2.0,
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Center(
+                                              child: Icon(Icons.person,
+                                                  color: cBlue, size: 23));
+                                        },
+                                      ),
+                                    ),
                                   )
                                 : Container(
                                     height: 45,
