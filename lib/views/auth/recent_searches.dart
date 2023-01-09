@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -319,59 +320,25 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                               ? Container(
                                   height: 65,
                                   width: 65,
+                                  foregroundDecoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              user.profilePictureUrl),
+                                          onError: (exception, stackTrace) {
+                                            if (kDebugMode) {
+                                              print(exception);
+                                            }
+                                          },
+                                          fit: BoxFit.cover)),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: cBlue),
                                     color: cGrey.withOpacity(0.2),
                                   ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      user.profilePictureUrl,
-                                      fit: BoxFit.cover,
-                                      frameBuilder: (context, child, frame,
-                                          wasSynchronouslyLoaded) {
-                                        if (frame == null &&
-                                            !wasSynchronouslyLoaded) {
-                                          return const Center(
-                                              child: Icon(Icons.person,
-                                                  color: cBlue, size: 30));
-                                        }
-                                        return child;
-                                      },
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Center(
-                                          child: SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: CircularProgressIndicator(
-                                              color: cBlue,
-                                              strokeWidth: 2.0,
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const Center(
-                                            child: Icon(Icons.person,
-                                                color: cBlue, size: 30));
-                                      },
-                                    ),
-                                  ),
-                                )
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30))
                               : Container(
                                   height: 65,
                                   width: 65,
@@ -550,59 +517,25 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                               ? Container(
                                   height: 65,
                                   width: 65,
+                                  foregroundDecoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              user.profilePictureUrl),
+                                          onError: (exception, stackTrace) {
+                                            if (kDebugMode) {
+                                              print(exception);
+                                            }
+                                          },
+                                          fit: BoxFit.cover)),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: cBlue),
                                     color: cGrey.withOpacity(0.2),
                                   ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      user.profilePictureUrl,
-                                      fit: BoxFit.cover,
-                                      frameBuilder: (context, child, frame,
-                                          wasSynchronouslyLoaded) {
-                                        if (frame == null &&
-                                            !wasSynchronouslyLoaded) {
-                                          return const Center(
-                                              child: Icon(Icons.person,
-                                                  color: cBlue, size: 30));
-                                        }
-                                        return child;
-                                      },
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Center(
-                                          child: SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: CircularProgressIndicator(
-                                              color: cBlue,
-                                              strokeWidth: 2.0,
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const Center(
-                                            child: Icon(Icons.person,
-                                                color: cBlue, size: 30));
-                                      },
-                                    ),
-                                  ),
-                                )
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 30))
                               : Container(
                                   height: 65,
                                   width: 65,

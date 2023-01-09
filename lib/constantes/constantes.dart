@@ -23,6 +23,9 @@ const String chatDetails = "Chat details";
 const String infosApp = "Infos app";
 const String dataTest = "Data test";
 
+//scaffold key
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> navAuthKey = GlobalKey<NavigatorState>();

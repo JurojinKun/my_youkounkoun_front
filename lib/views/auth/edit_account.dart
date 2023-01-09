@@ -162,8 +162,7 @@ class EditAccountState extends ConsumerState<EditAccount>
 
   pickImage(ImageSource src) async {
     try {
-      final image = await ImagePicker().pickImage(
-          source: src);
+      final image = await ImagePicker().pickImage(source: src);
       if (image != null) {
         await cropImage(image.path);
         if (mounted) {
@@ -530,55 +529,25 @@ class EditAccountState extends ConsumerState<EditAccount>
                             : Container(
                                 height: 175,
                                 width: 175,
+                                foregroundDecoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            user.profilePictureUrl),
+                                        onError: (exception, stackTrace) {
+                                          if (kDebugMode) {
+                                            print(exception);
+                                          }
+                                        },
+                                        fit: BoxFit.cover)),
                                 decoration: BoxDecoration(
                                   color: cGrey.withOpacity(0.2),
                                   shape: BoxShape.circle,
                                   border: Border.all(color: cBlue),
                                 ),
-                                child: ClipOval(
-                                      child: Image.network(
-                                        user.profilePictureUrl,
-                                        fit: BoxFit.cover,
-                                        frameBuilder: (context, child, frame,
-                                            wasSynchronouslyLoaded) {
-                                          if (frame == null &&
-                                              !wasSynchronouslyLoaded) {
-                                            return const Center(
-                                                child: Icon(Icons.person,
-                                                    color: cBlue, size: 75));
-                                          }
-                                          return child;
-                                        },
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              color: cBlue,
-                                              strokeWidth: 2.0,
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return const Center(
-                                              child: Icon(Icons.person,
-                                                  color: cBlue, size: 75));
-                                        },
-                                      ),
-                                    ),
-                              ),
+                                child: const Icon(Icons.person,
+                                    color: cBlue, size: 75)),
                     Align(
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -91,7 +92,8 @@ class MyApp extends ConsumerStatefulWidget {
   MyAppState createState() => MyAppState();
 }
 
-class MyAppState extends ConsumerState<MyApp> {
+class MyAppState extends ConsumerState<MyApp>
+    with SingleTickerProviderStateMixin {
   String themeApp = "";
   late Locale localeLanguage;
 
@@ -101,7 +103,10 @@ class MyAppState extends ConsumerState<MyApp> {
   //connectivity
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  ConnectivityResult _connectivityStatus = ConnectivityResult.none;
+  ConnectivityResult initConnectivitystatus = ConnectivityResult.none;
+  ConnectivityResult? connectivityStatusApp;
+
+  late AnimationController _animationController;
 
   Future<ConnectivityResult> initConnectivity() async {
     late ConnectivityResult result;
@@ -117,15 +122,9 @@ class MyAppState extends ConsumerState<MyApp> {
     return result;
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    setState(() {
-      _connectivityStatus = result;
-    });
-  }
-
   Future<void> initApp(WidgetRef ref) async {
     ConnectivityResult result = await initConnectivity();
-    _updateConnectionStatus(result);
+    initConnectivitystatus = result;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -138,7 +137,7 @@ class MyAppState extends ConsumerState<MyApp> {
         .read(localeLanguageNotifierProvider.notifier)
         .setLocaleLanguage(prefs);
 
-    if (result != ConnectivityResult.none) {
+    if (initConnectivitystatus != ConnectivityResult.none) {
       //logic load datas user
       await _loadDataUser(prefs);
     }
@@ -193,17 +192,63 @@ class MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
 
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this)
+          ..repeat();
+
     initApp(ref);
 
     _connectivitySubscription = _connectivity.onConnectivityChanged
         .listen((ConnectivityResult result) async {
-      if (result == ConnectivityResult.none) {
-        _updateConnectionStatus(result);
-      } else if (result != ConnectivityResult.none &&
-          _connectivityStatus == ConnectivityResult.none) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      if (initConnectivitystatus == ConnectivityResult.none) {
         await _loadDataUser(prefs);
-        _updateConnectionStatus(result);
+        setState(() {
+          initConnectivitystatus = result;
+        });
+      } else {
+        if (result == ConnectivityResult.none) {
+          if (!mounted) return;
+          if (scaffoldMessengerKey.currentState != null) {
+            scaffoldMessengerKey.currentState!.showSnackBar(SnackBar(
+              backgroundColor: cRed,
+              elevation: 6,
+              margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
+              content: Row(
+                children: [
+                  RotationTransition(
+                    turns: Tween(begin: 0.0, end: 1.0)
+                        .animate(_animationController),
+                    child: Image.asset("assets/images/ic_app.png",
+                        height: 25, width: 25),
+                  ),
+                  const SizedBox(width: 10.0),
+                  Text("Pas de connexion actuellement",
+                      style: textStyleCustomMedium(cWhite, 14.0),
+                      textScaleFactor: 1.0),
+                ],
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(days: 365),
+              dismissDirection: DismissDirection.none,
+            ));
+          }
+          ref
+              .read(connectivityStatusAppNotifierProvider.notifier)
+              .updateConnectivityStatus(result);
+        } else if (result != ConnectivityResult.none &&
+            connectivityStatusApp == ConnectivityResult.none) {
+          await _loadDataUser(prefs);
+          ref
+              .read(connectivityStatusAppNotifierProvider.notifier)
+              .updateConnectivityStatus(result);
+          if (scaffoldMessengerKey.currentState != null) {
+            scaffoldMessengerKey.currentState!.removeCurrentSnackBar();
+          }
+        }
       }
     });
   }
@@ -221,15 +266,18 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void dispose() {
     _connectivitySubscription.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    connectivityStatusApp = ref.watch(connectivityStatusAppNotifierProvider);
     themeApp = ref.watch(themeAppNotifierProvider);
     localeLanguage = ref.watch(localeLanguageNotifierProvider);
 
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       title: 'My youkounkoun',
       debugShowCheckedModeBanner: false,
       themeMode: themeApp.trim() == ""
@@ -248,7 +296,7 @@ class MyAppState extends ConsumerState<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         AppLocalization.delegate
       ],
-      home: _connectivityStatus == ConnectivityResult.none
+      home: initConnectivitystatus == ConnectivityResult.none
           ? const ConnectivityDevice()
           : const LogController(),
     );
