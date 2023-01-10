@@ -8,6 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,6 +60,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   HttpOverrides.global = MyHttpOverrides();
+  await DefaultCacheManager().emptyCache();
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -236,6 +238,7 @@ class MyAppState extends ConsumerState<MyApp>
               dismissDirection: DismissDirection.none,
             ));
           }
+
           ref
               .read(connectivityStatusAppNotifierProvider.notifier)
               .updateConnectivityStatus(result);

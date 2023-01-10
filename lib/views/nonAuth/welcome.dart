@@ -23,7 +23,7 @@ class WelcomeState extends ConsumerState<Welcome> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 0), () async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       setState(() {
         version = packageInfo.version;

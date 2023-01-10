@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -316,30 +316,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                               const EdgeInsets.symmetric(vertical: 5.0),
                           onTap: () => navSearchKey!.currentState!
                               .pushNamed(userProfile, arguments: [user, true]),
-                          leading: user.profilePictureUrl.trim() != ""
+                          leading: user.profilePictureUrl.trim() == ""
                               ? Container(
-                                  height: 65,
-                                  width: 65,
-                                  foregroundDecoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              user.profilePictureUrl),
-                                          onError: (exception, stackTrace) {
-                                            if (kDebugMode) {
-                                              print(exception);
-                                            }
-                                          },
-                                          fit: BoxFit.cover)),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                    color: cGrey.withOpacity(0.2),
-                                  ),
-                                  child: const Icon(Icons.person,
-                                      color: cBlue, size: 30))
-                              : Container(
                                   height: 65,
                                   width: 65,
                                   decoration: BoxDecoration(
@@ -349,6 +327,53 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                   ),
                                   child: const Icon(Icons.person,
                                       color: cBlue, size: 30),
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: user.profilePictureUrl,
+                                  imageBuilder: ((context, imageProvider) {
+                                    return Container(
+                                        height: 65,
+                                        width: 65,
+                                        foregroundDecoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: cBlue),
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover)),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cBlue),
+                                          color: cGrey.withOpacity(0.2),
+                                        ),
+                                        child: const Icon(Icons.person,
+                                            color: cBlue, size: 30));
+                                  }),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) {
+                                    return Container(
+                                      height: 65,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: cBlue),
+                                        color: cGrey.withOpacity(0.2),
+                                      ),
+                                      child: const Icon(Icons.person,
+                                          color: cBlue, size: 30),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      color: cGrey.withOpacity(0.2),
+                                    ),
+                                    child: const Icon(Icons.person,
+                                        color: cBlue, size: 30),
+                                  ),
                                 ),
                           title: Text(
                             user.pseudo,
@@ -513,30 +538,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             navSearchKey!.currentState!.pushNamed(userProfile,
                                 arguments: [user, true]);
                           },
-                          leading: user.profilePictureUrl.trim() != ""
+                          leading: user.profilePictureUrl.trim() == ""
                               ? Container(
-                                  height: 65,
-                                  width: 65,
-                                  foregroundDecoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              user.profilePictureUrl),
-                                          onError: (exception, stackTrace) {
-                                            if (kDebugMode) {
-                                              print(exception);
-                                            }
-                                          },
-                                          fit: BoxFit.cover)),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                    color: cGrey.withOpacity(0.2),
-                                  ),
-                                  child: const Icon(Icons.person,
-                                      color: cBlue, size: 30))
-                              : Container(
                                   height: 65,
                                   width: 65,
                                   decoration: BoxDecoration(
@@ -546,6 +549,53 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                   ),
                                   child: const Icon(Icons.person,
                                       color: cBlue, size: 30),
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: user.profilePictureUrl,
+                                  imageBuilder: ((context, imageProvider) {
+                                    return Container(
+                                        height: 65,
+                                        width: 65,
+                                        foregroundDecoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: cBlue),
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover)),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cBlue),
+                                          color: cGrey.withOpacity(0.2),
+                                        ),
+                                        child: const Icon(Icons.person,
+                                            color: cBlue, size: 30));
+                                  }),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) {
+                                    return Container(
+                                      height: 65,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: cBlue),
+                                        color: cGrey.withOpacity(0.2),
+                                      ),
+                                      child: const Icon(Icons.person,
+                                          color: cBlue, size: 30),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      color: cGrey.withOpacity(0.2),
+                                    ),
+                                    child: const Icon(Icons.person,
+                                        color: cBlue, size: 30),
+                                  ),
                                 ),
                           title: Text(
                             user.pseudo,

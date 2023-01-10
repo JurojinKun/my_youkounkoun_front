@@ -236,7 +236,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
               (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
                   ref.read(inChatDetailsNotifierProvider)["screen"] ==
                       "ChatDetails" &&
-                  ref.read(inChatDetailsNotifierProvider)["userID"] != message.data["idSender"]) ||
+                  ref.read(inChatDetailsNotifierProvider)["userID"] !=
+                      message.data["idSender"]) ||
               (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
                   ref.read(inChatDetailsNotifierProvider)["screen"] ==
                       "UserProfile")) {
@@ -283,7 +284,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     navActivitiesKey = GlobalKey<NavigatorState>();
     navProfileKey = GlobalKey<NavigatorState>();
 
-    Future.delayed(const Duration(seconds: 0), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!ref.read(userNotifierProvider).validEmail &&
           !ref.read(checkValidUserNotifierProvider)) {
         _validateUserBottomSheet(navAuthKey.currentContext!);

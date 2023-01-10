@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -50,10 +51,13 @@ class SettingsState extends ConsumerState<Settings> {
   Future<void> _tryLogOut() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      ref.read(userNotifierProvider.notifier).clearUser();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
+      ref.read(profilePictureAlreadyLoadedNotifierProvider.notifier).clearProfilePicture();
+      CachedNetworkImage.evictFromCache(ref.read(userNotifierProvider).profilePictureUrl);
+      await DefaultCacheManager().removeFile(ref.read(userNotifierProvider).profilePictureUrl);
       prefs.remove("token");
+      ref.read(userNotifierProvider.notifier).clearUser();
     } catch (e) {
       if (kDebugMode) {
         print(e);

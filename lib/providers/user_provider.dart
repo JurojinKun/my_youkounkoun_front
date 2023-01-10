@@ -3,6 +3,9 @@ import 'package:myyoukounkoun/models/user_model.dart';
 
 final userNotifierProvider =
     StateNotifierProvider<UserProvider, User>((ref) => UserProvider());
+final profilePictureAlreadyLoadedNotifierProvider =
+    StateNotifierProvider<ProfilePictureAlreadyLoaded, bool>(
+        (ref) => ProfilePictureAlreadyLoaded());
 
 class UserProvider extends StateNotifier<User> {
   UserProvider()
@@ -40,5 +43,19 @@ class UserProvider extends StateNotifier<User> {
         validCGU: false,
         validPrivacyPolicy: false,
         validEmail: false);
+  }
+}
+
+class ProfilePictureAlreadyLoaded extends StateNotifier<bool> {
+  ProfilePictureAlreadyLoaded() : super(false);
+
+  void profilePictureLoaded(bool newState) {
+    state = newState;
+    print("////////////state/////////");
+    print(state);
+  }
+
+  void clearProfilePicture() {
+    state = false;
   }
 }

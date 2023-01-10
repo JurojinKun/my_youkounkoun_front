@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,10 +30,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
     super.initState();
 
     if (mounted) {
-      Future.delayed(
-          Duration.zero,
-          () => ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
-              context.widget.toString(), widget.user.id.toString()));
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
+            context.widget.toString(), widget.user.id.toString());
+      });
     }
   }
 
@@ -144,30 +144,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                         },
                         child: Row(
                           children: [
-                            widget.user.profilePictureUrl.trim() != ""
+                            widget.user.profilePictureUrl.trim() == ""
                                 ? Container(
-                                    height: 45,
-                                    width: 45,
-                                    foregroundDecoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cBlue),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                widget.user.profilePictureUrl),
-                                            onError: (exception, stackTrace) {
-                                              if (kDebugMode) {
-                                                print(exception);
-                                              }
-                                            },
-                                            fit: BoxFit.cover)),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      color: cGrey.withOpacity(0.2),
-                                    ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 23))
-                                : Container(
                                     height: 45,
                                     width: 45,
                                     decoration: BoxDecoration(
@@ -177,6 +155,53 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                     ),
                                     child: const Icon(Icons.person,
                                         color: cBlue, size: 23),
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: widget.user.profilePictureUrl,
+                                    imageBuilder: ((context, imageProvider) {
+                                      return Container(
+                                          height: 45,
+                                          width: 45,
+                                          foregroundDecoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(color: cBlue),
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover)),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: cBlue),
+                                            color: cGrey.withOpacity(0.2),
+                                          ),
+                                          child: const Icon(Icons.person,
+                                              color: cBlue, size: 23));
+                                    }),
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) {
+                                      return Container(
+                                        height: 45,
+                                        width: 45,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cBlue),
+                                          color: cGrey.withOpacity(0.2),
+                                        ),
+                                        child: const Icon(Icons.person,
+                                            color: cBlue, size: 23),
+                                      );
+                                    },
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: cBlue),
+                                        color: cGrey.withOpacity(0.2),
+                                      ),
+                                      child: const Icon(Icons.person,
+                                          color: cBlue, size: 23),
+                                    ),
                                   ),
                             const SizedBox(
                               width: 15.0,

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/edit_account_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -43,6 +46,9 @@ class EditAccountState extends ConsumerState<EditAccount>
   bool _isKeyboard = false;
 
   AppBar appBar = AppBar();
+
+  bool profilePictureAlreadyLoaded = false;
+  ConnectivityResult? connectivityStatusApp;
 
   showOptionsImage() {
     return showModalBottomSheet(
@@ -301,22 +307,24 @@ class EditAccountState extends ConsumerState<EditAccount>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref
+          .read(editGenderUserNotifierProvider.notifier)
+          .initGender(ref.read(userNotifierProvider).gender);
+      ref.read(editBirthdayUserNotifierProvider.notifier).initBirthday(
+          Helpers.convertStringToDateTime(
+              ref.read(userNotifierProvider).birthday));
+      ref
+          .read(editNationalityUserNotifierProvider.notifier)
+          .initNationality(ref.read(userNotifierProvider).nationality);
+    });
+
     _pseudoController =
         TextEditingController(text: ref.read(userNotifierProvider).pseudo);
     _pseudoFocusNode = FocusNode();
     _pseudoController.addListener(() {
       updatePseudo();
     });
-
-    ref
-        .read(editGenderUserNotifierProvider.notifier)
-        .initGender(ref.read(userNotifierProvider).gender);
-    ref.read(editBirthdayUserNotifierProvider.notifier).initBirthday(
-        Helpers.convertStringToDateTime(
-            ref.read(userNotifierProvider).birthday));
-    ref
-        .read(editNationalityUserNotifierProvider.notifier)
-        .initNationality(ref.read(userNotifierProvider).nationality);
   }
 
   @override
@@ -370,6 +378,9 @@ class EditAccountState extends ConsumerState<EditAccount>
     _selectedGender = ref.watch(editGenderUserNotifierProvider);
     _dateBirthday = ref.watch(editBirthdayUserNotifierProvider);
     _selectedCountry = ref.watch(editNationalityUserNotifierProvider);
+    profilePictureAlreadyLoaded =
+        ref.watch(profilePictureAlreadyLoadedNotifierProvider);
+    connectivityStatusApp = ref.watch(connectivityStatusAppNotifierProvider);
 
     final editProfile = ref.watch(editProfileNotifierProvider);
     if (editProfile.asData != null) {
@@ -511,7 +522,10 @@ class EditAccountState extends ConsumerState<EditAccount>
                               size: 60.0,
                             ),
                           )
-                        : user.profilePictureUrl.trim() == ""
+                        : user.profilePictureUrl.trim() == "" ||
+                                (connectivityStatusApp ==
+                                        ConnectivityResult.none &&
+                                    !profilePictureAlreadyLoaded)
                             ? Container(
                                 height: 175,
                                 width: 175,
@@ -526,28 +540,64 @@ class EditAccountState extends ConsumerState<EditAccount>
                                   size: 75.0,
                                 ),
                               )
-                            : Container(
-                                height: 175,
-                                width: 175,
-                                foregroundDecoration: BoxDecoration(
+                            : CachedNetworkImage(
+                                imageUrl: user.profilePictureUrl,
+                                imageBuilder: ((context, imageProvider) {
+                                  return Container(
+                                      height: 175,
+                                      width: 175,
+                                      foregroundDecoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cBlue),
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover)),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: cBlue),
+                                        color: cGrey.withOpacity(0.2),
+                                      ),
+                                      child: const Icon(Icons.person,
+                                          color: cBlue, size: 75));
+                                }),
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) {
+                                  if (downloadProgress.progress == 1.0 &&
+                                      !profilePictureAlreadyLoaded) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      ref
+                                          .read(
+                                              profilePictureAlreadyLoadedNotifierProvider
+                                                  .notifier)
+                                          .profilePictureLoaded(true);
+                                    });
+                                  }
+
+                                  return Container(
+                                    height: 175,
+                                    width: 175,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cBlue),
+                                      color: cGrey.withOpacity(0.2),
+                                    ),
+                                    child: const Icon(Icons.person,
+                                        color: cBlue, size: 75),
+                                  );
+                                },
+                                errorWidget: (context, url, error) => Container(
+                                  height: 175,
+                                  width: 175,
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: cBlue),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            user.profilePictureUrl),
-                                        onError: (exception, stackTrace) {
-                                          if (kDebugMode) {
-                                            print(exception);
-                                          }
-                                        },
-                                        fit: BoxFit.cover)),
-                                decoration: BoxDecoration(
-                                  color: cGrey.withOpacity(0.2),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: cBlue),
+                                    color: cGrey.withOpacity(0.2),
+                                  ),
+                                  child: const Icon(Icons.person,
+                                      color: cBlue, size: 75),
                                 ),
-                                child: const Icon(Icons.person,
-                                    color: cBlue, size: 75)),
+                              ),
                     Align(
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(

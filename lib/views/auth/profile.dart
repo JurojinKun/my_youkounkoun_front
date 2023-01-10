@@ -2,8 +2,9 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:age_calculator/age_calculator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
@@ -26,6 +28,9 @@ class ProfileState extends ConsumerState<Profile>
   late User user;
 
   AppBar appBar = AppBar();
+
+  ConnectivityResult? connectivityStatusApp;
+  bool profilePictureAlreadyLoaded = false;
 
   @override
   void initState() {
@@ -45,6 +50,9 @@ class ProfileState extends ConsumerState<Profile>
     super.build(context);
 
     user = ref.watch(userNotifierProvider);
+    connectivityStatusApp = ref.watch(connectivityStatusAppNotifierProvider);
+    profilePictureAlreadyLoaded =
+        ref.watch(profilePictureAlreadyLoadedNotifierProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -115,30 +123,10 @@ class ProfileState extends ConsumerState<Profile>
               parent: BouncingScrollPhysics()),
           child: Column(
             children: [
-              user.profilePictureUrl.trim() != ""
+              user.profilePictureUrl.trim() == "" ||
+                      (connectivityStatusApp == ConnectivityResult.none &&
+                          !profilePictureAlreadyLoaded)
                   ? Container(
-                      height: 175,
-                      width: 175,
-                      foregroundDecoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: cBlue),
-                                  image: DecorationImage(
-                                      image:
-                                          NetworkImage(user.profilePictureUrl),
-                                      onError: (exception, stackTrace) {
-                                        if (kDebugMode) {
-                                          print(exception);
-                                        }
-                                      },
-                                      fit: BoxFit.cover)),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: cBlue),
-                        color: cGrey.withOpacity(0.2),
-                      ),
-                      child: const Icon(Icons.person, color: cBlue, size: 75)
-                    )
-                  : Container(
                       height: 175,
                       width: 175,
                       decoration: BoxDecoration(
@@ -147,6 +135,61 @@ class ProfileState extends ConsumerState<Profile>
                         color: cGrey.withOpacity(0.2),
                       ),
                       child: const Icon(Icons.person, color: cBlue, size: 75),
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: user.profilePictureUrl,
+                      imageBuilder: ((context, imageProvider) {
+                        return Container(
+                            height: 175,
+                            width: 175,
+                            foregroundDecoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: cBlue),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover)),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cBlue),
+                              color: cGrey.withOpacity(0.2),
+                            ),
+                            child: const Icon(Icons.person,
+                                color: cBlue, size: 75));
+                      }),
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) {
+                        if (downloadProgress.progress == 1.0 &&
+                            !profilePictureAlreadyLoaded) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            ref
+                                .read(
+                                    profilePictureAlreadyLoadedNotifierProvider
+                                        .notifier)
+                                .profilePictureLoaded(true);
+                          });
+                        }
+
+                        return Container(
+                          height: 175,
+                          width: 175,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: cBlue),
+                            color: cGrey.withOpacity(0.2),
+                          ),
+                          child:
+                              const Icon(Icons.person, color: cBlue, size: 75),
+                        );
+                      },
+                      errorWidget: (context, url, error) => Container(
+                        height: 175,
+                        width: 175,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: cBlue),
+                          color: cGrey.withOpacity(0.2),
+                        ),
+                        child: const Icon(Icons.person, color: cBlue, size: 75),
+                      ),
                     ),
               const SizedBox(
                 height: 15.0,

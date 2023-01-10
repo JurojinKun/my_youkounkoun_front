@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:age_calculator/age_calculator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -166,30 +166,8 @@ class UserProfileState extends ConsumerState<UserProfile> {
                   parent: BouncingScrollPhysics()),
               child: Column(
                 children: [
-                  widget.user.profilePictureUrl.trim() != ""
+                  widget.user.profilePictureUrl.trim() == ""
                       ? Container(
-                          height: 175,
-                          width: 175,
-                          foregroundDecoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      widget.user.profilePictureUrl),
-                                  onError: (exception, stackTrace) {
-                                    if (kDebugMode) {
-                                      print(exception);
-                                    }
-                                  },
-                                  fit: BoxFit.cover)),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: cBlue),
-                            color: cGrey.withOpacity(0.2),
-                          ),
-                          child:
-                              const Icon(Icons.person, color: cBlue, size: 75))
-                      : Container(
                           height: 175,
                           width: 175,
                           decoration: BoxDecoration(
@@ -199,6 +177,52 @@ class UserProfileState extends ConsumerState<UserProfile> {
                           ),
                           child:
                               const Icon(Icons.person, color: cBlue, size: 75),
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: widget.user.profilePictureUrl,
+                          imageBuilder: ((context, imageProvider) {
+                            return Container(
+                                height: 175,
+                                width: 175,
+                                foregroundDecoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover)),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: cBlue),
+                                  color: cGrey.withOpacity(0.2),
+                                ),
+                                child: const Icon(Icons.person,
+                                    color: cBlue, size: 75));
+                          }),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) {
+                            return Container(
+                              height: 175,
+                              width: 175,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: cBlue),
+                                color: cGrey.withOpacity(0.2),
+                              ),
+                              child: const Icon(Icons.person,
+                                  color: cBlue, size: 75),
+                            );
+                          },
+                          errorWidget: (context, url, error) => Container(
+                            height: 175,
+                            width: 175,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cBlue),
+                              color: cGrey.withOpacity(0.2),
+                            ),
+                            child: const Icon(Icons.person,
+                                color: cBlue, size: 75),
+                          ),
                         ),
                   const SizedBox(
                     height: 15.0,
