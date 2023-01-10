@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
@@ -156,53 +157,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                     child: const Icon(Icons.person,
                                         color: cBlue, size: 23),
                                   )
-                                : CachedNetworkImage(
-                                    imageUrl: widget.user.profilePictureUrl,
-                                    imageBuilder: ((context, imageProvider) {
-                                      return Container(
-                                          height: 45,
-                                          width: 45,
-                                          foregroundDecoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: cBlue),
-                                              image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover)),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: cBlue),
-                                            color: cGrey.withOpacity(0.2),
-                                          ),
-                                          child: const Icon(Icons.person,
-                                              color: cBlue, size: 23));
-                                    }),
-                                    progressIndicatorBuilder:
-                                        (context, url, downloadProgress) {
-                                      return Container(
-                                        height: 45,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: cBlue),
-                                          color: cGrey.withOpacity(0.2),
-                                        ),
-                                        child: const Icon(Icons.person,
-                                            color: cBlue, size: 23),
-                                      );
-                                    },
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      height: 45,
-                                      width: 45,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: cBlue),
-                                        color: cGrey.withOpacity(0.2),
-                                      ),
-                                      child: const Icon(Icons.person,
-                                          color: cBlue, size: 23),
-                                    ),
-                                  ),
+                                : CachedNetworkImageCustom(
+                                    profilePictureUrl: widget.user.profilePictureUrl,
+                                    heightContainer: 45,
+                                    widthContainer: 45,
+                                    iconSize: 23),
                             const SizedBox(
                               width: 15.0,
                             ),

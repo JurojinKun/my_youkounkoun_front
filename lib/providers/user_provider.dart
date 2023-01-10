@@ -51,8 +51,6 @@ class ProfilePictureAlreadyLoaded extends StateNotifier<bool> {
 
   void profilePictureLoaded(bool newState) {
     state = newState;
-    print("////////////state/////////");
-    print(state);
   }
 
   void clearProfilePicture() {

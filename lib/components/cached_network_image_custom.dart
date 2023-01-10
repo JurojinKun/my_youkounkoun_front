@@ -7,14 +7,13 @@ class CachedNetworkImageCustom extends StatefulWidget {
   final double heightContainer;
   final double widthContainer;
   final double iconSize;
-  final Function? callback;
 
   const CachedNetworkImageCustom(
       {Key? key,
       required this.profilePictureUrl,
       required this.heightContainer,
       required this.widthContainer,
-      required this.iconSize, required this.callback})
+      required this.iconSize})
       : super(key: key);
 
   @override
@@ -23,14 +22,6 @@ class CachedNetworkImageCustom extends StatefulWidget {
 }
 
 class CachedNetworkImageCustomState extends State<CachedNetworkImageCustom> {
-  // _callback(bool test) {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     setState(() {
-  //       test = true;
-  //     });
-  //   });
-  // }
-  
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
@@ -52,9 +43,6 @@ class CachedNetworkImageCustomState extends State<CachedNetworkImageCustom> {
             child: Icon(Icons.person, color: cBlue, size: widget.iconSize));
       }),
       progressIndicatorBuilder: (context, url, downloadProgress) {
-        if (downloadProgress.progress == 1.0) {
-          widget.callback;
-        }
         return Container(
           height: widget.heightContainer,
           width: widget.widthContainer,

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
@@ -178,52 +179,11 @@ class UserProfileState extends ConsumerState<UserProfile> {
                           child:
                               const Icon(Icons.person, color: cBlue, size: 75),
                         )
-                      : CachedNetworkImage(
-                          imageUrl: widget.user.profilePictureUrl,
-                          imageBuilder: ((context, imageProvider) {
-                            return Container(
-                                height: 175,
-                                width: 175,
-                                foregroundDecoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover)),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: cBlue),
-                                  color: cGrey.withOpacity(0.2),
-                                ),
-                                child: const Icon(Icons.person,
-                                    color: cBlue, size: 75));
-                          }),
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) {
-                            return Container(
-                              height: 175,
-                              width: 175,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: cBlue),
-                                color: cGrey.withOpacity(0.2),
-                              ),
-                              child: const Icon(Icons.person,
-                                  color: cBlue, size: 75),
-                            );
-                          },
-                          errorWidget: (context, url, error) => Container(
-                            height: 175,
-                            width: 175,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
-                              color: cGrey.withOpacity(0.2),
-                            ),
-                            child: const Icon(Icons.person,
-                                color: cBlue, size: 75),
-                          ),
-                        ),
+                      : CachedNetworkImageCustom(
+                                    profilePictureUrl: widget.user.profilePictureUrl,
+                                    heightContainer: 175,
+                                    widthContainer: 175,
+                                    iconSize: 75),
                   const SizedBox(
                     height: 15.0,
                   ),
