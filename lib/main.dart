@@ -145,7 +145,7 @@ class MyAppState extends ConsumerState<MyApp> {
 
   Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
-    String token = prefs.getString("token") ?? "";
+    String token = prefs.getString("token") ?? ""; 
 
     if (token.trim() != "") {
       ref.read(userNotifierProvider.notifier).initUser(User(

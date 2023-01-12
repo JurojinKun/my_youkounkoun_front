@@ -36,6 +36,8 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
     String token = prefs.getString("token") ?? "";
+    print("////////token//////");
+    print(token);
 
     if (token.trim() != "") {
       ref.read(userNotifierProvider.notifier).initUser(User(

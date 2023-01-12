@@ -19,6 +19,7 @@ import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/register_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends ConsumerStatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -311,7 +312,8 @@ class RegisterState extends ConsumerState<Register>
         int sensitivity = 8;
         if (Platform.isIOS &&
             details.delta.dx > sensitivity &&
-            details.globalPosition.dx <= 70 && !_swipeBack) {
+            details.globalPosition.dx <= 70 &&
+            !_swipeBack) {
           _swipeBack = true;
           if (_isKeyboard) {
             Helpers.hideKeyboard(context);
@@ -361,7 +363,8 @@ class RegisterState extends ConsumerState<Register>
                         onPressed: () async {
                           if (_isKeyboard) {
                             Helpers.hideKeyboard(context);
-                            await Future.delayed(const Duration(milliseconds: 200));
+                            await Future.delayed(
+                                const Duration(milliseconds: 200));
                           }
                           navNonAuthKey.currentState!.pop();
                         },
@@ -1486,6 +1489,10 @@ class RegisterState extends ConsumerState<Register>
                                   setState(() {
                                     _loadingStepSixth = true;
                                   });
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setString(
+                                      "token", "tokenTest1234");
                                   ref
                                       .read(userNotifierProvider.notifier)
                                       .initUser(User(
