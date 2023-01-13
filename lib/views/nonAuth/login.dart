@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
@@ -25,7 +26,7 @@ class Login extends ConsumerStatefulWidget {
   LoginState createState() => LoginState();
 }
 
-class LoginState extends ConsumerState<Login> with WidgetsBindingObserver {
+class LoginState extends ConsumerState<Login> {
   late TextEditingController _mailController, _passwordController;
   late FocusNode _mailFocusNode, _passwordFocusNode;
 
@@ -71,7 +72,6 @@ class LoginState extends ConsumerState<Login> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
 
     _mailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -81,20 +81,7 @@ class LoginState extends ConsumerState<Login> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-    final newValue = bottomInset > 0.0;
-    if (newValue != _isKeyboard) {
-      setState(() {
-        _isKeyboard = newValue;
-      });
-    }
-    super.didChangeMetrics();
-  }
-
-  @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
 
     _mailController.dispose();
     _passwordController.dispose();
@@ -107,6 +94,8 @@ class LoginState extends ConsumerState<Login> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
+    
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       onHorizontalDragUpdate: (details) async {

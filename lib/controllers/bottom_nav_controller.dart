@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/router.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -93,7 +94,7 @@ class BottomNavController extends ConsumerStatefulWidget {
 }
 
 class BottomNavControllerState extends ConsumerState<BottomNavController>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+    with TickerProviderStateMixin {
   bool _isKeyboard = false;
 
   Future _validateUserBottomSheet(BuildContext context) async {
@@ -109,8 +110,6 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addObserver(this);
 
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
@@ -294,18 +293,6 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   }
 
   @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-    final newValue = bottomInset > 0.0;
-    if (newValue != _isKeyboard) {
-      setState(() {
-        _isKeyboard = newValue;
-      });
-    }
-    super.didChangeMetrics();
-  }
-
-  @override
   void deactivate() {
     tabControllerBottomNav!.removeListener(() {
       setState(() {});
@@ -315,7 +302,6 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     tabControllerBottomNav!.dispose();
     tabControllerBottomNav = null;
     super.dispose();
@@ -323,6 +309,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
 
   @override
   Widget build(BuildContext context) {
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
+    
     return WillPopScope(
         onWillPop: () async {
           if (tabControllerBottomNav!.index == 0) {

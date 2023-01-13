@@ -47,13 +47,4 @@ class Helpers {
     }
     return date;
   }
-
-  static double paddingSnackBarSwitchScreen(String currentRouteApp) {
-    switch (currentRouteApp) {
-      case bottomNav:
-        return 80.0;
-      default:
-        return 20.0;
-    }
-  }
 }

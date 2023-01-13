@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
@@ -24,8 +25,7 @@ class NewConversation extends ConsumerStatefulWidget {
   NewConversationState createState() => NewConversationState();
 }
 
-class NewConversationState extends ConsumerState<NewConversation>
-    with WidgetsBindingObserver {
+class NewConversationState extends ConsumerState<NewConversation> {
   List<User> recentSearchesUsers = [];
   List<User> resultsSearch = [];
   bool searching = false;
@@ -82,25 +82,12 @@ class NewConversationState extends ConsumerState<NewConversation>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
 
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
 
     _searchController = TextEditingController();
     _searchFocusNode = FocusNode();
-  }
-
-  @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-    final newValue = bottomInset > 0.0;
-    if (newValue != _isKeyboard) {
-      setState(() {
-        _isKeyboard = newValue;
-      });
-    }
-    super.didChangeMetrics();
   }
 
   @override
@@ -115,7 +102,6 @@ class NewConversationState extends ConsumerState<NewConversation>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
 
     _scrollController.dispose();
 
@@ -127,6 +113,7 @@ class NewConversationState extends ConsumerState<NewConversation>
   @override
   Widget build(BuildContext context) {
     recentSearchesUsers = ref.watch(recentSearchesNotifierProvider);
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),

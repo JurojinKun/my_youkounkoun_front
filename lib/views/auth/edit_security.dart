@@ -12,6 +12,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/edit_security_account_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditSecurity extends ConsumerStatefulWidget {
@@ -21,8 +22,7 @@ class EditSecurity extends ConsumerStatefulWidget {
   EditSecurityState createState() => EditSecurityState();
 }
 
-class EditSecurityState extends ConsumerState<EditSecurity>
-    with WidgetsBindingObserver {
+class EditSecurityState extends ConsumerState<EditSecurity> {
   late TextEditingController _mailController,
       _actualPasswordController,
       _newPasswordController,
@@ -378,7 +378,6 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
 
     _mailController =
         TextEditingController(text: ref.read(userNotifierProvider).email);
@@ -403,18 +402,6 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   }
 
   @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-    final newValue = bottomInset > 0.0;
-    if (newValue != _isKeyboard) {
-      setState(() {
-        _isKeyboard = newValue;
-      });
-    }
-    super.didChangeMetrics();
-  }
-
-  @override
   void deactivate() {
     _mailController.removeListener(() {
       _updateMail();
@@ -430,8 +417,6 @@ class EditSecurityState extends ConsumerState<EditSecurity>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-
     _mailFocusNode.dispose();
     _actualPasswordFocusNode.dispose();
     _newPasswordFocusNode.dispose();
@@ -448,6 +433,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
   Widget build(BuildContext context) {
     validEditMail = ref.watch(editMailUserNotifierProvider);
     validEditPassword = ref.watch(editPasswordUserNotifierProvider);
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),

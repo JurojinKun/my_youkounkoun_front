@@ -19,6 +19,7 @@ import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/edit_account_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
@@ -28,8 +29,7 @@ class EditAccount extends ConsumerStatefulWidget {
   EditAccountState createState() => EditAccountState();
 }
 
-class EditAccountState extends ConsumerState<EditAccount>
-    with WidgetsBindingObserver {
+class EditAccountState extends ConsumerState<EditAccount> {
   late Locale localeLanguage;
 
   late User user;
@@ -305,7 +305,6 @@ class EditAccountState extends ConsumerState<EditAccount>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref
@@ -328,18 +327,6 @@ class EditAccountState extends ConsumerState<EditAccount>
   }
 
   @override
-  void didChangeMetrics() {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
-    final newValue = bottomInset > 0.0;
-    if (newValue != _isKeyboard) {
-      setState(() {
-        _isKeyboard = newValue;
-      });
-    }
-    super.didChangeMetrics();
-  }
-
-  @override
   void deactivate() {
     _pseudoController.removeListener(() {
       updatePseudo();
@@ -349,8 +336,6 @@ class EditAccountState extends ConsumerState<EditAccount>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-
     _pseudoController.dispose();
     _pseudoFocusNode.dispose();
     super.dispose();
@@ -381,6 +366,7 @@ class EditAccountState extends ConsumerState<EditAccount>
     profilePictureAlreadyLoaded =
         ref.watch(profilePictureAlreadyLoadedNotifierProvider);
     connectivityStatusApp = ref.watch(connectivityStatusAppNotifierProvider);
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
 
     final editProfile = ref.watch(editProfileNotifierProvider);
     if (editProfile.asData != null) {

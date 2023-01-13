@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 
 class RouteAwareWidget extends ConsumerStatefulWidget {
   final String name;
@@ -32,7 +34,9 @@ class RouteAwareWidgetState extends ConsumerState<RouteAwareWidget>
   @override
   // Called when the current route has been pushed.
   void didPush() {
-    print('didPush ${widget.name}');
+    if (kDebugMode) {
+      print('didPush ${widget.name}');
+    }
     Future.delayed(Duration.zero, () {
       ref
           .read(currentRouteAppNotifierProvider.notifier)
@@ -43,12 +47,17 @@ class RouteAwareWidgetState extends ConsumerState<RouteAwareWidget>
   @override
   // Called when the top route has been popped off, and the current route shows up.
   void didPopNext() {
-    print('didPopNext ${widget.name}');
+    if (kDebugMode) {
+      print('didPopNext ${widget.name}');
+    }
     Future.delayed(
         Duration.zero,
-        () => ref
+        () {
+          ref.read(visibleKeyboardAppNotifierProvider.notifier).clearVisibleKeyboard();
+          ref
             .read(currentRouteAppNotifierProvider.notifier)
-            .setCurrentRouteApp(widget.name, context, ref));
+            .setCurrentRouteApp(widget.name, context, ref);
+        });
   }
 
   @override
