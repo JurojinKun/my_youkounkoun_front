@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Helpers {
@@ -45,5 +46,14 @@ class Helpers {
       date = DateFormat('yyyy-MM-dd').parse(dateString);
     }
     return date;
+  }
+
+  static double paddingSnackBarSwitchScreen(String currentRouteApp) {
+    switch (currentRouteApp) {
+      case bottomNav:
+        return 80.0;
+      default:
+        return 20.0;
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/router.dart';
 
 class LogController extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class LogControllerState extends ConsumerState<LogController> {
             child: Navigator(
               key: navAuthKey,
               initialRoute: bottomNav,
-              observers: [_heroController],
+              observers: [_heroController, routeObserver],
               onGenerateRoute: (settings) =>
                   generateRouteAuth(settings, context),
             ),
@@ -67,6 +68,7 @@ class LogControllerState extends ConsumerState<LogController> {
             child: Navigator(
               key: navNonAuthKey,
               initialRoute: welcome,
+              observers: [routeObserver],
               onGenerateRoute: (settings) =>
                   generateRouteNonAuth(settings, context),
             ),

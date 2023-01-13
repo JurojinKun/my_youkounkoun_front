@@ -340,19 +340,25 @@ class EditSecurityState extends ConsumerState<EditSecurity>
         };
         User user = User.fromJSON(mapUser);
         ref.read(userNotifierProvider.notifier).updateUser(user);
+
+        _mailController.text = ref.read(userNotifierProvider).email;
+        _actualPasswordController.clear();
+        _newPasswordController.clear();
+        ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
+        ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
+
+        if (mounted) {
+          Navigator.pop(context);
+        }
       } else {
         //logic ws vérification bon mot de passe pour modifier le mot de passe
         await Future.delayed(const Duration(seconds: 3));
-      }
 
-      _mailController.text = ref.read(userNotifierProvider).email;
-      _actualPasswordController.clear();
-      _newPasswordController.clear();
-      ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
-      ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
-
-      if (mounted) {
-        Navigator.pop(context);
+        _mailController.text = ref.read(userNotifierProvider).email;
+        _actualPasswordController.clear();
+        _newPasswordController.clear();
+        ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
+        ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
       }
     } catch (e) {
       if (kDebugMode) {
@@ -810,18 +816,36 @@ class EditSecurityState extends ConsumerState<EditSecurity>
                             _validModifPasswordController.clear();
                           }
                           _isModifMail = false;
-                          await _showVerifModif();
+                          setState(() {
+                            validModif = true;
+                          });
+                          await _saveUpdateSecurity();
+                          setState(() {
+                            validModif = false;
+                          });
                         },
-                        child: Text(
-                            AppLocalization.of(context).translate(
-                                "edit_security_screen", "update_password"),
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
-                            textAlign: TextAlign.center,
-                            textScaleFactor: 1.0))),
+                        child: validModif
+                            ? const SizedBox(
+                                height: 15.0,
+                                width: 15.0,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: cWhite,
+                                    strokeWidth: 1.0,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                AppLocalization.of(context).translate(
+                                    "edit_security_screen", "update_password"),
+                                style: textStyleCustomMedium(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    20),
+                                textAlign: TextAlign.center,
+                                textScaleFactor: 1.0))),
               ),
               const SizedBox(width: 15.0),
               Expanded(
@@ -866,7 +890,7 @@ class EditSecurityState extends ConsumerState<EditSecurity>
             child: Text(
                 AppLocalization.of(context)
                     .translate("edit_security_screen", "error_update"),
-                style: textStyleCustomBold(cRed, 16),
+                style: textStyleCustomBold(cRed, 14),
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.0)),
       ),

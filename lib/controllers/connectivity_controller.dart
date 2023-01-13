@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/log_controller.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
+import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
@@ -31,13 +33,11 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   ConnectivityResult? initConnectivityStatusApp;
 
-  late AnimationController _animationController;
+  String currentRouteApp = "";
 
   Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
     String token = prefs.getString("token") ?? "";
-    print("////////token//////");
-    print(token);
 
     if (token.trim() != "") {
       ref.read(userNotifierProvider.notifier).initUser(User(
@@ -79,7 +79,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   void initState() {
     super.initState();
 
-    _animationController =
+    animationSnackBarController =
         AnimationController(duration: const Duration(seconds: 3), vsync: this)
           ..repeat();
 
@@ -100,12 +100,13 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
             scaffoldMessengerKey.currentState!.showSnackBar(SnackBar(
               backgroundColor: cRed,
               elevation: 6,
-              margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
+              margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0,
+                  Helpers.paddingSnackBarSwitchScreen(currentRouteApp)),
               content: Row(
                 children: [
                   RotationTransition(
                     turns: Tween(begin: 0.0, end: 1.0)
-                        .animate(_animationController),
+                        .animate(animationSnackBarController),
                     child: Image.asset("assets/images/ic_app.png",
                         height: 25, width: 25),
                   ),
@@ -146,7 +147,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   @override
   void dispose() {
     _connectivitySubscription.cancel();
-    _animationController.dispose();
+    animationSnackBarController.dispose();
     super.dispose();
   }
 
@@ -154,6 +155,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   Widget build(BuildContext context) {
     initConnectivityStatusApp =
         ref.watch(initConnectivityStatusAppNotifierProvider);
+    currentRouteApp = ref.watch(currentRouteAppNotifierProvider);
 
     return initConnectivityStatusApp == ConnectivityResult.none
         ? const ConnectivityDevice()

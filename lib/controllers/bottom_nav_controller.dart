@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/router.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
@@ -33,7 +34,7 @@ Future showMaterialRedirectNotifChat(
           expand: true,
           enableDrag: false,
           builder: (context) {
-            return ChatDetails(user: user!, openWithModal: true);
+            return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: user!, openWithModal: true));
           });
     } else {
       messageUser(
@@ -101,7 +102,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const ValidateUser();
+          return const RouteAwareWidget(name: validateUser, child: ValidateUser());
         });
   }
 

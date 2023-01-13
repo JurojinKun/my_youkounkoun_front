@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
@@ -46,7 +47,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return ChatDetails(user: widget.user, openWithModal: true);
+          return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: widget.user, openWithModal: true));
         });
   }
 

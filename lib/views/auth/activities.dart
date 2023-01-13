@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
@@ -28,7 +29,7 @@ class ActivitiesState extends ConsumerState<Activities>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const NewConversation();
+          return const RouteAwareWidget(name: newConversation, child: NewConversation());
         });
   }
 

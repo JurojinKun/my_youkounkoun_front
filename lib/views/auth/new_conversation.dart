@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
@@ -74,7 +75,7 @@ class NewConversationState extends ConsumerState<NewConversation>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return ChatDetails(user: user, openWithModal: true);
+          return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: user, openWithModal: true));
         });
   }
 

@@ -10,7 +10,8 @@ class DataTest extends ConsumerStatefulWidget {
   final int index;
   final String dataTestString;
 
-  const DataTest({Key? key, required this.index, required this.dataTestString}) : super(key: key);
+  const DataTest({Key? key, required this.index, required this.dataTestString})
+      : super(key: key);
 
   @override
   DatatTestState createState() => DatatTestState();
@@ -21,58 +22,58 @@ class DatatTestState extends ConsumerState<DataTest> {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "test ${widget.index}",
-                  transitionOnUserGestures: true,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-            preferredSize: Size(
-                MediaQuery.of(context).size.width, appBar.preferredSize.height),
-            child: ClipRRect(
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: AppBar(
-                    automaticallyImplyLeading: false,
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    elevation: 0,
-                    systemOverlayStyle:
-                        Theme.of(context).brightness == Brightness.light
-                            ? Platform.isIOS
-                                ? SystemUiOverlayStyle.dark
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.dark)
-                            : Platform.isIOS
-                                ? SystemUiOverlayStyle.light
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.light),
-                    leading: Material(
-                      color: Colors.transparent,
-                      shape: const CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: IconButton(
-                          onPressed: () => navAuthKey.currentState!.pop(),
-                          icon: Icon(Icons.arrow_back_ios,
-                              color:
-                                  Theme.of(context).brightness == Brightness.light
-                                      ? cBlack
-                                      : cWhite)),
-                    ),
-                    title: Text("Data test",
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            20.0),
-                        textScaleFactor: 1.0),
-                    centerTitle: false,
-                  )),
-            )),
-        body: SizedBox.expand(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+          preferredSize: Size(
+              MediaQuery.of(context).size.width, appBar.preferredSize.height),
+          child: ClipRRect(
+            child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBar(
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  elevation: 0,
+                  systemOverlayStyle:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Platform.isIOS
+                              ? SystemUiOverlayStyle.dark
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.dark)
+                          : Platform.isIOS
+                              ? SystemUiOverlayStyle.light
+                              : const SystemUiOverlayStyle(
+                                  statusBarColor: Colors.transparent,
+                                  statusBarIconBrightness: Brightness.light),
+                  leading: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navAuthKey.currentState!.pop(),
+                        icon: Icon(Icons.arrow_back_ios,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite)),
+                  ),
+                  title: Text("Data test",
+                      style: textStyleCustomBold(
+                          Theme.of(context).brightness == Brightness.light
+                              ? cBlack
+                              : cWhite,
+                          20.0),
+                      textScaleFactor: 1.0),
+                  centerTitle: false,
+                )),
+          )),
+      body: Hero(
+        tag: "test ${widget.index}",
+        transitionOnUserGestures: true,
+        child: SizedBox.expand(
           child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
                 20.0,

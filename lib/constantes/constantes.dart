@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 
 //route names for generated routes non auth
-const String welcome = "Welcome";
-const String login = "Login";
-const String register = "Register";
-const String forgotPassword = "Forgot password";
+const String welcome = "welcome";
+const String login = "login";
+const String register = "register";
+const String forgotPassword = "forgotPassword";
 
 //route names for generated routes auth
-const String bottomNav = "BottomNav";
-const String home = "Home";
-const String search = "Search";
-const String activities = "Activities";
-const String profile = "Profile";
-const String settingsUser = "Settings user";
-const String validateUser = "Validate user";
-const String editAccount = "Edit account";
-const String editSecurity = "Edit security";
-const String newConversation = "New conversation";
-const String recentSearches = "Recent searches";
-const String userProfile = "User profile";
-const String chatDetails = "Chat details";
-const String infosApp = "Infos app";
-const String dataTest = "Data test";
+const String bottomNav = "bottomNav";
+const String home = "home";
+const String search = "search";
+const String activities = "activities";
+const String profile = "profile";
+const String settingsUser = "settings user";
+const String validateUser = "validate user";
+const String editAccount = "edit account";
+const String editSecurity = "edit security";
+const String newConversation = "new conversation";
+const String recentSearches = "recentSearches";
+const String userProfile = "userProfile";
+const String chatDetails = "chatDetails";
+const String infosApp = "infosApp";
+const String dataTest = "dataTest";
 
-//scaffold key
+//route observer
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+//scaffold messenger key & animation controller snack bar connectivity
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+late AnimationController animationSnackBarController;
 
 //navigator keys
 final GlobalKey<NavigatorState> navNonAuthKey = GlobalKey<NavigatorState>();

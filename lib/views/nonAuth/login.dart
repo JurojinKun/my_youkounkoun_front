@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -41,7 +42,8 @@ class LoginState extends ConsumerState<Login> with WidgetsBindingObserver {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const ForgotPassword();
+          return const RouteAwareWidget(
+              name: forgotPassword, child: ForgotPassword());
         });
   }
 
