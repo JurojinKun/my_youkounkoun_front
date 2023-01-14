@@ -35,7 +35,7 @@ SnackBar showSnackBarCustom(BuildContext context, String currentRouteApp) {
 double paddingSnackBarSwitchScreen(BuildContext context, String currentRouteApp) {
     switch (currentRouteApp) {
       case bottomNav:
-        return 80.0;
+        return MediaQuery.of(context).padding.bottom + 80.0;
       default:
         return MediaQuery.of(context).padding.bottom + 10.0;
     }
