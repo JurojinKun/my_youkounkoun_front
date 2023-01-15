@@ -26,10 +26,12 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
   late TextEditingController _mailController,
       _actualPasswordController,
       _newPasswordController,
+      _confirmNewPasswordController,
       _validModifPasswordController;
   late FocusNode _mailFocusNode,
       _actualPasswordFocusNode,
       _newPasswordFocusNode,
+      _confirmNewPasswordFocusNode,
       _validModifPasswordFocusNode;
 
   bool _isKeyboard = false;
@@ -57,8 +59,12 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
   void _updatePassword() {
     if (_actualPasswordController.text.trim().isNotEmpty &&
         _newPasswordController.text.trim().isNotEmpty &&
+        _confirmNewPasswordController.text.isNotEmpty &&
+        _actualPasswordController.text.length >= 3 &&
+        _newPasswordController.text.length >= 3 &&
+        _confirmNewPasswordController.text.length >= 3 &&
         _actualPasswordController.text != _newPasswordController.text &&
-        _newPasswordController.text.length >= 3) {
+        _newPasswordController.text == _confirmNewPasswordController.text) {
       ref
           .read(editPasswordUserNotifierProvider.notifier)
           .updateEditPassword(true);
@@ -357,6 +363,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
         _mailController.text = ref.read(userNotifierProvider).email;
         _actualPasswordController.clear();
         _newPasswordController.clear();
+        _confirmNewPasswordController.clear();
         ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
         ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
       }
@@ -371,6 +378,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
     _mailController.text = ref.read(userNotifierProvider).email;
     _actualPasswordController.clear();
     _newPasswordController.clear();
+    _confirmNewPasswordController.clear();
     ref.read(editMailUserNotifierProvider.notifier).clearEditMail();
     ref.read(editPasswordUserNotifierProvider.notifier).clearEditPassword();
   }
@@ -383,11 +391,13 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
         TextEditingController(text: ref.read(userNotifierProvider).email);
     _actualPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
+    _confirmNewPasswordController = TextEditingController();
     _validModifPasswordController = TextEditingController();
 
     _mailFocusNode = FocusNode();
     _actualPasswordFocusNode = FocusNode();
     _newPasswordFocusNode = FocusNode();
+    _confirmNewPasswordFocusNode = FocusNode();
     _validModifPasswordFocusNode = FocusNode();
 
     _mailController.addListener(() {
@@ -397,6 +407,9 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
       _updatePassword();
     });
     _newPasswordController.addListener(() {
+      _updatePassword();
+    });
+    _confirmNewPasswordController.addListener(() {
       _updatePassword();
     });
   }
@@ -412,6 +425,9 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
     _newPasswordController.removeListener(() {
       _updatePassword();
     });
+    _confirmNewPasswordController.removeListener(() {
+      _updatePassword();
+    });
     super.deactivate();
   }
 
@@ -420,11 +436,13 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
     _mailFocusNode.dispose();
     _actualPasswordFocusNode.dispose();
     _newPasswordFocusNode.dispose();
+    _confirmNewPasswordFocusNode.dispose();
     _validModifPasswordController.dispose();
 
     _mailController.dispose();
     _actualPasswordController.dispose();
     _newPasswordController.dispose();
+    _confirmNewPasswordController.dispose();
     _validModifPasswordFocusNode.dispose();
     super.dispose();
   }
@@ -668,7 +686,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               controller: _newPasswordController,
               focusNode: _newPasswordFocusNode,
               maxLines: 1,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               keyboardType: TextInputType.text,
               obscureText: _newPasswordObscure,
               onChanged: (val) {
@@ -677,7 +695,10 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                 });
               },
               onSubmitted: (val) {
-                Helpers.hideKeyboard(context);
+                setState(() {
+                  FocusScope.of(context)
+                      .requestFocus(_confirmNewPasswordFocusNode);
+                });
               },
               style: textStyleCustomRegular(
                   _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
@@ -707,6 +728,59 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                               ? Icons.visibility
                               : Icons.visibility_off,
                           color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                        )),
+                  )),
+            ),
+            const SizedBox(
+              height: 25.0,
+            ),
+            TextField(
+              controller: _confirmNewPasswordController,
+              focusNode: _confirmNewPasswordFocusNode,
+              maxLines: 1,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.text,
+              obscureText: _newPasswordObscure,
+              onChanged: (val) {
+                setState(() {
+                  val = _confirmNewPasswordController.text;
+                });
+              },
+              onSubmitted: (val) {
+                Helpers.hideKeyboard(context);
+              },
+              style: textStyleCustomRegular(
+                  _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                  14 / MediaQuery.of(context).textScaleFactor),
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
+                  hintText: AppLocalization.of(context).translate(
+                      "edit_security_screen", "confirm_new_password"),
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                  labelStyle: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  prefixIcon: Icon(Icons.lock,
+                      color: _confirmNewPasswordFocusNode.hasFocus
+                          ? cBlue
+                          : cGrey),
+                  suffixIcon: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _newPasswordObscure = !_newPasswordObscure;
+                          });
+                        },
+                        icon: Icon(
+                          _newPasswordObscure
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: _confirmNewPasswordFocusNode.hasFocus
+                              ? cBlue
+                              : cGrey,
                         )),
                   )),
             ),

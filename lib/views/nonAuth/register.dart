@@ -35,8 +35,12 @@ class RegisterState extends ConsumerState<Register>
 
   late TextEditingController _mailController,
       _passwordController,
+      _confirmPasswordController,
       _pseudoController;
-  late FocusNode _mailFocusNode, _passwordFocusNode, _pseudoFocusNode;
+  late FocusNode _mailFocusNode,
+      _passwordFocusNode,
+      _confirmPasswordFocusNode,
+      _pseudoFocusNode;
 
   bool _validCGU = false;
   bool _validPrivacypolicy = false;
@@ -252,22 +256,25 @@ class RegisterState extends ConsumerState<Register>
 
     _mailController = TextEditingController();
     _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
     _pseudoController = TextEditingController();
     _mailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
+    _confirmPasswordFocusNode = FocusNode();
     _pseudoFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
-
     _tabController.dispose();
 
     _mailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _pseudoController.dispose();
     _mailFocusNode.dispose();
     _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     _pseudoFocusNode.dispose();
     super.dispose();
   }
@@ -433,7 +440,7 @@ class RegisterState extends ConsumerState<Register>
                             : cWhite,
                         14),
                     textScaleFactor: 1.0),
-                const SizedBox(height: 55.0),
+                const SizedBox(height: 35.0),
                 TextField(
                   controller: _mailController,
                   focusNode: _mailFocusNode,
@@ -482,13 +489,13 @@ class RegisterState extends ConsumerState<Register>
                           : const SizedBox()),
                 ),
                 const SizedBox(
-                  height: 55.0,
+                  height: 35.0,
                 ),
                 TextField(
                   controller: _passwordController,
                   focusNode: _passwordFocusNode,
                   maxLines: 1,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   obscureText: _passwordObscure,
                   onChanged: (val) {
@@ -497,7 +504,8 @@ class RegisterState extends ConsumerState<Register>
                     });
                   },
                   onSubmitted: (val) {
-                    Helpers.hideKeyboard(context);
+                    FocusScope.of(context)
+                        .requestFocus(_confirmPasswordFocusNode);
                   },
                   style: textStyleCustomRegular(
                       _passwordFocusNode.hasFocus ? cBlue : cGrey,
@@ -532,7 +540,61 @@ class RegisterState extends ConsumerState<Register>
                             )),
                       )),
                 ),
-                const SizedBox(height: 55.0),
+                const SizedBox(
+                  height: 35.0,
+                ),
+                TextField(
+                  controller: _confirmPasswordController,
+                  focusNode: _confirmPasswordFocusNode,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
+                  obscureText: _passwordObscure,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _confirmPasswordController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    Helpers.hideKeyboard(context);
+                  },
+                  style: textStyleCustomRegular(
+                      _confirmPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                      14 / MediaQuery.of(context).textScaleFactor),
+                  decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.only(top: 15.0, left: 15.0),
+                      hintText: AppLocalization.of(context)
+                          .translate("register_screen", "confirm_password"),
+                      hintStyle: textStyleCustomRegular(
+                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      labelStyle: textStyleCustomRegular(
+                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      prefixIcon: Icon(Icons.lock,
+                          color: _confirmPasswordFocusNode.hasFocus
+                              ? cBlue
+                              : cGrey),
+                      suffixIcon: Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _passwordObscure = !_passwordObscure;
+                              });
+                            },
+                            icon: Icon(
+                              _passwordObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: _confirmPasswordFocusNode.hasFocus
+                                  ? cBlue
+                                  : cGrey,
+                            )),
+                      )),
+                ),
+                const SizedBox(height: 35.0),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: CheckboxListTile(
@@ -641,6 +703,10 @@ class RegisterState extends ConsumerState<Register>
                                 EmailValidator.validate(_mailController.text) &&
                                 _passwordController.text.isNotEmpty &&
                                 _passwordController.text.length >= 3 &&
+                                _confirmPasswordController.text.isNotEmpty &&
+                                _confirmPasswordController.text.length >= 3 &&
+                                _passwordController.text ==
+                                    _confirmPasswordController.text &&
                                 _validCGU &&
                                 _validPrivacypolicy) {
                               setState(() {
@@ -1473,6 +1539,7 @@ class RegisterState extends ConsumerState<Register>
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
                               onPressed: () async {
+                                //add password/confirm password logic send ws try register
                                 if (validProfilePicture != null) {
                                   setState(() {
                                     _loadingStepSixth = true;
