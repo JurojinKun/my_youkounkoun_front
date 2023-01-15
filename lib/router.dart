@@ -4,7 +4,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
-import 'package:myyoukounkoun/views/auth/data_test.dart';
+import 'package:myyoukounkoun/views/auth/datas_test.dart';
 import 'package:myyoukounkoun/views/auth/infos_app.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 import 'package:myyoukounkoun/views/auth/recent_searches.dart';
@@ -103,9 +103,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(
           builder: (_) => RouteAwareWidget(
               name: dataTest,
-              child: DataTest(
-                index: args![0],
-                dataTestString: args[1],
+              child: DatasTest(
+                index: args![0]
               )));
     default:
       return MaterialPageRoute(

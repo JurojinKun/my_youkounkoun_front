@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/providers/datas_test_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,10 +23,11 @@ class SearchState extends ConsumerState<Search>
 
   late RefreshController refreshController;
 
-  int datasItemsCount = 15;
+  late int datasItemsCount;
   bool datasEnabled = false;
 
   Future<void> initDatasSearch() async {
+    datasItemsCount = ref.read(datasTestNotifierProvider);
     await Future.delayed(const Duration(seconds: 6), () {
       setState(() {
         datasEnabled = true;
@@ -36,9 +38,7 @@ class SearchState extends ConsumerState<Search>
   //logic pull to refresh
   Future<void> _refreshDatasSearch() async {
     await Future.delayed(const Duration(seconds: 3));
-    setState(() {
-      datasItemsCount = 15;
-    });
+    ref.read(datasTestNotifierProvider.notifier).refreshDatasTest();
     refreshController.refreshCompleted(resetFooterState: true);
   }
 
@@ -46,9 +46,7 @@ class SearchState extends ConsumerState<Search>
   Future<void> _loadMoreDatasSearch() async {
     await Future.delayed(const Duration(seconds: 3));
     if (datasItemsCount < 50) {
-      setState(() {
-        datasItemsCount += 15;
-      });
+      ref.read(datasTestNotifierProvider.notifier).loadMoreDatasTest();
       refreshController.loadComplete();
     } else {
       refreshController.loadNoData();
@@ -76,6 +74,8 @@ class SearchState extends ConsumerState<Search>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    datasItemsCount = ref.watch(datasTestNotifierProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -180,7 +180,7 @@ class SearchState extends ConsumerState<Search>
                   children: [
                     Text(
                         AppLocalization.of(context)
-                            .translate("search_screen", "travel"),
+                            .translate("search_screen", "explore"),
                         style: textStyleCustomBold(
                             Theme.of(context).brightness == Brightness.light
                                 ? cBlack
@@ -247,7 +247,9 @@ class SearchState extends ConsumerState<Search>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Parcourir",
+                        Text(
+                            AppLocalization.of(context)
+                                .translate("search_screen", "explore"),
                             style: textStyleCustomBold(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -306,9 +308,9 @@ class SearchState extends ConsumerState<Search>
             highlightColor: cBlue.withOpacity(0.3),
             borderRadius: BorderRadius.circular(10.0),
             onTap: () => navAuthKey.currentState!
-                .pushNamed(dataTest, arguments: [index, dataTestString]),
+                .pushNamed(dataTest, arguments: [index]),
             child: Hero(
-              tag: "test $index",
+              tag: "data test $index",
               transitionOnUserGestures: true,
               child: Container(
                 decoration: BoxDecoration(
