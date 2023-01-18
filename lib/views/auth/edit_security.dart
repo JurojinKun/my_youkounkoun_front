@@ -180,6 +180,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                 height: 25.0,
                               ),
                               TextField(
+                                scrollPhysics: const BouncingScrollPhysics(),
                                 controller: _validModifPasswordController,
                                 focusNode: _validModifPasswordFocusNode,
                                 maxLines: 1,
@@ -569,6 +570,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               height: 10.0,
             ),
             TextField(
+              scrollPhysics: const BouncingScrollPhysics(),
               controller: _mailController,
               focusNode: _mailFocusNode,
               maxLines: 1,
@@ -631,6 +633,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               height: 15.0,
             ),
             TextField(
+              scrollPhysics: const BouncingScrollPhysics(),
               controller: _actualPasswordController,
               focusNode: _actualPasswordFocusNode,
               maxLines: 1,
@@ -683,6 +686,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               height: 25.0,
             ),
             TextField(
+              scrollPhysics: const BouncingScrollPhysics(),
               controller: _newPasswordController,
               focusNode: _newPasswordFocusNode,
               maxLines: 1,
@@ -735,6 +739,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               height: 25.0,
             ),
             TextField(
+              scrollPhysics: const BouncingScrollPhysics(),
               controller: _confirmNewPasswordController,
               focusNode: _confirmNewPasswordFocusNode,
               maxLines: 1,

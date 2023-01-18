@@ -631,6 +631,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(height: 20.0),
             Center(
               child: TextField(
+                scrollPhysics: const BouncingScrollPhysics(),
                 controller: _pseudoController,
                 focusNode: _pseudoFocusNode,
                 maxLines: 1,

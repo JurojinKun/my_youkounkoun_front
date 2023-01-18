@@ -75,7 +75,9 @@ class NewConversationState extends ConsumerState<NewConversation> {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: user, openWithModal: true));
+          return RouteAwareWidget(
+              name: chatDetails,
+              child: ChatDetails(user: user, openWithModal: true));
         });
   }
 
@@ -102,7 +104,6 @@ class NewConversationState extends ConsumerState<NewConversation> {
 
   @override
   void dispose() {
-
     _scrollController.dispose();
 
     _searchController.dispose();
@@ -184,6 +185,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                     height: 40.0,
                     alignment: Alignment.center,
                     child: TextField(
+                      scrollPhysics: const BouncingScrollPhysics(),
                       controller: _searchController,
                       focusNode: _searchFocusNode,
                       cursorColor: Theme.of(context).colorScheme.primary,
@@ -404,10 +406,10 @@ class NewConversationState extends ConsumerState<NewConversation> {
                                   color: cBlue, size: 30),
                             )
                           : CachedNetworkImageCustom(
-                                    profilePictureUrl: user.profilePictureUrl,
-                                    heightContainer: 65,
-                                    widthContainer: 65,
-                                    iconSize: 30),
+                              profilePictureUrl: user.profilePictureUrl,
+                              heightContainer: 65,
+                              widthContainer: 65,
+                              iconSize: 30),
                       title: Text(
                         user.pseudo,
                         style: textStyleCustomMedium(
@@ -548,11 +550,12 @@ class NewConversationState extends ConsumerState<NewConversation> {
                               ),
                               child: const Icon(Icons.person,
                                   color: cBlue, size: 30),
-                            ) : CachedNetworkImageCustom(
-                                    profilePictureUrl: user.profilePictureUrl,
-                                    heightContainer: 65,
-                                    widthContainer: 65,
-                                    iconSize: 30),
+                            )
+                          : CachedNetworkImageCustom(
+                              profilePictureUrl: user.profilePictureUrl,
+                              heightContainer: 65,
+                              widthContainer: 65,
+                              iconSize: 30),
                       title: Text(
                         user.pseudo,
                         style: textStyleCustomMedium(

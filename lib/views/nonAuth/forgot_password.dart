@@ -252,6 +252,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                 ),
                 const SizedBox(height: 45.0),
                 TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
                   controller: _mailController,
                   focusNode: _mailFocusNode,
                   maxLines: 1,

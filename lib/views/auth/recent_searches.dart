@@ -133,6 +133,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                       height: 40.0,
                       alignment: Alignment.center,
                       child: TextField(
+                        scrollPhysics: const BouncingScrollPhysics(),
                         controller: _searchController,
                         autofocus: true,
                         focusNode: _searchFocusNode,
@@ -329,10 +330,10 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                       color: cBlue, size: 30),
                                 )
                               : CachedNetworkImageCustom(
-                                    profilePictureUrl: user.profilePictureUrl,
-                                    heightContainer: 65,
-                                    widthContainer: 65,
-                                    iconSize: 30),
+                                  profilePictureUrl: user.profilePictureUrl,
+                                  heightContainer: 65,
+                                  widthContainer: 65,
+                                  iconSize: 30),
                           title: Text(
                             user.pseudo,
                             style: textStyleCustomMedium(
@@ -509,10 +510,10 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                                       color: cBlue, size: 30),
                                 )
                               : CachedNetworkImageCustom(
-                                    profilePictureUrl: user.profilePictureUrl,
-                                    heightContainer: 65,
-                                    widthContainer: 65,
-                                    iconSize: 30),
+                                  profilePictureUrl: user.profilePictureUrl,
+                                  heightContainer: 65,
+                                  widthContainer: 65,
+                                  iconSize: 30),
                           title: Text(
                             user.pseudo,
                             style: textStyleCustomMedium(

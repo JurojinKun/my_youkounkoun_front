@@ -442,6 +442,7 @@ class RegisterState extends ConsumerState<Register>
                     textScaleFactor: 1.0),
                 const SizedBox(height: 35.0),
                 TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
                   controller: _mailController,
                   focusNode: _mailFocusNode,
                   maxLines: 1,
@@ -492,6 +493,7 @@ class RegisterState extends ConsumerState<Register>
                   height: 35.0,
                 ),
                 TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
                   controller: _passwordController,
                   focusNode: _passwordFocusNode,
                   maxLines: 1,
@@ -544,6 +546,7 @@ class RegisterState extends ConsumerState<Register>
                   height: 35.0,
                 ),
                 TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
                   controller: _confirmPasswordController,
                   focusNode: _confirmPasswordFocusNode,
                   maxLines: 1,
@@ -778,6 +781,7 @@ class RegisterState extends ConsumerState<Register>
                   height: 55.0,
                 ),
                 TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
                   controller: _pseudoController,
                   focusNode: _pseudoFocusNode,
                   maxLines: 1,

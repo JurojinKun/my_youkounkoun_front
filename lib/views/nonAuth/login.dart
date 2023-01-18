@@ -82,7 +82,6 @@ class LoginState extends ConsumerState<Login> {
 
   @override
   void dispose() {
-
     _mailController.dispose();
     _passwordController.dispose();
 
@@ -95,7 +94,7 @@ class LoginState extends ConsumerState<Login> {
   @override
   Widget build(BuildContext context) {
     _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
-    
+
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
       onHorizontalDragUpdate: (details) async {
@@ -198,6 +197,7 @@ class LoginState extends ConsumerState<Login> {
                       height: 55.0,
                     ),
                     TextField(
+                      scrollPhysics: const BouncingScrollPhysics(),
                       controller: _mailController,
                       focusNode: _mailFocusNode,
                       maxLines: 1,
@@ -249,6 +249,7 @@ class LoginState extends ConsumerState<Login> {
                       height: 55.0,
                     ),
                     TextField(
+                      scrollPhysics: const BouncingScrollPhysics(),
                       controller: _passwordController,
                       focusNode: _passwordFocusNode,
                       maxLines: 1,
