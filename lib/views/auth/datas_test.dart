@@ -20,32 +20,31 @@ class DatasTestState extends ConsumerState<DatasTest>
     with SingleTickerProviderStateMixin {
   AppBar appBar = AppBar();
 
-  late AnimationController animationController;
-  late Animation<double> animationAppBar;
   late PageController _pageController;
+  bool hideAppBar = false;
 
   late int datasItemsCount;
 
   Future<void> _scrollPageControllerListener() async {
     if (_pageController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      await animationController.forward();
+            ScrollDirection.reverse &&
+        !hideAppBar) {
+      setState(() {
+        hideAppBar = true;
+      });
     }
     if (_pageController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      await animationController.reverse();
+            ScrollDirection.forward &&
+        hideAppBar) {
+      setState(() {
+        hideAppBar = false;
+      });
     }
-    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
-    animationAppBar = Tween(begin: appBar.preferredSize.height, end: 0.0)
-        .animate(CurvedAnimation(
-            parent: animationController, curve: Curves.linear, reverseCurve: Curves.linear));
 
     _pageController = PageController(initialPage: widget.index);
     _pageController.addListener(_scrollPageControllerListener);
@@ -59,7 +58,6 @@ class DatasTestState extends ConsumerState<DatasTest>
 
   @override
   void dispose() {
-    animationController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -72,7 +70,7 @@ class DatasTestState extends ConsumerState<DatasTest>
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(animationAppBar.value),
+          preferredSize: Size.fromHeight(appBar.preferredSize.height),
           child: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
@@ -89,25 +87,38 @@ class DatasTestState extends ConsumerState<DatasTest>
                     : const SystemUiOverlayStyle(
                         statusBarColor: Colors.transparent,
                         statusBarIconBrightness: Brightness.light),
-            leading: Material(
-              color: Colors.transparent,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.hardEdge,
-              child: IconButton(
-                  onPressed: () => navAuthKey.currentState!.pop(),
-                  icon: Icon(Icons.arrow_back_ios,
-                      color: Theme.of(context).brightness == Brightness.light
+            title: AnimatedOpacity(
+              opacity: hideAppBar ? 0 : 1,
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+              child: Text("Datas test",
+                  style: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
                           ? cBlack
-                          : cWhite)),
+                          : cWhite,
+                      20.0),
+                  textScaleFactor: 1.0),
             ),
-            title: Text("Datas test",
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    20.0),
-                textScaleFactor: 1.0),
-            centerTitle: false,
+            centerTitle: true,
+            actions: [
+              AnimatedOpacity(
+                opacity: hideAppBar ? 0 : 1,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeInOut,
+                child: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () => navAuthKey.currentState!.pop(),
+                      icon: Icon(Icons.clear,
+                      size: 30,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? cBlack
+                                  : cWhite)),
+                )),
+            ],
           ),
         ),
         body: Hero(
@@ -124,7 +135,7 @@ class DatasTestState extends ConsumerState<DatasTest>
 
                 return Container(
                   height: MediaQuery.of(context).size.height,
-                  margin: const EdgeInsets.all(5.0),
+                  margin: const EdgeInsets.only(bottom: 2.5, top: 2.5),
                   decoration: BoxDecoration(
                       border: Border.all(color: cBlue),
                       color: cBlue.withOpacity(0.15),

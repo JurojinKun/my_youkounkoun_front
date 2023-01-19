@@ -269,6 +269,8 @@ class SearchState extends ConsumerState<Search>
     return Shimmer.fromColors(
         baseColor: Theme.of(context).scaffoldBackgroundColor,
         highlightColor: cBlue.withOpacity(0.5),
+        direction: ShimmerDirection.ltr,
+        period: const Duration(milliseconds: 1500),
         child: GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -278,7 +280,7 @@ class SearchState extends ConsumerState<Search>
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
                 childAspectRatio: 1.0,
-                mainAxisExtent: 150.0),
+                mainAxisExtent: 200.0),
             itemCount: 10,
             itemBuilder: (_, int index) {
               return Container(
@@ -299,7 +301,7 @@ class SearchState extends ConsumerState<Search>
             crossAxisSpacing: 15,
             mainAxisSpacing: 15,
             childAspectRatio: 1.0,
-            mainAxisExtent: 150.0),
+            mainAxisExtent: 200.0),
         itemCount: datasItemsCount,
         itemBuilder: (_, int index) {
           String dataTestString = "Data test $index";
