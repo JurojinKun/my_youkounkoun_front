@@ -11,7 +11,7 @@ import 'package:myyoukounkoun/controllers/log_controller.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
+import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';

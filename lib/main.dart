@@ -14,7 +14,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
+import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

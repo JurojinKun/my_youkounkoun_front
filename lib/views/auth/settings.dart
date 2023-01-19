@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_active_provider.dart';
+import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -236,19 +236,15 @@ class SettingsState extends ConsumerState<Settings> {
           child: Column(
             children: [
               accountSettings(),
-              const SizedBox(
-                height: 15.0,
-              ),
+              const Divider(thickness: 1, color: cGrey),
               securitySettings(),
-              const SizedBox(height: 15.0),
+              const Divider(thickness: 1, color: cGrey),
               langueSettings(),
-              const SizedBox(
-                height: 15.0,
-              ),
+              const Divider(thickness: 1, color: cGrey),
               themeSettings(),
-              const SizedBox(height: 15.0),
+              const Divider(thickness: 1, color: cGrey),
               notificationsSettings(),
-              const SizedBox(height: 15.0),
+              const Divider(thickness: 1, color: cGrey),
               infosAppSettings()
             ],
           ),
@@ -260,10 +256,8 @@ class SettingsState extends ConsumerState<Settings> {
   Widget accountSettings() {
     return InkWell(
       onTap: () => navAuthKey.currentState!.pushNamed(editAccount),
-      child: Container(
+      child: SizedBox(
         height: 60.0,
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -309,10 +303,8 @@ class SettingsState extends ConsumerState<Settings> {
   Widget securitySettings() {
     return InkWell(
       onTap: () => navAuthKey.currentState!.pushNamed(editSecurity),
-      child: Container(
+      child: SizedBox(
         height: 60.0,
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -356,12 +348,8 @@ class SettingsState extends ConsumerState<Settings> {
   }
 
   Widget langueSettings() {
-    return Container(
+    return SizedBox(
       height: 60.0,
-      decoration: const BoxDecoration(
-          border: Border(
-        bottom: BorderSide(color: cGrey, width: 0.5),
-      )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -438,12 +426,8 @@ class SettingsState extends ConsumerState<Settings> {
   }
 
   Widget themeSettings() {
-    return Container(
+    return SizedBox(
       height: 60.0,
-      decoration: const BoxDecoration(
-          border: Border(
-        bottom: BorderSide(color: cGrey, width: 0.5),
-      )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -514,12 +498,8 @@ class SettingsState extends ConsumerState<Settings> {
   }
 
   Widget notificationsSettings() {
-    return Container(
+    return SizedBox(
       height: 60.0,
-      decoration: const BoxDecoration(
-          border: Border(
-        bottom: BorderSide(color: cGrey, width: 0.5),
-      )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -583,10 +563,8 @@ class SettingsState extends ConsumerState<Settings> {
   Widget infosAppSettings() {
     return InkWell(
       onTap: () => navAuthKey.currentState!.pushNamed(infosApp),
-      child: Container(
+      child: SizedBox(
         height: 60.0,
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
