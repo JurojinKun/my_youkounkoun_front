@@ -46,4 +46,30 @@ class Helpers {
     }
     return date;
   }
+
+  static String differenceDatetimeNowAndOther(DateTime dateTime) {
+    String timeString = "";
+
+    DateTime dateNow = DateTime.now();
+    int difference = dateNow.difference(dateTime).inHours;
+
+    if (difference < 1) {
+      difference = dateNow.difference(dateTime).inMinutes;
+      if (difference < 1) {
+        timeString = "now";
+      } else {
+        timeString = "${difference.toString()}min";
+      }
+    } else if (difference >= 1 && difference < 24) {
+      timeString = "${difference.toString()}h";
+    } else if (difference >= 24 && difference < 168) {
+      difference = dateNow.difference(dateTime).inDays;
+      timeString = "${difference.toString()}j";
+    } else {
+      difference = (dateNow.difference(dateTime).inDays ~/ 7);
+      timeString = "${difference.toString()}sem";
+    }
+
+    return timeString;
+  }
 }

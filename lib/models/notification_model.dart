@@ -98,6 +98,13 @@ List<NotificationModel> notificationsInformatives = [
       body: "Ceci est le body de la test notif 14",
       timestamp: "1672872739000",
       isRead: false),
+  NotificationModel(
+      id: 15,
+      type: "I",
+      title: "Test notif title 15",
+      body: "Ceci est le body de la test notif 15",
+      timestamp: "1674238895000",
+      isRead: false),
 ];
 
 class NotificationModel {

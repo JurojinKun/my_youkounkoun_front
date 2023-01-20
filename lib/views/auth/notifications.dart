@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -23,7 +25,7 @@ class NotificationsState extends ConsumerState<Notifications>
     await Future.delayed(const Duration(seconds: 3));
     //Attention mettre une liste vide si pas encore de notifs pour enlever le statut null du provider et mettre la logique du length == 0
     notificationsInformatives
-        .sort((a, b) => int.parse(a.timestamp) - int.parse(b.timestamp));
+        .sort((a, b) => int.parse(b.timestamp) - int.parse(a.timestamp));
     ref
         .read(notificationsNotifierProvider.notifier)
         .setNotifications(notificationsInformatives);
@@ -152,6 +154,9 @@ class NotificationsState extends ConsumerState<Notifications>
   }
 
   Widget notificationItem(NotificationModel notification, int index) {
+    DateTime dateTimeTimestamp = DateTime.fromMillisecondsSinceEpoch(int.parse(notification.timestamp)).toLocal();
+    String timeNotif = Helpers.differenceDatetimeNowAndOther(dateTimeTimestamp);
+
     return Column(
       children: [
         Slidable(
@@ -259,13 +264,16 @@ class NotificationsState extends ConsumerState<Notifications>
                             ],
                           ),
                         ),
-                        Text(notification.timestamp,
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                12),
-                            textScaleFactor: 1.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: Text(timeNotif,
+                              style: textStyleCustomMedium(
+                                  Theme.of(context).brightness == Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  12),
+                              textScaleFactor: 1.0),
+                        ),
                       ],
                     ),
                   ),

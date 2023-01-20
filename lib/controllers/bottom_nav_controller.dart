@@ -9,6 +9,7 @@ import 'package:myyoukounkoun/components/message_user_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/main.dart';
+import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
@@ -35,7 +36,9 @@ Future showMaterialRedirectNotifChat(
           expand: true,
           enableDrag: false,
           builder: (context) {
-            return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: user!, openWithModal: true));
+            return RouteAwareWidget(
+                name: chatDetails,
+                child: ChatDetails(user: user!, openWithModal: true));
           });
     } else {
       messageUser(
@@ -103,7 +106,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const RouteAwareWidget(name: validateUser, child: ValidateUser());
+          return const RouteAwareWidget(
+              name: validateUser, child: ValidateUser());
         });
   }
 
@@ -231,6 +235,14 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
               platformChannelSpecifics,
             );
           }
+          //à voir si ça suffit pour add la notif dans la liste des notifs
+          if (ref.read(notificationsNotifierProvider) != null) {
+            NotificationModel newNotif =
+                NotificationModel.fromJSON(message.data["data"]);
+            ref
+                .read(notificationsNotifierProvider.notifier)
+                .addNewNotification(newNotif);
+          }
         } else if (message.data["type"] == "M") {
           if (ref.read(inChatDetailsNotifierProvider).isEmpty ||
               (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
@@ -310,7 +322,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   Widget build(BuildContext context) {
     _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
-    
+
     return WillPopScope(
         onWillPop: () async {
           if (tabControllerBottomNav!.index == 0) {
