@@ -16,7 +16,12 @@
         "search_of": "Search for ",
         "problem": "Oops, a problem has occurred",
         "no_user": "Unable to find this user",
-        "no_more_data": "That's all for now"
+        "no_more_data": "That's all for now",
+        "now": "now",
+        "minutes": "min",
+        "hours": "h",
+        "days": "d",
+        "weeks": "w"
     },
     "connectivity_screen": {
         "no_connectivity": "No connection at the moment"
@@ -87,7 +92,8 @@
         "chat": "Chat",
         "notifications": "Notifications",
         "no_chat": "No conversations yet",
-        "no_notifications": "No notifications yet"
+        "no_notifications": "No notifications yet",
+        "delete": "Delete"
     },
     "profile_screen": {
         "profile": "Profile",

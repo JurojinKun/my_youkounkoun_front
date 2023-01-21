@@ -16,7 +16,12 @@
         "search_of": "Recherche de ",
         "problem": "Oups, un problème est survenu",
         "no_user": "Impossible de trouver cet utilisateur",
-        "no_more_data": "C'est tout pour le moment"
+        "no_more_data": "C'est tout pour le moment",
+        "now": "maintenant",
+        "minutes": "min",
+        "hours": "h",
+        "days": "j",
+        "weeks": "sem"
     },
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"
@@ -87,7 +92,8 @@
         "chat": "Messagerie",
         "notifications": "Notifications",
         "no_chat": "Pas encore de conversations",
-        "no_notifications": "Pas encore de notifications"
+        "no_notifications": "Pas encore de notifications",
+        "delete": "Supprimer"
     },
     "profile_screen": {
         "profile": "Profil",

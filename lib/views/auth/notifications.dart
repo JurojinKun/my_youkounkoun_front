@@ -119,7 +119,8 @@ class NotificationsState extends ConsumerState<Notifications>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Notifications",
+              AppLocalization.of(context)
+                  .translate("activities_screen", "notifications"),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack
@@ -133,7 +134,9 @@ class NotificationsState extends ConsumerState<Notifications>
               clipBehavior: Clip.hardEdge,
               child: IconButton(
                   onPressed: () {
-                    ref.read(notificationsNotifierProvider.notifier).readAllNotifications();
+                    ref
+                        .read(notificationsNotifierProvider.notifier)
+                        .readAllNotifications();
                   },
                   icon: Icon(
                     Icons.checklist,
@@ -154,35 +157,47 @@ class NotificationsState extends ConsumerState<Notifications>
   }
 
   Widget notificationItem(NotificationModel notification, int index) {
-    DateTime dateTimeTimestamp = DateTime.fromMillisecondsSinceEpoch(int.parse(notification.timestamp)).toLocal();
-    String timeNotif = Helpers.differenceDatetimeNowAndOther(dateTimeTimestamp);
+    DateTime dateTimeTimestamp =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(notification.timestamp))
+            .toLocal();
+    String timeNotif =
+        Helpers.differenceDatetimeNowAndOther(dateTimeTimestamp, context);
 
     return Column(
       children: [
         Slidable(
           key: UniqueKey(),
-          endActionPane: ActionPane(motion: const DrawerMotion(), 
-          dismissible: DismissiblePane(onDismissed: () {
-            ref.read(notificationsNotifierProvider.notifier).removeNotification(notification);
-          }),
-          children: [
-            SlidableAction(
-              onPressed: (context) {
-                ref.read(notificationsNotifierProvider.notifier).removeNotification(notification);
-              },
-              autoClose: true,
-              flex: 1,
-              backgroundColor: cRed,
-              foregroundColor: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-              icon: Icons.delete_forever_outlined,
-              label: 'Supprimer',
-            )
-          ]),
+          endActionPane: ActionPane(
+              motion: const DrawerMotion(),
+              dismissible: DismissiblePane(onDismissed: () {
+                ref
+                    .read(notificationsNotifierProvider.notifier)
+                    .removeNotification(notification);
+              }),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    ref
+                        .read(notificationsNotifierProvider.notifier)
+                        .removeNotification(notification);
+                  },
+                  autoClose: true,
+                  flex: 1,
+                  backgroundColor: cRed,
+                  foregroundColor:
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                  icon: Icons.delete_forever_outlined,
+                  label: AppLocalization.of(context)
+                      .translate("activities_screen", "delete"),
+                )
+              ]),
           child: InkWell(
             onTap: () {
-              ref.read(notificationsNotifierProvider.notifier).readOneNotification(notification);
+              ref
+                  .read(notificationsNotifierProvider.notifier)
+                  .readOneNotification(notification);
             },
             child: Container(
               padding:
@@ -268,7 +283,8 @@ class NotificationsState extends ConsumerState<Notifications>
                           padding: const EdgeInsets.only(left: 5.0),
                           child: Text(timeNotif,
                               style: textStyleCustomMedium(
-                                  Theme.of(context).brightness == Brightness.light
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
                                       ? cBlack
                                       : cWhite,
                                   12),

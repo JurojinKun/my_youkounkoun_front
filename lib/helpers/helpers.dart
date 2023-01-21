@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Helpers {
@@ -47,7 +48,7 @@ class Helpers {
     return date;
   }
 
-  static String differenceDatetimeNowAndOther(DateTime dateTime) {
+  static String differenceDatetimeNowAndOther(DateTime dateTime, BuildContext context) {
     String timeString = "";
 
     DateTime dateNow = DateTime.now();
@@ -56,18 +57,23 @@ class Helpers {
     if (difference < 1) {
       difference = dateNow.difference(dateTime).inMinutes;
       if (difference < 1) {
-        timeString = "now";
+        timeString = AppLocalization.of(context)
+                  .translate("general", "now");
       } else {
-        timeString = "${difference.toString()}min";
+        timeString = "${difference.toString()}${AppLocalization.of(context)
+                  .translate("general", "minutes")}";
       }
     } else if (difference >= 1 && difference < 24) {
-      timeString = "${difference.toString()}h";
+      timeString = "${difference.toString()}${AppLocalization.of(context)
+                  .translate("general", "hours")}";
     } else if (difference >= 24 && difference < 168) {
       difference = dateNow.difference(dateTime).inDays;
-      timeString = "${difference.toString()}j";
+      timeString = "${difference.toString()}${AppLocalization.of(context)
+                  .translate("general", "days")}";
     } else {
       difference = (dateNow.difference(dateTime).inDays ~/ 7);
-      timeString = "${difference.toString()}sem";
+      timeString = "${difference.toString()}${AppLocalization.of(context)
+                  .translate("general", "weeks")}";
     }
 
     return timeString;
