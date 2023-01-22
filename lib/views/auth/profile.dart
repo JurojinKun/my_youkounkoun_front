@@ -25,7 +25,7 @@ class Profile extends ConsumerStatefulWidget {
 
 class ProfileState extends ConsumerState<Profile>
     with AutomaticKeepAliveClientMixin {
-  late User user;
+  late UserModel user;
 
   AppBar appBar = AppBar();
 

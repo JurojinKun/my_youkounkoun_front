@@ -26,13 +26,13 @@ class NewConversation extends ConsumerStatefulWidget {
 }
 
 class NewConversationState extends ConsumerState<NewConversation> {
-  List<User> recentSearchesUsers = [];
-  List<User> resultsSearch = [];
+  List<UserModel> recentSearchesUsers = [];
+  List<UserModel> resultsSearch = [];
   bool searching = false;
   String currentSearch = "";
   Timer? _timer;
   String? choice;
-  User? choiceUser;
+  UserModel? choiceUser;
 
   late ScrollController _scrollController;
 
@@ -69,7 +69,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
     });
   }
 
-  Future _conversationBottomSheet(BuildContext context, User user) async {
+  Future _conversationBottomSheet(BuildContext context, UserModel user) async {
     return showMaterialModalBottomSheet(
         context: context,
         expand: true,
@@ -387,7 +387,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 shrinkWrap: true,
                 itemCount: recentSearchesUsers.length,
                 itemBuilder: (_, index) {
-                  User user = recentSearchesUsers[index];
+                  UserModel user = recentSearchesUsers[index];
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -533,7 +533,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 shrinkWrap: true,
                 itemCount: resultsSearch.length,
                 itemBuilder: (_, index) {
-                  User user = resultsSearch[index];
+                  UserModel user = resultsSearch[index];
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),

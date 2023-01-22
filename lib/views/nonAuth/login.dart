@@ -52,7 +52,7 @@ class LoginState extends ConsumerState<Login> {
     await Future.delayed(const Duration(seconds: 2));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", "tokenTest1234");
-    ref.read(userNotifierProvider.notifier).initUser(User(
+    ref.read(userNotifierProvider.notifier).initUser(UserModel(
         id: 1,
         token: "tokenTest1234",
         email: "ccommunay@gmail.com",

@@ -1,6 +1,6 @@
 //datas mockés recent searches users
-List<User> recentSearchesDatasMockes = [
-  User(
+List<UserModel> recentSearchesDatasMockes = [
+  UserModel(
       id: 45,
       token: "",
       email: "test1y@gmail.com",
@@ -12,7 +12,7 @@ List<User> recentSearchesDatasMockes = [
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
-  User(
+  UserModel(
       id: 186,
       token: "",
       email: "test2@gmail.com",
@@ -24,7 +24,7 @@ List<User> recentSearchesDatasMockes = [
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
-  User(
+  UserModel(
       id: 4,
       token: "",
       email: "test3@gmail.com",
@@ -39,8 +39,8 @@ List<User> recentSearchesDatasMockes = [
 ];
 
 //datas mockés possible results possible on search user
-List<User> potentialsResultsSearchDatasMockes = [
-  User(
+List<UserModel> potentialsResultsSearchDatasMockes = [
+  UserModel(
       id: 45,
       token: "",
       email: "test1y@gmail.com",
@@ -52,7 +52,7 @@ List<User> potentialsResultsSearchDatasMockes = [
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
-  User(
+  UserModel(
       id: 1,
       token: "tokenTest1234",
       email: "ccommunay@gmail.com",
@@ -64,7 +64,7 @@ List<User> potentialsResultsSearchDatasMockes = [
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
-  User(
+  UserModel(
       id: 186,
       token: "",
       email: "test2@gmail.com",
@@ -76,7 +76,7 @@ List<User> potentialsResultsSearchDatasMockes = [
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
-  User(
+  UserModel(
       id: 4,
       token: "",
       email: "test3@gmail.com",
@@ -90,7 +90,7 @@ List<User> potentialsResultsSearchDatasMockes = [
       validEmail: false),
 ];
 
-class User {
+class UserModel {
   int id;
   String token;
   String email;
@@ -103,7 +103,7 @@ class User {
   bool validPrivacyPolicy;
   bool validEmail;
 
-  User(
+  UserModel(
       {required this.id,
       required this.token,
       required this.email,
@@ -116,7 +116,7 @@ class User {
       required this.validPrivacyPolicy,
       required this.validEmail});
 
-  User.fromJSON(Map<String, dynamic> jsonMap)
+  UserModel.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
         token = jsonMap["token"] ?? "",
         email = jsonMap["email"] ?? "",
@@ -129,8 +129,8 @@ class User {
         validPrivacyPolicy = jsonMap["validPrivacyPolicy"] ?? false,
         validEmail = jsonMap["validEmail"] ?? false;
 
-  User copy() {
-    return User(
+  UserModel copy() {
+    return UserModel(
         id: id,
         token: token,
         email: email,

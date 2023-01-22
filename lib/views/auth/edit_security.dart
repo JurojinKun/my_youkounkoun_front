@@ -345,7 +345,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
           "validPrivacyPolicy": true,
           "validEmail": false
         };
-        User user = User.fromJSON(mapUser);
+        UserModel user = UserModel.fromJSON(mapUser);
         ref.read(userNotifierProvider.notifier).updateUser(user);
 
         _mailController.text = ref.read(userNotifierProvider).email;

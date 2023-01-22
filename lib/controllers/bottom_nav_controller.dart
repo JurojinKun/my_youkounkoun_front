@@ -23,7 +23,7 @@ import 'package:myyoukounkoun/views/auth/validate_user.dart';
 
 Future showMaterialRedirectNotifChat(
     BuildContext context, WidgetRef ref, String idSender) async {
-  User? user;
+  UserModel? user;
   try {
     for (var item in potentialsResultsSearchDatasMockes) {
       if (item.id.toString() == idSender) {

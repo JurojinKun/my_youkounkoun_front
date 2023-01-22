@@ -1,5 +1,5 @@
 //datas mockés liste notifications informatives
-List<NotificationModel> notificationsInformatives = [
+List<NotificationModel> notificationsInformativesDatasMockes = [
   NotificationModel(
       id: 1,
       type: "I",

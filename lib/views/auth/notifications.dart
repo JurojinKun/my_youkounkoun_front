@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
@@ -24,11 +23,15 @@ class NotificationsState extends ConsumerState<Notifications>
   Future<void> setNotifications() async {
     await Future.delayed(const Duration(seconds: 3));
     //Attention mettre une liste vide si pas encore de notifs pour enlever le statut null du provider et mettre la logique du length == 0
-    notificationsInformatives
-        .sort((a, b) => int.parse(b.timestamp) - int.parse(a.timestamp));
-    ref
-        .read(notificationsNotifierProvider.notifier)
-        .setNotifications(notificationsInformatives);
+    if (notificationsInformativesDatasMockes.isNotEmpty) {
+      notificationsInformativesDatasMockes.sort(
+          (a, b) => int.parse(b.timestamp).compareTo(int.parse(a.timestamp)));
+      ref
+          .read(notificationsNotifierProvider.notifier)
+          .setNotifications(notificationsInformativesDatasMockes);
+    } else {
+      ref.read(notificationsNotifierProvider.notifier).setNotifications([]);
+    }
   }
 
   @override
@@ -117,6 +120,7 @@ class NotificationsState extends ConsumerState<Notifications>
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               AppLocalization.of(context)
@@ -133,6 +137,7 @@ class NotificationsState extends ConsumerState<Notifications>
               shape: const CircleBorder(),
               clipBehavior: Clip.hardEdge,
               child: IconButton(
+                  padding: EdgeInsets.zero,
                   onPressed: () {
                     ref
                         .read(notificationsNotifierProvider.notifier)
@@ -157,11 +162,6 @@ class NotificationsState extends ConsumerState<Notifications>
   }
 
   Widget notificationItem(NotificationModel notification, int index) {
-    DateTime dateTimeTimestamp =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(notification.timestamp))
-            .toLocal();
-    String timeNotif =
-        Helpers.differenceDatetimeNowAndOther(dateTimeTimestamp, context);
 
     return Column(
       children: [
@@ -203,95 +203,85 @@ class NotificationsState extends ConsumerState<Notifications>
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
+                  SizedBox(
+                    height: 45.0,
+                    width: 45.0,
+                    child: Stack(
                       children: [
-                        SizedBox(
-                          height: 45.0,
-                          width: 45.0,
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  height: 35,
-                                  width: 35,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      shape: BoxShape.circle,
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            color: cBlue,
-                                            blurRadius: 6,
-                                            spreadRadius: 2)
-                                      ]),
-                                  child: Icon(
-                                    Icons.notifications_active,
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? cBlack
-                                        : cWhite,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                              if (!notification.isRead)
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                    height: 7.5,
-                                    width: 7.5,
-                                    decoration: const BoxDecoration(
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                shape: BoxShape.circle,
+                                boxShadow: const [
+                                  BoxShadow(
                                       color: cBlue,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                            ],
+                                      blurRadius: 6,
+                                      spreadRadius: 2)
+                                ]),
+                            child: Icon(
+                              Icons.notifications_active,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? cBlack
+                                  : cWhite,
+                              size: 20,
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 15.0),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(notification.title,
-                                  style: textStyleCustomBold(
-                                      Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? cBlack
-                                          : cWhite,
-                                      16),
-                                  textScaleFactor: 1.0),
-                              Text(notification.body,
-                                  style: textStyleCustomMedium(
-                                      Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? cBlack
-                                          : cWhite,
-                                      14),
-                                  textScaleFactor: 1.0)
-                            ],
+                        if (!notification.isRead)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                              height: 7.5,
+                              width: 7.5,
+                              decoration: const BoxDecoration(
+                                color: cBlue,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          child: Text(timeNotif,
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  12),
-                              textScaleFactor: 1.0),
-                        ),
                       ],
                     ),
+                  ),
+                  const SizedBox(width: 15.0),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(notification.title,
+                            style: textStyleCustomBold(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                16),
+                            textScaleFactor: 1.0),
+                        Text(notification.body,
+                            style: textStyleCustomMedium(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                14),
+                            textScaleFactor: 1.0)
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text(Helpers.readTimeStamp(context, int.parse(notification.timestamp)),
+                        style: textStyleCustomMedium(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            12),
+                        textScaleFactor: 1.0),
                   ),
                 ],
               ),

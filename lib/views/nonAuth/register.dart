@@ -1554,7 +1554,7 @@ class RegisterState extends ConsumerState<Register>
                                       "token", "tokenTest1234");
                                   ref
                                       .read(userNotifierProvider.notifier)
-                                      .initUser(User(
+                                      .initUser(UserModel(
                                           id: 1,
                                           token: "tokenTest1204",
                                           email: "ccommunay@gmail.com",

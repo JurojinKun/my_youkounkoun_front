@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myyoukounkoun/components/conversation_component.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
+import 'package:myyoukounkoun/providers/chat_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Chat extends ConsumerStatefulWidget {
@@ -12,9 +16,35 @@ class Chat extends ConsumerStatefulWidget {
 }
 
 class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
+  List<ConversationModel>? listConversations;
+
+  Future<void> setChat() async {
+    //logique back à mettre en place mais plus avec un stream builder et via firebase firestore
+    await Future.delayed(const Duration(seconds: 3));
+
+    List<ConversationModel> conversationsUser = [];
+    for (var conv in conversationsDatasMockes) {
+      if (conv.usersId.contains(ref.read(userNotifierProvider).id)) {
+        conversationsUser.add(conv);
+      }
+    }
+
+    if (conversationsUser.isNotEmpty) {
+      conversationsUser.sort((a, b) => int.parse(b.timestampLastMessage)
+          .compareTo(int.parse(a.timestampLastMessage)));
+      ref
+          .read(conversationsNotifierProvider.notifier)
+          .setConversations(conversationsUser);
+    } else {
+      ref.read(conversationsNotifierProvider.notifier).setConversations([]);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    setChat();
   }
 
   @override
@@ -29,46 +59,92 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
 
+    listConversations = ref.watch(conversationsNotifierProvider);
+
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(
-          10.0,
-          MediaQuery.of(context).padding.top + 20.0,
-          10.0,
-          MediaQuery.of(context).padding.bottom + 90.0),
-      physics:
-          const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height -
-            (MediaQuery.of(context).padding.top +
-                20.0 +
-                MediaQuery.of(context).padding.bottom +
-                90.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.send,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
-              size: 40,
-            ),
-            const SizedBox(height: 15.0),
-            Text(
-              AppLocalization.of(context)
-                  .translate("activities_screen", "no_chat"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
-            )
-          ],
-        ),
+        padding: EdgeInsets.fromLTRB(
+            10.0,
+            MediaQuery.of(context).padding.top + 20.0,
+            10.0,
+            MediaQuery.of(context).padding.bottom + 90.0),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
+        child: listConversations == null
+            ? SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).padding.top +
+                        20.0 +
+                        MediaQuery.of(context).padding.bottom +
+                        90.0),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: cBlue,
+                    strokeWidth: 1.0,
+                  ),
+                ))
+            : listConversations!.isEmpty
+                ? emptyChat()
+                : conversations());
+  }
+
+  Widget emptyChat() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height -
+          (MediaQuery.of(context).padding.top +
+              20.0 +
+              MediaQuery.of(context).padding.bottom +
+              90.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.send,
+            color: Theme.of(context).brightness == Brightness.light
+                ? cBlack
+                : cWhite,
+            size: 40,
+          ),
+          const SizedBox(height: 15.0),
+          Text(
+            AppLocalization.of(context)
+                .translate("activities_screen", "no_chat"),
+            style: textStyleCustomMedium(
+                Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite,
+                14),
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.0,
+          )
+        ],
       ),
+    );
+  }
+
+  Widget conversations() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          child: Text(
+            AppLocalization.of(context).translate("activities_screen", "chat"),
+            style: textStyleCustomBold(
+                Theme.of(context).brightness == Brightness.light
+                    ? cBlack
+                    : cWhite,
+                20),
+            textScaleFactor: 1.0,
+          ),
+        ),
+        ...listConversations!.map((conversation) {
+          int index = listConversations!.indexOf(conversation);
+
+          return ConversationComponent(
+              conversation: conversation, index: index);
+        })
+      ],
     );
   }
 }

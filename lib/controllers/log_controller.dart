@@ -20,7 +20,7 @@ class LogController extends ConsumerStatefulWidget {
 
 class LogControllerState extends ConsumerState<LogController>
     with WidgetsBindingObserver {
-  User? user;
+  UserModel? user;
   late HeroController _heroController;
 
   String currentRouteApp = "";

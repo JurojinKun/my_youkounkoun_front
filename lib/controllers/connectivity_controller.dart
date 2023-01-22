@@ -39,7 +39,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
     String token = prefs.getString("token") ?? "";
 
     if (token.trim() != "") {
-      ref.read(userNotifierProvider.notifier).initUser(User(
+      ref.read(userNotifierProvider.notifier).initUser(UserModel(
           id: 1,
           token: "tokenTest1234",
           email: "ccommunay@gmail.com",

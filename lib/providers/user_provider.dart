@@ -2,14 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 
 final userNotifierProvider =
-    StateNotifierProvider<UserProvider, User>((ref) => UserProvider());
+    StateNotifierProvider<UserProvider, UserModel>((ref) => UserProvider());
 final profilePictureAlreadyLoadedNotifierProvider =
     StateNotifierProvider<ProfilePictureAlreadyLoaded, bool>(
         (ref) => ProfilePictureAlreadyLoaded());
 
-class UserProvider extends StateNotifier<User> {
+class UserProvider extends StateNotifier<UserModel> {
   UserProvider()
-      : super(User(
+      : super(UserModel(
             id: 0,
             token: "",
             email: "",
@@ -22,16 +22,16 @@ class UserProvider extends StateNotifier<User> {
             validPrivacyPolicy: false,
             validEmail: false));
 
-  void initUser(User user) {
+  void initUser(UserModel user) {
     state = user;
   }
 
-  Future<void> updateUser(User user) async {
+  Future<void> updateUser(UserModel user) async {
     state = user;
   }
 
   void clearUser() {
-    state = User(
+    state = UserModel(
         id: 0,
         token: "",
         email: "",

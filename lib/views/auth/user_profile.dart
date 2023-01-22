@@ -18,7 +18,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
 class UserProfile extends ConsumerStatefulWidget {
-  final User user;
+  final UserModel user;
   final bool bottomNav;
 
   const UserProfile({Key? key, required this.user, required this.bottomNav})

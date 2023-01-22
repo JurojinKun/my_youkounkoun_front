@@ -48,34 +48,33 @@ class Helpers {
     return date;
   }
 
-  static String differenceDatetimeNowAndOther(DateTime dateTime, BuildContext context) {
-    String timeString = "";
-
+  static String readTimeStamp(BuildContext context, int timestamp) {
     DateTime dateNow = DateTime.now();
-    int difference = dateNow.difference(dateTime).inHours;
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
+    Duration difference = dateNow.difference(date);
 
-    if (difference < 1) {
-      difference = dateNow.difference(dateTime).inMinutes;
-      if (difference < 1) {
-        timeString = AppLocalization.of(context)
-                  .translate("general", "now");
-      } else {
-        timeString = "${difference.toString()}${AppLocalization.of(context)
-                  .translate("general", "minutes")}";
-      }
-    } else if (difference >= 1 && difference < 24) {
-      timeString = "${difference.toString()}${AppLocalization.of(context)
-                  .translate("general", "hours")}";
-    } else if (difference >= 24 && difference < 168) {
-      difference = dateNow.difference(dateTime).inDays;
-      timeString = "${difference.toString()}${AppLocalization.of(context)
-                  .translate("general", "days")}";
+    String timestampString = "";
+
+    // if (difference.inDays > 365) {
+    //   return "${(difference.inDays / 365).floor()} ${(difference.inDays / 365).floor() == 1 ? "an" : "ans"}";
+    // }
+    // if (difference.inDays > 30) return "${(difference.inDays / 30).floor()}mois";
+    if (difference.inDays > 7) {
+      timestampString =
+          "${(difference.inDays / 7).floor()}${AppLocalization.of(context).translate("general", "weeks")}";
+    } else if (difference.inDays > 0) {
+      timestampString =
+          "${difference.inDays}${AppLocalization.of(context).translate("general", "days")}";
+    } else if (difference.inHours > 0) {
+      timestampString =
+          "${difference.inHours}${AppLocalization.of(context).translate("general", "hours")}";
+    } else if (difference.inMinutes > 0) {
+      timestampString =
+          "${difference.inMinutes}${AppLocalization.of(context).translate("general", "minutes")}";
     } else {
-      difference = (dateNow.difference(dateTime).inDays ~/ 7);
-      timeString = "${difference.toString()}${AppLocalization.of(context)
-                  .translate("general", "weeks")}";
+      timestampString = AppLocalization.of(context).translate("general", "now");
     }
 
-    return timeString;
+    return timestampString;
   }
 }

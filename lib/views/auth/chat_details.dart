@@ -12,7 +12,7 @@ import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import '../../models/user_model.dart';
 
 class ChatDetails extends ConsumerStatefulWidget {
-  final User user;
+  final UserModel user;
   final bool openWithModal;
 
   const ChatDetails({Key? key, required this.user, required this.openWithModal})

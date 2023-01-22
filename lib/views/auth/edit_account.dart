@@ -32,7 +32,7 @@ class EditAccount extends ConsumerStatefulWidget {
 class EditAccountState extends ConsumerState<EditAccount> {
   late Locale localeLanguage;
 
-  late User user;
+  late UserModel user;
 
   File? editPictureProfile;
   late TextEditingController _pseudoController;
@@ -256,7 +256,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
         "validPrivacyPolicy": true,
         "validEmail": false
       };
-      User user = User.fromJSON(mapUser);
+      UserModel user = UserModel.fromJSON(mapUser);
       ref.read(userNotifierProvider.notifier).updateUser(user);
 
       _pseudoController.text = user.pseudo;

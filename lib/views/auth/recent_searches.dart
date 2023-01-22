@@ -25,8 +25,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   late FocusNode _searchFocusNode;
   late ScrollController _scrollController;
 
-  List<User> recentSearchesUsers = [];
-  List<User> resultsSearch = [];
+  List<UserModel> recentSearchesUsers = [];
+  List<UserModel> resultsSearch = [];
   bool searching = false;
   String currentSearch = "";
   Timer? _timer;
@@ -308,7 +308,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                     shrinkWrap: true,
                     itemCount: recentSearchesUsers.length,
                     itemBuilder: (_, index) {
-                      User user = recentSearchesUsers[index];
+                      UserModel user = recentSearchesUsers[index];
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -483,7 +483,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                     shrinkWrap: true,
                     itemCount: resultsSearch.length,
                     itemBuilder: (_, index) {
-                      User user = resultsSearch[index];
+                      UserModel user = resultsSearch[index];
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),

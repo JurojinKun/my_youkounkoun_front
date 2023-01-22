@@ -1,4 +1,69 @@
-class Message {
+//conv with user id 186 datas mockés
+List<MessageModel> listMessagesWith186DatasMockes = [
+  MessageModel(
+      id: 1,
+      idReceiver: 186,
+      idSender: 1,
+      type: "text",
+      message: "Salut",
+      isRead: true,
+      timestamp: "1674384936000"),
+  MessageModel(
+      id: 2,
+      idReceiver: 186,
+      idSender: 1,
+      type: "text",
+      message: "Tu vas bien ?",
+      isRead: true,
+      timestamp: "1674384936000"),
+  MessageModel(
+      id: 3,
+      idReceiver: 1,
+      idSender: 186,
+      type: "text",
+      message: "Ça va et toi ?",
+      isRead: true,
+      timestamp: "1674384936000"),
+  MessageModel(
+      id: 4,
+      idReceiver: 186,
+      idSender: 1,
+      type: "text",
+      message: "Tranquille hein",
+      isRead: true,
+      timestamp: "1674384936000"),
+  MessageModel(
+      id: 5,
+      idReceiver: 1,
+      idSender: 186,
+      type: "image",
+      message: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+      isRead: true,
+      timestamp: "1674384936000"),
+  MessageModel(
+      id: 6,
+      idReceiver: 1,
+      idSender: 186,
+      type: "text",
+      message: "Quoi de beau aujourd'hui ?",
+      isRead: false,
+      timestamp: "1674386763000")
+];
+
+//conv with user id 4 datas mockés
+List<MessageModel> listMessagesWith4DatasMockes = [
+  MessageModel(
+      id: 1,
+      idReceiver: 4,
+      idSender: 1,
+      type: "text",
+      message:
+          "J'adore ta photo de profil ! Tu regardes d'autres mangas à part celui-là ?",
+      isRead: false,
+      timestamp: "1674385020000")
+];
+
+class MessageModel {
   int id;
   int idReceiver;
   int idSender;
@@ -7,7 +72,7 @@ class Message {
   bool isRead;
   String timestamp;
 
-  Message(
+  MessageModel(
       {required this.id,
       required this.idReceiver,
       required this.idSender,
@@ -16,7 +81,7 @@ class Message {
       required this.isRead,
       required this.timestamp});
 
-  Message.fromJSON(Map<String, dynamic> jsonMap)
+  MessageModel.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
         idReceiver = jsonMap["idReceiver"] ?? 0,
         idSender = jsonMap["idSender"] ?? 0,
@@ -25,8 +90,8 @@ class Message {
         isRead = jsonMap["isRead"] ?? true,
         timestamp = jsonMap["timestamp"] ?? "";
 
-  Message copy() {
-    return Message(
+  MessageModel copy() {
+    return MessageModel(
         id: id,
         idReceiver: idReceiver,
         idSender: idSender,
