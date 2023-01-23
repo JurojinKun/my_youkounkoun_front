@@ -23,6 +23,26 @@ class ConversationsProvider extends StateNotifier<List<ConversationModel>?> {
     state = [...newState];
   }
 
+  void muteConversation(int idConv, int indexUserConv, bool muteConv) {
+    List<ConversationModel> newState = [...state!];
+    ConversationModel? conversation;
+    int? indexConv;
+
+    for (var conv in newState) {
+      if (conv.id == idConv) {
+        conversation = conv;
+        indexConv = newState.indexOf(conv);
+      }
+    }
+
+    if (conversation != null && indexConv != null) {
+      conversation.users[indexUserConv]["convMute"] = muteConv;
+      newState[indexConv] = conversation;
+    }
+
+    state = [...newState];
+  }
+
   void readOneConversation(ConversationModel conversation) {
     List<ConversationModel> newState = [...state!];
 

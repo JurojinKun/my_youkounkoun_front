@@ -4,6 +4,7 @@ import 'package:myyoukounkoun/components/conversation_component.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -24,8 +25,10 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
 
     List<ConversationModel> conversationsUser = [];
     for (var conv in conversationsDatasMockes) {
-      if (conv.usersId.contains(ref.read(userNotifierProvider).id)) {
-        conversationsUser.add(conv);
+      for (var user in conv.users) {
+        if (user["id"] == ref.read(userNotifierProvider).id) {
+          conversationsUser.add(conv);
+        }
       }
     }
 
@@ -139,10 +142,23 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
           ),
         ),
         ...listConversations!.map((conversation) {
+          late int userId;
+          late UserModel userConv;
+          late int indexUserConv;
           int index = listConversations!.indexOf(conversation);
 
+          for (var user in conversation.users) {
+            if (user["id"] != ref.read(userNotifierProvider).id) {
+              userId = user["id"];
+            } else {
+              indexUserConv = conversation.users.indexOf(user);
+            }
+          }
+          userConv = potentialsResultsSearchDatasMockes
+              .firstWhere((element) => element.id == userId);
+
           return ConversationComponent(
-              conversation: conversation, index: index);
+              conversation: conversation, indexConversations: index, userConv: userConv, indexUserConv: indexUserConv);
         })
       ],
     );

@@ -162,12 +162,12 @@ class NotificationsState extends ConsumerState<Notifications>
   }
 
   Widget notificationItem(NotificationModel notification, int index) {
-
     return Column(
       children: [
         Slidable(
           key: UniqueKey(),
           endActionPane: ActionPane(
+              extentRatio: 0.3,
               motion: const DrawerMotion(),
               dismissible: DismissiblePane(onDismissed: () {
                 ref
@@ -176,13 +176,13 @@ class NotificationsState extends ConsumerState<Notifications>
               }),
               children: [
                 SlidableAction(
+                  spacing: 6,
                   onPressed: (context) {
                     ref
                         .read(notificationsNotifierProvider.notifier)
                         .removeNotification(notification);
                   },
                   autoClose: true,
-                  flex: 1,
                   backgroundColor: cRed,
                   foregroundColor:
                       Theme.of(context).brightness == Brightness.light
@@ -257,32 +257,64 @@ class NotificationsState extends ConsumerState<Notifications>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(notification.title,
-                            style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
+                            style: notification.isRead
+                                ? textStyleCustomRegular(cGrey, 16)
+                                : textStyleCustomBold(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    16),
                             textScaleFactor: 1.0),
                         Text(notification.body,
-                            style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
+                            style: notification.isRead
+                                ? textStyleCustomRegular(cGrey, 14)
+                                : textStyleCustomBold(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    14),
                             textScaleFactor: 1.0)
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: Text(Helpers.readTimeStamp(context, int.parse(notification.timestamp)),
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            12),
-                        textScaleFactor: 1.0),
-                  ),
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: StreamBuilder(
+                        stream: Stream<String>.periodic(
+                            const Duration(minutes: 1), ((computationCount) {
+                          return Helpers.readTimeStamp(
+                              context, int.parse(notification.timestamp));
+                        })),
+                        builder: ((context, snapshot) {
+                          if (snapshot.data == null) {
+                            return Text(
+                                Helpers.readTimeStamp(
+                                    context, int.parse(notification.timestamp)),
+                                style: textStyleCustomMedium(
+                                    notification.isRead
+                                        ? cGrey
+                                        : Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                    12),
+                                textScaleFactor: 1.0);
+                          } else {
+                            return Text(snapshot.data.toString(),
+                                style: textStyleCustomMedium(
+                                    notification.isRead
+                                        ? cGrey
+                                        : Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                    12),
+                                textScaleFactor: 1.0);
+                          }
+                        }),
+                      )),
                 ],
               ),
             ),

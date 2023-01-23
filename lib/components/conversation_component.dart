@@ -12,10 +12,16 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ConversationComponent extends ConsumerStatefulWidget {
   final ConversationModel conversation;
-  final int index;
+  final int indexConversations;
+  final UserModel userConv;
+  final int indexUserConv;
 
   const ConversationComponent(
-      {Key? key, required this.conversation, required this.index})
+      {Key? key,
+      required this.conversation,
+      required this.indexConversations,
+      required this.userConv,
+      required this.indexUserConv})
       : super(key: key);
 
   @override
@@ -23,27 +29,6 @@ class ConversationComponent extends ConsumerStatefulWidget {
 }
 
 class ConversationComponentState extends ConsumerState<ConversationComponent> {
-  late UserModel userConv;
-
-  Future<void> setUserConv() async {
-    int userId = widget.conversation.usersId
-        .firstWhere((element) => element != ref.read(userNotifierProvider).id);
-    userConv = potentialsResultsSearchDatasMockes
-        .firstWhere((element) => element.id == userId);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    setUserConv();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,11 +36,50 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
         Slidable(
           key: UniqueKey(),
           endActionPane: ActionPane(
+              extentRatio: 0.6,
               motion: const DrawerMotion(),
-              dismissible: DismissiblePane(onDismissed: () {}),
               children: [
                 SlidableAction(
-                  onPressed: (context) {},
+                  spacing: 6,
+                  onPressed: (context) {
+                    if (widget.conversation.users[widget.indexUserConv]
+                        ["convMute"]) {
+                      ref
+                          .read(conversationsNotifierProvider.notifier)
+                          .muteConversation(widget.conversation.id,
+                              widget.indexUserConv, false);
+                    } else {
+                      ref
+                          .read(conversationsNotifierProvider.notifier)
+                          .muteConversation(widget.conversation.id,
+                              widget.indexUserConv, true);
+                    }
+                  },
+                  autoClose: true,
+                  flex: 1,
+                  backgroundColor: cBlue,
+                  foregroundColor:
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                  icon: widget.conversation.users[widget.indexUserConv]
+                          ["convMute"]
+                      ? Icons.notifications_active_outlined
+                      : Icons.notifications_off_outlined,
+                  label: widget.conversation.users[widget.indexUserConv]
+                          ["convMute"]
+                      ? AppLocalization.of(context)
+                          .translate("activities_screen", "unmute")
+                      : AppLocalization.of(context)
+                          .translate("activities_screen", "mute"),
+                ),
+                SlidableAction(
+                  spacing: 6,
+                  onPressed: (context) {
+                    ref
+                        .read(conversationsNotifierProvider.notifier)
+                        .removeConversation(widget.conversation);
+                  },
                   autoClose: true,
                   flex: 1,
                   backgroundColor: cRed,
@@ -71,7 +95,14 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
           child: InkWell(
             onTap: () {
               navAuthKey.currentState!
-                  .pushNamed(chatDetails, arguments: [userConv, false]);
+                  .pushNamed(chatDetails, arguments: [widget.userConv, false]);
+              if (!widget.conversation.isLastMessageRead &&
+                  widget.conversation.lastMessageUserId !=
+                      ref.read(userNotifierProvider).id) {
+                ref
+                    .read(conversationsNotifierProvider.notifier)
+                    .readOneConversation(widget.conversation);
+              }
             },
             child: Container(
               padding:
@@ -79,29 +110,30 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
               child: Row(
                 children: [
                   SizedBox(
-                    height: 60.0,
-                    width: 60.0,
+                    height: 50.0,
+                    width: 50.0,
                     child: Stack(
                       children: [
                         Align(
                           alignment: Alignment.center,
-                          child: userConv.profilePictureUrl.trim() == ""
+                          child: widget.userConv.profilePictureUrl.trim() == ""
                               ? Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: 45,
+                                  width: 45,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: cBlue),
                                     color: cGrey.withOpacity(0.2),
                                   ),
                                   child: const Icon(Icons.person,
-                                      color: cBlue, size: 30),
+                                      color: cBlue, size: 28),
                                 )
                               : CachedNetworkImageCustom(
-                                  profilePictureUrl: userConv.profilePictureUrl,
-                                  heightContainer: 50,
-                                  widthContainer: 50,
-                                  iconSize: 30),
+                                  profilePictureUrl:
+                                      widget.userConv.profilePictureUrl,
+                                  heightContainer: 45,
+                                  widthContainer: 45,
+                                  iconSize: 28),
                         ),
                         if (widget.conversation.lastMessageUserId !=
                                 ref.read(userNotifierProvider).id &&
@@ -126,40 +158,99 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(userConv.pseudo,
-                            style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
-                            textScaleFactor: 1.0),
+                        Row(
+                          children: [
+                            Text(widget.userConv.pseudo,
+                                style: textStyleCustomBold(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    16),
+                                textScaleFactor: 1.0),
+                            const SizedBox(width: 5.0),
+                            if (widget.conversation.users[widget.indexUserConv]
+                                ["convMute"])
+                              const Icon(Icons.notifications_off,
+                                  color: cBlue, size: 20)
+                          ],
+                        ),
                         Row(
                           children: [
                             Expanded(
                               child: Text(widget.conversation.lastMessage,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: textStyleCustomMedium(
-                                      Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? cBlack
-                                          : cWhite,
-                                      14),
+                                  style: widget.conversation
+                                                  .lastMessageUserId !=
+                                              ref
+                                                  .read(userNotifierProvider)
+                                                  .id &&
+                                          !widget.conversation.isLastMessageRead
+                                      ? textStyleCustomBold(
+                                          Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? cBlack
+                                              : cWhite,
+                                          14)
+                                      : textStyleCustomRegular(cGrey, 14),
                                   textScaleFactor: 1.0),
                             ),
                             const SizedBox(width: 5.0),
-                            Text(
-                                Helpers.readTimeStamp(
-                                    context,
-                                    int.parse(widget
-                                        .conversation.timestampLastMessage)),
-                                style: textStyleCustomMedium(
-                                    Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? cBlack
-                                        : cWhite,
-                                    12),
-                                textScaleFactor: 1.0),
+                            StreamBuilder(
+                                stream: Stream<String>.periodic(
+                                    const Duration(minutes: 1),
+                                    ((computationCount) {
+                                  return Helpers.readTimeStamp(
+                                      context,
+                                      int.parse(widget
+                                          .conversation.timestampLastMessage));
+                                })),
+                                builder: (context, snapshot) {
+                                  if (snapshot.data == null) {
+                                    return Text(
+                                        Helpers.readTimeStamp(
+                                            context,
+                                            int.parse(widget.conversation
+                                                .timestampLastMessage)),
+                                        style: textStyleCustomMedium(
+                                            widget.conversation
+                                                            .lastMessageUserId !=
+                                                        ref
+                                                            .read(
+                                                                userNotifierProvider)
+                                                            .id &&
+                                                    !widget.conversation
+                                                        .isLastMessageRead
+                                                ? Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? cBlack
+                                                    : cWhite
+                                                : cGrey,
+                                            12),
+                                        textScaleFactor: 1.0);
+                                  } else {
+                                    return Text(snapshot.data.toString(),
+                                        style: textStyleCustomMedium(
+                                            widget.conversation
+                                                            .lastMessageUserId !=
+                                                        ref
+                                                            .read(
+                                                                userNotifierProvider)
+                                                            .id &&
+                                                    !widget.conversation
+                                                        .isLastMessageRead
+                                                ? Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? cBlack
+                                                    : cWhite
+                                                : cGrey,
+                                            12),
+                                        textScaleFactor: 1.0);
+                                  }
+                                }),
                           ],
                         )
                       ],
@@ -170,7 +261,8 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
             ),
           ),
         ),
-        if (widget.index != ref.read(conversationsNotifierProvider)!.length - 1)
+        if (widget.indexConversations !=
+            ref.read(conversationsNotifierProvider)!.length - 1)
           const Divider(thickness: 1, color: cGrey)
       ],
     );

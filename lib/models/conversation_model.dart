@@ -3,23 +3,30 @@
 List<ConversationModel> conversationsDatasMockes = [
   ConversationModel(
       id: 1,
-      usersId: [186, 1],
+      users: [
+        {"id": 186, "convMute": false},
+        {"id": 1, "convMute": true}
+      ],
       lastMessageUserId: 186,
       lastMessage: "Quoi de beau aujourd'hui ?",
       isLastMessageRead: false,
       timestampLastMessage: "1674386763000"),
   ConversationModel(
       id: 2,
-      usersId: [1, 4],
+      users: [
+        {"id": 1, "convMute": false},
+        {"id": 4, "convMute": false}
+      ],
       lastMessageUserId: 1,
-      lastMessage: "J'adore ta photo de profil ! Tu regardes d'autres mangas à part celui-là ?",
+      lastMessage:
+          "J'adore ta photo de profil ! Tu regardes d'autres mangas à part celui-là ?",
       isLastMessageRead: false,
-      timestampLastMessage: "1674385020000"), 
+      timestampLastMessage: "1674385020000"),
 ];
 
 class ConversationModel {
   int id;
-  List<int> usersId;
+  List users;
   int lastMessageUserId;
   String lastMessage;
   bool isLastMessageRead;
@@ -27,7 +34,7 @@ class ConversationModel {
 
   ConversationModel(
       {required this.id,
-      required this.usersId,
+      required this.users,
       required this.lastMessageUserId,
       required this.lastMessage,
       required this.isLastMessageRead,
@@ -35,7 +42,7 @@ class ConversationModel {
 
   ConversationModel.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
-        usersId = jsonMap["usersId"] ?? [],
+        users = jsonMap["users"] ?? [],
         lastMessageUserId = jsonMap["lastMessageUserId"] ?? 0,
         lastMessage = jsonMap["lastMessage"] ?? "",
         isLastMessageRead = jsonMap["isLastMessageRead"] ?? true,
@@ -44,7 +51,7 @@ class ConversationModel {
   ConversationModel copy() {
     return ConversationModel(
         id: id,
-        usersId: usersId,
+        users: users,
         lastMessageUserId: lastMessageUserId,
         lastMessage: lastMessage,
         isLastMessageRead: isLastMessageRead,

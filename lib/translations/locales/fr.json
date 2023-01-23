@@ -93,7 +93,9 @@
         "notifications": "Notifications",
         "no_chat": "Pas encore de conversations",
         "no_notifications": "Pas encore de notifications",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "mute": "Désactiver",
+        "unmute": "Réactiver"
     },
     "profile_screen": {
         "profile": "Profil",
