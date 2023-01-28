@@ -54,13 +54,30 @@ List<MessageModel> listMessagesWith186DatasMockes = [
 List<MessageModel> listMessagesWith4DatasMockes = [
   MessageModel(
       id: 1,
+      idReceiver: 1,
+      idSender: 4,
+      type: "text",
+      message:
+          "Je suis occupé, je te répond après !",
+      isRead: false,
+      timestamp: "1674385020000"),
+  MessageModel(
+      id: 2,
+      idReceiver: 4,
+      idSender: 1,
+      type: "image",
+      message: "https://rare-gallery.com/uploads/posts/574997-Code-geass-Lelouch.jpg",
+      isRead: true,
+      timestamp: "1674902409000"),
+  MessageModel(
+      id: 3,
       idReceiver: 4,
       idSender: 1,
       type: "text",
       message:
           "J'adore ta photo de profil ! Tu regardes d'autres mangas à part celui-là ?",
       isRead: false,
-      timestamp: "1674385020000")
+      timestamp: "1674933244000")
 ];
 
 class MessageModel {
