@@ -13,15 +13,25 @@ class RecentSearchesProvider extends StateNotifier<List<UserModel>> {
   }
 
   void addRecentSearches(UserModel recentSearchUser) {
-    List<UserModel> newState = [];
     List<UserModel> recentSearches = [];
 
-    if (!state.contains(recentSearchUser)) {
+    print("j'ajoute");
+
+    recentSearches.add(recentSearchUser);
+
+    state = [...recentSearches, ...state];
+  }
+
+  void updateRecentSearches(UserModel recentSearchUser) {
+    List<UserModel> recentSearches = [];
+
+    if (state.first.id != recentSearchUser.id) {
+      print("j'update");
+      state.removeWhere((element) => element.id == recentSearchUser.id);
       recentSearches.add(recentSearchUser);
     }
 
-    newState = [...recentSearches, ...state];
-    state = [...newState];
+    state = [...recentSearches, ...state];
   }
 
   void deleteRecentSearches(UserModel recentSearch) {

@@ -3,7 +3,7 @@ List<UserModel> recentSearchesDatasMockes = [
   UserModel(
       id: 45,
       token: "",
-      email: "test1y@gmail.com",
+      email: "test1@gmail.com",
       pseudo: "Kev",
       gender: "Male",
       birthday: "1992-06-06 00:00",
@@ -43,7 +43,7 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
   UserModel(
       id: 45,
       token: "",
-      email: "test1y@gmail.com",
+      email: "test1@gmail.com",
       pseudo: "Kev",
       gender: "Male",
       birthday: "1992-06-06 00:00",

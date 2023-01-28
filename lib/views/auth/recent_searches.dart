@@ -315,8 +315,13 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                         child: ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 5.0),
-                          onTap: () => navSearchKey!.currentState!
-                              .pushNamed(userProfile, arguments: [user, true]),
+                          onTap: () {
+                            ref
+                                .read(recentSearchesNotifierProvider.notifier)
+                                .updateRecentSearches(user);
+                            navSearchKey!.currentState!.pushNamed(userProfile,
+                                arguments: [user, true]);
+                          },
                           leading: user.profilePictureUrl.trim() == ""
                               ? Container(
                                   height: 65,
@@ -491,9 +496,16 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 5.0),
                           onTap: () {
-                            ref
-                                .read(recentSearchesNotifierProvider.notifier)
-                                .addRecentSearches(user);
+                            if (!resultsSearch
+                                .any((element) => element.id == user.id)) {
+                              ref
+                                  .read(recentSearchesNotifierProvider.notifier)
+                                  .addRecentSearches(user);
+                            } else {
+                              ref
+                                  .read(recentSearchesNotifierProvider.notifier)
+                                  .updateRecentSearches(user);
+                            }
                             navSearchKey!.currentState!.pushNamed(userProfile,
                                 arguments: [user, true]);
                           },
