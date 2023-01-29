@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:myyoukounkoun/components/picture_fullscreen.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
@@ -102,10 +103,12 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
     case dataTest:
       return MaterialPageRoute(
           builder: (_) => RouteAwareWidget(
-              name: dataTest,
-              child: DatasTest(
-                index: args![0]
-              )));
+              name: dataTest, child: DatasTest(index: args![0])));
+    case pictureFullscreen:
+      return MaterialPageRoute(
+          builder: (_) => RouteAwareWidget(
+              name: pictureFullscreen,
+              child: PictureFullscreen(imageUrl: args![0])));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

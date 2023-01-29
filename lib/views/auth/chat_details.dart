@@ -525,46 +525,69 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                         textScaleFactor: 1.0,
                       ),
                     )
-                  : Container(
-                      height: 200,
-                      width: 150,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: messagesUsers.length != index + 1 &&
-                                  messagesUsers[index + 1].idSender !=
-                                      ref.read(userNotifierProvider).id
-                              ? 35.0
-                              : 10.0,
-                          vertical: 5.0),
-                      decoration: BoxDecoration(
-                          color: cGrey.withOpacity(0.2),
-                          border: Border.all(color: cBlue),
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image.network(
-                          message.message,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
+                  : GestureDetector(
+                      onTap: () => navAuthKey.currentState!.pushNamed(
+                          pictureFullscreen,
+                          arguments: [message.message]),
+                      child: Container(
+                          height: 200,
+                          width: 150,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: messagesUsers.length != index + 1 &&
+                                      messagesUsers[index + 1].idSender !=
+                                          ref.read(userNotifierProvider).id
+                                  ? 35.0
+                                  : 10.0,
+                              vertical: 5.0),
+                          decoration: BoxDecoration(
+                              color: cGrey.withOpacity(0.2),
+                              border: Border.all(color: cBlue),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Hero(
+                              tag: "picture ${message.message}",
+                              transitionOnUserGestures: true,
+                              child: Image.network(
+                                message.message,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: Icon(Icons.replay_outlined,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                        size: 33),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      ))
+                            ),
+                          )),
+                    )
             ],
           )
         : Align(
@@ -590,44 +613,66 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                       textScaleFactor: 1.0,
                     ),
                   )
-                : Container(
-                    height: 200,
-                    width: 150,
-                    margin: EdgeInsets.symmetric(
-                        horizontal: messagesUsers.length != index + 1 &&
-                                messagesUsers[index + 1].idSender !=
-                                    ref.read(userNotifierProvider).id
-                            ? 35.0
-                            : 10.0,
-                        vertical: 5.0),
-                    decoration: BoxDecoration(
-                        color: cGrey.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        message.message,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
+                : GestureDetector(
+                    onTap: () => navAuthKey.currentState!.pushNamed(
+                        pictureFullscreen,
+                        arguments: [message.message]),
+                    child: Container(
+                        height: 200,
+                        width: 150,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: messagesUsers.length != index + 1 &&
+                                    messagesUsers[index + 1].idSender !=
+                                        ref.read(userNotifierProvider).id
+                                ? 35.0
+                                : 10.0,
+                            vertical: 5.0),
+                        decoration: BoxDecoration(
+                            color: cGrey.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Hero(
+                            tag: "picture ${message.message}",
+                            transitionOnUserGestures: true,
+                            child: Image.network(
+                              message.message,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return Center(
+                                  child: Icon(Icons.replay_outlined,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      size: 33),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    )),
+                          ),
+                        )),
+                  ),
           );
   }
 
