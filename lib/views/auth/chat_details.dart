@@ -11,6 +11,7 @@ import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
+import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -36,8 +37,12 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
 
   late TextEditingController _chatController;
   late FocusNode _chatFocusNode;
+  bool toolsStayHide = true;
+  bool _showEmotionsCard = false;
 
   List<MessageModel> messagesUsers = [];
+
+  static final _keyChatField = GlobalKey();
 
   void _scrollChatListener() {
     if (_scrollChatController.position.pixels >=
@@ -52,6 +57,28 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
       setState(() {
         _scrollDown = false;
       });
+    }
+
+    if (_scrollChatController.offset != 0.0) {
+      if (_chatFocusNode.hasFocus) {
+        if (toolsStayHide) {
+          ref
+              .read(toolsStayHideNotifierProvider.notifier)
+              .updateStayHide(false);
+        }
+        Helpers.hideKeyboard(context);
+      } else {
+        if (toolsStayHide) {
+          ref
+              .read(toolsStayHideNotifierProvider.notifier)
+              .updateStayHide(false);
+        }
+        if (_showEmotionsCard) {
+          setState(() {
+            _showEmotionsCard = false;
+          });
+        }
+      }
     }
   }
 
@@ -120,6 +147,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
 
   @override
   Widget build(BuildContext context) {
+    toolsStayHide = ref.watch(toolsStayHideNotifierProvider);
+
     return ColorfulSafeArea(
       top: false,
       left: false,
@@ -127,7 +156,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
       bottom: true,
       color: Theme.of(context).scaffoldBackgroundColor,
       child: GestureDetector(
-        onTap: () => Helpers.hideKeyboard(context),
+        onTap: () {
+          if (toolsStayHide) {
+            ref
+                .read(toolsStayHideNotifierProvider.notifier)
+                .updateStayHide(false);
+          }
+          Helpers.hideKeyboard(context);
+          if (_showEmotionsCard) {
+            setState(() {
+              _showEmotionsCard = false;
+            });
+          }
+        },
         onHorizontalDragUpdate: (details) {
           int sensitivity = 8;
           if (Platform.isIOS &&
@@ -189,7 +230,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                         ),
                       ),
                     const SizedBox(height: 10.0),
-                    writeMessage()
+                    writeMessage(),
+                    if (_showEmotionsCard) emotionsCard()
                   ],
                 )
               ],
@@ -322,7 +364,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                 appBar.preferredSize.height +
                 20.0,
             10.0,
-            MediaQuery.of(context).padding.bottom + 70.0),
+            _showEmotionsCard
+                ? MediaQuery.of(context).padding.bottom +
+                    70.0 +
+                    (MediaQuery.of(context).size.height / 3)
+                : MediaQuery.of(context).padding.bottom + 70.0),
         controller: _scrollChatController,
         reverse: true,
         physics: const ClampingScrollPhysics(),
@@ -684,25 +730,36 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
               height: 60,
               child: Row(
                 children: [
-                  _chatFocusNode.hasFocus || _chatController.text.isNotEmpty
-                      ? Container(
-                          height: 40,
-                          width: 40,
-                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              shape: BoxShape.circle,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: cBlue,
-                                    blurRadius: 6,
-                                    spreadRadius: 2)
-                              ]),
-                          child: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: cBlue,
-                            size: 20,
+                  _chatController.text.isNotEmpty &&
+                          _chatController.text.trim() != "" &&
+                          toolsStayHide
+                      ? GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(toolsStayHideNotifierProvider.notifier)
+                                .updateStayHide(false);
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                shape: BoxShape.circle,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: cBlue,
+                                      blurRadius: 6,
+                                      spreadRadius: 2)
+                                ]),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: cBlue,
+                              size: 20,
+                            ),
                           ),
                         )
                       : Row(
@@ -757,20 +814,27 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextField(
+                          key: _keyChatField,
                           minLines: 1,
-                          maxLines: 3,
+                          maxLines: null,
                           controller: _chatController,
                           focusNode: _chatFocusNode,
+                          showCursor: true,
                           cursorColor: cBlue,
-                          textInputAction: TextInputAction.done,
+                          textInputAction: TextInputAction.newline,
                           keyboardType: TextInputType.multiline,
-                          onChanged: (val) {
-                            setState(() {
-                              val = _chatController.text;
-                            });
+                          onTap: () {
+                            if (_showEmotionsCard) {
+                              setState(() {
+                                _showEmotionsCard = false;
+                              });
+                            }
                           },
-                          onSubmitted: (val) {
-                            Helpers.hideKeyboard(context);
+                          onChanged: (value) {
+                            ref
+                                .read(toolsStayHideNotifierProvider.notifier)
+                                .updateStayHide(true);
+                            setState(() {});
                           },
                           style: textStyleCustomBold(
                               Theme.of(context).brightness == Brightness.light
@@ -814,34 +878,75 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                       _chatFocusNode.hasFocus ? cBlue : cGrey,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0)),
-                            suffixIcon: Icon(
-                              Icons.emoji_emotions,
-                              color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                if (_showEmotionsCard) {
+                                  _chatFocusNode.requestFocus();
+                                } else {
+                                  Helpers.hideKeyboard(context);
+                                }
+                                setState(() {
+                                  _showEmotionsCard = !_showEmotionsCard;
+                                });
+                              },
+                              child: Icon(
+                                _showEmotionsCard
+                                    ? Icons.keyboard
+                                    : Icons.emoji_emotions,
+                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                              ),
                             ),
                           )),
                     ),
                   ),
-                  if (_chatController.text.isNotEmpty)
-                    Container(
-                      height: 40,
-                      width: 40,
-                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          shape: BoxShape.circle,
-                          boxShadow: const [
-                            BoxShadow(
-                                color: cBlue, blurRadius: 6, spreadRadius: 2)
-                          ]),
-                      child: const Icon(
-                        Icons.send,
-                        color: cBlue,
-                        size: 20,
+                  if (_chatController.text.isNotEmpty &&
+                      _chatController.text.trim() != "")
+                    GestureDetector(
+                      onTap: () {
+                        _scrollToDownChat();
+                        if (toolsStayHide) {
+                          ref
+                              .read(toolsStayHideNotifierProvider.notifier)
+                              .updateStayHide(false);
+                        }
+                        setState(() {
+                          _chatController.clear();
+                        });
+                        Helpers.hideKeyboard(context);
+                        if (_showEmotionsCard) {
+                          setState(() {
+                            _showEmotionsCard = false;
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            shape: BoxShape.circle,
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: cBlue, blurRadius: 6, spreadRadius: 2)
+                            ]),
+                        child: const Icon(
+                          Icons.send,
+                          color: cBlue,
+                          size: 20,
+                        ),
                       ),
                     ),
                 ],
               ),
             )));
+  }
+
+  Widget emotionsCard() {
+    return Container(
+      height: MediaQuery.of(context).size.height / 3,
+      color: Theme.of(context).scaffoldBackgroundColor,
+    );
   }
 }
