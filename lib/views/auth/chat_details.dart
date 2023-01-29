@@ -3,11 +3,13 @@ import 'dart:ui';
 
 import 'package:age_calculator/age_calculator.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
+import 'package:myyoukounkoun/components/no_recent_emoji.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
@@ -29,7 +31,8 @@ class ChatDetails extends ConsumerStatefulWidget {
   ChatDetailsState createState() => ChatDetailsState();
 }
 
-class ChatDetailsState extends ConsumerState<ChatDetails> {
+class ChatDetailsState extends ConsumerState<ChatDetails>
+    with SingleTickerProviderStateMixin {
   AppBar appBar = AppBar();
 
   late ScrollController _scrollChatController;
@@ -38,11 +41,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
   late TextEditingController _chatController;
   late FocusNode _chatFocusNode;
   bool toolsStayHide = true;
-  bool _showEmotionsCard = false;
+  bool showEmotions = false;
 
   List<MessageModel> messagesUsers = [];
 
   static final _keyChatField = GlobalKey();
+
+  late TabController _tabControllerEmotions;
 
   void _scrollChatListener() {
     if (_scrollChatController.position.pixels >=
@@ -73,10 +78,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
               .read(toolsStayHideNotifierProvider.notifier)
               .updateStayHide(false);
         }
-        if (_showEmotionsCard) {
-          setState(() {
-            _showEmotionsCard = false;
-          });
+        if (showEmotions) {
+          ref
+              .read(showEmotionsNotifierProvider.notifier)
+              .updateShowEmotions(false);
         }
       }
     }
@@ -121,6 +126,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
             context.widget.toString(), widget.user.id.toString());
+
+        ref.read(toolsStayHideNotifierProvider.notifier).clearStayHide();
+        ref.read(showEmotionsNotifierProvider.notifier).clearShowEmotions();
       });
     }
 
@@ -128,11 +136,39 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
     _scrollChatController.addListener(_scrollChatListener);
 
     _chatController = TextEditingController();
+    _chatController.addListener(() {
+      if (!ref.read(toolsStayHideNotifierProvider)) {
+        ref.read(toolsStayHideNotifierProvider.notifier).updateStayHide(true);
+      }
+      setState(() {});
+    });
     _chatFocusNode = FocusNode();
+    _chatFocusNode.addListener(() {
+      if (_chatFocusNode.hasFocus && showEmotions) {
+        ref
+            .read(showEmotionsNotifierProvider.notifier)
+            .updateShowEmotions(false);
+      }
+    });
+
+    _tabControllerEmotions = TabController(length: 2, vsync: this);
   }
 
   @override
   void deactivate() {
+    _chatController.removeListener(() {
+      if (!ref.read(toolsStayHideNotifierProvider)) {
+        ref.read(toolsStayHideNotifierProvider.notifier).updateStayHide(true);
+      }
+      setState(() {});
+    });
+    _chatFocusNode.removeListener(() {
+      if (_chatFocusNode.hasFocus && showEmotions) {
+        ref
+            .read(showEmotionsNotifierProvider.notifier)
+            .updateShowEmotions(false);
+      }
+    });
     _scrollChatController.removeListener(_scrollChatListener);
     super.deactivate();
   }
@@ -142,12 +178,14 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
     _chatFocusNode.dispose();
     _chatController.dispose();
     _scrollChatController.dispose();
+    _tabControllerEmotions.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     toolsStayHide = ref.watch(toolsStayHideNotifierProvider);
+    showEmotions = ref.watch(showEmotionsNotifierProvider);
 
     return ColorfulSafeArea(
       top: false,
@@ -163,10 +201,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                 .updateStayHide(false);
           }
           Helpers.hideKeyboard(context);
-          if (_showEmotionsCard) {
-            setState(() {
-              _showEmotionsCard = false;
-            });
+          if (showEmotions) {
+            ref
+                .read(showEmotionsNotifierProvider.notifier)
+                .updateShowEmotions(false);
           }
         },
         onHorizontalDragUpdate: (details) {
@@ -231,7 +269,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                       ),
                     const SizedBox(height: 10.0),
                     writeMessage(),
-                    if (_showEmotionsCard) emotionsCard()
+                    Offstage(
+                      offstage: !showEmotions,
+                      child: emotionsCard(),
+                    )
                   ],
                 )
               ],
@@ -364,10 +405,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                 appBar.preferredSize.height +
                 20.0,
             10.0,
-            _showEmotionsCard
+            showEmotions
                 ? MediaQuery.of(context).padding.bottom +
                     70.0 +
-                    (MediaQuery.of(context).size.height / 3)
+                    (MediaQuery.of(context).size.height / 2.5)
                 : MediaQuery.of(context).padding.bottom + 70.0),
         controller: _scrollChatController,
         reverse: true,
@@ -823,19 +864,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           cursorColor: cBlue,
                           textInputAction: TextInputAction.newline,
                           keyboardType: TextInputType.multiline,
-                          onTap: () {
-                            if (_showEmotionsCard) {
-                              setState(() {
-                                _showEmotionsCard = false;
-                              });
-                            }
-                          },
-                          onChanged: (value) {
-                            ref
-                                .read(toolsStayHideNotifierProvider.notifier)
-                                .updateStayHide(true);
-                            setState(() {});
-                          },
                           style: textStyleCustomBold(
                               Theme.of(context).brightness == Brightness.light
                                   ? cBlack
@@ -880,17 +908,17 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             suffixIcon: GestureDetector(
                               onTap: () {
-                                if (_showEmotionsCard) {
+                                if (showEmotions) {
                                   _chatFocusNode.requestFocus();
                                 } else {
                                   Helpers.hideKeyboard(context);
                                 }
-                                setState(() {
-                                  _showEmotionsCard = !_showEmotionsCard;
-                                });
+                                ref
+                                    .read(showEmotionsNotifierProvider.notifier)
+                                    .updateShowEmotions(!showEmotions);
                               },
                               child: Icon(
-                                _showEmotionsCard
+                                showEmotions
                                     ? Icons.keyboard
                                     : Icons.emoji_emotions,
                                 color: _chatFocusNode.hasFocus ? cBlue : cGrey,
@@ -913,10 +941,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
                           _chatController.clear();
                         });
                         Helpers.hideKeyboard(context);
-                        if (_showEmotionsCard) {
-                          setState(() {
-                            _showEmotionsCard = false;
-                          });
+                        if (showEmotions) {
+                          ref
+                              .read(showEmotionsNotifierProvider.notifier)
+                              .updateShowEmotions(false);
                         }
                       },
                       child: Container(
@@ -945,8 +973,82 @@ class ChatDetailsState extends ConsumerState<ChatDetails> {
 
   Widget emotionsCard() {
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
-      color: Theme.of(context).scaffoldBackgroundColor,
+        height: MediaQuery.of(context).size.height / 2.5,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 40.0,
+              decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: cGrey, width: 0.2)),
+              ),
+              child: TabBar(
+                  controller: _tabControllerEmotions,
+                  indicatorColor: Colors.transparent,
+                  labelColor: Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  unselectedLabelColor: cGrey,
+                  labelStyle: textStyleCustomBold(
+                      Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      16),
+                  unselectedLabelStyle: textStyleCustomBold(cGrey, 16),
+                  indicator: const BoxDecoration(
+                      border:
+                          Border(bottom: BorderSide(color: cBlue, width: 2.0))),
+                  tabs: const [
+                    SizedBox.expand(
+                      child: Center(
+                        child: Text(
+                          "Emojis",
+                        ),
+                      ),
+                    ),
+                    SizedBox.expand(child: Center(child: Text("GIFs")))
+                  ]),
+            ),
+            Expanded(
+                child: TabBarView(
+                    controller: _tabControllerEmotions,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [emojis(), gifs()])),
+          ],
+        ));
+  }
+
+  Widget emojis() {
+    return EmojiPicker(
+      textEditingController: _chatController,
+      config: Config(
+        columns: 7,
+        emojiSizeMax: 30 * (Platform.isIOS ? 1.30 : 1.0),
+        verticalSpacing: 0,
+        horizontalSpacing: 0,
+        gridPadding: EdgeInsets.zero,
+        initCategory: Category.RECENT,
+        bgColor: Colors.transparent,
+        indicatorColor: cBlue,
+        iconColor: cGrey,
+        iconColorSelected: cBlue,
+        enableSkinTones: true,
+        showRecentsTab: true,
+        recentsLimit: 28,
+        replaceEmojiOnLimitExceed: true,
+        noRecents: const NoRecentEmoji(),
+        loadingIndicator: const SizedBox.shrink(),
+        tabIndicatorAnimDuration: kTabScrollDuration,
+        categoryIcons: const CategoryIcons(),
+        buttonMode: ButtonMode.MATERIAL,
+        checkPlatformCompatibility: true,
+      ),
     );
+  }
+
+  Widget gifs() {
+    return Container();
   }
 }
