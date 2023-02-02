@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+//api key giphy (api key bêta à voir sur giphy developpers pour upgrade production key)
+const apiKeyGiphy = "JAm8UPvc2CwXBIAGKUEALZ63o0sppIDK";
+
 //route names for generated routes non auth
 const String welcome = "welcome";
 const String login = "login";

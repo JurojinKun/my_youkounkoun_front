@@ -27,7 +27,6 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
 
   List<UserModel> recentSearchesUsers = [];
   List<UserModel> resultsSearch = [];
-  bool searching = false;
   String currentSearch = "";
   Timer? _timer;
 
@@ -40,10 +39,6 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
   }
 
   Future<void> _searchUsers() async {
-    setState(() {
-      searching = true;
-    });
-
     //à modifier plutôt avec la logique back
     resultsSearch.clear();
     for (var element in potentialsResultsSearchDatasMockes) {
@@ -53,10 +48,6 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
         resultsSearch.add(element);
       }
     }
-
-    setState(() {
-      searching = false;
-    });
   }
 
   @override
@@ -205,7 +196,9 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             if (_searchController.text.isNotEmpty &&
                                 currentSearch != _searchController.text) {
                               await _searchUsers();
-                              currentSearch = _searchController.text;
+                              setState(() {
+                                currentSearch = _searchController.text;
+                              });
                             }
                           });
                         },

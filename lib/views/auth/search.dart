@@ -119,45 +119,42 @@ class SearchState extends ConsumerState<Search>
                     height: 65.0,
                     child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 6,
-                                    backgroundColor:
-                                        Theme.of(context).canvasColor,
-                                    foregroundColor: cBlue,
-                                    shadowColor: Colors.transparent,
-                                    side: const BorderSide(
-                                        width: 2.0, color: cBlue),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    )),
-                                onPressed: () => navSearchKey!.currentState!
-                                    .pushNamed(recentSearches),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.search,
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite),
-                                    const SizedBox(width: 15.0),
-                                    Expanded(
-                                        child: Text(
-                                            AppLocalization.of(context)
-                                                .translate(
-                                                    "general", "search_user"),
-                                            style: textStyleCustomBold(
-                                                Theme.of(context).brightness ==
-                                                        Brightness.light
-                                                    ? cBlack
-                                                    : cWhite,
-                                                16),
-                                            textScaleFactor: 1.0))
-                                  ],
-                                )))),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                elevation: 6,
+                                backgroundColor:
+                                    Theme.of(context).canvasColor,
+                                foregroundColor: cBlue,
+                                shadowColor: Colors.transparent,
+                                side: const BorderSide(
+                                    width: 2.0, color: cBlue),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                )),
+                            onPressed: () => navSearchKey!.currentState!
+                                .pushNamed(recentSearches),
+                            child: Row(
+                              children: [
+                                Icon(Icons.search,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite),
+                                const SizedBox(width: 15.0),
+                                Expanded(
+                                    child: Text(
+                                        AppLocalization.of(context)
+                                            .translate(
+                                                "general", "search_user"),
+                                        style: textStyleCustomBold(
+                                            Theme.of(context).brightness ==
+                                                    Brightness.light
+                                                ? cBlack
+                                                : cWhite,
+                                            16),
+                                        textScaleFactor: 1.0))
+                              ],
+                            ))),
                   )),
             ),
           ),

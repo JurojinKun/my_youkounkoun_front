@@ -228,7 +228,7 @@ class MyAppState extends ConsumerState<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        AppLocalization.delegate
+        AppLocalization.delegate,
       ],
       home: const ConnectivityController(),
     );

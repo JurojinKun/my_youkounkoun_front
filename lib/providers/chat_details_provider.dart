@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:giphy_picker/giphy_picker.dart';
 
 final toolsStayHideNotifierProvider =
     StateNotifierProvider<ToolsStaHideProvider, bool>(
@@ -6,6 +7,9 @@ final toolsStayHideNotifierProvider =
 final showEmotionsNotifierProvider =
     StateNotifierProvider<ShowEmotionsProvider, bool>(
         (ref) => ShowEmotionsProvider());
+final gifTrendingsNotifierProvider =
+    StateNotifierProvider<GifTrendingsProvider, GiphyCollection?>(
+        (ref) => GifTrendingsProvider());
 
 class ToolsStaHideProvider extends StateNotifier<bool> {
   ToolsStaHideProvider() : super(true);
@@ -28,5 +32,13 @@ class ShowEmotionsProvider extends StateNotifier<bool> {
 
   void clearShowEmotions() {
     state = false;
+  }
+}
+
+class GifTrendingsProvider extends StateNotifier<GiphyCollection?> {
+  GifTrendingsProvider() : super(null);
+
+  setGifTrendings(GiphyCollection newState) {
+    state = newState;
   }
 }

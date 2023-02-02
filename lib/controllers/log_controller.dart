@@ -34,7 +34,7 @@ class LogControllerState extends ConsumerState<LogController>
   }
 
   @override
-  void didChangeMetrics() {
+  void didChangeMetrics() async {
     final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
     final newValue = bottomInset > 0.0;
     if (newValue != ref.read(visibleKeyboardAppNotifierProvider)) {
@@ -47,6 +47,7 @@ class LogControllerState extends ConsumerState<LogController>
               .showSnackBar(showSnackBarCustom(context, currentRouteApp));
         }
       }
+
       ref
           .read(visibleKeyboardAppNotifierProvider.notifier)
           .setVisibleKeyboard(newValue);
