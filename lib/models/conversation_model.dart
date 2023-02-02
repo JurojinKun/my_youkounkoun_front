@@ -10,7 +10,8 @@ List<ConversationModel> conversationsDatasMockes = [
       lastMessageUserId: 186,
       lastMessage: "Quoi de beau aujourd'hui ?",
       isLastMessageRead: false,
-      timestampLastMessage: "1674386763000"),
+      timestampLastMessage: "1674386763000",
+      typeLastMessage: "text"),
   ConversationModel(
       id: 2,
       users: [
@@ -21,7 +22,8 @@ List<ConversationModel> conversationsDatasMockes = [
       lastMessage:
           "J'adore ta photo de profil ! Tu regardes d'autres mangas à part celui-là ?",
       isLastMessageRead: false,
-      timestampLastMessage: "1674933244000"),
+      timestampLastMessage: "1675378161000",
+      typeLastMessage: "text"),
 ];
 
 class ConversationModel {
@@ -31,6 +33,7 @@ class ConversationModel {
   String lastMessage;
   bool isLastMessageRead;
   String timestampLastMessage;
+  String typeLastMessage;
 
   ConversationModel(
       {required this.id,
@@ -38,7 +41,8 @@ class ConversationModel {
       required this.lastMessageUserId,
       required this.lastMessage,
       required this.isLastMessageRead,
-      required this.timestampLastMessage});
+      required this.timestampLastMessage,
+      required this.typeLastMessage});
 
   ConversationModel.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
@@ -46,7 +50,8 @@ class ConversationModel {
         lastMessageUserId = jsonMap["lastMessageUserId"] ?? 0,
         lastMessage = jsonMap["lastMessage"] ?? "",
         isLastMessageRead = jsonMap["isLastMessageRead"] ?? true,
-        timestampLastMessage = jsonMap["timestamp"] ?? "";
+        timestampLastMessage = jsonMap["timestamp"] ?? "",
+        typeLastMessage = jsonMap["typeLastMessage"] ?? "";
 
   ConversationModel copy() {
     return ConversationModel(
@@ -55,6 +60,7 @@ class ConversationModel {
         lastMessageUserId: lastMessageUserId,
         lastMessage: lastMessage,
         isLastMessageRead: isLastMessageRead,
-        timestampLastMessage: timestampLastMessage);
+        timestampLastMessage: timestampLastMessage,
+        typeLastMessage: typeLastMessage);
   }
 }

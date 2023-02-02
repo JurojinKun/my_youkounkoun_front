@@ -29,6 +29,29 @@ class ConversationComponent extends ConsumerStatefulWidget {
 }
 
 class ConversationComponentState extends ConsumerState<ConversationComponent> {
+  String typeLastMessage(ConversationModel conversation) {
+    switch (conversation.typeLastMessage) {
+      case "text":
+        return conversation.lastMessage;
+      case "image":
+        if (conversation.lastMessageUserId !=
+            ref.read(userNotifierProvider).id) {
+          return "Vous a envoyé une image";
+        } else {
+          return "Tu as envoyé une image";
+        }
+      case "gif":
+        if (conversation.lastMessageUserId !=
+            ref.read(userNotifierProvider).id) {
+          return "Vous a envoyé un GIF";
+        } else {
+          return "Tu as envoyé un GIF";
+        }
+      default:
+        return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -178,7 +201,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                         Row(
                           children: [
                             Expanded(
-                              child: Text(widget.conversation.lastMessage,
+                              child: Text(typeLastMessage(widget.conversation),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: widget.conversation
