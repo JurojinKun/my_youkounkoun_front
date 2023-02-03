@@ -109,6 +109,8 @@
         "notifications": "Notifications",
         "logout_title": "Déconnexion",
         "logout_content": "Es-tu sûr de vouloir te déconnecter ?",
+        "delete_title": "Supprimer mon compte",
+        "delete_content": "Es-tu sûr de vouloir supprimer ton compte ?",
         "language": "Langue",
         "language_french": "Français",
         "language_english": "Anglais",

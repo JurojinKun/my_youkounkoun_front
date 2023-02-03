@@ -2,7 +2,7 @@
     "general": {
         "home": "Home",
         "search": "Search",
-        "activities": "Activités",
+        "activities": "Activities",
         "profile": "Profile",
         "btn_confirm": "Confirm",
         "btn_cancel": "Cancel",
@@ -109,6 +109,8 @@
         "notifications": "Notifications",
         "logout_title": "Logout",
         "logout_content": "Are you sure you want to disconnect ?",
+        "delete_title": "Delete my account",
+        "delete_content": "Are you sure you want to delete your account ?",
         "language": "Language",
         "language_french": "French",
         "language_english": "English",

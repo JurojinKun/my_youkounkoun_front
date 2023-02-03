@@ -53,9 +53,34 @@ class SettingsState extends ConsumerState<Settings> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
-      ref.read(profilePictureAlreadyLoadedNotifierProvider.notifier).clearProfilePicture();
-      CachedNetworkImage.evictFromCache(ref.read(userNotifierProvider).profilePictureUrl);
-      await DefaultCacheManager().removeFile(ref.read(userNotifierProvider).profilePictureUrl);
+      ref
+          .read(profilePictureAlreadyLoadedNotifierProvider.notifier)
+          .clearProfilePicture();
+      CachedNetworkImage.evictFromCache(
+          ref.read(userNotifierProvider).profilePictureUrl);
+      await DefaultCacheManager()
+          .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
+      prefs.remove("token");
+      ref.read(userNotifierProvider.notifier).clearUser();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future<void> _tryDeleteAccount() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
+      ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
+      ref
+          .read(profilePictureAlreadyLoadedNotifierProvider.notifier)
+          .clearProfilePicture();
+      CachedNetworkImage.evictFromCache(
+          ref.read(userNotifierProvider).profilePictureUrl);
+      await DefaultCacheManager()
+          .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
       prefs.remove("token");
       ref.read(userNotifierProvider.notifier).clearUser();
     } catch (e) {
@@ -95,6 +120,56 @@ class SettingsState extends ConsumerState<Settings> {
                   onPressed: () async {
                     Navigator.pop(context);
                     await _tryLogOut();
+                  },
+                  child: Text(
+                    AppLocalization.of(context)
+                        .translate("general", "btn_confirm"),
+                    style: textStyleCustomMedium(cBlue, 14),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    AppLocalization.of(context)
+                        .translate("general", "btn_cancel"),
+                    style: textStyleCustomMedium(cRed, 14),
+                  ))
+            ],
+          );
+        });
+  }
+
+  Future _showDialogDeleteAccount() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            title: Text(
+              AppLocalization.of(context)
+                  .translate("settings_screen", "delete_title"),
+              style: textStyleCustomBold(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  16),
+            ),
+            content: Text(
+              AppLocalization.of(context)
+                  .translate("settings_screen", "delete_content"),
+              style: textStyleCustomRegular(
+                  Theme.of(context).brightness == Brightness.light
+                      ? cBlack
+                      : cWhite,
+                  14),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await _tryDeleteAccount();
                   },
                   child: Text(
                     AppLocalization.of(context)
@@ -212,6 +287,19 @@ class SettingsState extends ConsumerState<Settings> {
                       onPressed: () => _showDialogLogout(),
                       icon: Icon(
                         Icons.logout,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? cBlack
+                            : cWhite,
+                      )),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () => _showDialogDeleteAccount(),
+                      icon: Icon(
+                        Icons.person_remove_outlined,
                         color: Theme.of(context).brightness == Brightness.light
                             ? cBlack
                             : cWhite,
