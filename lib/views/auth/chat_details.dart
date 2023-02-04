@@ -579,8 +579,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (_scrollDown)
-                      GestureDetector(
+                    AnimatedOpacity(
+                      opacity: _scrollDown ? 1 : 0,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeOutBack,
+                      child: GestureDetector(
                         onTap: () => _scrollToDownChat(),
                         child: Container(
                           height: 35.0,
@@ -602,6 +605,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           ),
                         ),
                       ),
+                    ),
                     const SizedBox(height: 10.0),
                     writeMessage(),
                     Offstage(
@@ -733,29 +737,49 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   }
 
   Widget messages() {
-    return SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(
-            10.0,
-            MediaQuery.of(context).padding.top +
-                appBar.preferredSize.height +
-                20.0,
-            10.0,
-            (showEmotions && !_isKeyboard) ||
-                    (showEmotions && _openBottomSheetGif)
-                ? MediaQuery.of(context).padding.bottom +
-                    70.0 +
-                    (MediaQuery.of(context).size.height / 2.0)
-                : MediaQuery.of(context).padding.bottom + 70.0),
-        controller: _scrollChatController,
-        reverse: true,
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            seeProfile(),
-            const SizedBox(height: 20.0),
-            listMessages()
-          ],
-        ));
+    return LayoutBuilder(builder: (_, constraints) {
+      return SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(
+              10.0,
+              MediaQuery.of(context).padding.top +
+                  appBar.preferredSize.height +
+                  20.0,
+              10.0,
+              (showEmotions && !_isKeyboard) ||
+                      (showEmotions && _openBottomSheetGif)
+                  ? MediaQuery.of(context).padding.bottom +
+                      70.0 +
+                      (MediaQuery.of(context).size.height / 2.0)
+                  : MediaQuery.of(context).padding.bottom + 70.0),
+          controller: _scrollChatController,
+          reverse: true,
+          physics: const BouncingScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minHeight: (showEmotions && !_isKeyboard) ||
+                        (showEmotions && _openBottomSheetGif)
+                    ? constraints.maxHeight -
+                        (MediaQuery.of(context).padding.top +
+                            appBar.preferredSize.height +
+                            20.0 +
+                            MediaQuery.of(context).padding.bottom +
+                            70.0 +
+                            (MediaQuery.of(context).size.height / 2.0))
+                    : constraints.maxHeight -
+                        (MediaQuery.of(context).padding.top +
+                            appBar.preferredSize.height +
+                            20.0 +
+                            MediaQuery.of(context).padding.bottom +
+                            70.0)),
+            child: Column(
+              children: [
+                seeProfile(),
+                const SizedBox(height: 20.0),
+                listMessages()
+              ],
+            ),
+          ));
+    });
   }
 
   Widget seeProfile() {
