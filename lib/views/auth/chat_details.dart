@@ -18,6 +18,7 @@ import 'package:myyoukounkoun/models/message_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -38,6 +39,7 @@ class ChatDetails extends ConsumerStatefulWidget {
 class ChatDetailsState extends ConsumerState<ChatDetails>
     with SingleTickerProviderStateMixin {
   AppBar appBar = AppBar();
+  bool _isKeyboard = false;
 
   late ScrollController _scrollChatController;
   bool _scrollDown = false;
@@ -74,28 +76,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       setState(() {
         _scrollDown = false;
       });
-    }
-
-    if (_scrollChatController.offset != 0.0) {
-      if (_chatFocusNode.hasFocus) {
-        if (toolsStayHide) {
-          ref
-              .read(toolsStayHideNotifierProvider.notifier)
-              .updateStayHide(false);
-        }
-        Helpers.hideKeyboard(context);
-      } else {
-        if (toolsStayHide) {
-          ref
-              .read(toolsStayHideNotifierProvider.notifier)
-              .updateStayHide(false);
-        }
-        if (showEmotions) {
-          ref
-              .read(showEmotionsNotifierProvider.notifier)
-              .updateShowEmotions(false);
-        }
-      }
     }
   }
 
@@ -394,6 +374,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                               Navigator.pop(context);
                                               //send message on click gif => url gif and type: "gif"
                                               print(gif.images.original!.url);
+                                              ref
+                                                  .read(
+                                                      showEmotionsNotifierProvider
+                                                          .notifier)
+                                                  .updateShowEmotions(false);
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -492,13 +477,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       setState(() {});
     });
     _chatFocusNode = FocusNode();
-    _chatFocusNode.addListener(() {
-      if (_chatFocusNode.hasFocus && showEmotions) {
-        ref
-            .read(showEmotionsNotifierProvider.notifier)
-            .updateShowEmotions(false);
-      }
-    });
 
     _tabControllerEmotions = TabController(length: 2, vsync: this);
     _tabControllerEmotions.addListener(_tabEmotionsListener);
@@ -518,13 +496,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         ref.read(toolsStayHideNotifierProvider.notifier).updateStayHide(true);
       }
       setState(() {});
-    });
-    _chatFocusNode.removeListener(() {
-      if (_chatFocusNode.hasFocus && showEmotions) {
-        ref
-            .read(showEmotionsNotifierProvider.notifier)
-            .updateShowEmotions(false);
-      }
     });
 
     _scrollChatController.removeListener(_scrollChatListener);
@@ -546,6 +517,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
   @override
   Widget build(BuildContext context) {
+    _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
     toolsStayHide = ref.watch(toolsStayHideNotifierProvider);
     showEmotions = ref.watch(showEmotionsNotifierProvider);
     gifTrending = ref.watch(gifTrendingsNotifierProvider);
@@ -768,7 +740,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 appBar.preferredSize.height +
                 20.0,
             10.0,
-            showEmotions
+            (showEmotions && !_isKeyboard) ||
+                    (showEmotions && _openBottomSheetGif)
                 ? MediaQuery.of(context).padding.bottom +
                     70.0 +
                     (MediaQuery.of(context).size.height / 2.0)
@@ -1315,78 +1288,78 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextField(
-                          key: keyChatField,
-                          minLines: 1,
-                          maxLines: null,
-                          controller: _chatController,
-                          focusNode: _chatFocusNode,
-                          showCursor: true,
-                          cursorColor: cBlue,
-                          textInputAction: TextInputAction.newline,
-                          keyboardType: TextInputType.multiline,
-                          style: textStyleCustomBold(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
+                        key: keyChatField,
+                        minLines: 1,
+                        maxLines: null,
+                        controller: _chatController,
+                        focusNode: _chatFocusNode,
+                        readOnly: showEmotions ? true : false,
+                        showCursor: true,
+                        cursorColor: cBlue,
+                        textInputAction: TextInputAction.newline,
+                        keyboardType: TextInputType.multiline,
+                        style: textStyleCustomBold(
+                            Theme.of(context).brightness == Brightness.light
+                                ? cBlack
+                                : cWhite,
+                            12 / MediaQuery.of(context).textScaleFactor),
+                        decoration: InputDecoration(
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                          hintText: "Écrire un message...",
+                          hintStyle: textStyleCustomBold(cGrey,
                               12 / MediaQuery.of(context).textScaleFactor),
-                          decoration: InputDecoration(
-                            fillColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            filled: true,
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                            hintText: "Écrire un message...",
-                            hintStyle: textStyleCustomBold(cGrey,
-                                12 / MediaQuery.of(context).textScaleFactor),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 2.0,
-                                  color:
-                                      _chatFocusNode.hasFocus ? cBlue : cGrey,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 2.0,
-                                  color:
-                                      _chatFocusNode.hasFocus ? cBlue : cGrey,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0)),
-                            errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 2.0,
-                                  color:
-                                      _chatFocusNode.hasFocus ? cBlue : cGrey,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 2.0,
-                                  color:
-                                      _chatFocusNode.hasFocus ? cBlue : cGrey,
-                                ),
-                                borderRadius: BorderRadius.circular(10.0)),
-                            suffixIcon: GestureDetector(
-                              onTap: () async {
-                                if (showEmotions) {
-                                  _chatFocusNode.requestFocus();
-                                } else {
-                                  Helpers.hideKeyboard(context);
-                                  await Future.delayed(
-                                      const Duration(milliseconds: 250));
-                                }
-                                ref
-                                    .read(showEmotionsNotifierProvider.notifier)
-                                    .updateShowEmotions(!showEmotions);
-                              },
-                              child: Icon(
-                                showEmotions
-                                    ? Icons.keyboard
-                                    : Icons.emoji_emotions,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2.0,
                                 color: _chatFocusNode.hasFocus ? cBlue : cGrey,
                               ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2.0,
+                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2.0,
+                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2.0,
+                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0)),
+                          suffixIcon: GestureDetector(
+                            onTap: () async {
+                              if (!_chatFocusNode.hasFocus) {
+                                _chatFocusNode.requestFocus();
+                              }
+                              ref
+                                  .read(showEmotionsNotifierProvider.notifier)
+                                  .updateShowEmotions(!showEmotions);
+                            },
+                            child: Icon(
+                              showEmotions
+                                  ? Icons.keyboard
+                                  : Icons.emoji_emotions,
+                              color: _chatFocusNode.hasFocus ? cBlue : cGrey,
                             ),
-                          )),
+                          ),
+                        ),
+                        onTap: () {
+                          if (_chatFocusNode.hasFocus && showEmotions) {
+                            ref
+                                .read(showEmotionsNotifierProvider.notifier)
+                                .updateShowEmotions(false);
+                          }
+                        },
+                      ),
                     ),
                   ),
                   if (_chatController.text.isNotEmpty &&
@@ -1435,7 +1408,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
   Widget emotionsCard() {
     return Container(
-        height: MediaQuery.of(context).size.height / 2.0,
+        height: (showEmotions && !_isKeyboard) ||
+                (showEmotions && _openBottomSheetGif)
+            ? MediaQuery.of(context).size.height / 2.0
+            : 0,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
@@ -1532,7 +1508,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       _openBottomSheetGif = true;
                     });
                     await _showBarBottomSheetSearchGif(context);
-                    await Future.delayed(const Duration(milliseconds: 250));
+                    await Future.delayed(const Duration(milliseconds: 500));
                     if (_searchGifController.text.isNotEmpty) {
                       _searchGifController.clear();
                     }

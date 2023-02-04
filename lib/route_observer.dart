@@ -38,9 +38,11 @@ class RouteAwareWidgetState extends ConsumerState<RouteAwareWidget>
       print('didPush ${widget.name}');
     }
     Future.delayed(Duration.zero, () {
-      ref
-          .read(currentRouteAppNotifierProvider.notifier)
-          .setCurrentRouteApp(widget.name, context, ref);
+      if (mounted) {
+        ref
+            .read(currentRouteAppNotifierProvider.notifier)
+            .setCurrentRouteApp(widget.name, context, ref);
+      }
     });
   }
 
@@ -50,14 +52,16 @@ class RouteAwareWidgetState extends ConsumerState<RouteAwareWidget>
     if (kDebugMode) {
       print('didPopNext ${widget.name}');
     }
-    Future.delayed(
-        Duration.zero,
-        () {
-          ref.read(visibleKeyboardAppNotifierProvider.notifier).clearVisibleKeyboard();
-          ref
+    Future.delayed(Duration.zero, () {
+      if (mounted) {
+        ref
+            .read(visibleKeyboardAppNotifierProvider.notifier)
+            .clearVisibleKeyboard();
+        ref
             .read(currentRouteAppNotifierProvider.notifier)
             .setCurrentRouteApp(widget.name, context, ref);
-        });
+      }
+    });
   }
 
   @override
