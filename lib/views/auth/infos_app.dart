@@ -104,9 +104,9 @@ class InfosAppState extends ConsumerState<InfosApp> {
           child: Column(
             children: [
               cguApp(),
-              const SizedBox(height: 15.0),
+              const Divider(thickness: 1, color: cGrey),
               policyPrivacyApp(),
-              const SizedBox(height: 15.0),
+              const Divider(thickness: 1, color: cGrey),
               versionApp()
             ],
           ),
@@ -121,10 +121,8 @@ class InfosAppState extends ConsumerState<InfosApp> {
         //change url google to url cgu
         Helpers.launchMyUrl("https://www.google.fr/");
       },
-      child: Container(
+      child: SizedBox(
         height: 60.0,
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -173,10 +171,8 @@ class InfosAppState extends ConsumerState<InfosApp> {
         //change url google to url cgu
         Helpers.launchMyUrl("https://www.google.fr/");
       },
-      child: Container(
+      child: SizedBox(
         height: 60.0,
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -220,10 +216,8 @@ class InfosAppState extends ConsumerState<InfosApp> {
   }
 
   Widget versionApp() {
-    return Container(
+    return SizedBox(
       height: 60.0,
-      decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: cGrey, width: 0.5))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
