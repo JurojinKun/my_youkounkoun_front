@@ -10,6 +10,9 @@ final showEmotionsNotifierProvider =
 final gifTrendingsNotifierProvider =
     StateNotifierProvider<GifTrendingsProvider, GiphyCollection?>(
         (ref) => GifTrendingsProvider());
+final showPicturesNotifierProvider =
+    StateNotifierProvider<ShowPicturesProvider, bool>(
+        (ref) => ShowPicturesProvider());
 
 class ToolsStaHideProvider extends StateNotifier<bool> {
   ToolsStaHideProvider() : super(true);
@@ -40,5 +43,17 @@ class GifTrendingsProvider extends StateNotifier<GiphyCollection?> {
 
   setGifTrendings(GiphyCollection newState) {
     state = newState;
+  }
+}
+
+class ShowPicturesProvider extends StateNotifier<bool> {
+  ShowPicturesProvider() : super(false);
+
+  void updateShowPictures(bool newState) {
+    state = newState;
+  }
+
+  void clearShowPictures() {
+    state = false;
   }
 }

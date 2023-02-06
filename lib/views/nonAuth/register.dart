@@ -131,6 +131,31 @@ class RegisterState extends ConsumerState<Register>
                     child: InkWell(
                       splashColor: cBlue.withOpacity(0.3),
                       highlightColor: cBlue.withOpacity(0.3),
+                      onTap: () => pickImage(ImageSource.gallery),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 15.0,
+                          ),
+                          const Icon(Icons.photo, color: cBlue, size: 36),
+                          const SizedBox(
+                            width: 25.0,
+                          ),
+                          Text(
+                              AppLocalization.of(context)
+                                  .translate("register_screen", "galery"),
+                              style: textStyleCustomBold(cBlue, 16),
+                              textScaleFactor: 1.0)
+                        ],
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                      child: Ink(
+                    child: InkWell(
+                      splashColor: cBlue.withOpacity(0.3),
+                      highlightColor: cBlue.withOpacity(0.3),
                       onTap: () => pickImage(ImageSource.camera),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,31 +171,6 @@ class RegisterState extends ConsumerState<Register>
                           Text(
                               AppLocalization.of(context)
                                   .translate("register_screen", "camera"),
-                              style: textStyleCustomBold(cBlue, 16),
-                              textScaleFactor: 1.0)
-                        ],
-                      ),
-                    ),
-                  )),
-                  Expanded(
-                      child: Ink(
-                    child: InkWell(
-                      splashColor: cBlue.withOpacity(0.3),
-                      highlightColor: cBlue.withOpacity(0.3),
-                      onTap: () => pickImage(ImageSource.gallery),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 15.0,
-                          ),
-                          const Icon(Icons.photo, color: cBlue, size: 36),
-                          const SizedBox(
-                            width: 25.0,
-                          ),
-                          Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "galery"),
                               style: textStyleCustomBold(cBlue, 16),
                               textScaleFactor: 1.0)
                         ],

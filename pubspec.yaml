@@ -44,6 +44,8 @@ dependencies:
   emoji_picker_flutter: ^1.5.2
   giphy_picker: ^3.0.1
   sticky_headers: ^0.3.0+2
+  image: ^3.3.0
+  path_provider: ^2.0.12
 
 dev_dependencies:
   flutter_test:
