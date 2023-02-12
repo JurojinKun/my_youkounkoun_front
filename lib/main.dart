@@ -12,7 +12,9 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
@@ -22,7 +24,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:myyoukounkoun/models/user_model.dart';
-import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -58,7 +59,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    //instanciate env config
+  await EnvironmentConfigLib().initEnvironmentConfigLib();
   await Firebase.initializeApp();
+  if (EnvironmentConfigLib().getEnvironmentAdmob) {
+    await MobileAds.instance.initialize();
+  }
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   HttpOverrides.global = MyHttpOverrides();
   await DefaultCacheManager().emptyCache();

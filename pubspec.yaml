@@ -47,6 +47,9 @@ dependencies:
   image: ^3.3.0
   path_provider: ^2.0.12
   device_info_plus: ^8.1.0
+  google_mobile_ads: ^2.3.0
+  flutter_dotenv: ^5.0.2
+  app_tracking_transparency: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +103,4 @@ flutter:
     - assets/logos/ic_splash.png
     - lib/translations/locales/fr.json
     - lib/translations/locales/en.json
+    - .env
