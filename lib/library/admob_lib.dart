@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 
 class AdMobConfig {
   static String get bannerAdMobUnitId {
@@ -18,9 +19,9 @@ class AdMobConfig {
       }
     } else {
       if (Platform.isAndroid) {
-        return "ca-app-pub-4738640548560292/1267844435";
+        return EnvironmentConfigLib().getEnvironmentBannerAdmobIdAndroid;
       } else if (Platform.isIOS) {
-        return "ca-app-pub-4738640548560292/5888797481";
+        return EnvironmentConfigLib().getEnvironmentBannerAdmobIdIos;
       } else {
         throw UnsupportedError("Unsupported platform");
       }
@@ -38,9 +39,9 @@ class AdMobConfig {
       }
     } else {
       if (Platform.isAndroid) {
-        return "ca-app-pub-4738640548560292/2114022246";
+        return EnvironmentConfigLib().getEnvironmentNativeAdmobIdAndroid;
       } else if (Platform.isIOS) {
-        return "ca-app-pub-4738640548560292/3235532228";
+        return EnvironmentConfigLib().getEnvironmentNativeAdmobIdIos;
       } else {
         throw UnsupportedError("Unsupported platform");
       }
