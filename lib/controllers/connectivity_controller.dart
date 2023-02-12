@@ -61,17 +61,6 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
           .read(notificationsActiveNotifierProvider.notifier)
           .updateNotificationsActive(notificationsActive);
     }
-
-    //get push token device
-    String? tokenPush = await FirebaseMessaging.instance.getToken();
-    if (tokenPush != null && tokenPush.trim() != "") {
-      if (kDebugMode) {
-        print("push token: $tokenPush");
-      }
-      ref
-          .read(tokenNotificationsNotifierProvider.notifier)
-          .updateTokenNotif(tokenPush);
-    }
   }
 
   @override

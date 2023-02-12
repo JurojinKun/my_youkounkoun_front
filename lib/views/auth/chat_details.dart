@@ -491,7 +491,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   @override
   void initState() {
     super.initState();
-    
+
     messagesUsers = getListMessagesUsers();
     if (messagesUsers.isNotEmpty) {
       for (var element in messagesUsers) {
@@ -569,66 +569,66 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     gifTrending = ref.watch(gifTrendingsNotifierProvider);
     showPictures = ref.watch(showPicturesNotifierProvider);
 
-    return ColorfulSafeArea(
-      top: false,
-      left: false,
-      right: false,
-      bottom: true,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: GestureDetector(
-        onTap: () {
-          if (toolsStayHide) {
+    return GestureDetector(
+      onTap: () {
+        if (toolsStayHide) {
+          ref
+              .read(toolsStayHideNotifierProvider.notifier)
+              .updateStayHide(false);
+        }
+        Helpers.hideKeyboard(context);
+        if (showEmotions) {
+          ref
+              .read(showEmotionsNotifierProvider.notifier)
+              .updateShowEmotions(false);
+        }
+        if (showPictures) {
+          ref
+              .read(showPicturesNotifierProvider.notifier)
+              .updateShowPictures(false);
+        }
+      },
+      onHorizontalDragUpdate: (details) {
+        int sensitivity = 8;
+        if (Platform.isIOS &&
+            details.delta.dx > sensitivity &&
+            details.globalPosition.dx <= 70) {
+          if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
+              "ChatDetails") {
             ref
-                .read(toolsStayHideNotifierProvider.notifier)
-                .updateStayHide(false);
+                .read(inChatDetailsNotifierProvider.notifier)
+                .outChatDetails("", "");
           }
-          Helpers.hideKeyboard(context);
-          if (showEmotions) {
-            ref
-                .read(showEmotionsNotifierProvider.notifier)
-                .updateShowEmotions(false);
-          }
-          if (showPictures) {
-            ref
-                .read(showPicturesNotifierProvider.notifier)
-                .updateShowPictures(false);
-          }
-        },
-        onHorizontalDragUpdate: (details) {
-          int sensitivity = 8;
-          if (Platform.isIOS &&
-              details.delta.dx > sensitivity &&
-              details.globalPosition.dx <= 70) {
-            if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
-                "ChatDetails") {
-              ref
-                  .read(inChatDetailsNotifierProvider.notifier)
-                  .outChatDetails("", "");
-            }
-            Navigator.pop(context);
-          }
-        },
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          resizeToAvoidBottomInset: _openBottomSheetGif ? false : true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: _customAppBarDetailsChat(),
-          body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
-            child: Stack(
-              children: [
-                messages(),
-                Column(
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: _openBottomSheetGif ? false : true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: _customAppBarDetailsChat(),
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: Theme.of(context).brightness == Brightness.light
+              ? Platform.isIOS
+                  ? SystemUiOverlayStyle.dark
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.dark)
+              : Platform.isIOS
+                  ? SystemUiOverlayStyle.light
+                  : const SystemUiOverlayStyle(
+                      statusBarColor: Colors.transparent,
+                      statusBarIconBrightness: Brightness.light),
+          child: Stack(
+            children: [
+              messages(),
+              ColorfulSafeArea(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                top: false,
+                left: false,
+                right: false,
+                bottom: true,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     AnimatedOpacity(
@@ -669,9 +669,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       child: picturesCard(),
                     )
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

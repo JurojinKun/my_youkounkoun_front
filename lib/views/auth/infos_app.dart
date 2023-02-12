@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class InfosApp extends ConsumerStatefulWidget {
   const InfosApp({Key? key}) : super(key: key);
@@ -19,18 +19,9 @@ class InfosApp extends ConsumerStatefulWidget {
 class InfosAppState extends ConsumerState<InfosApp> {
   AppBar appBar = AppBar();
 
-  String version = "";
-
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      setState(() {
-        version = packageInfo.version;
-      });
-    });
   }
 
   @override
@@ -247,7 +238,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
               ],
             ),
           ),
-          Text(version,
+          Text(ref.read(versionAppNotifierProvider),
               style: textStyleCustomBold(
                   Theme.of(context).brightness == Brightness.light
                       ? cBlack

@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class Welcome extends ConsumerStatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -17,18 +17,9 @@ class Welcome extends ConsumerStatefulWidget {
 }
 
 class WelcomeState extends ConsumerState<Welcome> {
-  String version = "";
-
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      setState(() {
-        version = packageInfo.version;
-      });
-    });
   }
 
   @override
@@ -191,7 +182,7 @@ class WelcomeState extends ConsumerState<Welcome> {
         const SizedBox(height: 20.0),
         Text(
             AppLocalization.of(context).translate("welcome_screen", "version") +
-                version,
+                ref.read(versionAppNotifierProvider),
             textAlign: TextAlign.center,
             style: textStyleCustomMedium(
                 Theme.of(context).brightness == Brightness.light

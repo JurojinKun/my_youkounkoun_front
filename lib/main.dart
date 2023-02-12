@@ -16,6 +16,8 @@ import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/version_app_provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -132,6 +134,9 @@ class MyAppState extends ConsumerState<MyApp> {
         .read(localeLanguageNotifierProvider.notifier)
         .setLocaleLanguage(prefs);
 
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    ref.read(versionAppNotifierProvider.notifier).setVersionApp(packageInfo.version.toString());
+
     if (result != ConnectivityResult.none) {
       //logic load datas user
       await _loadDataUser(prefs);
@@ -169,17 +174,6 @@ class MyAppState extends ConsumerState<MyApp> {
       ref
           .read(notificationsActiveNotifierProvider.notifier)
           .updateNotificationsActive(notificationsActive);
-    }
-
-    //get push token device
-    String? tokenPush = await FirebaseMessaging.instance.getToken();
-    if (tokenPush != null && tokenPush.trim() != "") {
-      if (kDebugMode) {
-        print("push token: $tokenPush");
-      }
-      ref
-          .read(tokenNotificationsNotifierProvider.notifier)
-          .updateTokenNotif(tokenPush);
     }
   }
 
