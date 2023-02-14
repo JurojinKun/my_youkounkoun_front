@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 
 class PictureFullscreen extends ConsumerStatefulWidget {
   final String imageUrl;
@@ -36,9 +37,7 @@ class PictureFullscreenState extends ConsumerState<PictureFullscreen> {
                       return child;
                     }
                     return CircularProgressIndicator(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
+                      color: Helpers.uiApp(context),
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
                               loadingProgress.expectedTotalBytes!
@@ -47,9 +46,7 @@ class PictureFullscreenState extends ConsumerState<PictureFullscreen> {
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return Icon(Icons.replay_outlined,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                         size: 33);
                   },
                 ),
@@ -68,9 +65,7 @@ class PictureFullscreenState extends ConsumerState<PictureFullscreen> {
                       onPressed: () => navAuthKey.currentState!.pop(),
                       icon: Icon(
                         Icons.clear,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                         size: 33,
                       ),
                     ),

@@ -470,18 +470,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   leading: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -489,20 +478,13 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                     child: IconButton(
                         onPressed: () => navAuthKey.currentState!.pop(),
                         icon: Icon(Icons.arrow_back_ios,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                            color: Helpers.uiApp(context))),
                   ),
                   centerTitle: false,
                   title: Text(
                       AppLocalization.of(context).translate(
                           "edit_security_screen", "security_account"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          20),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0),
                 ),
               ),
@@ -545,11 +527,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_security_screen", "content"),
-              style: textStyleCustomRegular(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomRegular(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0,
             ),
             const SizedBox(
@@ -558,11 +536,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_security_screen", "mail"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -621,11 +595,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_security_screen", "password"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -822,10 +792,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                             AppLocalization.of(context).translate(
                                 "edit_security_screen", "update_mail"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
+                                Helpers.uiApp(context), 20),
                             textScaleFactor: 1.0))),
               ),
               const SizedBox(width: 15.0),
@@ -846,10 +813,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                             AppLocalization.of(context)
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
+                                Helpers.uiApp(context), 20),
                             textAlign: TextAlign.center,
                             textScaleFactor: 1.0))),
               ),
@@ -930,10 +894,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                             AppLocalization.of(context)
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
+                                Helpers.uiApp(context), 20),
                             textScaleFactor: 1.0))),
               ),
             ],

@@ -31,17 +31,7 @@ class WelcomeState extends ConsumerState<Welcome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
+        value: Helpers.uiOverlayApp(context),
         child: SafeArea(
           left: false,
           right: false,
@@ -74,11 +64,7 @@ class WelcomeState extends ConsumerState<Welcome> {
           height: 25.0,
         ),
         Text("My youkounkoun",
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                33),
+            style: textStyleCustomBold(Helpers.uiApp(context), 33),
             textAlign: TextAlign.center,
             textScaleFactor: 1.0),
       ],
@@ -97,11 +83,7 @@ class WelcomeState extends ConsumerState<Welcome> {
               child: Text(
                   AppLocalization.of(context)
                       .translate("welcome_screen", "login"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0)),
         ),
         const SizedBox(
@@ -115,11 +97,7 @@ class WelcomeState extends ConsumerState<Welcome> {
               child: Text(
                   AppLocalization.of(context)
                       .translate("welcome_screen", "register"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0)),
         ),
       ],
@@ -136,11 +114,7 @@ class WelcomeState extends ConsumerState<Welcome> {
             text: TextSpan(
                 text: AppLocalization.of(context)
                     .translate("welcome_screen", "consult"),
-                style: textStyleCustomMedium(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    12),
+                style: textStyleCustomMedium(Helpers.uiApp(context), 12),
                 children: [
                   TextSpan(
                       text: AppLocalization.of(context)
@@ -154,11 +128,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                   TextSpan(
                     text: AppLocalization.of(context)
                         .translate("welcome_screen", "and"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        12),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 12),
                   ),
                   TextSpan(
                       text: AppLocalization.of(context)
@@ -172,11 +142,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                   TextSpan(
                     text: AppLocalization.of(context)
                         .translate("welcome_screen", "youkounkoun"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        12),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 12),
                   )
                 ])),
         const SizedBox(height: 20.0),
@@ -184,11 +150,7 @@ class WelcomeState extends ConsumerState<Welcome> {
             AppLocalization.of(context).translate("welcome_screen", "version") +
                 ref.read(versionAppNotifierProvider),
             textAlign: TextAlign.center,
-            style: textStyleCustomMedium(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                11),
+            style: textStyleCustomMedium(Helpers.uiApp(context), 11),
             textScaleFactor: 1.0)
       ],
     );

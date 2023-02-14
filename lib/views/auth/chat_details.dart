@@ -64,7 +64,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
   late TabController _tabControllerEmotions;
 
-  GiphyClient gif = GiphyClient(apiKey: EnvironmentConfigLib().getEnvironmentConfigKeyApiGiphy);
+  GiphyClient gif = GiphyClient(
+      apiKey: EnvironmentConfigLib().getEnvironmentConfigKeyApiGiphy);
   GiphyCollection? gifTrending;
 
   bool _openBottomSheetGif = false;
@@ -609,17 +610,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: _customAppBarDetailsChat(),
         body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: Theme.of(context).brightness == Brightness.light
-              ? Platform.isIOS
-                  ? SystemUiOverlayStyle.dark
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.dark)
-              : Platform.isIOS
-                  ? SystemUiOverlayStyle.light
-                  : const SystemUiOverlayStyle(
-                      statusBarColor: Colors.transparent,
-                      statusBarIconBrightness: Brightness.light),
+          value: Helpers.uiOverlayApp(context),
           child: Stack(
             children: [
               messages(),
@@ -869,11 +860,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             children: [
               Text(
                 widget.user.pseudo,
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    23),
+                style: textStyleCustomBold(Helpers.uiApp(context), 23),
                 textScaleFactor: 1.0,
                 textAlign: TextAlign.center,
               ),
@@ -902,16 +889,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(widget.user.gender == "Male" ? Icons.male : Icons.female,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite),
+                  color: Helpers.uiApp(context)),
               Text(
                 " - ",
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    18),
+                style: textStyleCustomBold(Helpers.uiApp(context), 18),
               ),
               Text(
                   AgeCalculator.age(Helpers.convertStringToDateTime(
@@ -920,11 +901,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           .toString() +
                       AppLocalization.of(context)
                           .translate("user_profile_screen", "years_old"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      18.0))
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18.0))
             ],
           ),
           const SizedBox(height: 10.0),
@@ -949,11 +926,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         arguments: [widget.user, false]);
                   },
                   child: Text("Voir profil",
-                      style: textStyleCustomMedium(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          18),
+                      style: textStyleCustomMedium(Helpers.uiApp(context), 18),
                       textScaleFactor: 1.0)))
         ],
       ),
@@ -984,11 +957,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(message.timestamp,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            14),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textScaleFactor: 1.0),
                   ),
                 ),
@@ -1026,11 +996,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35.0),
                   child: Text("Vu",
-                      style: textStyleCustomMedium(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          12),
+                      style: textStyleCustomMedium(Helpers.uiApp(context), 12),
                       textScaleFactor: 1.0),
                 )
             ],
@@ -1045,11 +1011,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(message.timestamp,
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
+                          style:
+                              textStyleCustomMedium(Helpers.uiApp(context), 14),
                           textScaleFactor: 1.0),
                     ),
                   ),
@@ -1058,11 +1021,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text("Vu",
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            12),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 12),
                         textScaleFactor: 1.0),
                   )
               ],
@@ -1097,11 +1057,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 message.message,
-                style: textStyleCustomRegular(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    14),
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                 textScaleFactor: 1.0,
               ),
             ),
@@ -1124,11 +1080,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   color: cBlue, borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 message.message,
-                style: textStyleCustomRegular(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    14),
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                 textScaleFactor: 1.0,
               ),
             ),
@@ -1295,11 +1247,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     errorBuilder: (context, error, stackTrace) {
                       return Center(
                         child: Icon(Icons.replay_outlined,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            size: 33),
+                            color: Helpers.uiApp(context), size: 33),
                       );
                     },
                   ),
@@ -1351,11 +1299,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     errorBuilder: (context, error, stackTrace) {
                       return Center(
                         child: Icon(Icons.replay_outlined,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            size: 33),
+                            color: Helpers.uiApp(context), size: 33),
                       );
                     },
                   ),
@@ -1503,10 +1447,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         cursorColor: cBlue,
                         textInputAction: TextInputAction.newline,
                         keyboardType: TextInputType.multiline,
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
+                        style: textStyleCustomBold(Helpers.uiApp(context),
                             12 / MediaQuery.of(context).textScaleFactor),
                         decoration: InputDecoration(
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -1643,15 +1584,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               child: TabBar(
                   controller: _tabControllerEmotions,
                   indicatorColor: Colors.transparent,
-                  labelColor: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
+                  labelColor: Helpers.uiApp(context),
                   unselectedLabelColor: cGrey,
-                  labelStyle: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
+                  labelStyle: textStyleCustomBold(Helpers.uiApp(context), 16),
                   unselectedLabelStyle: textStyleCustomBold(cGrey, 16),
                   indicator: const BoxDecoration(
                       border:
@@ -1750,19 +1685,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   children: [
                     Icon(
                       Icons.trending_up,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
+                      color: Helpers.uiApp(context),
                       size: 30,
                     ),
                     const SizedBox(width: 5.0),
                     Text(
                       "À la une",
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          18),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
                       textScaleFactor: 1.0,
                     )
                   ],

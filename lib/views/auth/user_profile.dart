@@ -47,7 +47,9 @@ class UserProfileState extends ConsumerState<UserProfile> {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return RouteAwareWidget(name: chatDetails, child: ChatDetails(user: widget.user, openWithModal: true));
+          return RouteAwareWidget(
+              name: chatDetails,
+              child: ChatDetails(user: widget.user, openWithModal: true));
         });
   }
 
@@ -84,18 +86,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                   elevation: 0,
                   shadowColor: Colors.transparent,
                   backgroundColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   leading: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -115,19 +106,12 @@ class UserProfileState extends ConsumerState<UserProfile> {
                         },
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
+                          color: Helpers.uiApp(context),
                         )),
                   ),
                   title: Text(
                       "${AppLocalization.of(context).translate("user_profile_screen", "profile_of")} ${widget.user.pseudo}",
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          20),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0),
                   centerTitle: false,
                   actions: [
@@ -180,10 +164,10 @@ class UserProfileState extends ConsumerState<UserProfile> {
                               const Icon(Icons.person, color: cBlue, size: 75),
                         )
                       : CachedNetworkImageCustom(
-                                    profilePictureUrl: widget.user.profilePictureUrl,
-                                    heightContainer: 175,
-                                    widthContainer: 175,
-                                    iconSize: 75),
+                          profilePictureUrl: widget.user.profilePictureUrl,
+                          heightContainer: 175,
+                          widthContainer: 175,
+                          iconSize: 75),
                   const SizedBox(
                     height: 15.0,
                   ),
@@ -192,11 +176,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                     children: [
                       Text(
                         widget.user.pseudo,
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            23),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 23),
                         textScaleFactor: 1.0,
                         textAlign: TextAlign.center,
                       ),
@@ -229,17 +209,10 @@ class UserProfileState extends ConsumerState<UserProfile> {
                           widget.user.gender == "Male"
                               ? Icons.male
                               : Icons.female,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite),
+                          color: Helpers.uiApp(context)),
                       Text(
                         " - ",
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            18),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 18),
                       ),
                       Text(
                           AgeCalculator.age(Helpers.convertStringToDateTime(
@@ -248,11 +221,8 @@ class UserProfileState extends ConsumerState<UserProfile> {
                                   .toString() +
                               AppLocalization.of(context).translate(
                                   "user_profile_screen", "years_old"),
-                          style: textStyleCustomBold(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              18.0))
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 18.0))
                     ],
                   ),
                   Container(
@@ -261,11 +231,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                     child: Text(
                       AppLocalization.of(context)
                           .translate("general", "message_continue"),
-                      style: textStyleCustomMedium(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          14),
+                      style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0,
                     ),

@@ -88,17 +88,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
         extendBodyBehindAppBar: true,
         appBar: _customAppBarSearch(),
         body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
+            value: Helpers.uiOverlayApp(context),
             child: _searchController.text.isNotEmpty
                 ? _searches()
                 : _recentSearches()),
@@ -215,11 +205,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                       child: Text(
                         AppLocalization.of(context)
                             .translate("general", "btn_cancel"),
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            14),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textScaleFactor: 1.0,
                       ),
                     ),
@@ -249,19 +236,12 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
           children: [
             Row(
               children: [
-                Icon(Icons.history,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite),
+                Icon(Icons.history, color: Helpers.uiApp(context)),
                 const SizedBox(width: 5.0),
                 Text(
                   AppLocalization.of(context)
                       .translate("recent_searches_screen", "recent_searches"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 16),
                   textScaleFactor: 1.0,
                 )
               ],
@@ -277,20 +257,13 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.search,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            size: 40),
+                            color: Helpers.uiApp(context), size: 40),
                         const SizedBox(height: 10.0),
                         Text(
                             AppLocalization.of(context).translate(
                                 "recent_searches_screen", "no_recent_searches"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
+                                Helpers.uiApp(context), 14),
                             textAlign: TextAlign.center,
                             textScaleFactor: 1.0)
                       ],
@@ -335,10 +308,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           title: Text(
                             user.pseudo,
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
+                                Helpers.uiApp(context), 16),
                             textScaleFactor: 1.0,
                           ),
                           trailing: Material(
@@ -394,11 +364,8 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                         _searchController.text.length < 10
                             ? '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text}.."'
                             : '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text.substring(0, 10)}.."',
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            14),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0,
                       )
@@ -429,19 +396,12 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
           children: [
             Row(
               children: [
-                Icon(Icons.search,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite),
+                Icon(Icons.search, color: Helpers.uiApp(context)),
                 const SizedBox(width: 5.0),
                 Text(
                   AppLocalization.of(context)
                       .translate("recent_searches_screen", "results"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 16),
                   textScaleFactor: 1.0,
                 ),
               ],
@@ -457,20 +417,13 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.search,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            size: 40),
+                            color: Helpers.uiApp(context), size: 40),
                         const SizedBox(height: 10.0),
                         Text(
                             AppLocalization.of(context).translate(
                                 "recent_searches_screen", "no_results"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
+                                Helpers.uiApp(context), 14),
                             textAlign: TextAlign.center,
                             textScaleFactor: 1.0)
                       ],
@@ -522,10 +475,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           title: Text(
                             user.pseudo,
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
+                                Helpers.uiApp(context), 16),
                             textScaleFactor: 1.0,
                           ),
                         ),

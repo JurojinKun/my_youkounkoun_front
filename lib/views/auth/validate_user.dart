@@ -51,15 +51,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
-                    child: Icon(Icons.check,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite),
+                        border: Border.all(color: Helpers.uiApp(context))),
+                    child: Icon(Icons.check, color: Helpers.uiApp(context)),
                   ),
                   const SizedBox(height: 15.0),
                   Material(
@@ -68,11 +61,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         AppLocalization.of(context)
                             .translate("validate_user_screen", "send_mail"),
                         textScaleFactor: 1.0,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
                   )
                 ],
@@ -107,15 +97,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
-                    child: Icon(Icons.clear,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite),
+                        border: Border.all(color: Helpers.uiApp(context))),
+                    child: Icon(Icons.clear, color: Helpers.uiApp(context)),
                   ),
                   const SizedBox(height: 15.0),
                   Material(
@@ -124,11 +107,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         AppLocalization.of(context).translate(
                             "validate_user_screen", "error_send_mail"),
                         textScaleFactor: 1.0,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
                   )
                 ],
@@ -188,26 +168,11 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                   elevation: 0,
                   shadowColor: Colors.transparent,
                   backgroundColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   title: Text(
                     AppLocalization.of(context)
                         .translate("validate_user_screen", "check_account"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
-                        20),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textAlign: TextAlign.center,
                     textScaleFactor: 1.0,
                   ),
@@ -226,10 +191,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                           },
                           icon: Icon(
                             Icons.clear,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black
-                                    : Colors.white,
+                            color: Helpers.uiApp(context),
                           )),
                     )
                   ],
@@ -255,11 +217,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                   Text(
                     AppLocalization.of(context)
                         .translate("validate_user_screen", "content"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textAlign: TextAlign.center,
                     textScaleFactor: 1.0,
                   ),
@@ -291,10 +249,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: PinCodeTextField(
                         appContext: context,
-                        textStyle: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
+                        textStyle: textStyleCustomBold(Helpers.uiApp(context),
                             18 / MediaQuery.of(context).textScaleFactor),
                         length: 6,
                         animationType: AnimationType.fade,
@@ -303,22 +258,10 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                             shape: PinCodeFieldShape.underline,
                             fieldHeight: 30,
                             fieldWidth: 30,
-                            activeColor:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            inactiveColor:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                            selectedColor:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite),
-                        cursorColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
+                            activeColor: Helpers.uiApp(context),
+                            inactiveColor: Helpers.uiApp(context),
+                            selectedColor: Helpers.uiApp(context)),
+                        cursorColor: Helpers.uiApp(context),
                         animationDuration: const Duration(milliseconds: 300),
                         controller: _codeController,
                         keyboardType: TextInputType.number,

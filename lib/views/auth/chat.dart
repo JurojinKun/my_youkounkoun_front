@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/conversation_component.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
@@ -103,20 +104,14 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
         children: [
           Icon(
             Icons.send,
-            color: Theme.of(context).brightness == Brightness.light
-                ? cBlack
-                : cWhite,
+            color: Helpers.uiApp(context),
             size: 40,
           ),
           const SizedBox(height: 15.0),
           Text(
             AppLocalization.of(context)
                 .translate("activities_screen", "no_chat"),
-            style: textStyleCustomMedium(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                14),
+            style: textStyleCustomMedium(Helpers.uiApp(context), 14),
             textAlign: TextAlign.center,
             textScaleFactor: 1.0,
           )
@@ -133,11 +128,7 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Text(
             AppLocalization.of(context).translate("activities_screen", "chat"),
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                20),
+            style: textStyleCustomBold(Helpers.uiApp(context), 20),
             textScaleFactor: 1.0,
           ),
         ),
@@ -158,7 +149,10 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
               .firstWhere((element) => element.id == userId);
 
           return ConversationComponent(
-              conversation: conversation, indexConversations: index, userConv: userConv, indexUserConv: indexUserConv);
+              conversation: conversation,
+              indexConversations: index,
+              userConv: userConv,
+              indexUserConv: indexUserConv);
         })
       ],
     );

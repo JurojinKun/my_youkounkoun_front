@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat.dart';
@@ -90,25 +91,12 @@ class ActivitiesState extends ConsumerState<Activities>
                 elevation: 0,
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent,
-                systemOverlayStyle:
-                    Theme.of(context).brightness == Brightness.light
-                        ? Platform.isIOS
-                            ? SystemUiOverlayStyle.dark
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.dark)
-                        : Platform.isIOS
-                            ? SystemUiOverlayStyle.light
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.light),
+                systemOverlayStyle: Helpers.uiOverlayApp(context),
                 title: Text(
                     AppLocalization.of(context)
                         .translate("activities_screen", "activities"),
                     style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        Helpers.uiApp(context),
                         20),
                     textScaleFactor: 1.0),
                 centerTitle: false,
@@ -141,14 +129,10 @@ class ActivitiesState extends ConsumerState<Activities>
                         controller: tabControllerActivities,
                         indicatorColor: Colors.transparent,
                         labelColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
+                            Helpers.uiApp(context),
                         unselectedLabelColor: cGrey,
                         labelStyle: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
+                            Helpers.uiApp(context),
                             16),
                         unselectedLabelStyle: textStyleCustomBold(cGrey, 16),
                         indicator: const BoxDecoration(

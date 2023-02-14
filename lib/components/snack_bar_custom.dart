@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 SnackBar showSnackBarCustom(BuildContext context, String currentRouteApp) {
@@ -20,7 +21,7 @@ SnackBar showSnackBarCustom(BuildContext context, String currentRouteApp) {
             Text(
                 AppLocalization.of(context)
                     .translate("connectivity_screen", "no_connectivity"),
-                style: textStyleCustomMedium(cWhite, 14.0),
+                style: textStyleCustomMedium(Helpers.uiApp(context), 14.0),
                 textScaleFactor: 1.0),
           ],
         ),

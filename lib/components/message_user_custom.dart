@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 void messageUser(BuildContext context, String message) {
@@ -19,7 +20,7 @@ void messageUser(BuildContext context, String message) {
             child: Text(message, style: TextStyle(
               fontFamily: "RobotoBold",
               fontSize: 16,
-              color: Theme.of(context).brightness == Brightness.light ? cWhite : cBlack), textAlign: TextAlign.center, textScaleFactor: 1.0),),
+              color: Helpers.uiApp(context)), textAlign: TextAlign.center, textScaleFactor: 1.0),),
         ),
       ),
       animationDuration: const Duration(milliseconds: 500),

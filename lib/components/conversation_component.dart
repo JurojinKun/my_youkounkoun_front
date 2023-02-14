@@ -81,10 +81,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                   autoClose: true,
                   flex: 1,
                   backgroundColor: cBlue,
-                  foregroundColor:
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
+                  foregroundColor: Helpers.uiApp(context),
                   icon: widget.conversation.users[widget.indexUserConv]
                           ["convMute"]
                       ? Icons.notifications_active_outlined
@@ -106,10 +103,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                   autoClose: true,
                   flex: 1,
                   backgroundColor: cRed,
-                  foregroundColor:
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
+                  foregroundColor: Helpers.uiApp(context),
                   icon: Icons.delete_forever_outlined,
                   label: AppLocalization.of(context)
                       .translate("activities_screen", "delete"),

@@ -93,20 +93,14 @@ class NotificationsState extends ConsumerState<Notifications>
           children: [
             Icon(
               Icons.notifications_active,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 40,
             ),
             const SizedBox(height: 15.0),
             Text(
               AppLocalization.of(context)
                   .translate("activities_screen", "no_notifications"),
-              style: textStyleCustomMedium(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
+              style: textStyleCustomMedium(Helpers.uiApp(context), 14),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             )
@@ -125,11 +119,7 @@ class NotificationsState extends ConsumerState<Notifications>
             Text(
               AppLocalization.of(context)
                   .translate("activities_screen", "notifications"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  20),
+              style: textStyleCustomBold(Helpers.uiApp(context), 20),
               textScaleFactor: 1.0,
             ),
             Material(
@@ -145,9 +135,7 @@ class NotificationsState extends ConsumerState<Notifications>
                   },
                   icon: Icon(
                     Icons.checklist,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 30,
                   )),
             )
@@ -184,10 +172,7 @@ class NotificationsState extends ConsumerState<Notifications>
                   },
                   autoClose: true,
                   backgroundColor: cRed,
-                  foregroundColor:
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
+                  foregroundColor: Helpers.uiApp(context),
                   icon: Icons.delete_forever_outlined,
                   label: AppLocalization.of(context)
                       .translate("activities_screen", "delete"),

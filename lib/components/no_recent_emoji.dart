@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 
 class NoRecentEmoji extends StatelessWidget {
   const NoRecentEmoji({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class NoRecentEmoji extends StatelessWidget {
         textAlign: TextAlign.center,
         textScaleFactor: 1.0,
         style: textStyleCustomMedium(
-            Theme.of(context).brightness == Brightness.light ? cBlack : cWhite,
+            Helpers.uiApp(context),
             16),
       ),
     );

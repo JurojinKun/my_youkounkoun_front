@@ -68,26 +68,11 @@ class ProfileState extends ConsumerState<Profile>
               elevation: 0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
-              systemOverlayStyle:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Platform.isIOS
-                          ? SystemUiOverlayStyle.dark
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.dark)
-                      : Platform.isIOS
-                          ? SystemUiOverlayStyle.light
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.light),
+              systemOverlayStyle: Helpers.uiOverlayApp(context),
               title: Text(
                   AppLocalization.of(context)
                       .translate("profile_screen", "profile"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0),
               centerTitle: false,
               actions: [
@@ -100,9 +85,7 @@ class ProfileState extends ConsumerState<Profile>
                           navProfileKey!.currentState!.pushNamed(settingsUser),
                       icon: Icon(
                         Icons.settings,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                       )),
                 ),
               ],
@@ -199,11 +182,7 @@ class ProfileState extends ConsumerState<Profile>
                 children: [
                   Text(
                     user.pseudo,
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        23),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 23),
                     textScaleFactor: 1.0,
                     textAlign: TextAlign.center,
                   ),
@@ -231,16 +210,10 @@ class ProfileState extends ConsumerState<Profile>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(user.gender == "Male" ? Icons.male : Icons.female,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite),
+                      color: Helpers.uiApp(context)),
                   Text(
                     " - ",
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        18),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 18),
                   ),
                   Text(
                       AgeCalculator.age(Helpers.convertStringToDateTime(
@@ -249,11 +222,7 @@ class ProfileState extends ConsumerState<Profile>
                               .toString() +
                           AppLocalization.of(context)
                               .translate("profile_screen", "years_old"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          18.0))
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18.0))
                 ],
               ),
               Container(
@@ -262,11 +231,7 @@ class ProfileState extends ConsumerState<Profile>
                 child: Text(
                   AppLocalization.of(context)
                       .translate("general", "message_continue"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      14),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0,
                 ),

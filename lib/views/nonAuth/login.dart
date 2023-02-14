@@ -132,18 +132,7 @@ class LoginState extends ConsumerState<Login> {
                     elevation: 0,
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
-                    systemOverlayStyle:
-                        Theme.of(context).brightness == Brightness.light
-                            ? Platform.isIOS
-                                ? SystemUiOverlayStyle.dark
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.dark)
-                            : Platform.isIOS
-                                ? SystemUiOverlayStyle.light
-                                : const SystemUiOverlayStyle(
-                                    statusBarColor: Colors.transparent,
-                                    statusBarIconBrightness: Brightness.light),
+                    systemOverlayStyle: Helpers.uiOverlayApp(context),
                     leading: Material(
                       color: Colors.transparent,
                       shape: const CircleBorder(),
@@ -159,20 +148,13 @@ class LoginState extends ConsumerState<Login> {
                           },
                           icon: Icon(
                             Icons.arrow_back_ios,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
+                            color: Helpers.uiApp(context),
                           )),
                     ),
                     title: Text(
                         AppLocalization.of(context)
                             .translate("login_screen", "login"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            20),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 20),
                         textScaleFactor: 1.0),
                     centerTitle: false,
                   ),
@@ -378,10 +360,7 @@ class LoginState extends ConsumerState<Login> {
                             text: AppLocalization.of(context)
                                 .translate("login_screen", "no_account"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                14),
+                                Helpers.uiApp(context), 14),
                             children: [
                               TextSpan(
                                   text: AppLocalization.of(context)

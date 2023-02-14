@@ -10,6 +10,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
@@ -100,20 +101,12 @@ class SettingsState extends ConsumerState<Settings> {
             title: Text(
               AppLocalization.of(context)
                   .translate("settings_screen", "logout_title"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
             ),
             content: Text(
               AppLocalization.of(context)
                   .translate("settings_screen", "logout_content"),
-              style: textStyleCustomRegular(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
+              style: textStyleCustomRegular(Helpers.uiApp(context), 14),
             ),
             actions: [
               TextButton(
@@ -150,20 +143,12 @@ class SettingsState extends ConsumerState<Settings> {
             title: Text(
               AppLocalization.of(context)
                   .translate("settings_screen", "delete_title"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
             ),
             content: Text(
               AppLocalization.of(context)
                   .translate("settings_screen", "delete_content"),
-              style: textStyleCustomRegular(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  14),
+              style: textStyleCustomRegular(Helpers.uiApp(context), 14),
             ),
             actions: [
               TextButton(
@@ -242,18 +227,7 @@ class SettingsState extends ConsumerState<Settings> {
               elevation: 0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
-              systemOverlayStyle:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Platform.isIOS
-                          ? SystemUiOverlayStyle.dark
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.dark)
-                      : Platform.isIOS
-                          ? SystemUiOverlayStyle.light
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.light),
+              systemOverlayStyle: Helpers.uiOverlayApp(context),
               leading: Material(
                 color: Colors.transparent,
                 shape: const CircleBorder(),
@@ -262,20 +236,14 @@ class SettingsState extends ConsumerState<Settings> {
                   onPressed: () => navProfileKey!.currentState!.pop(),
                   icon: Icon(
                     Icons.arrow_back_ios,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                   ),
                 ),
               ),
               title: Text(
                   AppLocalization.of(context)
                       .translate("settings_screen", "settings_user"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0),
               centerTitle: false,
               actions: [
@@ -287,9 +255,7 @@ class SettingsState extends ConsumerState<Settings> {
                       onPressed: () => _showDialogLogout(),
                       icon: Icon(
                         Icons.logout,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                       )),
                 ),
                 Material(
@@ -300,9 +266,7 @@ class SettingsState extends ConsumerState<Settings> {
                       onPressed: () => _showDialogDeleteAccount(),
                       icon: Icon(
                         Icons.person_remove_outlined,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                       )),
                 )
               ],
@@ -354,9 +318,7 @@ class SettingsState extends ConsumerState<Settings> {
                 children: [
                   Icon(
                     Icons.edit,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 20,
                   ),
                   const SizedBox(width: 15.0),
@@ -364,11 +326,7 @@ class SettingsState extends ConsumerState<Settings> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("settings_screen", "my_account"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0),
                   )
@@ -377,9 +335,7 @@ class SettingsState extends ConsumerState<Settings> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 18,
             )
           ],
@@ -401,9 +357,7 @@ class SettingsState extends ConsumerState<Settings> {
                 children: [
                   Icon(
                     Icons.lock,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 20,
                   ),
                   const SizedBox(width: 15.0),
@@ -411,11 +365,7 @@ class SettingsState extends ConsumerState<Settings> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("settings_screen", "security_account"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0),
                   )
@@ -424,9 +374,7 @@ class SettingsState extends ConsumerState<Settings> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 18,
             )
           ],
@@ -444,11 +392,7 @@ class SettingsState extends ConsumerState<Settings> {
           Expanded(
             child: Row(
               children: [
-                Icon(Icons.language,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    size: 20),
+                Icon(Icons.language, color: Helpers.uiApp(context), size: 20),
                 const SizedBox(
                   width: 15.0,
                 ),
@@ -456,11 +400,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                       AppLocalization.of(context)
                           .translate("settings_screen", "language"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
                       textScaleFactor: 1.0),
                 ),
@@ -468,15 +408,9 @@ class SettingsState extends ConsumerState<Settings> {
             ),
           ),
           DropdownButton(
-            style: textStyleCustomBold(
-                Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite,
-                16),
+            style: textStyleCustomBold(Helpers.uiApp(context), 16),
             iconSize: 33,
-            iconEnabledColor: Theme.of(context).brightness == Brightness.light
-                ? cBlack
-                : cWhite,
+            iconEnabledColor: Helpers.uiApp(context),
             underline: const SizedBox(),
             dropdownColor: Theme.of(context).scaffoldBackgroundColor,
             items: [
@@ -486,11 +420,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                       AppLocalization.of(context)
                           .translate("settings_screen", "language_french"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       textScaleFactor: 1.0)),
               DropdownMenuItem(
                   alignment: Alignment.center,
@@ -498,11 +428,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                       AppLocalization.of(context)
                           .translate("settings_screen", "language_english"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       textScaleFactor: 1.0))
             ],
             value: _localeLanguage,
@@ -523,10 +449,7 @@ class SettingsState extends ConsumerState<Settings> {
             child: Row(
               children: [
                 Icon(Icons.brightness_6,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    size: 20),
+                    color: Helpers.uiApp(context), size: 20),
                 const SizedBox(
                   width: 15.0,
                 ),
@@ -534,11 +457,7 @@ class SettingsState extends ConsumerState<Settings> {
                   child: Text(
                       AppLocalization.of(context)
                           .translate("settings_screen", "theme"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
                       textScaleFactor: 1.0),
                 ),
@@ -547,10 +466,7 @@ class SettingsState extends ConsumerState<Settings> {
           ),
           Row(
             children: [
-              Icon(Icons.light_mode,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite),
+              Icon(Icons.light_mode, color: Helpers.uiApp(context)),
               Switch(
                   activeColor: cBlue,
                   value: _isDarkTheme,
@@ -574,10 +490,7 @@ class SettingsState extends ConsumerState<Settings> {
                           .setThemeApp("lightTheme");
                     }
                   }),
-              Icon(Icons.dark_mode,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite),
+              Icon(Icons.dark_mode, color: Helpers.uiApp(context)),
             ],
           )
         ],
@@ -595,31 +508,21 @@ class SettingsState extends ConsumerState<Settings> {
             child: Row(
               children: [
                 Icon(Icons.notifications,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    size: 20),
+                    color: Helpers.uiApp(context), size: 20),
                 const SizedBox(
                   width: 15.0,
                 ),
                 Text(
                     AppLocalization.of(context)
                         .translate("settings_screen", "notifications"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        16),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 16),
                     textScaleFactor: 1.0),
               ],
             ),
           ),
           Row(
             children: [
-              Icon(Icons.notifications_off,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite),
+              Icon(Icons.notifications_off, color: Helpers.uiApp(context)),
               Switch(
                   activeColor: cBlue,
                   value: _notificationsActive,
@@ -637,10 +540,7 @@ class SettingsState extends ConsumerState<Settings> {
                       await prefs.setBool("notifications", false);
                     }
                   }),
-              Icon(Icons.notifications_active,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite),
+              Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
             ],
           )
         ],
@@ -661,9 +561,7 @@ class SettingsState extends ConsumerState<Settings> {
                 children: [
                   Icon(
                     Icons.info,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 20,
                   ),
                   const SizedBox(width: 15.0),
@@ -671,11 +569,7 @@ class SettingsState extends ConsumerState<Settings> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("settings_screen", "infos_app"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0),
                   )
@@ -684,9 +578,7 @@ class SettingsState extends ConsumerState<Settings> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 18,
             )
           ],

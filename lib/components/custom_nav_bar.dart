@@ -128,52 +128,46 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                       }
                     }
                   },
-                  child: Stack(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              widget.tabController.index == 2
-                                  ? Icons.mail
-                                  : Icons.mail_outlined,
-                              size: 30,
-                              color: widget.tabController.index == 2
-                                  ? cBlue
-                                  : cGrey,
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                                AppLocalization.of(context)
-                                    .translate("general", "activities"),
-                                style: textStyleCustomRegular(
-                                    widget.tabController.index == 2
-                                        ? cBlue
-                                        : cGrey,
-                                    12),
-                                textScaleFactor: 1.0)
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          height: 70.0,
+                      SizedBox(
+                          height: 30.0,
                           width: 50.0,
-                          alignment: Alignment.topRight,
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Container(
-                            height: 10.0,
-                            width: 10.0,
-                            decoration: const BoxDecoration(
-                                color: cBlue, shape: BoxShape.circle),
-                          ),
-                        ),
-                      )
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  widget.tabController.index == 2
+                                      ? Icons.mail
+                                      : Icons.mail_outlined,
+                                  size: 30,
+                                  color: widget.tabController.index == 2
+                                      ? cBlue
+                                      : cGrey,
+                                ),
+                              ),
+                              Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    height: 10.0,
+                                    width: 10.0,
+                                    decoration: const BoxDecoration(
+                                        color: cBlue, shape: BoxShape.circle),
+                                  )),
+                            ],
+                          )),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                          AppLocalization.of(context)
+                              .translate("general", "activities"),
+                          style: textStyleCustomRegular(
+                              widget.tabController.index == 2 ? cBlue : cGrey,
+                              12),
+                          textScaleFactor: 1.0)
                     ],
                   ),
                 )),

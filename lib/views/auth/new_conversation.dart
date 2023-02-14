@@ -139,26 +139,11 @@ class NewConversationState extends ConsumerState<NewConversation> {
               elevation: 0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
-              systemOverlayStyle:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Platform.isIOS
-                          ? SystemUiOverlayStyle.dark
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.dark)
-                      : Platform.isIOS
-                          ? SystemUiOverlayStyle.light
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.light),
+              systemOverlayStyle: Helpers.uiOverlayApp(context),
               title: Text(
                 AppLocalization.of(context)
                     .translate("new_conversation_screen", "new_conversation"),
-                style: textStyleCustomBold(
-                    Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
-                    20),
+                style: textStyleCustomBold(Helpers.uiApp(context), 20),
               ),
               centerTitle: false,
               actions: [
@@ -170,9 +155,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                       onPressed: () => navAuthKey.currentState!.pop(),
                       icon: Icon(
                         Icons.clear,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
+                        color: Helpers.uiApp(context),
                         size: 30,
                       )),
                 )
@@ -335,19 +318,12 @@ class NewConversationState extends ConsumerState<NewConversation> {
       children: [
         Row(
           children: [
-            Icon(Icons.history,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite),
+            Icon(Icons.history, color: Helpers.uiApp(context)),
             const SizedBox(width: 5.0),
             Text(
               AppLocalization.of(context)
                   .translate("new_conversation_screen", "recent_interactions"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0,
             ),
           ],
@@ -362,21 +338,14 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.search,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        size: 40),
+                    Icon(Icons.search, color: Helpers.uiApp(context), size: 40),
                     const SizedBox(height: 10.0),
                     Text(
                         AppLocalization.of(context).translate(
                             "new_conversation_screen",
                             "no_recent_interactions"),
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            14),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0)
                   ],
@@ -412,11 +381,8 @@ class NewConversationState extends ConsumerState<NewConversation> {
                               iconSize: 30),
                       title: Text(
                         user.pseudo,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textScaleFactor: 1.0,
                       ),
                       trailing: user.id == ref.read(userNotifierProvider).id
@@ -462,11 +428,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                   _searchController.text.length < 10
                       ? '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text}.."'
                       : '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text.substring(0, 10)}.."',
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      14),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0,
                 )
@@ -482,19 +444,12 @@ class NewConversationState extends ConsumerState<NewConversation> {
       children: [
         Row(
           children: [
-            Icon(Icons.search,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? cBlack
-                    : cWhite),
+            Icon(Icons.search, color: Helpers.uiApp(context)),
             const SizedBox(width: 5.0),
             Text(
               AppLocalization.of(context)
                   .translate("new_conversation_screen", "results"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0,
             ),
           ],
@@ -509,20 +464,13 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.search,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        size: 40),
+                    Icon(Icons.search, color: Helpers.uiApp(context), size: 40),
                     const SizedBox(height: 10.0),
                     Text(
                         AppLocalization.of(context)
                             .translate("new_conversation_screen", "no_results"),
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            14),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0)
                   ],
@@ -558,11 +506,8 @@ class NewConversationState extends ConsumerState<NewConversation> {
                               iconSize: 30),
                       title: Text(
                         user.pseudo,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textScaleFactor: 1.0,
                       ),
                       trailing: user.id == ref.read(userNotifierProvider).id

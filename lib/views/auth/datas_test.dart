@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
 
 class DatasTest extends ConsumerStatefulWidget {
@@ -76,48 +77,30 @@ class DatasTestState extends ConsumerState<DatasTest>
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             elevation: 0,
-            systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-                ? Platform.isIOS
-                    ? SystemUiOverlayStyle.dark
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.dark)
-                : Platform.isIOS
-                    ? SystemUiOverlayStyle.light
-                    : const SystemUiOverlayStyle(
-                        statusBarColor: Colors.transparent,
-                        statusBarIconBrightness: Brightness.light),
+            systemOverlayStyle: Helpers.uiOverlayApp(context),
             title: AnimatedOpacity(
               opacity: hideAppBar ? 0 : 1,
               duration: const Duration(seconds: 1),
               curve: Curves.easeInOut,
               child: Text("Datas test",
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20.0),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 20.0),
                   textScaleFactor: 1.0),
             ),
             centerTitle: true,
             actions: [
               AnimatedOpacity(
-                opacity: hideAppBar ? 0 : 1,
-                duration: const Duration(seconds: 1),
-                curve: Curves.easeInOut,
-                child: Material(
-                  color: Colors.transparent,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.hardEdge,
-                  child: IconButton(
-                      onPressed: () => navAuthKey.currentState!.pop(),
-                      icon: Icon(Icons.clear,
-                      size: 30,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite)),
-                )),
+                  opacity: hideAppBar ? 0 : 1,
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeInOut,
+                  child: Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                        onPressed: () => navAuthKey.currentState!.pop(),
+                        icon: Icon(Icons.clear,
+                            size: 30, color: Helpers.uiApp(context))),
+                  )),
             ],
           ),
         ),
@@ -144,11 +127,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                   child: Material(
                     type: MaterialType.transparency,
                     child: Text(dataTest,
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            18),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 18),
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0),
                   ),

@@ -45,18 +45,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   leading: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -64,19 +53,12 @@ class InfosAppState extends ConsumerState<InfosApp> {
                     child: IconButton(
                         onPressed: () => navAuthKey.currentState!.pop(),
                         icon: Icon(Icons.arrow_back_ios,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                            color: Helpers.uiApp(context))),
                   ),
                   title: Text(
                       AppLocalization.of(context)
                           .translate("infos_app_screen", "title"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          20),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0),
                   centerTitle: false,
                 )),
@@ -122,9 +104,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                 children: [
                   Icon(
                     Icons.description,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 20,
                   ),
                   const SizedBox(width: 15.0),
@@ -132,11 +112,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("infos_app_screen", "cgu"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0),
                   )
@@ -145,9 +121,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 18,
             )
           ],
@@ -172,9 +146,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                 children: [
                   Icon(
                     Icons.gavel,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? cBlack
-                        : cWhite,
+                    color: Helpers.uiApp(context),
                     size: 20,
                   ),
                   const SizedBox(width: 15.0),
@@ -182,11 +154,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("infos_app_screen", "policy_privacy"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0),
                   )
@@ -195,9 +163,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? cBlack
-                  : cWhite,
+              color: Helpers.uiApp(context),
               size: 18,
             )
           ],
@@ -217,9 +183,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
               children: [
                 Icon(
                   Icons.smartphone,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
+                  color: Helpers.uiApp(context),
                   size: 20,
                 ),
                 const SizedBox(width: 15.0),
@@ -227,11 +191,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                   child: Text(
                       AppLocalization.of(context)
                           .translate("infos_app_screen", "version"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
                       textScaleFactor: 1.0),
                 )
@@ -239,11 +199,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
             ),
           ),
           Text(ref.read(versionAppNotifierProvider),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0)
         ],
       ),

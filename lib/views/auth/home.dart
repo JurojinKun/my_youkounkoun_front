@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/library/admob_lib.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
@@ -186,26 +187,11 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                 elevation: 0,
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent,
-                systemOverlayStyle:
-                    Theme.of(context).brightness == Brightness.light
-                        ? Platform.isIOS
-                            ? SystemUiOverlayStyle.dark
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.dark)
-                        : Platform.isIOS
-                            ? SystemUiOverlayStyle.light
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.light),
+                systemOverlayStyle: Helpers.uiOverlayApp(context),
                 title: Text(
                     AppLocalization.of(context)
                         .translate("home_screen", "home"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        20),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textScaleFactor: 1.0),
                 centerTitle: false,
               ),
@@ -229,11 +215,8 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       Text(
                           AppLocalization.of(context)
                               .translate("home_screen", "push_token"),
-                          style: textStyleCustomMedium(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              14),
+                          style:
+                              textStyleCustomMedium(Helpers.uiApp(context), 14),
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.0),
                       const SizedBox(

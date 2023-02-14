@@ -87,11 +87,8 @@ class EditAccountState extends ConsumerState<EditAccount> {
                         Text(
                             AppLocalization.of(context).translate(
                                 "register_screen", "add_picture_profile"),
-                            style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 16),
                             textScaleFactor: 1.0),
                         Material(
                           color: Colors.transparent,
@@ -195,10 +192,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
               toolbarTitle: AppLocalization.of(context)
                   .translate("general", "title_cropper"),
               toolbarColor: Theme.of(context).scaffoldBackgroundColor,
-              toolbarWidgetColor:
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
+              toolbarWidgetColor: Helpers.uiApp(context),
               cropFrameColor: cWhite,
               cropGridColor: cWhite,
               activeControlsWidgetColor: cBlue,
@@ -389,18 +383,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                   elevation: 0,
                   shadowColor: Colors.transparent,
                   backgroundColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   leading: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -408,19 +391,12 @@ class EditAccountState extends ConsumerState<EditAccount> {
                     child: IconButton(
                         onPressed: () => navAuthKey.currentState!.pop(),
                         icon: Icon(Icons.arrow_back_ios,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                            color: Helpers.uiApp(context))),
                   ),
                   title: Text(
                     AppLocalization.of(context)
                         .translate("edit_account_screen", "my_account"),
-                    style: textStyleCustomBold(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        20),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textScaleFactor: 1.0,
                   ),
                   centerTitle: false,
@@ -457,11 +433,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "content"),
-              style: textStyleCustomRegular(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  16),
+              style: textStyleCustomRegular(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0,
             ),
             const SizedBox(
@@ -470,11 +442,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "picture_profile"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -620,11 +588,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "pseudo_profile"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -685,11 +649,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "gender_profile"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -773,11 +733,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "birthday_profile"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -817,22 +773,14 @@ class EditAccountState extends ConsumerState<EditAccount> {
                   decoration: BoxDecoration(
                     border: Border(
                         bottom: BorderSide(
-                            width: 1.0,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                            width: 1.0, color: Helpers.uiApp(context))),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
                         Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
                             localeLanguage.languageCode),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            24),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 24),
                         textScaleFactor: 1.0),
                   ),
                 ),
@@ -844,11 +792,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Text(
               AppLocalization.of(context)
                   .translate("edit_account_screen", "nationality_profile"),
-              style: textStyleCustomBold(
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
-                  18),
+              style: textStyleCustomBold(Helpers.uiApp(context), 18),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
@@ -869,10 +813,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                         Theme.of(context).scaffoldBackgroundColor,
                     barrierColor: Colors.transparent,
                     closeIcon: Icon(Icons.clear,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        size: 28),
+                        color: Helpers.uiApp(context), size: 28),
                     onChanged: (countryCode) {
                       if (countryCode.code != null) {
                         ref
@@ -939,10 +880,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             AppLocalization.of(context)
                                 .translate("general", "btn_save"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
+                                Helpers.uiApp(context), 20),
                             textScaleFactor: 1.0))),
               ),
               const SizedBox(width: 15.0),
@@ -963,10 +901,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             AppLocalization.of(context)
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20),
+                                Helpers.uiApp(context), 20),
                             textScaleFactor: 1.0))),
               ),
             ],

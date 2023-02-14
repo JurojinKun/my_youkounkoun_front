@@ -105,11 +105,8 @@ class RegisterState extends ConsumerState<Register>
                         Text(
                             AppLocalization.of(context).translate(
                                 "register_screen", "add_picture_profile"),
-                            style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                16),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 16),
                             textScaleFactor: 1.0),
                         Material(
                           color: Colors.transparent,
@@ -213,10 +210,7 @@ class RegisterState extends ConsumerState<Register>
               toolbarTitle: AppLocalization.of(context)
                   .translate("general", "title_cropper"),
               toolbarColor: Theme.of(context).scaffoldBackgroundColor,
-              toolbarWidgetColor:
-                  Theme.of(context).brightness == Brightness.light
-                      ? cBlack
-                      : cWhite,
+              toolbarWidgetColor: Helpers.uiApp(context),
               cropFrameColor: cWhite,
               cropGridColor: cWhite,
               activeControlsWidgetColor: cBlue,
@@ -338,18 +332,7 @@ class RegisterState extends ConsumerState<Register>
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  systemOverlayStyle:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Platform.isIOS
-                              ? SystemUiOverlayStyle.dark
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.dark)
-                          : Platform.isIOS
-                              ? SystemUiOverlayStyle.light
-                              : const SystemUiOverlayStyle(
-                                  statusBarColor: Colors.transparent,
-                                  statusBarIconBrightness: Brightness.light),
+                  systemOverlayStyle: Helpers.uiOverlayApp(context),
                   leading: Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -365,20 +348,13 @@ class RegisterState extends ConsumerState<Register>
                         },
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
+                          color: Helpers.uiApp(context),
                         )),
                   ),
                   title: Text(
                       AppLocalization.of(context)
                           .translate("register_screen", "register"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          20),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0),
                   centerTitle: false,
                   actions: [stepRegister()],
@@ -434,11 +410,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_one"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(height: 35.0),
                 TextField(
@@ -603,16 +575,9 @@ class RegisterState extends ConsumerState<Register>
                   child: CheckboxListTile(
                       value: _validCGU,
                       dense: false,
-                      checkColor:
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
+                      checkColor: Helpers.uiApp(context),
                       activeColor: cBlue,
-                      side: BorderSide(
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite),
+                      side: BorderSide(color: Helpers.uiApp(context)),
                       title: RichText(
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.0,
@@ -648,16 +613,9 @@ class RegisterState extends ConsumerState<Register>
                   child: CheckboxListTile(
                       value: _validPrivacypolicy,
                       dense: false,
-                      checkColor:
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
+                      checkColor: Helpers.uiApp(context),
                       activeColor: cBlue,
-                      side: BorderSide(
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite),
+                      side: BorderSide(color: Helpers.uiApp(context)),
                       title: RichText(
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.0,
@@ -771,11 +729,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_two"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(
                   height: 55.0,
@@ -923,11 +877,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_three"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(height: 20.0),
                 GridView.builder(
@@ -1105,11 +1055,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_four"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(
                   height: 55.0,
@@ -1166,11 +1112,8 @@ class RegisterState extends ConsumerState<Register>
                             Helpers.formattingDate(
                                 _dateBirthday ?? DateTime.now(),
                                 localeLanguage.languageCode),
-                            style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                24),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 24),
                             textScaleFactor: 1.0),
                       ),
                     ),
@@ -1270,11 +1213,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_five"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(
                   height: 55.0,
@@ -1292,11 +1231,7 @@ class RegisterState extends ConsumerState<Register>
                           Theme.of(context).scaffoldBackgroundColor,
                       barrierColor: Colors.transparent,
                       closeIcon: Icon(Icons.clear,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                          size: 28),
+                          color: Helpers.uiApp(context), size: 28),
                       onChanged: (countryCode) {
                         setState(() {
                           _selectedCountry = countryCode.code;
@@ -1428,11 +1363,7 @@ class RegisterState extends ConsumerState<Register>
                 Text(
                     AppLocalization.of(context)
                         .translate("register_screen", "step_six"),
-                    style: textStyleCustomMedium(
-                        Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite,
-                        14),
+                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 Expanded(
                   child: Center(

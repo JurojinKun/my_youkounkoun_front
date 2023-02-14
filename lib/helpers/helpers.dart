@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -76,5 +80,45 @@ class Helpers {
     }
 
     return timestampString;
+  }
+
+  static SystemUiOverlayStyle uiOverlayApp(BuildContext context) {
+    SystemUiOverlayStyle uiOverlay;
+
+    if (Theme.of(context).brightness == Brightness.light) {
+      if (Platform.isIOS) {
+        uiOverlay = SystemUiOverlayStyle.dark;
+      } else {
+        uiOverlay = SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+            systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+            systemNavigationBarIconBrightness: Brightness.dark);
+      }
+    } else {
+      if (Platform.isIOS) {
+        uiOverlay = SystemUiOverlayStyle.light;
+      } else {
+        uiOverlay = SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
+            systemNavigationBarIconBrightness: Brightness.light);
+      }
+    }
+
+    return uiOverlay;
+  }
+
+  static Color uiApp(BuildContext context) {
+    Color ui;
+
+    if (Theme.of(context).brightness == Brightness.light) {
+      ui = cBlack;
+    } else {
+      ui = cWhite;
+    }
+
+    return ui;
   }
 }

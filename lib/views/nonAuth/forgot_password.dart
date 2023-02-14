@@ -50,15 +50,8 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
-                    child: Icon(Icons.check,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite),
+                        border: Border.all(color: Helpers.uiApp(context))),
+                    child: Icon(Icons.check, color: Helpers.uiApp(context)),
                   ),
                   const SizedBox(height: 15.0),
                   Material(
@@ -67,11 +60,8 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                         AppLocalization.of(context)
                             .translate("forgot_password_screen", "send_mail"),
                         textScaleFactor: 1.0,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
                   )
                 ],
@@ -106,15 +96,8 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
-                    child: Icon(Icons.clear,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? cBlack
-                            : cWhite),
+                        border: Border.all(color: Helpers.uiApp(context))),
+                    child: Icon(Icons.clear, color: Helpers.uiApp(context)),
                   ),
                   const SizedBox(height: 15.0),
                   Material(
@@ -123,11 +106,8 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                         AppLocalization.of(context).translate(
                             "forgot_password_screen", "error_send_mail"),
                         textScaleFactor: 1.0,
-                        style: textStyleCustomMedium(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            16),
+                        style:
+                            textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
                   )
                 ],
@@ -183,26 +163,11 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                 elevation: 0,
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent,
-                systemOverlayStyle:
-                    Theme.of(context).brightness == Brightness.light
-                        ? Platform.isIOS
-                            ? SystemUiOverlayStyle.dark
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.dark)
-                        : Platform.isIOS
-                            ? SystemUiOverlayStyle.light
-                            : const SystemUiOverlayStyle(
-                                statusBarColor: Colors.transparent,
-                                statusBarIconBrightness: Brightness.light),
+                systemOverlayStyle: Helpers.uiOverlayApp(context),
                 title: Text(
                   AppLocalization.of(context)
                       .translate("forgot_password_screen", "forgot_password"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0,
                 ),
                 centerTitle: false,
@@ -213,11 +178,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
                         onPressed: () => navNonAuthKey.currentState!.pop(),
-                        icon: Icon(Icons.clear,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                        icon: Icon(Icons.clear, color: Helpers.uiApp(context))),
                   )
                 ],
               ),
@@ -242,11 +203,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                 Text(
                   AppLocalization.of(context)
                       .translate("forgot_password_screen", "content"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      14),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0,
                 ),

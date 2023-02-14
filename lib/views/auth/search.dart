@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -91,26 +92,11 @@ class SearchState extends ConsumerState<Search>
               elevation: 0,
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
-              systemOverlayStyle:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Platform.isIOS
-                          ? SystemUiOverlayStyle.dark
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.dark)
-                      : Platform.isIOS
-                          ? SystemUiOverlayStyle.light
-                          : const SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarIconBrightness: Brightness.light),
+              systemOverlayStyle: Helpers.uiOverlayApp(context),
               title: Text(
                   AppLocalization.of(context)
                       .translate("search_screen", "search"),
-                  style: textStyleCustomBold(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      20),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0),
               centerTitle: false,
               bottom: PreferredSize(
@@ -122,12 +108,11 @@ class SearchState extends ConsumerState<Search>
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 elevation: 6,
-                                backgroundColor:
-                                    Theme.of(context).canvasColor,
+                                backgroundColor: Theme.of(context).canvasColor,
                                 foregroundColor: cBlue,
                                 shadowColor: Colors.transparent,
-                                side: const BorderSide(
-                                    width: 2.0, color: cBlue),
+                                side:
+                                    const BorderSide(width: 2.0, color: cBlue),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 )),
@@ -143,9 +128,8 @@ class SearchState extends ConsumerState<Search>
                                 const SizedBox(width: 15.0),
                                 Expanded(
                                     child: Text(
-                                        AppLocalization.of(context)
-                                            .translate(
-                                                "general", "search_user"),
+                                        AppLocalization.of(context).translate(
+                                            "general", "search_user"),
                                         style: textStyleCustomBold(
                                             Theme.of(context).brightness ==
                                                     Brightness.light
@@ -178,11 +162,8 @@ class SearchState extends ConsumerState<Search>
                     Text(
                         AppLocalization.of(context)
                             .translate("search_screen", "explore"),
-                        style: textStyleCustomBold(
-                            Theme.of(context).brightness == Brightness.light
-                                ? cBlack
-                                : cWhite,
-                            20.0),
+                        style:
+                            textStyleCustomBold(Helpers.uiApp(context), 20.0),
                         textScaleFactor: 1.0),
                     const SizedBox(height: 25.0),
                     datasShimmer()
@@ -220,11 +201,7 @@ class SearchState extends ConsumerState<Search>
                     child: Text(
                       AppLocalization.of(context)
                           .translate("general", "no_more_data"),
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          14),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 14),
                       textScaleFactor: 1.0,
                       textAlign: TextAlign.center,
                     ),
@@ -248,10 +225,7 @@ class SearchState extends ConsumerState<Search>
                             AppLocalization.of(context)
                                 .translate("search_screen", "explore"),
                             style: textStyleCustomBold(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite,
-                                20.0),
+                                Helpers.uiApp(context), 20.0),
                             textScaleFactor: 1.0),
                         const SizedBox(height: 25.0),
                         datasItems()
@@ -321,11 +295,7 @@ class SearchState extends ConsumerState<Search>
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(dataTestString,
-                      style: textStyleCustomBold(
-                          Theme.of(context).brightness == Brightness.light
-                              ? cBlack
-                              : cWhite,
-                          16),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.0),
                 ),

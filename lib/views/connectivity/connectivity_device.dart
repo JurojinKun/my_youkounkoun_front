@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ConnectivityDevice extends ConsumerStatefulWidget {
@@ -21,9 +22,9 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this)..repeat();
+    _animationController =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this)
+          ..repeat();
   }
 
   @override
@@ -37,17 +38,7 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: Theme.of(context).brightness == Brightness.light
-            ? Platform.isIOS
-                ? SystemUiOverlayStyle.dark
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.dark)
-            : Platform.isIOS
-                ? SystemUiOverlayStyle.light
-                : const SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: Brightness.light),
+        value: Helpers.uiOverlayApp(context),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -57,16 +48,14 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
                 RotationTransition(
                   turns:
                       Tween(begin: 0.0, end: 1.0).animate(_animationController),
-                  child: Image.asset("assets/images/ic_app.png", height: 125, width: 125),
+                  child: Image.asset("assets/images/ic_app.png",
+                      height: 125, width: 125),
                 ),
                 const SizedBox(height: 25.0),
                 Text(
-                  AppLocalization.of(context).translate("connectivity_screen", "no_connectivity"),
-                  style: textStyleCustomMedium(
-                      Theme.of(context).brightness == Brightness.light
-                          ? cBlack
-                          : cWhite,
-                      16),
+                  AppLocalization.of(context)
+                      .translate("connectivity_screen", "no_connectivity"),
+                  style: textStyleCustomMedium(Helpers.uiApp(context), 16),
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.0,
                 )
