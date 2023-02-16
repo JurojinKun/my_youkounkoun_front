@@ -36,7 +36,7 @@ Future showMaterialRedirectNotifChat(
           expand: true,
           enableDrag: false,
           builder: (context) {
-            return RouteAwareWidget(
+            return RouteObserverWidget(
                 name: chatDetails,
                 child: ChatDetails(user: user!, openWithModal: true));
           });
@@ -106,7 +106,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const RouteAwareWidget(
+          return const RouteObserverWidget(
               name: validateUser, child: ValidateUser());
         });
   }

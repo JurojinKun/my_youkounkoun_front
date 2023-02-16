@@ -5,19 +5,19 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 
-class RouteAwareWidget extends ConsumerStatefulWidget {
+class RouteObserverWidget extends ConsumerStatefulWidget {
   final String name;
   final Widget child;
 
-  const RouteAwareWidget({Key? key, required this.name, required this.child})
+  const RouteObserverWidget({Key? key, required this.name, required this.child})
       : super(key: key);
 
   @override
-  RouteAwareWidgetState createState() => RouteAwareWidgetState();
+  RouteObserverWidgetState createState() => RouteObserverWidgetState();
 }
 
 // Implement RouteAware in a widget's state and subscribe it to the RouteObserver.
-class RouteAwareWidgetState extends ConsumerState<RouteAwareWidget>
+class RouteObserverWidgetState extends ConsumerState<RouteObserverWidget>
     with RouteAware {
   @override
   void didChangeDependencies() {

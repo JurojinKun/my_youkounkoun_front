@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
@@ -75,7 +73,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return RouteAwareWidget(
+          return RouteObserverWidget(
               name: chatDetails,
               child: ChatDetails(user: user, openWithModal: true));
         });

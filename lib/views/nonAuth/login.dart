@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
@@ -43,7 +42,7 @@ class LoginState extends ConsumerState<Login> {
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const RouteAwareWidget(
+          return const RouteObserverWidget(
               name: forgotPassword, child: ForgotPassword());
         });
   }

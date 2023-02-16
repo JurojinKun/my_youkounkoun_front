@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
@@ -30,7 +28,7 @@ class ActivitiesState extends ConsumerState<Activities>
         expand: true,
         enableDrag: false,
         builder: (context) {
-          return const RouteAwareWidget(name: newConversation, child: NewConversation());
+          return const RouteObserverWidget(name: newConversation, child: NewConversation());
         });
   }
 

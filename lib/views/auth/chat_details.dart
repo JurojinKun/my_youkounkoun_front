@@ -741,14 +741,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             const SizedBox(
                               width: 15.0,
                             ),
-                            Text(widget.user.pseudo,
+                            Expanded(
+                              child: Text(
+                                widget.user.pseudo,
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
                                     20),
-                                textScaleFactor: 1.0)
+                                textScaleFactor: 1.0,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -802,7 +807,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   : MediaQuery.of(context).padding.bottom + 70.0),
           controller: _scrollChatController,
           reverse: true,
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
           child: ConstrainedBox(
             constraints: BoxConstraints(
                 minHeight: (showEmotions && !_isKeyboard) ||

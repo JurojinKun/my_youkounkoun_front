@@ -31,17 +31,17 @@ Route<dynamic> generateRouteNonAuth(
     case welcome:
       return MaterialPageRoute(
           builder: (_) =>
-              const RouteAwareWidget(name: welcome, child: Welcome()));
+              const RouteObserverWidget(name: welcome, child: Welcome()));
     case login:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(name: login, child: Login()));
+          builder: (_) => const RouteObserverWidget(name: login, child: Login()));
     case register:
       return MaterialPageRoute(
           builder: (_) =>
-              const RouteAwareWidget(name: register, child: Register()));
+              const RouteObserverWidget(name: register, child: Register()));
     case forgotPassword:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(
+          builder: (_) => const RouteObserverWidget(
               name: forgotPassword, child: ForgotPassword()));
     default:
       return MaterialPageRoute(
@@ -62,27 +62,27 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
   switch (settings.name) {
     case bottomNav:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(
+          builder: (_) => const RouteObserverWidget(
               name: bottomNav, child: BottomNavController()));
     case validateUser:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(
+          builder: (_) => const RouteObserverWidget(
               name: validateUser, child: ValidateUser()));
     case editAccount:
       return MaterialPageRoute(
           builder: (_) =>
-              const RouteAwareWidget(name: editAccount, child: EditAccount()));
+              const RouteObserverWidget(name: editAccount, child: EditAccount()));
     case editSecurity:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(
+          builder: (_) => const RouteObserverWidget(
               name: editSecurity, child: EditSecurity()));
     case newConversation:
       return MaterialPageRoute(
-          builder: (_) => const RouteAwareWidget(
+          builder: (_) => const RouteObserverWidget(
               name: newConversation, child: NewConversation()));
     case chatDetails:
       return MaterialPageRoute(
-          builder: (_) => RouteAwareWidget(
+          builder: (_) => RouteObserverWidget(
               name: chatDetails,
               child: ChatDetails(
                 user: args![0],
@@ -91,10 +91,10 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
     case infosApp:
       return MaterialPageRoute(
           builder: (_) =>
-              const RouteAwareWidget(name: infosApp, child: InfosApp()));
+              const RouteObserverWidget(name: infosApp, child: InfosApp()));
     case userProfile:
       return MaterialPageRoute(
-          builder: (_) => RouteAwareWidget(
+          builder: (_) => RouteObserverWidget(
               name: userProfile,
               child: UserProfile(
                 user: args![0],
@@ -102,11 +102,11 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
               )));
     case dataTest:
       return MaterialPageRoute(
-          builder: (_) => RouteAwareWidget(
+          builder: (_) => RouteObserverWidget(
               name: dataTest, child: DatasTest(index: args![0])));
     case pictureFullscreen:
       return MaterialPageRoute(
-          builder: (_) => RouteAwareWidget(
+          builder: (_) => RouteObserverWidget(
               name: pictureFullscreen,
               child: PictureFullscreen(imageUrl: args![0])));
     default:
