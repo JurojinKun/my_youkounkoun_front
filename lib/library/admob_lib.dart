@@ -47,6 +47,15 @@ class AdMobConfig {
       }
     }
   }
+
+  static Future<void> setAppTrackingTransparency() async {
+    final statusTransparency =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (statusTransparency == TrackingStatus.notDetermined) {
+      await Future.delayed(const Duration(seconds: 1));
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
 }
 
 class AdMobWidget extends ConsumerStatefulWidget {

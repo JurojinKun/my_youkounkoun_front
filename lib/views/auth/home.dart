@@ -1,10 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -13,10 +9,9 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/library/admob_lib.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
+import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,122 +28,15 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   bool loadedHome = false;
 
   Future<void> initHome() async {
-    await initPushToken();
+    await NotificationsLib.initPushToken(ref);
 
     if (Platform.isIOS) {
-      final statusTransparency =
-          await AppTrackingTransparency.trackingAuthorizationStatus;
-      if (statusTransparency == TrackingStatus.notDetermined) {
-        await Future.delayed(const Duration(seconds: 1));
-        await AppTrackingTransparency.requestTrackingAuthorization();
-      }
+      await AdMobConfig.setAppTrackingTransparency();
     }
 
     setState(() {
       loadedHome = true;
     });
-  }
-
-  Future<void> initPushToken() async {
-    if (Platform.isIOS) {
-      NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-
-      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        //get push token device
-        String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
-        if (kDebugMode) {
-          print("push token: $pushToken");
-        }
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
-          DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-          PackageInfo packageInfo = await PackageInfo.fromPlatform();
-          String os;
-          String? uuid;
-
-          os = "apple";
-          IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
-          uuid = deviceInfoIOS.identifierForVendor;
-
-          try {
-            Map<String, dynamic> map = {
-              "uuid": uuid,
-              "os": os,
-              "appVersion": packageInfo.version,
-              "pushToken": pushToken,
-            };
-            String token = prefs.getString("token") ?? "";
-            if (token.trim() != "") {
-              //logic ws send push token
-              ref
-                  .read(tokenNotificationsNotifierProvider.notifier)
-                  .updateTokenNotif(pushToken);
-              prefs.setString("pushToken", pushToken);
-            }
-          } catch (e) {
-            if (kDebugMode) {
-              print(e);
-            }
-          }
-        } else {
-          ref
-              .read(tokenNotificationsNotifierProvider.notifier)
-              .updateTokenNotif(pushToken);
-        }
-      }
-    } else {
-      //get push token device
-      String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
-      if (kDebugMode) {
-        print("push token: $pushToken");
-      }
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      if (pushToken != prefs.getString("pushToken") && pushToken != "") {
-        DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String os;
-        String? uuid;
-
-        os = "android";
-        AndroidDeviceInfo deviceInfoAndroid =
-            await deviceInfoPlugin.androidInfo;
-        uuid = deviceInfoAndroid.id;
-
-        try {
-          Map<String, dynamic> map = {
-            "uuid": uuid,
-            "os": os,
-            "appVersion": packageInfo.version,
-            "pushToken": pushToken,
-          };
-          String token = prefs.getString("token") ?? "";
-          if (token.trim() != "") {
-            //logic ws send push token
-            ref
-                .read(tokenNotificationsNotifierProvider.notifier)
-                .updateTokenNotif(pushToken);
-            prefs.setString("pushToken", pushToken);
-          }
-        } catch (e) {
-          if (kDebugMode) {
-            print(e);
-          }
-        }
-      } else {
-        ref
-            .read(tokenNotificationsNotifierProvider.notifier)
-            .updateTokenNotif(pushToken);
-      }
-    }
   }
 
   @override

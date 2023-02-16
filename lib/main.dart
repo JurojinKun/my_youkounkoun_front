@@ -4,17 +4,16 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
+import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
@@ -40,26 +39,9 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-// // Initialize the [FlutterLocalNotificationsPlugin] package.
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-/// Define a top-level named handler which background/terminated messages will
-/// call.
-///
-/// To verify things are working, check out the native platform logs.
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-  if (kDebugMode) {
-    print('Handling a background message ${message.messageId}');
-  }
-}
-
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-    //instanciate env config
+
   await EnvironmentConfigLib().initEnvironmentConfigLib();
   await Firebase.initializeApp();
   if (EnvironmentConfigLib().getEnvironmentAdmob) {
@@ -68,28 +50,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   HttpOverrides.global = MyHttpOverrides();
   await DefaultCacheManager().emptyCache();
-
-  // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: false,
-    badge: false,
-    sound: false,
-  );
-
-  /// Create an Android Notification Channel.
-  // We use this channel in the `AndroidManifest.xml` file to override the default FCM channel to enable heads up notifications.
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(const AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        description:
-            'This channel is used for important notifications.', // description
-        importance: Importance.high,
-      ));
+  await NotificationsLib.notificationsLogicMain();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -127,7 +88,9 @@ class MyAppState extends ConsumerState<MyApp> {
 
   Future<void> initApp(WidgetRef ref) async {
     ConnectivityResult result = await initConnectivity();
-    ref.read(initConnectivityStatusAppNotifierProvider.notifier).setInitConnectivityStatus(result);
+    ref
+        .read(initConnectivityStatusAppNotifierProvider.notifier)
+        .setInitConnectivityStatus(result);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -141,7 +104,9 @@ class MyAppState extends ConsumerState<MyApp> {
         .setLocaleLanguage(prefs);
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    ref.read(versionAppNotifierProvider.notifier).setVersionApp(packageInfo.version.toString());
+    ref
+        .read(versionAppNotifierProvider.notifier)
+        .setVersionApp(packageInfo.version.toString());
 
     if (result != ConnectivityResult.none) {
       //logic load datas user
@@ -156,7 +121,7 @@ class MyAppState extends ConsumerState<MyApp> {
 
   Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
-    String token = prefs.getString("token") ?? ""; 
+    String token = prefs.getString("token") ?? "";
 
     if (token.trim() != "") {
       ref.read(userNotifierProvider.notifier).initUser(UserModel(
