@@ -261,7 +261,7 @@ class SettingsState extends ConsumerState<Settings> {
                   shape: const CircleBorder(),
                   clipBehavior: Clip.hardEdge,
                   child: IconButton(
-                      onPressed: () => _showDialogLogout(),
+                      onPressed: () async => await _showDialogLogout(),
                       icon: Icon(
                         Icons.logout,
                         color: Helpers.uiApp(context),
@@ -272,7 +272,7 @@ class SettingsState extends ConsumerState<Settings> {
                   shape: const CircleBorder(),
                   clipBehavior: Clip.hardEdge,
                   child: IconButton(
-                      onPressed: () => _showDialogDeleteAccount(),
+                      onPressed: () async => await _showDialogDeleteAccount(),
                       icon: Icon(
                         Icons.person_remove_outlined,
                         color: Helpers.uiApp(context),

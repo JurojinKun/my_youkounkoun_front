@@ -1156,13 +1156,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             child: Container(
                 height: 200,
                 width: 150,
-                margin: EdgeInsets.symmetric(
-                    horizontal: messagesUsers.length != index + 1 &&
-                            messagesUsers[index + 1].idSender !=
-                                ref.read(userNotifierProvider).id
-                        ? 35.0
-                        : 10.0,
-                    vertical: 5.0),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 decoration: BoxDecoration(
                     color: cGrey.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10.0)),
@@ -1216,13 +1211,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             child: Container(
                 height: 200,
                 width: 150,
-                margin: EdgeInsets.symmetric(
-                    horizontal: messagesUsers.length != index + 1 &&
-                            messagesUsers[index + 1].idSender !=
-                                ref.read(userNotifierProvider).id
-                        ? 35.0
-                        : 10.0,
-                    vertical: 5.0),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 decoration: BoxDecoration(
                     color: cGrey.withOpacity(0.2),
                     border: Border.all(color: cBlue),
@@ -1453,6 +1443,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         cursorColor: cBlue,
                         textInputAction: TextInputAction.newline,
                         keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
                         style: textStyleCustomBold(Helpers.uiApp(context),
                             12 / MediaQuery.of(context).textScaleFactor),
                         decoration: InputDecoration(

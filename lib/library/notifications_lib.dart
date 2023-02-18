@@ -306,6 +306,7 @@ class NotificationsLib {
   }
 
   static Future<void> initPushToken(WidgetRef ref) async {
+    //optim et peut-être enlever la logique riverpod du push token
     if (Platform.isIOS) {
       NotificationSettings settings =
           await FirebaseMessaging.instance.requestPermission(
