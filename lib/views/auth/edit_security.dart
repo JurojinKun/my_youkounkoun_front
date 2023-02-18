@@ -224,47 +224,88 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                     14 /
                                         MediaQuery.of(context).textScaleFactor),
                                 decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.only(
-                                        top: 15.0, left: 15.0),
-                                    hintText: AppLocalization.of(context)
-                                        .translate(
-                                            "edit_security_screen", "password"),
-                                    hintStyle: textStyleCustomRegular(
-                                        cGrey,
-                                        14 /
-                                            MediaQuery.of(context)
-                                                .textScaleFactor),
-                                    labelStyle: textStyleCustomRegular(
-                                        cBlue,
-                                        14 /
-                                            MediaQuery.of(context)
-                                                .textScaleFactor),
-                                    prefixIcon: Icon(Icons.lock,
+                                  contentPadding:
+                                      const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                                  hintText: AppLocalization.of(context)
+                                      .translate(
+                                          "edit_security_screen", "password"),
+                                  hintStyle: textStyleCustomRegular(
+                                      cGrey,
+                                      14 /
+                                          MediaQuery.of(context)
+                                              .textScaleFactor),
+                                  labelStyle: textStyleCustomRegular(
+                                      cBlue,
+                                      14 /
+                                          MediaQuery.of(context)
+                                              .textScaleFactor),
+                                  prefixIcon: Icon(Icons.lock,
+                                      color:
+                                          _validModifPasswordFocusNode.hasFocus
+                                              ? cBlue
+                                              : cGrey),
+                                  suffixIcon: Material(
+                                    color: Colors.transparent,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _validModifPasswordObscure =
+                                                !_validModifPasswordObscure;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _validModifPasswordObscure
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: _validModifPasswordFocusNode
+                                                  .hasFocus
+                                              ? cBlue
+                                              : cGrey,
+                                        )),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 2.0,
                                         color: _validModifPasswordFocusNode
                                                 .hasFocus
                                             ? cBlue
-                                            : cGrey),
-                                    suffixIcon: Material(
-                                      color: Colors.transparent,
-                                      shape: const CircleBorder(),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _validModifPasswordObscure =
-                                                  !_validModifPasswordObscure;
-                                            });
-                                          },
-                                          icon: Icon(
-                                            _validModifPasswordObscure
-                                                ? Icons.visibility
-                                                : Icons.visibility_off,
-                                            color: _validModifPasswordFocusNode
-                                                    .hasFocus
-                                                ? cBlue
-                                                : cGrey,
-                                          )),
-                                    )),
+                                            : cGrey,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 2.0,
+                                        color: _validModifPasswordFocusNode
+                                                .hasFocus
+                                            ? cBlue
+                                            : cGrey,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 2.0,
+                                        color: _validModifPasswordFocusNode
+                                                .hasFocus
+                                            ? cBlue
+                                            : cGrey,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 2.0,
+                                        color: _validModifPasswordFocusNode
+                                                .hasFocus
+                                            ? cBlue
+                                            : cGrey,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                ),
                               ),
                               const SizedBox(
                                 height: 45.0,
@@ -540,7 +581,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               textScaleFactor: 1.0,
             ),
             const SizedBox(
-              height: 10.0,
+              height: 15.0,
             ),
             TextField(
               scrollPhysics: const BouncingScrollPhysics(),
@@ -561,35 +602,60 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   _mailFocusNode.hasFocus ? cBlue : cGrey,
                   14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
-                  hintText: AppLocalization.of(context)
-                      .translate("edit_security_screen", "mail"),
-                  hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                  labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.mail,
-                      color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                  suffixIcon: _mailController.text.isNotEmpty
-                      ? Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _mailController.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                color: _mailFocusNode.hasFocus ? cBlue : cGrey,
-                              )),
-                        )
-                      : const SizedBox()),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                hintText: AppLocalization.of(context)
+                    .translate("edit_security_screen", "mail"),
+                hintStyle: textStyleCustomRegular(
+                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                labelStyle: textStyleCustomRegular(
+                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                prefixIcon: Icon(Icons.mail,
+                    color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                suffixIcon: _mailController.text.isNotEmpty
+                    ? Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _mailController.clear();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.clear,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            )),
+                      )
+                    : const SizedBox(),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
             ),
             const SizedBox(
-              height: 45.0,
+              height: 35.0,
             ),
             Text(
               AppLocalization.of(context)
@@ -623,33 +689,58 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
                   14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
-                  hintText: AppLocalization.of(context)
-                      .translate("edit_security_screen", "actual_password"),
-                  hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                  labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.lock,
-                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey),
-                  suffixIcon: Material(
-                    color: Colors.transparent,
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _actualPasswordObscure = !_actualPasswordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _actualPasswordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color:
-                              _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                        )),
-                  )),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                hintText: AppLocalization.of(context)
+                    .translate("edit_security_screen", "actual_password"),
+                hintStyle: textStyleCustomRegular(
+                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                labelStyle: textStyleCustomRegular(
+                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                prefixIcon: Icon(Icons.lock,
+                    color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                suffixIcon: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _actualPasswordObscure = !_actualPasswordObscure;
+                        });
+                      },
+                      icon: Icon(
+                        _actualPasswordObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color:
+                            _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                      )),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
             ),
             const SizedBox(
               height: 25.0,
@@ -677,32 +768,57 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
                   14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
-                  hintText: AppLocalization.of(context)
-                      .translate("edit_security_screen", "new_password"),
-                  hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                  labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.lock,
-                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey),
-                  suffixIcon: Material(
-                    color: Colors.transparent,
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _newPasswordObscure = !_newPasswordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _newPasswordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                        )),
-                  )),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                hintText: AppLocalization.of(context)
+                    .translate("edit_security_screen", "new_password"),
+                hintStyle: textStyleCustomRegular(
+                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                labelStyle: textStyleCustomRegular(
+                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                prefixIcon: Icon(Icons.lock,
+                    color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                suffixIcon: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _newPasswordObscure = !_newPasswordObscure;
+                        });
+                      },
+                      icon: Icon(
+                        _newPasswordObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                      )),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color: _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
             ),
             const SizedBox(
               height: 25.0,
@@ -727,36 +843,64 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
                   14 / MediaQuery.of(context).textScaleFactor),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(top: 15.0, left: 15.0),
-                  hintText: AppLocalization.of(context).translate(
-                      "edit_security_screen", "confirm_new_password"),
-                  hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                  labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.lock,
-                      color: _confirmNewPasswordFocusNode.hasFocus
-                          ? cBlue
-                          : cGrey),
-                  suffixIcon: Material(
-                    color: Colors.transparent,
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _newPasswordObscure = !_newPasswordObscure;
-                          });
-                        },
-                        icon: Icon(
-                          _newPasswordObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: _confirmNewPasswordFocusNode.hasFocus
-                              ? cBlue
-                              : cGrey,
-                        )),
-                  )),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                hintText: AppLocalization.of(context)
+                    .translate("edit_security_screen", "confirm_new_password"),
+                hintStyle: textStyleCustomRegular(
+                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                labelStyle: textStyleCustomRegular(
+                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                prefixIcon: Icon(Icons.lock,
+                    color:
+                        _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey),
+                suffixIcon: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _newPasswordObscure = !_newPasswordObscure;
+                        });
+                      },
+                      icon: Icon(
+                        _newPasswordObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: _confirmNewPasswordFocusNode.hasFocus
+                            ? cBlue
+                            : cGrey,
+                      )),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color:
+                          _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color:
+                          _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color:
+                          _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2.0,
+                      color:
+                          _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
             ),
           ],
         ),

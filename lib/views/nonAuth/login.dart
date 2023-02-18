@@ -196,38 +196,63 @@ class LoginState extends ConsumerState<Login> {
                           _mailFocusNode.hasFocus ? cBlue : cGrey,
                           14 / MediaQuery.of(context).textScaleFactor),
                       decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.only(top: 15.0, left: 15.0),
-                          hintText: AppLocalization.of(context)
-                              .translate("login_screen", "mail"),
-                          hintStyle: textStyleCustomRegular(cGrey,
-                              14 / MediaQuery.of(context).textScaleFactor),
-                          labelStyle: textStyleCustomRegular(cBlue,
-                              14 / MediaQuery.of(context).textScaleFactor),
-                          prefixIcon: Icon(Icons.mail,
-                              color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                          suffixIcon: _mailController.text.isNotEmpty
-                              ? Material(
-                                  color: Colors.transparent,
-                                  shape: const CircleBorder(),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _mailController.clear();
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.clear,
-                                        color: _mailFocusNode.hasFocus
-                                            ? cBlue
-                                            : cGrey,
-                                      )),
-                                )
-                              : const SizedBox()),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                        hintText: AppLocalization.of(context)
+                            .translate("login_screen", "mail"),
+                        hintStyle: textStyleCustomRegular(
+                            cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        labelStyle: textStyleCustomRegular(
+                            cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        prefixIcon: Icon(Icons.mail,
+                            color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                        suffixIcon: _mailController.text.isNotEmpty
+                            ? Material(
+                                color: Colors.transparent,
+                                shape: const CircleBorder(),
+                                clipBehavior: Clip.hardEdge,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _mailController.clear();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color: _mailFocusNode.hasFocus
+                                          ? cBlue
+                                          : cGrey,
+                                    )),
+                              )
+                            : const SizedBox(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
                     ),
                     const SizedBox(
-                      height: 55.0,
+                      height: 35.0,
                     ),
                     TextField(
                       scrollPhysics: const BouncingScrollPhysics(),
@@ -260,38 +285,65 @@ class LoginState extends ConsumerState<Login> {
                           _passwordFocusNode.hasFocus ? cBlue : cGrey,
                           14 / MediaQuery.of(context).textScaleFactor),
                       decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.only(top: 15.0, left: 15.0),
-                          hintText: AppLocalization.of(context)
-                              .translate("login_screen", "password"),
-                          hintStyle: textStyleCustomRegular(cGrey,
-                              14 / MediaQuery.of(context).textScaleFactor),
-                          labelStyle: textStyleCustomRegular(cBlue,
-                              14 / MediaQuery.of(context).textScaleFactor),
-                          prefixIcon: Icon(Icons.lock,
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                        hintText: AppLocalization.of(context)
+                            .translate("login_screen", "password"),
+                        hintStyle: textStyleCustomRegular(
+                            cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        labelStyle: textStyleCustomRegular(
+                            cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        prefixIcon: Icon(Icons.lock,
+                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
+                        suffixIcon: Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _passwordObscure = !_passwordObscure;
+                                });
+                              },
+                              icon: Icon(
+                                _passwordObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color:
+                                    _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                              )),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
                               color:
-                                  _passwordFocusNode.hasFocus ? cBlue : cGrey),
-                          suffixIcon: Material(
-                            color: Colors.transparent,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _passwordObscure = !_passwordObscure;
-                                  });
-                                },
-                                icon: Icon(
-                                  _passwordObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: _passwordFocusNode.hasFocus
-                                      ? cBlue
-                                      : cGrey,
-                                )),
-                          )),
+                                  _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color:
+                                  _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color:
+                                  _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.0,
+                              color:
+                                  _passwordFocusNode.hasFocus ? cBlue : cGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 15.0),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton(
@@ -305,7 +357,7 @@ class LoginState extends ConsumerState<Login> {
                           )),
                     ),
                     const SizedBox(
-                      height: 55.0,
+                      height: 35.0,
                     ),
                     SizedBox(
                         height: 50.0,

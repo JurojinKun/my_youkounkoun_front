@@ -15,6 +15,8 @@ class Welcome extends ConsumerStatefulWidget {
 }
 
 class WelcomeState extends ConsumerState<Welcome> {
+  String versionApp = "";
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +29,8 @@ class WelcomeState extends ConsumerState<Welcome> {
 
   @override
   Widget build(BuildContext context) {
+    versionApp = ref.watch(versionAppNotifierProvider);
+
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: Helpers.uiOverlayApp(context),
@@ -146,7 +150,7 @@ class WelcomeState extends ConsumerState<Welcome> {
         const SizedBox(height: 20.0),
         Text(
             AppLocalization.of(context).translate("welcome_screen", "version") +
-                ref.read(versionAppNotifierProvider),
+                versionApp,
             textAlign: TextAlign.center,
             style: textStyleCustomMedium(Helpers.uiApp(context), 11),
             textScaleFactor: 1.0)

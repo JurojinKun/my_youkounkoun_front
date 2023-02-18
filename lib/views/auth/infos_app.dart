@@ -17,6 +17,8 @@ class InfosApp extends ConsumerStatefulWidget {
 class InfosAppState extends ConsumerState<InfosApp> {
   AppBar appBar = AppBar();
 
+  String versionApp = "";
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,8 @@ class InfosAppState extends ConsumerState<InfosApp> {
 
   @override
   Widget build(BuildContext context) {
+    versionApp = ref.watch(versionAppNotifierProvider);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -78,7 +82,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
               const Divider(thickness: 1, color: cGrey),
               policyPrivacyApp(),
               const Divider(thickness: 1, color: cGrey),
-              versionApp()
+              versionAppWidget()
             ],
           ),
         ),
@@ -170,7 +174,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
     );
   }
 
-  Widget versionApp() {
+  Widget versionAppWidget() {
     return SizedBox(
       height: 60.0,
       child: Row(
@@ -196,7 +200,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
               ],
             ),
           ),
-          Text(ref.read(versionAppNotifierProvider),
+          Text(versionApp,
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textScaleFactor: 1.0)
         ],
