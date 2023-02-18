@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -86,6 +87,39 @@ class ProfileState extends ConsumerState<Profile>
                         color: Helpers.uiApp(context),
                       )),
                 ),
+                if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
+                  Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            drawerScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          icon: SizedBox(
+                              height: 25.0,
+                              width: 25.0,
+                              child: Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: [
+                                  Icon(
+                                    Icons.menu,
+                                    color: Helpers.uiApp(context),
+                                    size: 25,
+                                  ),
+                                  Positioned(
+                                    top: 2,
+                                    right: 0,
+                                    child: Container(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.blue,
+                                          shape: BoxShape.circle),
+                                    ),
+                                  )
+                                ],
+                              ))))
               ],
             ),
           ),

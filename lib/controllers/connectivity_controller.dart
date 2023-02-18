@@ -31,7 +31,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
 
   String currentRouteApp = "";
 
-  Future<void> _loadDataUser(SharedPreferences prefs) async {
+  Future<void> _reloadDataUser(SharedPreferences prefs) async {
     //logic already log
     String token = prefs.getString("token") ?? "";
 
@@ -74,7 +74,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
 
       if (initConnectivityStatusApp == ConnectivityResult.none &&
           result != ConnectivityResult.none) {
-        await _loadDataUser(prefs);
+        await _reloadDataUser(prefs);
         ref
             .read(initConnectivityStatusAppNotifierProvider.notifier)
             .setInitConnectivityStatus(result);
@@ -92,7 +92,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
         } else if (result != ConnectivityResult.none &&
             ref.read(connectivityStatusAppNotifierProvider) ==
                 ConnectivityResult.none) {
-          await _loadDataUser(prefs);
+          await _reloadDataUser(prefs);
           ref
               .read(connectivityStatusAppNotifierProvider.notifier)
               .updateConnectivityStatus(result);

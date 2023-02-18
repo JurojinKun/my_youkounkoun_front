@@ -39,6 +39,10 @@ GlobalKey<NavigatorState>? navSearchKey;
 GlobalKey<NavigatorState>? navActivitiesKey;
 GlobalKey<NavigatorState>? navProfileKey;
 
+//scaffold key drawer
+//scaffold key
+final GlobalKey<ScaffoldState> drawerScaffoldKey = GlobalKey<ScaffoldState>();
+
 //tab controller app
 TabController? tabControllerBottomNav;
 TabController? tabControllerActivities;

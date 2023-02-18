@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -97,6 +98,41 @@ class SearchState extends ConsumerState<Search>
                   style: textStyleCustomBold(Helpers.uiApp(context), 20),
                   textScaleFactor: 1.0),
               centerTitle: false,
+              actions: [
+                if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
+                  Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () {
+                            drawerScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          icon: SizedBox(
+                              height: 25.0,
+                              width: 25.0,
+                              child: Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: [
+                                  Icon(
+                                    Icons.menu,
+                                    color: Helpers.uiApp(context),
+                                    size: 25,
+                                  ),
+                                  Positioned(
+                                    top: 2,
+                                    right: 0,
+                                    child: Container(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.blue,
+                                          shape: BoxShape.circle),
+                                    ),
+                                  )
+                                ],
+                              ))))
+              ],
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(65.0),
                   child: SizedBox(

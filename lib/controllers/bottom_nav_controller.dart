@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/components/custom_drawer.dart';
 import 'package:myyoukounkoun/components/custom_nav_bar.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -93,18 +95,29 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
           }
         },
         child: Scaffold(
+          key: EnvironmentConfigLib().getEnvironmentBottomNavBar
+              ? null
+              : drawerScaffoldKey,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Stack(
-            children: [
-              TabBarView(
+          endDrawer: EnvironmentConfigLib().getEnvironmentBottomNavBar
+              ? null
+              : CustomDrawer(tabController: tabControllerBottomNav!),
+          body: EnvironmentConfigLib().getEnvironmentBottomNavBar
+              ? Stack(
+                  children: [
+                    TabBarView(
+                        controller: tabControllerBottomNav,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: tabNavs()),
+                    !_isKeyboard
+                        ? CustomNavBar(tabController: tabControllerBottomNav!)
+                        : const SizedBox()
+                  ],
+                )
+              : TabBarView(
                   controller: tabControllerBottomNav,
                   physics: const NeverScrollableScrollPhysics(),
                   children: tabNavs()),
-              !_isKeyboard
-                  ? CustomNavBar(tabController: tabControllerBottomNav!)
-                  : const SizedBox()
-            ],
-          ),
         ));
   }
 

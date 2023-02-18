@@ -7,6 +7,7 @@ class EnvironmentConfig {
   late String bannerAdmobIdIos;
   late String nativeAdmobIdAndroid;
   late String nativeAdmobIdIos;
+  late bool bottomNavBar;
 
   EnvironmentConfig(
       {required this.keyApiGiphy,
@@ -14,7 +15,8 @@ class EnvironmentConfig {
       required this.bannerAdmobIdAndroid,
       required this.bannerAdmobIdIos,
       required this.nativeAdmobIdAndroid,
-      required this.nativeAdmobIdIos});
+      required this.nativeAdmobIdIos,
+      required this.bottomNavBar});
 }
 
 class EnvironmentConfigLib {
@@ -33,7 +35,8 @@ class EnvironmentConfigLib {
       bannerAdmobIdAndroid: "",
       bannerAdmobIdIos: "",
       nativeAdmobIdAndroid: "",
-      nativeAdmobIdIos: "");
+      nativeAdmobIdIos: "",
+      bottomNavBar: false);
 
   Future<void> initEnvironmentConfigLib() async {
     await dotenv.load(fileName: ".env");
@@ -49,12 +52,26 @@ class EnvironmentConfigLib {
         dotenv.env["ADMOB"] is String) {
       if (dotenv.env["ADMOB"] == "true") {
         _environmentConfig.admob = true;
-        _environmentConfig.bannerAdmobIdAndroid = dotenv.env["BANNER_ADMOB_ID_ANDROID"] ?? "";
-        _environmentConfig.bannerAdmobIdIos = dotenv.env["BANNER_ADMOB_ID_IOS"] ?? "";
-        _environmentConfig.nativeAdmobIdAndroid = dotenv.env["NATIVE_ADMOB_ID_ANDROID"] ?? "";
-        _environmentConfig.nativeAdmobIdIos = dotenv.env["NATIVE_ADMOB_ID_IOS"] ?? "";
+        _environmentConfig.bannerAdmobIdAndroid =
+            dotenv.env["BANNER_ADMOB_ID_ANDROID"] ?? "";
+        _environmentConfig.bannerAdmobIdIos =
+            dotenv.env["BANNER_ADMOB_ID_IOS"] ?? "";
+        _environmentConfig.nativeAdmobIdAndroid =
+            dotenv.env["NATIVE_ADMOB_ID_ANDROID"] ?? "";
+        _environmentConfig.nativeAdmobIdIos =
+            dotenv.env["NATIVE_ADMOB_ID_IOS"] ?? "";
       } else {
         _environmentConfig.admob = false;
+      }
+    }
+
+    if (dotenv.env["BOTTOM_NAV_BAR"] != null &&
+        dotenv.env["BOTTOM_NAV_BAR"]?.trim() != "" &&
+        dotenv.env["BOTTOM_NAV_BAR"] is String) {
+      if (dotenv.env["BOTTOM_NAV_BAR"] == "true") {
+        _environmentConfig.bottomNavBar = true;
+      } else {
+        _environmentConfig.bottomNavBar = false;
       }
     }
   }
@@ -63,11 +80,17 @@ class EnvironmentConfigLib {
 
   bool get getEnvironmentAdmob => _environmentConfig.admob;
 
-  String get getEnvironmentBannerAdmobIdAndroid => _environmentConfig.bannerAdmobIdAndroid;
+  String get getEnvironmentBannerAdmobIdAndroid =>
+      _environmentConfig.bannerAdmobIdAndroid;
 
-  String get getEnvironmentBannerAdmobIdIos => _environmentConfig.bannerAdmobIdIos;
+  String get getEnvironmentBannerAdmobIdIos =>
+      _environmentConfig.bannerAdmobIdIos;
 
-  String get getEnvironmentNativeAdmobIdAndroid => _environmentConfig.nativeAdmobIdAndroid;
+  String get getEnvironmentNativeAdmobIdAndroid =>
+      _environmentConfig.nativeAdmobIdAndroid;
 
-  String get getEnvironmentNativeAdmobIdIos => _environmentConfig.nativeAdmobIdIos;
+  String get getEnvironmentNativeAdmobIdIos =>
+      _environmentConfig.nativeAdmobIdIos;
+
+  bool get getEnvironmentBottomNavBar => _environmentConfig.bottomNavBar;
 }

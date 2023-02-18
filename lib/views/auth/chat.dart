@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/conversation_component.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -8,7 +9,9 @@ import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 
 class Chat extends ConsumerStatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -19,6 +22,17 @@ class Chat extends ConsumerStatefulWidget {
 
 class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
   List<ConversationModel>? listConversations;
+
+  Future _newConversationBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: false,
+        builder: (context) {
+          return const RouteObserverWidget(
+              name: newConversation, child: NewConversation());
+        });
+  }
 
   Future<void> setChat() async {
     //logique back à mettre en place mais plus avec un stream builder et via firebase firestore
@@ -124,13 +138,30 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: Text(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
             AppLocalization.of(context).translate("activities_screen", "chat"),
             style: textStyleCustomBold(Helpers.uiApp(context), 20),
             textScaleFactor: 1.0,
           ),
+           Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
+                              onPressed: () => _newConversationBottomSheet(
+                                  navAuthKey.currentContext!),
+                              icon: Icon(Icons.edit_note,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  size: 33)),
+                        )
+          ],
         ),
         ...listConversations!.map((conversation) {
           late int userId;

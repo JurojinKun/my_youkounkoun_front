@@ -81,6 +81,41 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textScaleFactor: 1.0),
                 centerTitle: false,
+                actions: [
+                  if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
+                    Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              drawerScaffoldKey.currentState!.openEndDrawer();
+                            },
+                            icon: SizedBox(
+                                height: 25.0,
+                                width: 25.0,
+                                child: Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    Icon(
+                                      Icons.menu,
+                                      color: Helpers.uiApp(context),
+                                      size: 25,
+                                    ),
+                                    Positioned(
+                                      top: 2,
+                                      right: 0,
+                                      child: Container(
+                                        height: 10.0,
+                                        width: 10.0,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.blue,
+                                            shape: BoxShape.circle),
+                                      ),
+                                    )
+                                  ],
+                                ))))
+                ],
               ),
             ),
           ),
@@ -150,7 +185,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
       child: Container(
           color: Colors.transparent,
-          constraints: const BoxConstraints(maxHeight: 100.0, maxWidth: 320.0),
+          constraints: const BoxConstraints(maxHeight: 110.0, maxWidth: 330.0),
           alignment: Alignment.center,
           child: const AdMobWidget(
               adSize: AdSize.largeBanner, colorIndicator: Colors.blue)),

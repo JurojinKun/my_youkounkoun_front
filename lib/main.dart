@@ -17,6 +17,7 @@ import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
 import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,6 +64,8 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class MyAppState extends ConsumerState<MyApp> {
+  bool splashScreenDone = false;
+
   String themeApp = "";
   late Locale localeLanguage;
 
@@ -113,6 +116,7 @@ class MyAppState extends ConsumerState<MyApp> {
       await _loadDataUser(prefs);
     }
 
+    ref.read(splashScreenDoneNotifierProvider.notifier).splashScreenDone();
     FlutterNativeSplash.remove();
     if (Platform.isIOS) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -172,6 +176,7 @@ class MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    splashScreenDone = ref.watch(splashScreenDoneNotifierProvider);
     themeApp = ref.watch(themeAppNotifierProvider);
     localeLanguage = ref.watch(localeLanguageNotifierProvider);
 
@@ -195,7 +200,8 @@ class MyAppState extends ConsumerState<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         AppLocalization.delegate,
       ],
-      home: const ConnectivityController(),
+      home:
+          splashScreenDone ? const ConnectivityController() : const SizedBox(),
     );
   }
 }

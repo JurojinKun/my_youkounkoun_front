@@ -2,13 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
-import 'package:myyoukounkoun/route_observer.dart';
+import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat.dart';
-import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 import 'package:myyoukounkoun/views/auth/notifications.dart';
 
 class Activities extends ConsumerStatefulWidget {
@@ -21,16 +19,6 @@ class Activities extends ConsumerStatefulWidget {
 class ActivitiesState extends ConsumerState<Activities>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   AppBar appBar = AppBar();
-
-  Future _newConversationBottomSheet(BuildContext context) async {
-    return showMaterialModalBottomSheet(
-        context: context,
-        expand: true,
-        enableDrag: false,
-        builder: (context) {
-          return const RouteObserverWidget(name: newConversation, child: NewConversation());
-        });
-  }
 
   @override
   void initState() {
@@ -93,45 +81,59 @@ class ActivitiesState extends ConsumerState<Activities>
                 title: Text(
                     AppLocalization.of(context)
                         .translate("activities_screen", "activities"),
-                    style: textStyleCustomBold(
-                        Helpers.uiApp(context),
-                        20),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textScaleFactor: 1.0),
                 centerTitle: false,
                 actions: [
-                  tabControllerActivities!.index == 0
-                      ? Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                              onPressed: () => _newConversationBottomSheet(
-                                  navAuthKey.currentContext!),
-                              icon: Icon(Icons.edit_note,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  size: 33)),
-                        )
-                      : const SizedBox()
+                  if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
+                    Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: IconButton(
+                            onPressed: () {
+                              drawerScaffoldKey.currentState!.openEndDrawer();
+                            },
+                            icon: SizedBox(
+                                height: 25.0,
+                                width: 25.0,
+                                child: Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    Icon(
+                                      Icons.menu,
+                                      color: Helpers.uiApp(context),
+                                      size: 25,
+                                    ),
+                                    Positioned(
+                                      top: 2,
+                                      right: 0,
+                                      child: Container(
+                                        height: 10.0,
+                                        width: 10.0,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.blue,
+                                            shape: BoxShape.circle),
+                                      ),
+                                    )
+                                  ],
+                                ))))
                 ],
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(50.0),
                   child: Container(
                     height: 50.0,
                     decoration: const BoxDecoration(
-                      border: Border(bottom: BorderSide(color: cGrey, width: 0.2)),
+                      border:
+                          Border(bottom: BorderSide(color: cGrey, width: 0.2)),
                     ),
                     child: TabBar(
                         controller: tabControllerActivities,
                         indicatorColor: Colors.transparent,
-                        labelColor:
-                            Helpers.uiApp(context),
+                        labelColor: Helpers.uiApp(context),
                         unselectedLabelColor: cGrey,
-                        labelStyle: textStyleCustomBold(
-                            Helpers.uiApp(context),
-                            16),
+                        labelStyle:
+                            textStyleCustomBold(Helpers.uiApp(context), 16),
                         unselectedLabelStyle: textStyleCustomBold(cGrey, 16),
                         indicator: const BoxDecoration(
                             border: Border(
