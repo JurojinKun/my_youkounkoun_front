@@ -26,6 +26,13 @@
     "connectivity_screen": {
         "no_connectivity": "No connection at the moment"
     },
+    "new_maj_screen": {
+        "title": "Updated",
+        "content_available": "An update is now available",
+        "content_required": "An update is necessary to continue using My youkounkoun",
+        "go_now": "Go now",
+        "later": "Later"
+    },
     "welcome_screen": {
         "login": "Sign in",
         "register": "Sign up",

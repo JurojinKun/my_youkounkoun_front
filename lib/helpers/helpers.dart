@@ -17,6 +17,21 @@ class Helpers {
     }
   }
 
+  static Future<void> launchStore(String urlAndroid, String urliOS) async {
+    String url;
+    if (Platform.isIOS) {
+      url = urliOS;
+    } else {
+      url = urlAndroid;
+    }
+
+    if (await canLaunchUrl(Uri.parse(url))) {
+      launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      throw 'cannot open $url';
+    }
+  }
+
   static void hideKeyboard(BuildContext context) {
     FocusScope.of(context).unfocus();
   }

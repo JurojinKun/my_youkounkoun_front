@@ -15,6 +15,7 @@ import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
+import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
@@ -112,6 +113,17 @@ class MyAppState extends ConsumerState<MyApp> {
         .setVersionApp(packageInfo.version.toString());
 
     if (result != ConnectivityResult.none) {
+      //logic new maj
+      Map<String, dynamic> newMajInfos = {
+        "newMajAvailable": true,
+        "newMajRequired": false,
+        "linkAndroid": "https://play.google.com",
+        "linkIOS": "https://apps.apple.com"
+      };
+      ref
+          .read(newMajInfosNotifierProvider.notifier)
+          .setNewMajInfos(newMajInfos);
+
       //logic load datas user
       await _loadDataUser(prefs);
     }

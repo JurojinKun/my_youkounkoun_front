@@ -9,10 +9,12 @@ import 'package:myyoukounkoun/controllers/log_controller.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
+import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/views/connectivity/connectivity_device.dart';
+import 'package:myyoukounkoun/views/newMaj/new_version_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectivityController extends ConsumerStatefulWidget {
@@ -31,7 +33,10 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
 
   String currentRouteApp = "";
 
-  Future<void> _reloadDataUser(SharedPreferences prefs) async {
+  Map<String, dynamic> newMajInfos = {};
+  bool newMajInfosAlreadySeen = false;
+
+  Future<void> _loadDataUser(SharedPreferences prefs) async {
     //logic already log
     String token = prefs.getString("token") ?? "";
 
@@ -74,7 +79,17 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
 
       if (initConnectivityStatusApp == ConnectivityResult.none &&
           result != ConnectivityResult.none) {
-        await _reloadDataUser(prefs);
+        //logic new maj
+        Map<String, dynamic> newMajInfos = {
+          "newMajAvailable": true,
+          "newMajRequired": false,
+          "linkAndroid": "https://play.google.com",
+          "linkIOS": "https://apps.apple.com"
+        };
+        ref
+            .read(newMajInfosNotifierProvider.notifier)
+            .setNewMajInfos(newMajInfos);
+        await _loadDataUser(prefs);
         ref
             .read(initConnectivityStatusAppNotifierProvider.notifier)
             .setInitConnectivityStatus(result);
@@ -92,7 +107,6 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
         } else if (result != ConnectivityResult.none &&
             ref.read(connectivityStatusAppNotifierProvider) ==
                 ConnectivityResult.none) {
-          await _reloadDataUser(prefs);
           ref
               .read(connectivityStatusAppNotifierProvider.notifier)
               .updateConnectivityStatus(result);
@@ -116,9 +130,13 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
     initConnectivityStatusApp =
         ref.watch(initConnectivityStatusAppNotifierProvider);
     currentRouteApp = ref.watch(currentRouteAppNotifierProvider);
+    newMajInfos = ref.watch(newMajInfosNotifierProvider);
+    newMajInfosAlreadySeen = ref.watch(newMajInfosAlreadySeenNotifierProvider);
 
     return initConnectivityStatusApp == ConnectivityResult.none
         ? const ConnectivityDevice()
-        : const LogController();
+        : newMajInfos["newMajAvailable"] && !newMajInfosAlreadySeen
+            ? const NewVersionApp()
+            : const LogController();
   }
 }

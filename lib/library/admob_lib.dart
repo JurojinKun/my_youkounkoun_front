@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
+import 'package:myyoukounkoun/providers/home_provider.dart';
 
 class AdMobConfig {
   static String get bannerAdMobUnitId {
@@ -61,9 +62,13 @@ class AdMobConfig {
 class AdMobWidget extends ConsumerStatefulWidget {
   final AdSize adSize;
   final Color colorIndicator;
+  final String screenPub;
 
   const AdMobWidget(
-      {Key? key, required this.adSize, required this.colorIndicator})
+      {Key? key,
+      required this.adSize,
+      required this.colorIndicator,
+      required this.screenPub})
       : super(key: key);
 
   @override
@@ -95,10 +100,20 @@ class AdMobWidgetState extends ConsumerState<AdMobWidget>
               setState(() {
                 _bannerAd = ad as BannerAd;
               });
+              if (widget.screenPub == "home") {
+                ref
+                    .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                    .pubHomeAlreadyLoaded();
+              }
             },
             onAdFailedToLoad: (ad, error) {
               if (kDebugMode) {
                 print(error);
+              }
+              if (widget.screenPub == "home") {
+                ref
+                    .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                    .pubHomeAlreadyLoaded();
               }
               ad.dispose();
             },
@@ -121,8 +136,18 @@ class AdMobWidgetState extends ConsumerState<AdMobWidget>
               setState(() {
                 _bannerAd = ad as BannerAd;
               });
+              if (widget.screenPub == "home") {
+                ref
+                    .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                    .pubHomeAlreadyLoaded();
+              }
             },
             onAdFailedToLoad: (ad, error) {
+              if (widget.screenPub == "home") {
+                ref
+                    .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                    .pubHomeAlreadyLoaded();
+              }
               ad.dispose();
             },
             onAdClosed: (Ad ad) {
@@ -141,8 +166,18 @@ class AdMobWidgetState extends ConsumerState<AdMobWidget>
             setState(() {
               _bannerAd = ad as BannerAd;
             });
+            if (widget.screenPub == "home") {
+              ref
+                  .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                  .pubHomeAlreadyLoaded();
+            }
           },
           onAdFailedToLoad: (ad, error) {
+            if (widget.screenPub == "home") {
+              ref
+                  .read(pubHomeAlreadyLoadedNotifierProvider.notifier)
+                  .pubHomeAlreadyLoaded();
+            }
             ad.dispose();
           },
           onAdClosed: (Ad ad) {

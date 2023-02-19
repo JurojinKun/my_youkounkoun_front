@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,6 +11,8 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/library/admob_lib.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
+import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
+import 'package:myyoukounkoun/providers/home_provider.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
@@ -21,11 +24,13 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
+  AppBar appBar = AppBar();
+  ConnectivityResult? connectivityStatus;
+
   String pushToken = "";
 
-  AppBar appBar = AppBar();
-
   bool loadedHome = false;
+  bool pubHomeAlreadyLoaded = false;
 
   Future<void> initHome() async {
     await NotificationsLib.initPushToken(ref);
@@ -57,8 +62,9 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    connectivityStatus = ref.watch(connectivityStatusAppNotifierProvider);
     pushToken = ref.watch(tokenNotificationsNotifierProvider);
+    pubHomeAlreadyLoaded = ref.watch(pubHomeAlreadyLoadedNotifierProvider);
 
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -167,7 +173,10 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                               textAlign: TextAlign.center,
                               textScaleFactor: 1.0),
                       if (EnvironmentConfigLib().getEnvironmentAdmob)
-                        pubWidget()
+                        connectivityStatus == ConnectivityResult.none &&
+                                !pubHomeAlreadyLoaded
+                            ? const SizedBox()
+                            : pubWidget()
                     ],
                   ),
                 )
@@ -188,7 +197,10 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
           constraints: const BoxConstraints(maxHeight: 110.0, maxWidth: 330.0),
           alignment: Alignment.center,
           child: const AdMobWidget(
-              adSize: AdSize.largeBanner, colorIndicator: Colors.blue)),
+            adSize: AdSize.largeBanner,
+            colorIndicator: Colors.blue,
+            screenPub: "home",
+          )),
     );
   }
 }

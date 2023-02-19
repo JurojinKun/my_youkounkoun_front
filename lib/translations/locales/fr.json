@@ -26,6 +26,13 @@
     "connectivity_screen": {
         "no_connectivity": "Pas de connexion actuellement"
     },
+    "new_maj_screen": {
+        "title": "Mis à jour",
+        "content_available": "Une mise à jour est disponible dès maintenant",
+        "content_required": "Une mise à jour est nécessaire afin de pouvoir continuer à utiliser My youkounkoun",
+        "go_now": "Y aller",
+        "later": "Plus tard"
+    },
     "welcome_screen": {
         "login": "Connexion",
         "register": "Inscription",
