@@ -6,13 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/snack_bar_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/log_controller.dart';
-import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/main.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
-import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
-import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/views/connectivity/connectivity_device.dart';
 import 'package:myyoukounkoun/views/newMaj/new_version_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,35 +33,6 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
   Map<String, dynamic> newMajInfos = {};
   bool newMajInfosAlreadySeen = false;
 
-  Future<void> _loadDataUser(SharedPreferences prefs) async {
-    //logic already log
-    String token = prefs.getString("token") ?? "";
-
-    if (token.trim() != "") {
-      ref.read(userNotifierProvider.notifier).initUser(UserModel(
-          id: 1,
-          token: "tokenTest1234",
-          email: "ccommunay@gmail.com",
-          pseudo: "0ruj",
-          gender: "Male",
-          birthday: "1997-06-06 00:00",
-          nationality: "FR",
-          profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-          validCGU: true,
-          validPrivacyPolicy: true,
-          validEmail: false));
-
-      ref
-          .read(recentSearchesNotifierProvider.notifier)
-          .initRecentSearches(recentSearchesDatasMockes);
-
-      bool notificationsActive = prefs.getBool("notifications") ?? true;
-      ref
-          .read(notificationsActiveNotifierProvider.notifier)
-          .updateNotificationsActive(notificationsActive);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -81,7 +49,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
           result != ConnectivityResult.none) {
         //logic new maj
         Map<String, dynamic> newMajInfos = {
-          "newMajAvailable": true,
+          "newMajAvailable": false,
           "newMajRequired": false,
           "linkAndroid": "https://play.google.com",
           "linkIOS": "https://apps.apple.com"
@@ -89,7 +57,12 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
         ref
             .read(newMajInfosNotifierProvider.notifier)
             .setNewMajInfos(newMajInfos);
-        await _loadDataUser(prefs);
+
+        if (!ref.read(newMajInfosNotifierProvider)["newMajAvailable"]) {
+          //logic load datas user
+          await loadDataUser(prefs, ref);
+        }
+
         ref
             .read(initConnectivityStatusAppNotifierProvider.notifier)
             .setInitConnectivityStatus(result);

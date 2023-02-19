@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/library/env_config_lib.dart';
+import 'package:myyoukounkoun/library/http_overrides_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
@@ -31,26 +32,45 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 
-//Solved problems bad certifications
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+Future<void> loadDataUser(SharedPreferences prefs, WidgetRef ref) async {
+  //logic already log
+  String token = prefs.getString("token") ?? "";
+
+  if (token.trim() != "") {
+    ref.read(userNotifierProvider.notifier).initUser(UserModel(
+        id: 1,
+        token: "tokenTest1234",
+        email: "ccommunay@gmail.com",
+        pseudo: "0ruj",
+        gender: "Male",
+        birthday: "1997-06-06 00:00",
+        nationality: "FR",
+        profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+        validCGU: true,
+        validPrivacyPolicy: true,
+        validEmail: false));
+
+    ref
+        .read(recentSearchesNotifierProvider.notifier)
+        .initRecentSearches(recentSearchesDatasMockes);
+
+    bool notificationsActive = prefs.getBool("notifications") ?? true;
+    ref
+        .read(notificationsActiveNotifierProvider.notifier)
+        .updateNotificationsActive(notificationsActive);
   }
 }
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await EnvironmentConfigLib().initEnvironmentConfigLib();
   await Firebase.initializeApp();
   if (EnvironmentConfigLib().getEnvironmentAdmob) {
     await MobileAds.instance.initialize();
   }
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = HttpOverridesLib();
   await DefaultCacheManager().emptyCache();
   await NotificationsLib.notificationsLogicMain();
 
@@ -115,7 +135,7 @@ class MyAppState extends ConsumerState<MyApp> {
     if (result != ConnectivityResult.none) {
       //logic new maj
       Map<String, dynamic> newMajInfos = {
-        "newMajAvailable": true,
+        "newMajAvailable": false,
         "newMajRequired": false,
         "linkAndroid": "https://play.google.com",
         "linkIOS": "https://apps.apple.com"
@@ -124,43 +144,16 @@ class MyAppState extends ConsumerState<MyApp> {
           .read(newMajInfosNotifierProvider.notifier)
           .setNewMajInfos(newMajInfos);
 
-      //logic load datas user
-      await _loadDataUser(prefs);
+      if (!ref.read(newMajInfosNotifierProvider)["newMajAvailable"]) {
+        //logic load datas user
+        await loadDataUser(prefs, ref);
+      }
     }
 
     ref.read(splashScreenDoneNotifierProvider.notifier).splashScreenDone();
     FlutterNativeSplash.remove();
     if (Platform.isIOS) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    }
-  }
-
-  Future<void> _loadDataUser(SharedPreferences prefs) async {
-    //logic already log
-    String token = prefs.getString("token") ?? "";
-
-    if (token.trim() != "") {
-      ref.read(userNotifierProvider.notifier).initUser(UserModel(
-          id: 1,
-          token: "tokenTest1234",
-          email: "ccommunay@gmail.com",
-          pseudo: "0ruj",
-          gender: "Male",
-          birthday: "1997-06-06 00:00",
-          nationality: "FR",
-          profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-          validCGU: true,
-          validPrivacyPolicy: true,
-          validEmail: false));
-
-      ref
-          .read(recentSearchesNotifierProvider.notifier)
-          .initRecentSearches(recentSearchesDatasMockes);
-
-      bool notificationsActive = prefs.getBool("notifications") ?? true;
-      ref
-          .read(notificationsActiveNotifierProvider.notifier)
-          .updateNotificationsActive(notificationsActive);
     }
   }
 

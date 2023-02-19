@@ -4,8 +4,10 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/main.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewVersionApp extends ConsumerStatefulWidget {
   const NewVersionApp({Key? key}) : super(key: key);
@@ -65,17 +67,20 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                       style: textStyleCustomMedium(cBlue, 14),
                     )),
                 TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (!_alreadyCliked) {
                         setState(() {
                           _alreadyCliked = true;
                         });
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await loadDataUser(prefs, ref);
                         ref
                             .read(
                                 newMajInfosAlreadySeenNotifierProvider.notifier)
                             .newMajInfosAlreadySeen();
-                        Navigator.pop(context);
                         if (mounted) {
+                          Navigator.pop(context);
                           setState(() {
                             _alreadyCliked = false;
                           });
