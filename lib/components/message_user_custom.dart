@@ -5,7 +5,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 void messageUser(BuildContext context, String message) {
   return showTopSnackBar(
-      Overlay.of(context)!,
+      Overlay.of(context),
       Container(
         decoration: BoxDecoration(
           color: cBlue,
