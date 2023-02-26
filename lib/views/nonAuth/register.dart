@@ -1427,7 +1427,7 @@ class RegisterState extends ConsumerState<Register>
                                   prefs.setString("user", encodedUserMap);
                                   ref
                                       .read(userNotifierProvider.notifier)
-                                      .initUser(UserModel.fromJSON(userMap));
+                                      .setUser(UserModel.fromJSON(userMap));
                                   setState(() {
                                     _loadingStepSixth = false;
                                   });

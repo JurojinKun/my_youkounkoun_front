@@ -48,15 +48,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
       if (initConnectivityStatusApp == ConnectivityResult.none &&
           result != ConnectivityResult.none) {
         //logic new maj
-        Map<String, dynamic> newMajInfos = {
-          "newMajAvailable": true,
-          "newMajRequired": false,
-          "linkAndroid": "https://play.google.com",
-          "linkIOS": "https://apps.apple.com"
-        };
-        ref
-            .read(newMajInfosNotifierProvider.notifier)
-            .setNewMajInfos(newMajInfos);
+        await searchPotentialNewMaj(ref);
 
         if (!ref.read(newMajInfosNotifierProvider)["newMajAvailable"]) {
           //logic load datas user

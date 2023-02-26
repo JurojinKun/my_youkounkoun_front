@@ -22,7 +22,7 @@ class BottomNavController extends ConsumerStatefulWidget {
 }
 
 class BottomNavControllerState extends ConsumerState<BottomNavController>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _isKeyboard = false;
 
   Future _validateUserBottomSheet(BuildContext context) async {
@@ -39,6 +39,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     NotificationsLib.notificationsLogicController(context, ref, this);
 
@@ -62,6 +63,13 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      await NotificationsLib.setActiveNotifications(ref);
+    }
+  }
+
+  @override
   void deactivate() {
     tabControllerBottomNav!.removeListener(() {
       setState(() {});
@@ -73,6 +81,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   void dispose() {
     tabControllerBottomNav!.dispose();
     tabControllerBottomNav = null;
+
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -19,6 +20,7 @@ import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
   const EditAccount({Key? key}) : super(key: key);
@@ -59,7 +61,9 @@ class EditAccountState extends ConsumerState<EditAccount> {
   }
 
   Future<void> _saveModifUser() async {
-    //logic à modifier lorsque câbler avec le back
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+     //logic à modifier lorsque câbler avec le back
     try {
       Map<String, dynamic> mapUser = {
         "id": 1,
@@ -75,7 +79,9 @@ class EditAccountState extends ConsumerState<EditAccount> {
         "validEmail": false
       };
       UserModel user = UserModel.fromJSON(mapUser);
-      ref.read(userNotifierProvider.notifier).updateUser(user);
+      ref.read(userNotifierProvider.notifier).setUser(user);
+      String userEncoded = jsonEncode(mapUser);
+      prefs.setString("user", userEncoded);
 
       _pseudoController.text = user.pseudo;
       ref
@@ -92,16 +98,20 @@ class EditAccountState extends ConsumerState<EditAccount> {
           .read(editNationalityUserNotifierProvider.notifier)
           .clearNationality(user.nationality);
 
-      messageUser(
+      if (mounted) {
+        messageUser(
           context,
           AppLocalization.of(context).translate(
               "edit_account_screen", "message_success_update_account"));
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      messageUser(context,
+      if (mounted) {
+        messageUser(context,
           AppLocalization.of(context).translate("general", "message_error"));
+      }
     }
   }
 

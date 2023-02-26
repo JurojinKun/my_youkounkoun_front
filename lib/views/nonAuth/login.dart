@@ -68,7 +68,7 @@ class LoginState extends ConsumerState<Login> {
     prefs.setString("user", encodedUserMap);
     ref
         .read(userNotifierProvider.notifier)
-        .initUser(UserModel.fromJSON(userMap));
+        .setUser(UserModel.fromJSON(userMap));
     ref
         .read(recentSearchesNotifierProvider.notifier)
         .initRecentSearches(recentSearchesDatasMockes);

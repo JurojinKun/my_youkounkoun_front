@@ -4,7 +4,6 @@ import 'package:myyoukounkoun/models/notification_model.dart';
 final notificationsNotifierProvider =
     StateNotifierProvider<NotificationsProvider, List<NotificationModel>?>(
         (ref) => NotificationsProvider());
-final notificationsActiveNotifierProvider = StateNotifierProvider<NotificationsActiveProvider, bool>((ref) => NotificationsActiveProvider());
 
 final inChatDetailsNotifierProvider =
     StateNotifierProvider<InChatDetailsProvider, Map<String, dynamic>>(
@@ -53,14 +52,6 @@ class NotificationsProvider extends StateNotifier<List<NotificationModel>?> {
     }
 
     state = [...newState];
-  }
-}
-
-class NotificationsActiveProvider extends StateNotifier<bool> {
-  NotificationsActiveProvider() : super(true);
-
-  void updateNotificationsActive(bool newState) {
-    state = newState;
   }
 }
 

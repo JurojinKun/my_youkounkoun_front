@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -10,9 +12,11 @@ import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/library/notifications_lib.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
+import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -28,9 +32,9 @@ class Settings extends ConsumerStatefulWidget {
 
 class SettingsState extends ConsumerState<Settings> {
   bool _isDarkTheme = false;
-  bool _notificationsActive = true;
 
   late Locale _localeLanguage;
+  late String pushToken;
 
   AppBar appBar = AppBar();
 
@@ -55,9 +59,6 @@ class SettingsState extends ConsumerState<Settings> {
     try {
       //logic ws try log out
       await Future.delayed(const Duration(seconds: 1));
-      if (mounted) {
-        Navigator.pop(context);
-      }
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
@@ -69,10 +70,14 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
+      if (prefs.getString("pushToken") != null) {
+        await FirebaseMessaging.instance.deleteToken();
+        await prefs.remove("pushToken");
+        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+      }
       ref.read(userNotifierProvider.notifier).clearUser();
       prefs.remove("user");
     } catch (e) {
-      Navigator.pop(context);
       if (kDebugMode) {
         print(e);
       }
@@ -83,9 +88,6 @@ class SettingsState extends ConsumerState<Settings> {
     try {
       //logic ws delete account
       await Future.delayed(const Duration(seconds: 1));
-      if (mounted) {
-        Navigator.pop(context);
-      }
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
@@ -97,10 +99,14 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
+      if (prefs.getString("pushToken") != null) {
+        await FirebaseMessaging.instance.deleteToken();
+        await prefs.remove("pushToken");
+        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+      }
       ref.read(userNotifierProvider.notifier).clearUser();
       prefs.remove("user");
     } catch (e) {
-      Navigator.pop(context);
       if (kDebugMode) {
         print(e);
       }
@@ -142,6 +148,7 @@ class SettingsState extends ConsumerState<Settings> {
                           setState(() {
                             _loadingLogout = false;
                           });
+                          Navigator.pop(context);
                         }
                       }
                     },
@@ -196,9 +203,12 @@ class SettingsState extends ConsumerState<Settings> {
                           _loadingDeleteAccount = true;
                         });
                         await _tryDeleteAccount(context);
-                        setState(() {
+                        if (mounted) {
+                          setState(() {
                           _loadingDeleteAccount = false;
                         });
+                        Navigator.pop(context);
+                        }
                       }
                     },
                     child: Text(
@@ -257,7 +267,7 @@ class SettingsState extends ConsumerState<Settings> {
   @override
   Widget build(BuildContext context) {
     _localeLanguage = ref.watch(localeLanguageNotifierProvider);
-    _notificationsActive = ref.watch(notificationsActiveNotifierProvider);
+    pushToken = ref.watch(pushTokenNotifierProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -571,20 +581,9 @@ class SettingsState extends ConsumerState<Settings> {
               Icon(Icons.notifications_off, color: Helpers.uiApp(context)),
               Switch(
                   activeColor: cBlue,
-                  value: _notificationsActive,
+                  value: pushToken.trim() != "" ? true : false,
                   onChanged: (newSettingsNotifications) async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-
-                    ref
-                        .read(notificationsActiveNotifierProvider.notifier)
-                        .updateNotificationsActive(newSettingsNotifications);
-
-                    if (newSettingsNotifications) {
-                      await prefs.setBool("notifications", true);
-                    } else {
-                      await prefs.setBool("notifications", false);
-                    }
+                    await AppSettings.openNotificationSettings();
                   }),
               Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
             ],

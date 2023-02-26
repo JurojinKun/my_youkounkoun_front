@@ -13,7 +13,7 @@ import 'package:myyoukounkoun/library/env_config_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/home_provider.dart';
-import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
+import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -33,7 +33,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   bool pubHomeAlreadyLoaded = false;
 
   Future<void> initHome() async {
-    await NotificationsLib.initPushToken(ref);
+    await NotificationsLib.setActiveNotifications(ref);
 
     if (Platform.isIOS) {
       await AdMobConfig.setAppTrackingTransparency();
@@ -63,7 +63,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     connectivityStatus = ref.watch(connectivityStatusAppNotifierProvider);
-    pushToken = ref.watch(tokenNotificationsNotifierProvider);
+    pushToken = ref.watch(pushTokenNotifierProvider);
     pubHomeAlreadyLoaded = ref.watch(pubHomeAlreadyLoadedNotifierProvider);
 
     return Scaffold(

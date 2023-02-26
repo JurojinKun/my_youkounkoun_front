@@ -8,7 +8,8 @@ List<UserModel> recentSearchesDatasMockes = [
       gender: "Male",
       birthday: "1992-06-06 00:00",
       nationality: "CA",
-      profilePictureUrl: "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
+      profilePictureUrl:
+          "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -20,7 +21,8 @@ List<UserModel> recentSearchesDatasMockes = [
       gender: "Female",
       birthday: "2002-06-06 00:00",
       nationality: "FR",
-      profilePictureUrl: "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
+      profilePictureUrl:
+          "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -48,7 +50,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       gender: "Male",
       birthday: "1992-06-06 00:00",
       nationality: "CA",
-      profilePictureUrl: "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
+      profilePictureUrl:
+          "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -72,7 +75,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       gender: "Female",
       birthday: "2002-06-06 00:00",
       nationality: "FR",
-      profilePictureUrl: "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
+      profilePictureUrl:
+          "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -128,6 +132,24 @@ class UserModel {
         validCGU = jsonMap["validCGU"] ?? false,
         validPrivacyPolicy = jsonMap["validPrivacyPolicy"] ?? false,
         validEmail = jsonMap["validEmail"] ?? false;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
+      "id": id,
+      "token": token,
+      "email": email,
+      "pseudo": pseudo,
+      "gender": gender,
+      "birthday": birthday,
+      "nationality": nationality,
+      "profilePictureUrl": profilePictureUrl,
+      "validCGU": validCGU,
+      "validPrivacyPolicy": validPrivacyPolicy,
+      "validEmail": validEmail
+    };
+
+    return map;
+  }
 
   UserModel copy() {
     return UserModel(

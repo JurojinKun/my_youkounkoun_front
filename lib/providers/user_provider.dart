@@ -22,11 +22,7 @@ class UserProvider extends StateNotifier<UserModel> {
             validPrivacyPolicy: false,
             validEmail: false));
 
-  void initUser(UserModel user) {
-    state = user;
-  }
-
-  Future<void> updateUser(UserModel user) async {
+  void setUser(UserModel user) {
     state = user;
   }
 

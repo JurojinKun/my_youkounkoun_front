@@ -13,13 +13,14 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
-import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
+import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_settings/app_settings.dart';
 
 class NotificationsLib {
   // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -306,101 +307,78 @@ class NotificationsLib {
     });
   }
 
-  static Future<void> initPushToken(WidgetRef ref) async {
-    //optim et peut-être enlever la logique riverpod du push token
+  static Future<void> setActiveNotifications(WidgetRef ref) async {
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String os;
+    String? uuid;
+
     if (Platform.isIOS) {
-      NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-
-      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        //get push token device
-        String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
-        if (kDebugMode) {
-          print("push token: $pushToken");
-        }
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
-          DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-          PackageInfo packageInfo = await PackageInfo.fromPlatform();
-          String os;
-          String? uuid;
-
-          os = "apple";
-          IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
-          uuid = deviceInfoIOS.identifierForVendor;
-
-          try {
-            //logic ws send push token
-            Map<String, dynamic> map = {
-              "uuid": uuid,
-              "os": os,
-              "appVersion": packageInfo.version,
-              "pushToken": pushToken,
-            };
-            String token = ref.read(userNotifierProvider).token;
-            ref
-                .read(tokenNotificationsNotifierProvider.notifier)
-                .updateTokenNotif(pushToken);
-            prefs.setString("pushToken", pushToken);
-          } catch (e) {
-            if (kDebugMode) {
-              print(e);
-            }
-          }
-        } else {
-          ref
-              .read(tokenNotificationsNotifierProvider.notifier)
-              .updateTokenNotif(pushToken);
-        }
-      }
+      os = "apple";
+      IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
+      uuid = deviceInfoIOS.identifierForVendor;
     } else {
-      //get push token device
+      os = "android";
+      AndroidDeviceInfo deviceInfoAndroid = await deviceInfoPlugin.androidInfo;
+      uuid = deviceInfoAndroid.id;
+    }
+    String token = ref.read(userNotifierProvider).token;
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
       if (kDebugMode) {
         print("push token: $pushToken");
       }
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
       if (pushToken != prefs.getString("pushToken") && pushToken != "") {
-        DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String os;
-        String? uuid;
-
-        os = "android";
-        AndroidDeviceInfo deviceInfoAndroid =
-            await deviceInfoPlugin.androidInfo;
-        uuid = deviceInfoAndroid.id;
-
         try {
+          //logic ws send push token
           Map<String, dynamic> map = {
             "uuid": uuid,
             "os": os,
             "appVersion": packageInfo.version,
             "pushToken": pushToken,
           };
-          String token = ref.read(userNotifierProvider).token;
-          //logic ws send push token
           ref
-              .read(tokenNotificationsNotifierProvider.notifier)
-              .updateTokenNotif(pushToken);
+              .read(pushTokenNotifierProvider.notifier)
+              .updatePushToken(pushToken);
           prefs.setString("pushToken", pushToken);
         } catch (e) {
           if (kDebugMode) {
             print(e);
           }
         }
-      } else {
-        ref
-            .read(tokenNotificationsNotifierProvider.notifier)
-            .updateTokenNotif(pushToken);
+      } else if (pushToken != "") {
+        ref.read(pushTokenNotifierProvider.notifier).updatePushToken(pushToken);
+      }
+    } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      if (prefs.getString("pushToken") != null) {
+        try {
+          //logic ws send push token null
+          Map<String, dynamic> map = {
+            "uuid": uuid,
+            "os": os,
+            "appVersion": packageInfo.version,
+            "pushToken": null,
+          };
+          await FirebaseMessaging.instance.deleteToken();
+          await prefs.remove("pushToken");
+        } catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+        }
+      }
+      if (ref.read(pushTokenNotifierProvider).trim() != "") {
+        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
       }
     }
   }

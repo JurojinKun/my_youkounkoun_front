@@ -18,7 +18,6 @@ import 'package:myyoukounkoun/library/http_overrides_lib.dart';
 import 'package:myyoukounkoun/library/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
 import 'package:myyoukounkoun/providers/version_app_provider.dart';
@@ -33,6 +32,16 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 
+Future<void> searchPotentialNewMaj(WidgetRef ref) async {
+  Map<String, dynamic> newMajInfos = {
+    "newMajAvailable": false,
+    "newMajRequired": false,
+    "linkAndroid": "https://play.google.com",
+    "linkIOS": "https://apps.apple.com"
+  };
+  ref.read(newMajInfosNotifierProvider.notifier).setNewMajInfos(newMajInfos);
+}
+
 Future<void> loadDataUser(SharedPreferences prefs, WidgetRef ref) async {
   //logic already log
   String? userEncoded = prefs.getString("user") ?? "";
@@ -41,16 +50,11 @@ Future<void> loadDataUser(SharedPreferences prefs, WidgetRef ref) async {
     Map<String, dynamic> decodedUserMap = json.decode(userEncoded);
     ref
         .read(userNotifierProvider.notifier)
-        .initUser(UserModel.fromJSON(decodedUserMap));
+        .setUser(UserModel.fromJSON(decodedUserMap));
 
     ref
         .read(recentSearchesNotifierProvider.notifier)
         .initRecentSearches(recentSearchesDatasMockes);
-
-    bool notificationsActive = prefs.getBool("notifications") ?? true;
-    ref
-        .read(notificationsActiveNotifierProvider.notifier)
-        .updateNotificationsActive(notificationsActive);
   }
 }
 
@@ -127,15 +131,7 @@ class MyAppState extends ConsumerState<MyApp> {
 
     if (result != ConnectivityResult.none) {
       //logic new maj
-      Map<String, dynamic> newMajInfos = {
-        "newMajAvailable": true,
-        "newMajRequired": false,
-        "linkAndroid": "https://play.google.com",
-        "linkIOS": "https://apps.apple.com"
-      };
-      ref
-          .read(newMajInfosNotifierProvider.notifier)
-          .setNewMajInfos(newMajInfos);
+      await searchPotentialNewMaj(ref);
 
       if (!ref.read(newMajInfosNotifierProvider)["newMajAvailable"]) {
         //logic load datas user
