@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -49,20 +50,25 @@ class LoginState extends ConsumerState<Login> {
 
   Future<void> _tryLogin() async {
     await Future.delayed(const Duration(seconds: 2));
+    Map<String, dynamic> userMap = {
+      "id": 1,
+      "token": "tokenTest1234",
+      "email": "ccommunay@gmail.com",
+      "pseudo": "0ruj",
+      "gender": "Male",
+      "birthday": "1997-06-06 00:00",
+      "nationality": "FR",
+      "profilePictureUrl": "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+      "validCGU": true,
+      "validPrivacyPolicy": true,
+      "validEmail": false
+    };
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("token", "tokenTest1234");
-    ref.read(userNotifierProvider.notifier).initUser(UserModel(
-        id: 1,
-        token: "tokenTest1234",
-        email: "ccommunay@gmail.com",
-        pseudo: "0ruj",
-        gender: "Male",
-        birthday: "1997-06-06 00:00",
-        nationality: "FR",
-        profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-        validCGU: true,
-        validPrivacyPolicy: true,
-        validEmail: false));
+    String encodedUserMap = json.encode(userMap);
+    prefs.setString("user", encodedUserMap);
+    ref
+        .read(userNotifierProvider.notifier)
+        .initUser(UserModel.fromJSON(userMap));
     ref
         .read(recentSearchesNotifierProvider.notifier)
         .initRecentSearches(recentSearchesDatasMockes);

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -1406,25 +1407,27 @@ class RegisterState extends ConsumerState<Register>
                                   setState(() {
                                     _loadingStepSixth = true;
                                   });
+                                  Map<String, dynamic> userMap = {
+                                    "id": 1,
+                                    "token": "tokenTest1234",
+                                    "email": "ccommunay@gmail.com",
+                                    "pseudo": "0ruj",
+                                    "gender": "Male",
+                                    "birthday": "1997-06-06 00:00",
+                                    "nationality": "FR",
+                                    "profilePictureUrl":
+                                        "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+                                    "validCGU": true,
+                                    "validPrivacyPolicy": true,
+                                    "validEmail": false
+                                  };
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
-                                  await prefs.setString(
-                                      "token", "tokenTest1234");
+                                  String encodedUserMap = json.encode(userMap);
+                                  prefs.setString("user", encodedUserMap);
                                   ref
                                       .read(userNotifierProvider.notifier)
-                                      .initUser(UserModel(
-                                          id: 1,
-                                          token: "tokenTest1204",
-                                          email: "ccommunay@gmail.com",
-                                          pseudo: "0ruj",
-                                          gender: "Male",
-                                          birthday: "1997-06-06 00:00",
-                                          nationality: "FR",
-                                          profilePictureUrl:
-                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-                                          validCGU: true,
-                                          validPrivacyPolicy: true,
-                                          validEmail: false));
+                                      .initUser(UserModel.fromJSON(userMap));
                                   setState(() {
                                     _loadingStepSixth = false;
                                   });

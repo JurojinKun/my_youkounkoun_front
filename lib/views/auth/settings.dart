@@ -34,6 +34,9 @@ class SettingsState extends ConsumerState<Settings> {
 
   AppBar appBar = AppBar();
 
+  bool _loadingLogout = false;
+  bool _loadingDeleteAccount = false;
+
   void dropdownCallback(selectedValue) async {
     try {
       if (selectedValue is Locale) {
@@ -48,8 +51,14 @@ class SettingsState extends ConsumerState<Settings> {
     }
   }
 
-  Future<void> _tryLogOut() async {
+  Future<void> _tryLogOut(BuildContext context) async {
     try {
+      //logic ws try log out
+      await Future.delayed(const Duration(seconds: 1));
+      if (mounted) {
+        Navigator.pop(context);
+      }
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
@@ -60,17 +69,24 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      prefs.remove("token");
       ref.read(userNotifierProvider.notifier).clearUser();
+      prefs.remove("user");
     } catch (e) {
+      Navigator.pop(context);
       if (kDebugMode) {
         print(e);
       }
     }
   }
 
-  Future<void> _tryDeleteAccount() async {
+  Future<void> _tryDeleteAccount(BuildContext context) async {
     try {
+      //logic ws delete account
+      await Future.delayed(const Duration(seconds: 1));
+      if (mounted) {
+        Navigator.pop(context);
+      }
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
@@ -81,9 +97,10 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      prefs.remove("token");
       ref.read(userNotifierProvider.notifier).clearUser();
+      prefs.remove("user");
     } catch (e) {
+      Navigator.pop(context);
       if (kDebugMode) {
         print(e);
       }
@@ -98,42 +115,53 @@ class SettingsState extends ConsumerState<Settings> {
             ? Colors.black.withOpacity(0.1)
             : Colors.white.withOpacity(0.1),
         builder: (context) {
-          return AlertDialogCustom(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            title: Text(
-              AppLocalization.of(context)
-                  .translate("settings_screen", "logout_title"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 16),
-            ),
-            content: Text(
-              AppLocalization.of(context)
-                  .translate("settings_screen", "logout_content"),
-              style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await _tryLogOut();
-                  },
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate("general", "btn_confirm"),
-                    style: textStyleCustomMedium(cBlue, 14),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate("general", "btn_cancel"),
-                    style: textStyleCustomMedium(cRed, 14),
-                  ))
-            ],
-          );
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialogCustom(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text(
+                AppLocalization.of(context)
+                    .translate("settings_screen", "logout_title"),
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+              ),
+              content: Text(
+                AppLocalization.of(context)
+                    .translate("settings_screen", "logout_content"),
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      if (!_loadingLogout) {
+                        setState(() {
+                          _loadingLogout = true;
+                        });
+                        await _tryLogOut(context);
+                        if (mounted) {
+                          setState(() {
+                            _loadingLogout = false;
+                          });
+                        }
+                      }
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                    ))
+              ],
+            );
+          });
         });
   }
 
@@ -145,42 +173,51 @@ class SettingsState extends ConsumerState<Settings> {
             ? Colors.black.withOpacity(0.1)
             : Colors.white.withOpacity(0.1),
         builder: (context) {
-          return AlertDialogCustom(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            title: Text(
-              AppLocalization.of(context)
-                  .translate("settings_screen", "delete_title"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 16),
-            ),
-            content: Text(
-              AppLocalization.of(context)
-                  .translate("settings_screen", "delete_content"),
-              style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await _tryDeleteAccount();
-                  },
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate("general", "btn_confirm"),
-                    style: textStyleCustomMedium(cBlue, 14),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate("general", "btn_cancel"),
-                    style: textStyleCustomMedium(cRed, 14),
-                  ))
-            ],
-          );
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialogCustom(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text(
+                AppLocalization.of(context)
+                    .translate("settings_screen", "delete_title"),
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+              ),
+              content: Text(
+                AppLocalization.of(context)
+                    .translate("settings_screen", "delete_content"),
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      if (!_loadingDeleteAccount) {
+                        setState(() {
+                          _loadingDeleteAccount = true;
+                        });
+                        await _tryDeleteAccount(context);
+                        setState(() {
+                          _loadingDeleteAccount = false;
+                        });
+                      }
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                    ))
+              ],
+            );
+          });
         });
   }
 

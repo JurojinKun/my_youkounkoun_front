@@ -49,7 +49,7 @@ class ConnectivityControllerState extends ConsumerState<ConnectivityController>
           result != ConnectivityResult.none) {
         //logic new maj
         Map<String, dynamic> newMajInfos = {
-          "newMajAvailable": false,
+          "newMajAvailable": true,
           "newMajRequired": false,
           "linkAndroid": "https://play.google.com",
           "linkIOS": "https://apps.apple.com"

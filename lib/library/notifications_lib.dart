@@ -14,6 +14,7 @@ import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/token_notifications_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
@@ -335,20 +336,18 @@ class NotificationsLib {
           uuid = deviceInfoIOS.identifierForVendor;
 
           try {
+            //logic ws send push token
             Map<String, dynamic> map = {
               "uuid": uuid,
               "os": os,
               "appVersion": packageInfo.version,
               "pushToken": pushToken,
             };
-            String token = prefs.getString("token") ?? "";
-            if (token.trim() != "") {
-              //logic ws send push token
-              ref
-                  .read(tokenNotificationsNotifierProvider.notifier)
-                  .updateTokenNotif(pushToken);
-              prefs.setString("pushToken", pushToken);
-            }
+            String token = ref.read(userNotifierProvider).token;
+            ref
+                .read(tokenNotificationsNotifierProvider.notifier)
+                .updateTokenNotif(pushToken);
+            prefs.setString("pushToken", pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -387,14 +386,12 @@ class NotificationsLib {
             "appVersion": packageInfo.version,
             "pushToken": pushToken,
           };
-          String token = prefs.getString("token") ?? "";
-          if (token.trim() != "") {
-            //logic ws send push token
-            ref
-                .read(tokenNotificationsNotifierProvider.notifier)
-                .updateTokenNotif(pushToken);
-            prefs.setString("pushToken", pushToken);
-          }
+          String token = ref.read(userNotifierProvider).token;
+          //logic ws send push token
+          ref
+              .read(tokenNotificationsNotifierProvider.notifier)
+              .updateTokenNotif(pushToken);
+          prefs.setString("pushToken", pushToken);
         } catch (e) {
           if (kDebugMode) {
             print(e);

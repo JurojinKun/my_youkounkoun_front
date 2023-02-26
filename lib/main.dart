@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -34,21 +35,13 @@ import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 
 Future<void> loadDataUser(SharedPreferences prefs, WidgetRef ref) async {
   //logic already log
-  String token = prefs.getString("token") ?? "";
+  String? userEncoded = prefs.getString("user") ?? "";
 
-  if (token.trim() != "") {
-    ref.read(userNotifierProvider.notifier).initUser(UserModel(
-        id: 1,
-        token: "tokenTest1234",
-        email: "ccommunay@gmail.com",
-        pseudo: "0ruj",
-        gender: "Male",
-        birthday: "1997-06-06 00:00",
-        nationality: "FR",
-        profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-        validCGU: true,
-        validPrivacyPolicy: true,
-        validEmail: false));
+  if (userEncoded.trim() != "") {
+    Map<String, dynamic> decodedUserMap = json.decode(userEncoded);
+    ref
+        .read(userNotifierProvider.notifier)
+        .initUser(UserModel.fromJSON(decodedUserMap));
 
     ref
         .read(recentSearchesNotifierProvider.notifier)
@@ -135,7 +128,7 @@ class MyAppState extends ConsumerState<MyApp> {
     if (result != ConnectivityResult.none) {
       //logic new maj
       Map<String, dynamic> newMajInfos = {
-        "newMajAvailable": false,
+        "newMajAvailable": true,
         "newMajRequired": false,
         "linkAndroid": "https://play.google.com",
         "linkIOS": "https://apps.apple.com"
