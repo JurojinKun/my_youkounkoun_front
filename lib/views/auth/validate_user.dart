@@ -210,9 +210,9 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  Image.asset("assets/images/ic_app.png",
+                  Image.asset("assets/images/ic_app_new.png",
                       height: 125, width: 125),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 15.0),
                   Text(
                     AppLocalization.of(context)
                         .translate("validate_user_screen", "content"),

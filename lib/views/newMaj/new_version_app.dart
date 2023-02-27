@@ -156,11 +156,6 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Helpers.uiOverlayApp(context),

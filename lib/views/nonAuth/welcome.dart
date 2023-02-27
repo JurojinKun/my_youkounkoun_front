@@ -61,9 +61,9 @@ class WelcomeState extends ConsumerState<Welcome> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset("assets/images/ic_app.png", height: 125, width: 125),
+        Image.asset("assets/images/ic_app_new.png", height: 125, width: 125),
         const SizedBox(
-          height: 25.0,
+          height: 15.0,
         ),
         Text("My youkounkoun",
             style: textStyleCustomBold(Helpers.uiApp(context), 33),
@@ -82,6 +82,9 @@ class WelcomeState extends ConsumerState<Welcome> {
           width: MediaQuery.of(context).size.width - 55,
           child: ElevatedButton(
               onPressed: () => navNonAuthKey.currentState!.pushNamed(login),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: cBlue
+              ),
               child: Text(
                   AppLocalization.of(context)
                       .translate("welcome_screen", "login"),
@@ -96,6 +99,9 @@ class WelcomeState extends ConsumerState<Welcome> {
           width: MediaQuery.of(context).size.width - 55,
           child: ElevatedButton(
               onPressed: () => navNonAuthKey.currentState!.pushNamed(register),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: cBlue
+              ),
               child: Text(
                   AppLocalization.of(context)
                       .translate("welcome_screen", "register"),

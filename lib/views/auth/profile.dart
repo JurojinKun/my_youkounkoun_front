@@ -32,16 +32,6 @@ class ProfileState extends ConsumerState<Profile>
   bool profilePictureAlreadyLoaded = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   bool get wantKeepAlive => true;
 
   @override

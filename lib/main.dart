@@ -88,7 +88,10 @@ class MyAppState extends ConsumerState<MyApp> {
   late Locale localeLanguage;
 
   //add all assets in our app here
-  List<Image> imagesApp = [Image.asset("assets/images/ic_app.png")];
+  List<Image> imagesApp = [
+    Image.asset("assets/images/ic_app.png"),
+    Image.asset("assets/images/ic_app_new.png")
+  ];
 
   //connectivity
   final Connectivity _connectivity = Connectivity();

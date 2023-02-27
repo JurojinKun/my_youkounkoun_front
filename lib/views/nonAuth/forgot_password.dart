@@ -195,9 +195,9 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
-                Image.asset("assets/images/ic_app.png",
+                Image.asset("assets/images/ic_app_new.png",
                     height: 125, width: 125),
-                const SizedBox(height: 35.0),
+                const SizedBox(height: 25.0),
                 Text(
                   AppLocalization.of(context)
                       .translate("forgot_password_screen", "content"),
@@ -211,8 +211,9 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                   controller: _mailController,
                   focusNode: _mailFocusNode,
                   maxLines: 1,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.emailAddress,
+                  cursorColor: cBlue,
                   onChanged: (val) {
                     setState(() {
                       val = _mailController.text;
@@ -225,33 +226,58 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                       _mailFocusNode.hasFocus ? cBlue : cGrey,
                       14 / MediaQuery.of(context).textScaleFactor),
                   decoration: InputDecoration(
-                      contentPadding:
-                          const EdgeInsets.only(top: 15.0, left: 15.0),
-                      hintText: "Email",
-                      hintStyle: textStyleCustomRegular(
-                          cGrey, 14 / MediaQuery.of(context).textScaleFactor),
-                      labelStyle: textStyleCustomRegular(
-                          cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                      prefixIcon: Icon(Icons.mail,
-                          color: _mailFocusNode.hasFocus ? cBlue : cGrey),
-                      suffixIcon: _mailController.text.isNotEmpty
-                          ? Material(
-                              color: Colors.transparent,
-                              shape: const CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _mailController.clear();
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color:
-                                        _mailFocusNode.hasFocus ? cBlue : cGrey,
-                                  )),
-                            )
-                          : const SizedBox()),
+                    contentPadding:
+                        const EdgeInsets.only(top: 15.0, left: 15.0),
+                    hintText: "Email",
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    prefixIcon: Icon(Icons.mail,
+                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
+                    suffixIcon: _mailController.text.isNotEmpty
+                        ? Material(
+                            color: Colors.transparent,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _mailController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.clear,
+                                  color:
+                                      _mailFocusNode.hasFocus ? cBlue : cGrey,
+                                )),
+                          )
+                        : const SizedBox(),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _mailFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
                 ),
                 const SizedBox(
                   height: 55.0,
@@ -272,6 +298,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                             });
                           }
                         },
+                        style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                         child: _loadingForgotPassword
                             ? SizedBox(
                                 height: 15,

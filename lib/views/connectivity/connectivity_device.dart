@@ -46,7 +46,7 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
                 RotationTransition(
                   turns:
                       Tween(begin: 0.0, end: 1.0).animate(_animationController),
-                  child: Image.asset("assets/images/ic_app.png",
+                  child: Image.asset("assets/images/ic_app_new.png",
                       height: 125, width: 125),
                 ),
                 const SizedBox(height: 25.0),

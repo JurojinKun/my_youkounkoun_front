@@ -12,8 +12,6 @@ import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
-import 'package:myyoukounkoun/library/notifications_lib.dart';
-import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';

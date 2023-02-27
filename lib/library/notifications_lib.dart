@@ -20,7 +20,6 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_settings/app_settings.dart';
 
 class NotificationsLib {
   // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -138,7 +137,7 @@ class NotificationsLib {
       BuildContext context, WidgetRef ref, TickerProvider tickerProvider) {
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notif');
+        AndroidInitializationSettings('ic_notif_new');
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
             onDidReceiveLocalNotification: onDidReceiveLocalNotification);

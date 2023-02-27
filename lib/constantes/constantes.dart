@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myyoukounkoun/helpers/helpers.dart';
 
 //route names for generated routes non auth
 const String welcome = "welcome";
@@ -76,23 +77,24 @@ textStyleCustomRegular(Color color, double fontSize,
 }
 
 //colors app
-const Color cBlue = Colors.blue;
+const Color cBlue = Color(0xFF00A9BC);
 const Color cRed = Colors.red;
 const Color cWhite = Color(0xFFFEFFFF);
 const Color cBlack = Color(0xFF030303);
 const Color cGrey = Colors.grey;
+MaterialColor materialColorBlue = MaterialColor(0xFF00A9BC, Helpers.getSwatch(const Color(0xFF00A9BC)));
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: const Color(0XFFF3FAFA),
-  primarySwatch: Colors.blue,
+  primarySwatch: materialColorBlue,
   canvasColor: const Color(0xFFFCFFFF)
 );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0XFF151515),
-  primarySwatch: Colors.blue,
+  primarySwatch: materialColorBlue,
   canvasColor: const Color(0xFF060606)
 );

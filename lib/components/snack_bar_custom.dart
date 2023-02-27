@@ -14,7 +14,7 @@ SnackBar showSnackBarCustom(BuildContext context, String currentRouteApp) {
             RotationTransition(
               turns: Tween(begin: 0.0, end: 1.0)
                   .animate(animationSnackBarController),
-              child: Image.asset("assets/images/ic_app.png",
+              child: Image.asset("assets/images/ic_app_new.png",
                   height: 25, width: 25),
             ),
             const SizedBox(width: 10.0),

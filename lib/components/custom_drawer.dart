@@ -38,7 +38,7 @@ class CustomDrawerState extends ConsumerState<CustomDrawer> {
                     child: Row(
                       children: [
                         Image.asset(
-                          "assets/images/ic_app.png",
+                          "assets/images/ic_app_new.png",
                           height: 40,
                           width: 40,
                         ),

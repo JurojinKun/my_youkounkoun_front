@@ -69,7 +69,7 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/logos/ic_launcher.png"
+  image_path: "assets/logos/ic_launcher_new.png"
   web:
     generate: false
 
@@ -77,13 +77,13 @@ flutter_native_splash:
   fullscreen: true
   color: "#F3FAFA"
   color_dark: "#151515"
-  image: assets/logos/ic_splash.png
-  image_dark: assets/logos/ic_splash.png
+  image: assets/logos/ic_splash_new.png
+  image_dark: assets/logos/ic_splash_new.png
   android12:
     color: "#F3FAFA"
     color_dark: "#151515"
-    image: assets/logos/ic_splash.png
-    image_dark: assets/logos/ic_splash.png
+    image: assets/logos/ic_splash_new.png
+    image_dark: assets/logos/ic_splash_new.png
   android: true
   ios: true
   web: false
@@ -106,8 +106,11 @@ flutter:
 
   assets: 
     - assets/images/ic_app.png
+    - assets/images/ic_app_new.png
     - assets/logos/ic_launcher.png
+    - assets/logos/ic_launcher_new.png
     - assets/logos/ic_splash.png
+    - assets/logos/ic_splash_new.png
     - lib/translations/locales/fr.json
     - lib/translations/locales/en.json
     - .env

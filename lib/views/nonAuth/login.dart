@@ -178,10 +178,10 @@ class LoginState extends ConsumerState<Login> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    Image.asset("assets/images/ic_app.png",
+                    Image.asset("assets/images/ic_app_new.png",
                         height: 125, width: 125),
                     const SizedBox(
-                      height: 55.0,
+                      height: 25.0,
                     ),
                     TextField(
                       scrollPhysics: const BouncingScrollPhysics(),
@@ -190,6 +190,7 @@ class LoginState extends ConsumerState<Login> {
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
+                      cursorColor: cBlue,
                       onChanged: (val) {
                         setState(() {
                           val = _mailController.text;
@@ -268,6 +269,7 @@ class LoginState extends ConsumerState<Login> {
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.text,
                       obscureText: _passwordObscure,
+                      cursorColor: cBlue,
                       onChanged: (val) {
                         setState(() {
                           val = _passwordController.text;
@@ -383,6 +385,8 @@ class LoginState extends ConsumerState<Login> {
                                 });
                               }
                             },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: cBlue),
                             child: _loadingLogin
                                 ? SizedBox(
                                     height: 15,

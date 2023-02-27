@@ -246,6 +246,7 @@ class RegisterState extends ConsumerState<Register>
                   maxLines: 1,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
+                  cursorColor: cBlue,
                   onChanged: (val) {
                     setState(() {
                       val = _mailController.text;
@@ -322,6 +323,7 @@ class RegisterState extends ConsumerState<Register>
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   obscureText: _passwordObscure,
+                  cursorColor: cBlue,
                   onChanged: (val) {
                     setState(() {
                       val = _passwordController.text;
@@ -398,6 +400,7 @@ class RegisterState extends ConsumerState<Register>
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
                   obscureText: _passwordObscure,
+                  cursorColor: cBlue,
                   onChanged: (val) {
                     setState(() {
                       val = _confirmPasswordController.text;
@@ -583,6 +586,7 @@ class RegisterState extends ConsumerState<Register>
                               });
                             }
                           },
+                          style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                           child: _loadingStepOne
                               ? SizedBox(
                                   height: 15,
@@ -645,6 +649,7 @@ class RegisterState extends ConsumerState<Register>
                   maxLines: 1,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
+                  cursorColor: cBlue,
                   onChanged: (val) {
                     setState(() {
                       val = _pseudoController.text;
@@ -753,6 +758,7 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                               child: _loadingStepTwo
                                   ? SizedBox(
                                       height: 15,
@@ -931,6 +937,7 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                               child: _loadingStepThree
                                   ? SizedBox(
                                       height: 15,
@@ -1089,6 +1096,7 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                               child: _loadingStepFourth
                                   ? SizedBox(
                                       height: 15,
@@ -1181,9 +1189,9 @@ class RegisterState extends ConsumerState<Register>
                         labelText: AppLocalization.of(context)
                             .translate("register_screen", "search_country"),
                         border: const OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: cBlue,
                         )),
                       ),
                       emptySearchBuilder: (_) => Text(
@@ -1239,6 +1247,7 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                               child: _loadingStepFifth
                                   ? SizedBox(
                                       height: 15,
@@ -1433,6 +1442,7 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
                               child: _loadingStepSixth
                                   ? SizedBox(
                                       height: 15,

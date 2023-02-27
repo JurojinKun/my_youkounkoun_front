@@ -47,7 +47,7 @@
             android:value="2"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notif"/>
+            android:resource="@drawable/ic_notif_new"/>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4738640548560292~1075454500"/>
