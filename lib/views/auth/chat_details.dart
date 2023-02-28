@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:giphy_picker/giphy_picker.dart';
-import 'package:myyoukounkoun/library/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';

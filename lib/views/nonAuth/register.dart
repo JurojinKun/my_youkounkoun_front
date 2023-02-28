@@ -12,7 +12,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
-import 'package:myyoukounkoun/library/edit_picture_lib.dart';
+import 'package:myyoukounkoun/libraries/edit_picture_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/register_provider.dart';

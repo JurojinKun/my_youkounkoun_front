@@ -8,9 +8,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
-import 'package:myyoukounkoun/library/admob_lib.dart';
-import 'package:myyoukounkoun/library/env_config_lib.dart';
-import 'package:myyoukounkoun/library/notifications_lib.dart';
+import 'package:myyoukounkoun/libraries/admob_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/home_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';

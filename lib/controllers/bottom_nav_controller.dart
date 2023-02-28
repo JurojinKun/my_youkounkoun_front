@@ -5,8 +5,8 @@ import 'package:myyoukounkoun/components/custom_drawer.dart';
 import 'package:myyoukounkoun/components/custom_nav_bar.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
-import 'package:myyoukounkoun/library/env_config_lib.dart';
-import 'package:myyoukounkoun/library/notifications_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/notifications_lib.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';

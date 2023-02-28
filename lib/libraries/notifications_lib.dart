@@ -19,6 +19,7 @@ import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsLib {
@@ -307,13 +308,6 @@ class NotificationsLib {
   }
 
   static Future<void> setActiveNotifications(WidgetRef ref) async {
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -321,63 +315,127 @@ class NotificationsLib {
     String? uuid;
 
     if (Platform.isIOS) {
+      NotificationSettings settings =
+          await FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
       os = "apple";
       IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
       uuid = deviceInfoIOS.identifierForVendor;
+      String token = ref.read(userNotifierProvider).token;
+
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
+        if (kDebugMode) {
+          print("push token: $pushToken");
+        }
+
+        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
+          try {
+            //logic ws send push token
+            Map<String, dynamic> map = {
+              "uuid": uuid,
+              "os": os,
+              "appVersion": packageInfo.version,
+              "pushToken": pushToken,
+            };
+            ref
+                .read(pushTokenNotifierProvider.notifier)
+                .updatePushToken(pushToken);
+            prefs.setString("pushToken", pushToken);
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+          }
+        } else if (pushToken != "") {
+          ref
+              .read(pushTokenNotifierProvider.notifier)
+              .updatePushToken(pushToken);
+        }
+      } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
+        if (prefs.getString("pushToken") != null) {
+          try {
+            //logic ws send push token null
+            Map<String, dynamic> map = {
+              "uuid": uuid,
+              "os": os,
+              "appVersion": packageInfo.version,
+              "pushToken": null,
+            };
+            await FirebaseMessaging.instance.deleteToken();
+            await prefs.remove("pushToken");
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+          }
+        }
+        if (ref.read(pushTokenNotifierProvider).trim() != "") {
+          ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+        }
+      }
     } else {
       os = "android";
       AndroidDeviceInfo deviceInfoAndroid = await deviceInfoPlugin.androidInfo;
       uuid = deviceInfoAndroid.id;
-    }
-    String token = ref.read(userNotifierProvider).token;
+      String token = ref.read(userNotifierProvider).token;
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
-      if (kDebugMode) {
-        print("push token: $pushToken");
-      }
+      PermissionStatus status = await Permission.notification.request();
 
-      if (pushToken != prefs.getString("pushToken") && pushToken != "") {
-        try {
-          //logic ws send push token
-          Map<String, dynamic> map = {
-            "uuid": uuid,
-            "os": os,
-            "appVersion": packageInfo.version,
-            "pushToken": pushToken,
-          };
+      if (status == PermissionStatus.granted) {
+        String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
+        if (kDebugMode) {
+          print("push token: $pushToken");
+        }
+
+        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
+          try {
+            //logic ws send push token
+            Map<String, dynamic> map = {
+              "uuid": uuid,
+              "os": os,
+              "appVersion": packageInfo.version,
+              "pushToken": pushToken,
+            };
+            ref
+                .read(pushTokenNotifierProvider.notifier)
+                .updatePushToken(pushToken);
+            prefs.setString("pushToken", pushToken);
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+          }
+        } else if (pushToken != "") {
           ref
               .read(pushTokenNotifierProvider.notifier)
               .updatePushToken(pushToken);
-          prefs.setString("pushToken", pushToken);
-        } catch (e) {
-          if (kDebugMode) {
-            print(e);
+        }
+      } else {
+        if (prefs.getString("pushToken") != null) {
+          try {
+            //logic ws send push token null
+            Map<String, dynamic> map = {
+              "uuid": uuid,
+              "os": os,
+              "appVersion": packageInfo.version,
+              "pushToken": null,
+            };
+            await FirebaseMessaging.instance.deleteToken();
+            await prefs.remove("pushToken");
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
           }
         }
-      } else if (pushToken != "") {
-        ref.read(pushTokenNotifierProvider.notifier).updatePushToken(pushToken);
-      }
-    } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-      if (prefs.getString("pushToken") != null) {
-        try {
-          //logic ws send push token null
-          Map<String, dynamic> map = {
-            "uuid": uuid,
-            "os": os,
-            "appVersion": packageInfo.version,
-            "pushToken": null,
-          };
-          await FirebaseMessaging.instance.deleteToken();
-          await prefs.remove("pushToken");
-        } catch (e) {
-          if (kDebugMode) {
-            print(e);
-          }
+        if (ref.read(pushTokenNotifierProvider).trim() != "") {
+          ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
         }
-      }
-      if (ref.read(pushTokenNotifierProvider).trim() != "") {
-        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
       }
     }
   }
