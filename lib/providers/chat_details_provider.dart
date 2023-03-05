@@ -1,6 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 
+final currentChatUserIdNotifierProvider =
+    StateNotifierProvider<CurrentChatUserIdProvider, int>(
+        (ref) => CurrentChatUserIdProvider());
+
 final toolsStayHideNotifierProvider =
     StateNotifierProvider<ToolsStaHideProvider, bool>(
         (ref) => ToolsStaHideProvider());
@@ -13,6 +17,14 @@ final gifTrendingsNotifierProvider =
 final showPicturesNotifierProvider =
     StateNotifierProvider<ShowPicturesProvider, bool>(
         (ref) => ShowPicturesProvider());
+
+class CurrentChatUserIdProvider extends StateNotifier<int> {
+  CurrentChatUserIdProvider() : super(0);
+
+  setChatUserId(int newState) {
+    state = newState;
+  }
+}
 
 class ToolsStaHideProvider extends StateNotifier<bool> {
   ToolsStaHideProvider() : super(true);

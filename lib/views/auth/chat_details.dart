@@ -25,7 +25,6 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -505,9 +504,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
     if (mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
-            context.widget.toString(), widget.user.id.toString());
-
+        ref.read(currentChatUserIdNotifierProvider.notifier).setChatUserId(widget.user.id);
         ref.read(toolsStayHideNotifierProvider.notifier).clearStayHide();
         ref.read(showEmotionsNotifierProvider.notifier).clearShowEmotions();
         ref.read(showPicturesNotifierProvider.notifier).clearShowPictures();
@@ -588,20 +585,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
           ref
               .read(showPicturesNotifierProvider.notifier)
               .updateShowPictures(false);
-        }
-      },
-      onHorizontalDragUpdate: (details) {
-        int sensitivity = 8;
-        if (Platform.isIOS &&
-            details.delta.dx > sensitivity &&
-            details.globalPosition.dx <= 70) {
-          if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
-              "ChatDetails") {
-            ref
-                .read(inChatDetailsNotifierProvider.notifier)
-                .outChatDetails("", "");
-          }
-          Navigator.pop(context);
         }
       },
       child: Scaffold(
@@ -690,10 +673,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
                               onPressed: () {
-                                ref
-                                    .read(
-                                        inChatDetailsNotifierProvider.notifier)
-                                    .outChatDetails("", "");
                                 Navigator.pop(context);
                               },
                               icon: Icon(Icons.arrow_back_ios,
@@ -708,13 +687,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           horizontal: widget.openWithModal ? 15.0 : 0.0),
                       child: GestureDetector(
                         onTap: () {
-                          ref
-                              .read(afterChatDetailsNotifierProvider.notifier)
-                              .updateAfterChat(true);
-                          ref
-                              .read(inChatDetailsNotifierProvider.notifier)
-                              .outChatDetails(
-                                  "UserProfile", widget.user.id.toString());
                           navAuthKey.currentState!.pushNamed(userProfile,
                               arguments: [widget.user, false]);
                         },
@@ -766,10 +738,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
                               onPressed: () {
-                                ref
-                                    .read(
-                                        inChatDetailsNotifierProvider.notifier)
-                                    .outChatDetails("", "");
                                 Navigator.pop(context);
                               },
                               icon: Icon(
@@ -921,13 +889,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     shadowColor: Colors.transparent,
                   ),
                   onPressed: () {
-                    ref
-                        .read(afterChatDetailsNotifierProvider.notifier)
-                        .updateAfterChat(true);
-                    ref
-                        .read(inChatDetailsNotifierProvider.notifier)
-                        .outChatDetails(
-                            "UserProfile", widget.user.id.toString());
                     navAuthKey.currentState!.pushNamed(userProfile,
                         arguments: [widget.user, false]);
                   },

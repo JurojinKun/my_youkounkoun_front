@@ -6,7 +6,6 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
-import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/router.dart';
@@ -76,23 +75,6 @@ class LogControllerState extends ConsumerState<LogController>
                   generateRouteAuth(settings, context),
             ),
             onWillPop: () async {
-              if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
-                  "ChatDetails") {
-                ref
-                    .read(inChatDetailsNotifierProvider.notifier)
-                    .outChatDetails("", "");
-              } else if (ref.read(inChatDetailsNotifierProvider)["screen"] ==
-                  "UserProfile") {
-                ref.read(inChatDetailsNotifierProvider.notifier).inChatDetails(
-                    "ChatDetails",
-                    ref.read(inChatDetailsNotifierProvider)["userID"]);
-              }
-
-              if (ref.read(afterChatDetailsNotifierProvider)) {
-                ref
-                    .read(afterChatDetailsNotifierProvider.notifier)
-                    .clearAfterChat();
-              }
               return !(await navAuthKey.currentState!.maybePop());
             },
           )

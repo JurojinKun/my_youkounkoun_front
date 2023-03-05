@@ -12,6 +12,8 @@ import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/chat_details_provider.dart';
+import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -265,15 +267,14 @@ class NotificationsLib {
                 .addNewNotification(newNotif);
           }
         } else if (message.data["type"] == "M") {
-          if (ref.read(inChatDetailsNotifierProvider).isEmpty ||
-              (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
-                  ref.read(inChatDetailsNotifierProvider)["screen"] ==
-                      "ChatDetails" &&
-                  ref.read(inChatDetailsNotifierProvider)["userID"] !=
-                      message.data["idSender"]) ||
-              (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
-                  ref.read(inChatDetailsNotifierProvider)["screen"] ==
-                      "UserProfile")) {
+          if (ref.read(currentRouteAppNotifierProvider) != "chatDetails") {
+            flutterLocalNotificationsPlugin.show(notification.hashCode,
+                notification.title, notification.body, platformChannelSpecifics,
+                payload: message.data["idSender"]);
+          } else if (ref.read(currentRouteAppNotifierProvider) ==
+                  "chatDetails" &&
+              ref.read(currentChatUserIdNotifierProvider) !=
+                  message.data["idSender"]) {
             flutterLocalNotificationsPlugin.show(notification.hashCode,
                 notification.title, notification.body, platformChannelSpecifics,
                 payload: message.data["idSender"]);
