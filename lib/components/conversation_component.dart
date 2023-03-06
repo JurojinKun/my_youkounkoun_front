@@ -129,45 +129,24 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                   SizedBox(
                     height: 50.0,
                     width: 50.0,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: widget.userConv.profilePictureUrl.trim() == ""
-                              ? Container(
-                                  height: 45,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                    color: cGrey.withOpacity(0.2),
-                                  ),
-                                  child: const Icon(Icons.person,
-                                      color: cBlue, size: 28),
-                                )
-                              : CachedNetworkImageCustom(
-                                  profilePictureUrl:
-                                      widget.userConv.profilePictureUrl,
-                                  heightContainer: 45,
-                                  widthContainer: 45,
-                                  iconSize: 28),
-                        ),
-                        if (widget.conversation.lastMessageUserId !=
-                                ref.read(userNotifierProvider).id &&
-                            !widget.conversation.isLastMessageRead)
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              height: 7.5,
-                              width: 7.5,
-                              decoration: const BoxDecoration(
-                                color: cBlue,
-                                shape: BoxShape.circle,
-                              ),
+                    child: widget.userConv.profilePictureUrl.trim() == ""
+                        ? Container(
+                            height: 45,
+                            width: 45,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cBlue),
+                              color: cGrey.withOpacity(0.2),
                             ),
-                          ),
-                      ],
-                    ),
+                            child: const Icon(Icons.person,
+                                color: cBlue, size: 28),
+                          )
+                        : CachedNetworkImageCustom(
+                            profilePictureUrl:
+                                widget.userConv.profilePictureUrl,
+                            heightContainer: 45,
+                            widthContainer: 45,
+                            iconSize: 28),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
@@ -194,7 +173,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                         ),
                         Row(
                           children: [
-                            Expanded(
+                            Flexible(
                               child: Text(typeLastMessage(widget.conversation),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -213,7 +192,28 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                       : textStyleCustomRegular(cGrey, 14),
                                   textScaleFactor: 1.0),
                             ),
-                            const SizedBox(width: 5.0),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Container(
+                                height: 5.0,
+                                width: 5.0,
+                                decoration: BoxDecoration(
+                                    color: widget.conversation
+                                                    .lastMessageUserId !=
+                                                ref
+                                                    .read(userNotifierProvider)
+                                                    .id &&
+                                            !widget
+                                                .conversation.isLastMessageRead
+                                        ? Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite
+                                        : cGrey,
+                                    shape: BoxShape.circle),
+                              ),
+                            ),
                             StreamBuilder(
                                 stream: Stream<String>.periodic(
                                     const Duration(minutes: 1),
@@ -269,10 +269,24 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                   }
                                 }),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
+                  if (widget.conversation.lastMessageUserId !=
+                          ref.read(userNotifierProvider).id &&
+                      !widget.conversation.isLastMessageRead)
+                    SizedBox(
+                      width: 30.0,
+                      child: Container(
+                        height: 7.5,
+                        width: 7.5,
+                        decoration: const BoxDecoration(
+                          color: cBlue,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

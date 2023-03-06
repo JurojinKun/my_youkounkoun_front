@@ -198,7 +198,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
           alignment: Alignment.center,
           child: const AdMobWidget(
             adSize: AdSize.largeBanner,
-            colorIndicator: Colors.blue,
+            colorIndicator: cBlue,
             screenPub: "home",
           )),
     );

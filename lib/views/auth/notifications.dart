@@ -192,11 +192,22 @@ class NotificationsState extends ConsumerState<Notifications>
                   SizedBox(
                     height: 45.0,
                     width: 45.0,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
+                    child: notification.isRead
+                        ? Container(
+                            height: 35,
+                            width: 35,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.notifications_active,
+                              color: cGrey,
+                              size: 20,
+                            ),
+                          )
+                        : Container(
                             height: 35,
                             width: 35,
                             alignment: Alignment.center,
@@ -219,21 +230,6 @@ class NotificationsState extends ConsumerState<Notifications>
                               size: 20,
                             ),
                           ),
-                        ),
-                        if (!notification.isRead)
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              height: 7.5,
-                              width: 7.5,
-                              decoration: const BoxDecoration(
-                                color: cBlue,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
@@ -251,55 +247,92 @@ class NotificationsState extends ConsumerState<Notifications>
                                         : cWhite,
                                     16),
                             textScaleFactor: 1.0),
-                        Text(notification.body,
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                            text: notification.body,
                             style: notification.isRead
-                                ? textStyleCustomRegular(cGrey, 14)
+                                ? textStyleCustomRegular(cGrey, 14 / MediaQuery.of(context).textScaleFactor)
                                 : textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
-                                    14),
-                            textScaleFactor: 1.0)
+                                    14 / MediaQuery.of(context).textScaleFactor),
+                          ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Container(
+                                height: 5.0,
+                                width: 5.0,
+                                decoration: BoxDecoration(
+                                    color: notification.isRead
+                                        ? cGrey
+                                        : Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                    shape: BoxShape.circle),
+                              ),
+                            ),
+                          ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: StreamBuilder(
+                              stream: Stream<String>.periodic(
+                                  const Duration(minutes: 1),
+                                  ((computationCount) {
+                                return Helpers.readTimeStamp(
+                                    context, int.parse(notification.timestamp));
+                              })),
+                              builder: ((context, snapshot) {
+                                if (snapshot.data == null) {
+                                  return Text(
+                                      Helpers.readTimeStamp(context,
+                                          int.parse(notification.timestamp)),
+                                      style: textStyleCustomMedium(
+                                          notification.isRead
+                                              ? cGrey
+                                              : Theme.of(context).brightness ==
+                                                      Brightness.light
+                                                  ? cBlack
+                                                  : cWhite,
+                                          12),
+                                      textScaleFactor: 1.0);
+                                } else {
+                                  return Text(snapshot.data.toString(),
+                                      style: textStyleCustomMedium(
+                                          notification.isRead
+                                              ? cGrey
+                                              : Theme.of(context).brightness ==
+                                                      Brightness.light
+                                                  ? cBlack
+                                                  : cWhite,
+                                          12),
+                                      textScaleFactor: 1.0);
+                                }
+                              }),
+                            ),
+                          )
+                        ]))
                       ],
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: StreamBuilder(
-                        stream: Stream<String>.periodic(
-                            const Duration(minutes: 1), ((computationCount) {
-                          return Helpers.readTimeStamp(
-                              context, int.parse(notification.timestamp));
-                        })),
-                        builder: ((context, snapshot) {
-                          if (snapshot.data == null) {
-                            return Text(
-                                Helpers.readTimeStamp(
-                                    context, int.parse(notification.timestamp)),
-                                style: textStyleCustomMedium(
-                                    notification.isRead
-                                        ? cGrey
-                                        : Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite,
-                                    12),
-                                textScaleFactor: 1.0);
-                          } else {
-                            return Text(snapshot.data.toString(),
-                                style: textStyleCustomMedium(
-                                    notification.isRead
-                                        ? cGrey
-                                        : Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite,
-                                    12),
-                                textScaleFactor: 1.0);
-                          }
-                        }),
-                      )),
+                  if (!notification.isRead)
+                    Container(
+                      width: 30.0,
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 7.5,
+                        width: 7.5,
+                        decoration: const BoxDecoration(
+                          color: cBlue,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),

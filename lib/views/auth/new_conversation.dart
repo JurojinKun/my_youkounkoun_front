@@ -128,7 +128,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
   PreferredSizeWidget _customAppBarNewConv() {
     return PreferredSize(
       preferredSize: Size(MediaQuery.of(context).size.width,
-          appBar.preferredSize.height + 50.0),
+          appBar.preferredSize.height + 60.0),
       child: ClipRRect(
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -159,11 +159,11 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 )
               ],
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50),
+                preferredSize: const Size.fromHeight(60),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
                   child: Container(
-                    height: 40.0,
+                    height: 50.0,
                     alignment: Alignment.center,
                     child: TextField(
                       scrollPhysics: const BouncingScrollPhysics(),
@@ -176,7 +176,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                           _searchFocusNode.hasFocus
                               ? Theme.of(context).colorScheme.primary
                               : cGrey,
-                          14 / MediaQuery.of(context).textScaleFactor),
+                          16 / MediaQuery.of(context).textScaleFactor),
                       decoration: InputDecoration(
                           contentPadding:
                               const EdgeInsets.only(top: 15.0, left: 15.0),
@@ -196,7 +196,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                               borderRadius: BorderRadius.circular(10.0)),
                           prefixIcon: const Icon(
                             Icons.search_sharp,
-                            size: 20,
+                            size: 23,
                           ),
                           suffixIcon: _searchController.text.isNotEmpty
                               ? Material(
@@ -262,7 +262,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 10.0,
                 MediaQuery.of(context).padding.top +
                     appBar.preferredSize.height +
-                    70.0,
+                    80.0,
                 10.0,
                 choice != null
                     ? MediaQuery.of(context).padding.bottom + 120.0
