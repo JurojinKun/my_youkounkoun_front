@@ -29,7 +29,8 @@ const String pictureFullscreen = "picturesFullscreen";
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 //scaffold messenger key & animation controller snack bar connectivity
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 late AnimationController animationSnackBarController;
 
 //navigator keys
@@ -82,19 +83,23 @@ const Color cRed = Colors.red;
 const Color cWhite = Color(0xFFFEFFFF);
 const Color cBlack = Color(0xFF030303);
 const Color cGrey = Colors.grey;
-MaterialColor materialColorBlue = MaterialColor(0xFF00A9BC, Helpers.getSwatch(const Color(0xFF00A9BC)));
+MaterialColor materialColorBlue =
+    MaterialColor(0xFF00A9BC, Helpers.getSwatch(const Color(0xFF00A9BC)));
+LinearGradient defaultGradientMessagesChat =
+    const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Color(0XFF4284C4), Color(0xFF00A9BC)]);
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  scaffoldBackgroundColor: const Color(0XFFF3FAFA),
-  primarySwatch: materialColorBlue,
-  canvasColor: const Color(0xFFFCFFFF)
-);
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: const Color(0XFFF3FAFA),
+    primarySwatch: materialColorBlue,
+    canvasColor: const Color(0xFFD8DEDE));
 
 ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  scaffoldBackgroundColor: const Color(0XFF151515),
-  primarySwatch: materialColorBlue,
-  canvasColor: const Color(0xFF060606)
-);
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: const Color(0XFF151515),
+    primarySwatch: materialColorBlue,
+    canvasColor: const Color(0xFF313232));

@@ -155,7 +155,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
-                              height: 40.0,
+                              height: 50.0,
                               child: TextField(
                                 minLines: 1,
                                 maxLines: 1,
@@ -170,7 +170,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
-                                    12 /
+                                    14 /
                                         MediaQuery.of(context).textScaleFactor),
                                 decoration: InputDecoration(
                                   fillColor: Theme.of(context).canvasColor,
@@ -180,7 +180,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   hintText: "Rechercher dans Giphy",
                                   hintStyle: textStyleCustomBold(
                                       cGrey,
-                                      12 /
+                                      14 /
                                           MediaQuery.of(context)
                                               .textScaleFactor),
                                   enabledBorder: OutlineInputBorder(
@@ -391,12 +391,12 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  color: cGrey.withOpacity(0.2),
+                                                  color: Theme.of(context)
+                                                      .canvasColor
+                                                      .withOpacity(0.2),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          10.0),
-                                                  border:
-                                                      Border.all(color: cGrey)),
+                                                          10.0)),
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
@@ -407,7 +407,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                   },
                                                   filterQuality:
                                                       FilterQuality.low,
-                                                  fit: BoxFit.cover,
+                                                  fit: BoxFit.fill,
                                                   loadingBuilder:
                                                       (BuildContext context,
                                                           Widget child,
@@ -504,7 +504,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
     if (mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        ref.read(currentChatUserIdNotifierProvider.notifier).setChatUserId(widget.user.id);
+        ref
+            .read(currentChatUserIdNotifierProvider.notifier)
+            .setChatUserId(widget.user.id);
         ref.read(toolsStayHideNotifierProvider.notifier).clearStayHide();
         ref.read(showEmotionsNotifierProvider.notifier).clearShowEmotions();
         ref.read(showPicturesNotifierProvider.notifier).clearShowPictures();
@@ -619,10 +621,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               color: Theme.of(context).scaffoldBackgroundColor,
                               shape: BoxShape.circle,
                               boxShadow: const [
-                                BoxShadow(
-                                    color: cBlue,
-                                    blurRadius: 6,
-                                    spreadRadius: 2)
+                                BoxShadow(color: cBlue, blurRadius: 3)
                               ]),
                           alignment: Alignment.center,
                           child: const Icon(
@@ -1019,8 +1018,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   vertical: 5.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: cBlue),
+                  color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 message.message,
@@ -1044,7 +1042,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  color: cBlue, borderRadius: BorderRadius.circular(10.0)),
+                  gradient: defaultGradientMessagesChat,
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 message.message,
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
@@ -1056,8 +1055,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       case "image":
         if (message.idSender != ref.read(userNotifierProvider).id) {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!
-                .pushNamed(pictureFullscreen, arguments: [message.message]),
+            onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
+                arguments: [message, widget.user]),
             child: Container(
                 height: 200,
                 width: 150,
@@ -1069,8 +1068,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         : 10.0,
                     vertical: 5.0),
                 decoration: BoxDecoration(
-                    color: cGrey.withOpacity(0.2),
-                    border: Border.all(color: cBlue),
+                    color: Theme.of(context).canvasColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
@@ -1112,15 +1110,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
           );
         } else {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!
-                .pushNamed(pictureFullscreen, arguments: [message.message]),
+            onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
+                arguments: [message, ref.read(userNotifierProvider)]),
             child: Container(
                 height: 200,
                 width: 150,
                 margin:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 decoration: BoxDecoration(
-                    color: cGrey.withOpacity(0.2),
+                    color: Theme.of(context).canvasColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
@@ -1175,8 +1173,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 margin:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 decoration: BoxDecoration(
-                    color: cGrey.withOpacity(0.2),
-                    border: Border.all(color: cBlue),
+                    color: Theme.of(context).canvasColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
@@ -1228,7 +1225,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         : 10.0,
                     vertical: 5.0),
                 decoration: BoxDecoration(
-                    color: cGrey.withOpacity(0.2),
+                    color: Theme.of(context).canvasColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
@@ -1286,24 +1283,18 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 .updateStayHide(false);
                           },
                           child: Container(
-                            height: 40,
-                            width: 40,
+                            height: 35,
+                            width: 35,
                             margin:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                shape: BoxShape.circle,
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: cBlue,
-                                      blurRadius: 6,
-                                      spreadRadius: 2)
-                                ]),
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              shape: BoxShape.circle,
+                            ),
                             child: const Icon(
                               Icons.arrow_forward_ios,
-                              color: cBlue,
+                              color: cGrey,
                               size: 20,
                             ),
                           ),
@@ -1326,8 +1317,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     .updateShowPictures(!showPictures);
                               },
                               child: Container(
-                                height: 40,
-                                width: 40,
+                                height: 35.0,
+                                width: 35.0,
                                 margin: const EdgeInsets.only(
                                     left: 10.0, right: 7.5),
                                 alignment: Alignment.center,
@@ -1335,16 +1326,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
                                     shape: BoxShape.circle,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: cBlue,
-                                          blurRadius: 6,
-                                          spreadRadius: 2)
+                                    boxShadow: [
+                                      if (showPictures)
+                                        const BoxShadow(
+                                            color: cBlue, blurRadius: 3)
                                     ]),
                                 child: Icon(
                                   showPictures ? Icons.clear : Icons.add,
-                                  color: cBlue,
-                                  size: 20,
+                                  color: showPictures ? cBlue : cGrey,
+                                  size: showPictures ? 25 : 30,
                                 ),
                               ),
                             ),
@@ -1366,8 +1356,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 print("long pressed end");
                               },
                               child: Container(
-                                height: 40,
-                                width: 40,
+                                height: 35,
+                                width: 35,
                                 margin: const EdgeInsets.only(
                                     left: 7.5, right: 10.0),
                                 alignment: Alignment.center,
@@ -1375,16 +1365,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
                                     shape: BoxShape.circle,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: cBlue,
-                                          blurRadius: 6,
-                                          spreadRadius: 2)
+                                    boxShadow: [
+                                      if (startAudio)
+                                        const BoxShadow(
+                                            color: cBlue, blurRadius: 3)
                                     ]),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.mic_rounded,
-                                  color: cBlue,
-                                  size: 20,
+                                  color: startAudio ? cBlue : cGrey,
+                                  size: 25,
                                 ),
                               ),
                             ),
@@ -1502,16 +1491,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         }
                       },
                       child: Container(
-                        height: 40,
-                        width: 40,
+                        height: 35,
+                        width: 35,
                         margin: const EdgeInsets.symmetric(horizontal: 10.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
                             shape: BoxShape.circle,
                             boxShadow: const [
-                              BoxShadow(
-                                  color: cBlue, blurRadius: 6, spreadRadius: 2)
+                              BoxShadow(color: cBlue, blurRadius: 3)
                             ]),
                         child: const Icon(
                           Icons.send,
@@ -1610,7 +1598,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       backgroundColor: Theme.of(context).canvasColor,
                       foregroundColor: cBlue,
                       shadowColor: Colors.transparent,
-                      side: const BorderSide(width: 1.0, color: cGrey),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       )),
@@ -1627,15 +1614,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       _openBottomSheetGif = false;
                     });
                   },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search, color: cGrey),
-                      const SizedBox(width: 15.0),
-                      Expanded(
-                          child: Text("Rechercher dans Giphy",
-                              style: textStyleCustomBold(cGrey, 16),
-                              textScaleFactor: 1.0))
-                    ],
+                  child: SizedBox(
+                    height: 40.0,
+                    child: Row(
+                      children: [
+                        Icon(Icons.search, color: Helpers.uiApp(context)),
+                        const SizedBox(width: 15.0),
+                        Expanded(
+                            child: Text("Rechercher dans Giphy",
+                                style: textStyleCustomBold(
+                                    Helpers.uiApp(context), 16),
+                                textScaleFactor: 1.0))
+                      ],
+                    ),
                   )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -1677,16 +1668,16 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: cGrey.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10.0),
-                            border: Border.all(color: cGrey)),
+                            color:
+                                Theme.of(context).canvasColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.0)),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: Image.network(
                               gif.images.original!.url!,
                               headers: const {'accept': 'image/*'},
                               filterQuality: FilterQuality.low,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                               loadingBuilder: (BuildContext context,
                                   Widget child,
                                   ImageChunkEvent? loadingProgress) {
@@ -1853,9 +1844,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: cGrey.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10.0),
-                            border: Border.all(color: cGrey)),
+                            color:
+                                Theme.of(context).canvasColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.0)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                         ),

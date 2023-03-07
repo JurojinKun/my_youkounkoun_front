@@ -108,7 +108,7 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
               name: pictureFullscreen,
-              child: PictureFullscreen(imageUrl: args![0])));
+              child: PictureFullscreen(message: args![0], user: args[1])));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

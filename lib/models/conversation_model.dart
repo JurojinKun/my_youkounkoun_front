@@ -4,8 +4,8 @@ List<ConversationModel> conversationsDatasMockes = [
   ConversationModel(
       id: 1,
       users: [
-        {"id": 186, "convMute": false},
-        {"id": 1, "convMute": true}
+        {"id": 186, "convMute": false, "isTyping": false},
+        {"id": 1, "convMute": true, "isTyping": false}
       ],
       lastMessageUserId: 186,
       lastMessage: "Quoi de beau aujourd'hui ?",
@@ -15,8 +15,8 @@ List<ConversationModel> conversationsDatasMockes = [
   ConversationModel(
       id: 2,
       users: [
-        {"id": 1, "convMute": false},
-        {"id": 4, "convMute": false}
+        {"id": 1, "convMute": false, "isTyping": false},
+        {"id": 4, "convMute": false, "isTyping": false}
       ],
       lastMessageUserId: 1,
       lastMessage:
