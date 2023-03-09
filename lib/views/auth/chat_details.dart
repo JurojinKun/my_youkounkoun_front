@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
@@ -494,13 +495,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     super.initState();
 
     messagesUsers = getListMessagesUsers();
-    if (messagesUsers.isNotEmpty) {
-      for (var element in messagesUsers) {
-        if (element.seeInfosMessage) {
-          element.seeInfosMessage = !element.seeInfosMessage;
-        }
-      }
-    }
 
     if (mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -756,6 +750,25 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     );
   }
 
+  Widget gradientChat() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0XFF4284C4),
+            Color(0XFF4284C4),
+            Color(0xFF00A9BC),
+            Color(0xFF00A9BC)
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget messages() {
     return LayoutBuilder(builder: (_, constraints) {
       return SingleChildScrollView(
@@ -918,16 +931,28 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (message.seeInfosMessage)
-                Center(
-                  child: Padding(
+              Center(
+                child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(message.timestamp,
-                        style:
-                            textStyleCustomMedium(Helpers.uiApp(context), 14),
-                        textScaleFactor: 1.0),
-                  ),
-                ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.5),
+                        child: Text(
+                            Helpers.formatDateDayWeek(
+                                int.parse(message.timestamp),
+                                ref
+                                    .read(localeLanguageNotifierProvider)
+                                    .languageCode),
+                            style: textStyleCustomMedium(
+                                cBlue, 14),
+                            textScaleFactor: 1.0),
+                      ),
+                    )),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -958,11 +983,11 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   typeMessage(message, index),
                 ],
               ),
-              if (message.isRead && message.seeInfosMessage)
+              if (message.isRead && messagesUsers.length == index + 1)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35.0),
                   child: Text("Vu",
-                      style: textStyleCustomMedium(Helpers.uiApp(context), 12),
+                      style: textStyleCustomMedium(cGrey, 12),
                       textScaleFactor: 1.0),
                 )
             ],
@@ -972,23 +997,35 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if (message.seeInfosMessage)
-                  Center(
-                    child: Padding(
+                Center(
+                  child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text(message.timestamp,
-                          style:
-                              textStyleCustomMedium(Helpers.uiApp(context), 14),
-                          textScaleFactor: 1.0),
-                    ),
-                  ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).canvasColor,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(7.5),
+                          child: Text(
+                              Helpers.formatDateDayWeek(
+                                  int.parse(message.timestamp),
+                                  ref
+                                      .read(localeLanguageNotifierProvider)
+                                      .languageCode),
+                              style: textStyleCustomMedium(
+                                  cBlue, 14),
+                              textScaleFactor: 1.0),
+                        ),
+                      )),
+                ),
                 typeMessage(message, index),
-                if (message.isRead && message.seeInfosMessage)
+                if (message.isRead && messagesUsers.length == index + 1)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text("Vu",
                         style:
-                            textStyleCustomMedium(Helpers.uiApp(context), 12),
+                            textStyleCustomMedium(cGrey, 12),
                         textScaleFactor: 1.0),
                   )
               ],
@@ -999,13 +1036,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     switch (message.type) {
       case "text":
         if (message.idSender != ref.read(userNotifierProvider).id) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                message.seeInfosMessage = !message.seeInfosMessage;
-              });
-            },
-            child: Container(
+          return Container(
               constraints: BoxConstraints(
                   minWidth: 0,
                   maxWidth: MediaQuery.of(context).size.width / 1.5),
@@ -1020,21 +1051,33 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.circular(10.0)),
-              child: Text(
-                message.message,
-                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
-              ),
-            ),
-          );
+              child: IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      message.message,
+                      style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                      textScaleFactor: 1.0,
+                    ),
+                    const SizedBox(height: 5.0),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
+                ),
+              ));
         } else {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                message.seeInfosMessage = !message.seeInfosMessage;
-              });
-            },
-            child: Container(
+          return Container(
               constraints: BoxConstraints(
                   minWidth: 0,
                   maxWidth: MediaQuery.of(context).size.width / 1.5),
@@ -1042,15 +1085,37 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  gradient: defaultGradientMessagesChat,
+                  gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0XFF4284C4), Color(0xFF00A9BC)],
+                      stops: [0.0, 1.0]),
                   borderRadius: BorderRadius.circular(10.0)),
-              child: Text(
-                message.message,
-                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
-              ),
-            ),
-          );
+              child: IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      message.message,
+                      style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                      textScaleFactor: 1.0,
+                    ),
+                    const SizedBox(height: 5.0),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
+                ),
+              ));
         }
       case "image":
         if (message.idSender != ref.read(userNotifierProvider).id) {
@@ -1058,76 +1123,169 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
                 arguments: [message, widget.user]),
             child: Container(
-                height: 200,
-                width: 150,
-                margin: EdgeInsets.symmetric(
-                    horizontal: messagesUsers.length != index + 1 &&
-                            messagesUsers[index + 1].idSender !=
-                                ref.read(userNotifierProvider).id
-                        ? 35.0
-                        : 10.0,
-                    vertical: 5.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Hero(
+              height: 200,
+              width: 150,
+              margin: EdgeInsets.symmetric(
+                  horizontal: messagesUsers.length != index + 1 &&
+                          messagesUsers[index + 1].idSender !=
+                              ref.read(userNotifierProvider).id
+                      ? 35.0
+                      : 10.0,
+                  vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Hero(
                     tag: "picture ${message.message}",
                     transitionOnUserGestures: true,
-                    child: Image.network(
-                      message.message,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: cBlue,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                            strokeWidth: 2.0,
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          message.message,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: cBlue,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2.0,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(Icons.replay_outlined,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  size: 33),
+                            );
+                          },
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Text(
+                            Helpers.formatDateHoursMinutes(
+                                int.parse(message.timestamp),
+                                ref
+                                    .read(localeLanguageNotifierProvider)
+                                    .languageCode),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 10),
+                            textScaleFactor: 1.0,
                           ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(Icons.replay_outlined,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              size: 33),
-                        );
-                      },
-                    ),
-                  ),
-                )),
+                        )
+                      ],
+                    )),
+              ),
+            ),
           );
         } else {
           return GestureDetector(
             onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
                 arguments: [message, ref.read(userNotifierProvider)]),
             child: Container(
-                height: 200,
-                width: 150,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Hero(
+              height: 200,
+              width: 150,
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Hero(
                     tag: "picture ${message.message}",
                     transitionOnUserGestures: true,
-                    child: Image.network(
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          message.message,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: cBlue,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2.0,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(Icons.replay_outlined,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? cBlack
+                                      : cWhite,
+                                  size: 33),
+                            );
+                          },
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Text(
+                            Helpers.formatDateHoursMinutes(
+                                int.parse(message.timestamp),
+                                ref
+                                    .read(localeLanguageNotifierProvider)
+                                    .languageCode),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 10),
+                            textScaleFactor: 1.0,
+                          ),
+                        )
+                      ],
+                    )),
+              ),
+            ),
+          );
+        }
+      case "gif":
+        if (message.idSender != ref.read(userNotifierProvider).id) {
+          return Container(
+            height: 200,
+            width: 150,
+            margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Stack(
+                  children: [
+                    Image.network(
                       message.message,
-                      fit: BoxFit.cover,
+                      headers: const {'accept': 'image/*'},
+                      filterQuality: FilterQuality.low,
+                      fit: BoxFit.fill,
+                      height: double.infinity,
+                      width: double.infinity,
                       loadingBuilder: (BuildContext context, Widget child,
                           ImageChunkEvent? loadingProgress) {
                         if (loadingProgress == null) {
@@ -1147,116 +1305,88 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       errorBuilder: (context, error, stackTrace) {
                         return Center(
                           child: Icon(Icons.replay_outlined,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? cBlack
-                                  : cWhite,
-                              size: 33),
+                              color: Helpers.uiApp(context), size: 33),
                         );
                       },
                     ),
-                  ),
-                )),
-          );
-        }
-      case "gif":
-        if (message.idSender != ref.read(userNotifierProvider).id) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                message.seeInfosMessage = !message.seeInfosMessage;
-              });
-            },
-            child: Container(
-                height: 200,
-                width: 150,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    message.message,
-                    headers: const {'accept': 'image/*'},
-                    filterQuality: FilterQuality.low,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: cBlue,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                          strokeWidth: 2.0,
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(Icons.replay_outlined,
-                            color: Helpers.uiApp(context), size: 33),
-                      );
-                    },
-                  ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
                 )),
           );
         } else {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                message.seeInfosMessage = !message.seeInfosMessage;
-              });
-            },
-            child: Container(
-                height: 200,
-                width: 150,
-                margin: EdgeInsets.symmetric(
-                    horizontal: messagesUsers.length != index + 1 &&
-                            messagesUsers[index + 1].idSender !=
-                                ref.read(userNotifierProvider).id
-                        ? 35.0
-                        : 10.0,
-                    vertical: 5.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    message.message,
-                    headers: const {'accept': 'image/*'},
-                    filterQuality: FilterQuality.low,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: cBlue,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                          strokeWidth: 2.0,
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(Icons.replay_outlined,
-                            color: Helpers.uiApp(context), size: 33),
-                      );
-                    },
-                  ),
+          return Container(
+            height: 200,
+            width: 150,
+            margin: EdgeInsets.symmetric(
+                horizontal: messagesUsers.length != index + 1 &&
+                        messagesUsers[index + 1].idSender !=
+                            ref.read(userNotifierProvider).id
+                    ? 35.0
+                    : 10.0,
+                vertical: 5.0),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Stack(
+                  children: [
+                    Image.network(
+                      message.message,
+                      headers: const {'accept': 'image/*'},
+                      filterQuality: FilterQuality.low,
+                      fit: BoxFit.fill,
+                      height: double.infinity,
+                      width: double.infinity,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: cBlue,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                            strokeWidth: 2.0,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(Icons.replay_outlined,
+                              color: Helpers.uiApp(context), size: 33),
+                        );
+                      },
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
                 )),
           );
         }
