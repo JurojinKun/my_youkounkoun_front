@@ -11,9 +11,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:giphy_picker/giphy_picker.dart';
+import 'package:myyoukounkoun/components/indicator_typing_component.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -130,6 +133,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         break;
     }
 
+    //Bien vérifier que la logique de timestamps fonctionnent bien par rapport au grouped list view
     messages.sort(
         (a, b) => int.parse(a.timestamp).compareTo(int.parse(b.timestamp)));
 
@@ -811,7 +815,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               children: [
                 seeProfile(),
                 const SizedBox(height: 20.0),
-                listMessages()
+                listMessages(),
+                //add logic listener user write or not real time
+                TypingIndicator(
+                  showIndicator: true,
+                  bubbleColor: Theme.of(context).canvasColor,
+                  flashingCircleBrightColor: cBlue,
+                  flashingCircleDarkColor: Theme.of(context).scaffoldBackgroundColor,
+                  user: widget.user,
+                ),
               ],
             ),
           ));
@@ -913,16 +925,56 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   }
 
   Widget listMessages() {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: messagesUsers.length,
-        itemBuilder: (context, index) {
-          MessageModel message = messagesUsers[index];
+    return GroupedListView(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      elements: messagesUsers,
+      groupBy: (MessageModel message) => Helpers.formatDateDayWeek(
+          int.parse(message.timestamp),
+          ref.read(localeLanguageNotifierProvider).languageCode),
+      groupComparator: (String value1, String value2) {
+        final timestamp1 = (DateFormat('EEE d MMM',
+                    ref.read(localeLanguageNotifierProvider).languageCode)
+                .parse(value1))
+            .millisecondsSinceEpoch;
+        final timestamp2 = (DateFormat('EEE d MMM',
+                    ref.read(localeLanguageNotifierProvider).languageCode)
+                .parse(value2))
+            .millisecondsSinceEpoch;
+        return timestamp2.compareTo(timestamp1);
+      },
+      // itemComparator: (MessageModel element1, MessageModel element2) {
+      //   final date1 = DateTime.fromMillisecondsSinceEpoch(int.parse(element1.timestamp) * 1000).toLocal();
+      //   final date2 = DateTime.fromMillisecondsSinceEpoch(int.parse(element2.timestamp) * 1000).toLocal();
+      //   return date2.compareTo(date1);
+      // },
+      order: GroupedListOrder.DESC,
+      sort: false,
+      groupSeparatorBuilder: (String value) {
+        return Center(
+          child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(7.5),
+                  child: Text(value,
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0),
+                ),
+              )),
+        );
+      },
+      itemBuilder: (context, MessageModel message) {
+        int index = messagesUsers.indexOf(message);
 
-          return messageItem(messagesUsers, message, index);
-        });
+        return messageItem(messagesUsers, message, index);
+      },
+    );
   }
 
   Widget messageItem(
@@ -931,28 +983,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(7.5),
-                        child: Text(
-                            Helpers.formatDateDayWeek(
-                                int.parse(message.timestamp),
-                                ref
-                                    .read(localeLanguageNotifierProvider)
-                                    .languageCode),
-                            style: textStyleCustomMedium(
-                                cBlue, 14),
-                            textScaleFactor: 1.0),
-                      ),
-                    )),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -997,35 +1027,12 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Center(
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).canvasColor,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.5),
-                          child: Text(
-                              Helpers.formatDateDayWeek(
-                                  int.parse(message.timestamp),
-                                  ref
-                                      .read(localeLanguageNotifierProvider)
-                                      .languageCode),
-                              style: textStyleCustomMedium(
-                                  cBlue, 14),
-                              textScaleFactor: 1.0),
-                        ),
-                      )),
-                ),
                 typeMessage(message, index),
                 if (message.isRead && messagesUsers.length == index + 1)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text("Vu",
-                        style:
-                            textStyleCustomMedium(cGrey, 12),
+                        style: textStyleCustomMedium(cGrey, 12),
                         textScaleFactor: 1.0),
                   )
               ],

@@ -52,6 +52,7 @@ dependencies:
   app_settings: ^4.2.0
   device_info_plus: ^8.1.0
   permission_handler: ^10.2.0
+  grouped_list: ^5.1.2
 
 dependency_overrides:
   modal_bottom_sheet:

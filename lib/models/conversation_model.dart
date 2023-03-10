@@ -4,7 +4,7 @@ List<ConversationModel> conversationsDatasMockes = [
   ConversationModel(
       id: 1,
       users: [
-        {"id": 186, "convMute": false, "isTyping": false},
+        {"id": 186, "convMute": false, "isTyping": true},
         {"id": 1, "convMute": true, "isTyping": false}
       ],
       lastMessageUserId: 186,

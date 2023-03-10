@@ -15,13 +15,15 @@ class ConversationComponent extends ConsumerStatefulWidget {
   final int indexConversations;
   final UserModel userConv;
   final int indexUserConv;
+  final int indexOtherUserConv;
 
   const ConversationComponent(
       {Key? key,
       required this.conversation,
       required this.indexConversations,
       required this.userConv,
-      required this.indexUserConv})
+      required this.indexUserConv,
+      required this.indexOtherUserConv})
       : super(key: key);
 
   @override
@@ -171,105 +173,116 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                   color: cBlue, size: 20)
                           ],
                         ),
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(typeLastMessage(widget.conversation),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: widget.conversation
-                                                  .lastMessageUserId !=
-                                              ref
-                                                  .read(userNotifierProvider)
-                                                  .id &&
-                                          !widget.conversation.isLastMessageRead
-                                      ? textStyleCustomBold(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          14)
-                                      : textStyleCustomRegular(cGrey, 14),
-                                  textScaleFactor: 1.0),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Container(
-                                height: 5.0,
-                                width: 5.0,
-                                decoration: BoxDecoration(
-                                    color: widget.conversation
-                                                    .lastMessageUserId !=
-                                                ref
-                                                    .read(userNotifierProvider)
-                                                    .id &&
-                                            !widget
-                                                .conversation.isLastMessageRead
-                                        ? Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? cBlack
-                                            : cWhite
-                                        : cGrey,
-                                    shape: BoxShape.circle),
-                              ),
-                            ),
-                            StreamBuilder(
-                                stream: Stream<String>.periodic(
-                                    const Duration(minutes: 1),
-                                    ((computationCount) {
-                                  return Helpers.readTimeStamp(
-                                      context,
-                                      int.parse(widget
-                                          .conversation.timestampLastMessage));
-                                })),
-                                builder: (context, snapshot) {
-                                  if (snapshot.data == null) {
-                                    return Text(
-                                        Helpers.readTimeStamp(
+                        widget.conversation.users[widget.indexOtherUserConv]
+                                ["isTyping"]
+                            ? Text("est en train d'écrire...",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyleCustomRegular(cGrey, 14),
+                                textScaleFactor: 1.0)
+                            : Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                        typeLastMessage(widget.conversation),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: widget.conversation
+                                                        .lastMessageUserId !=
+                                                    ref
+                                                        .read(
+                                                            userNotifierProvider)
+                                                        .id &&
+                                                !widget.conversation
+                                                    .isLastMessageRead
+                                            ? textStyleCustomBold(
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? cBlack
+                                                    : cWhite,
+                                                14)
+                                            : textStyleCustomRegular(cGrey, 14),
+                                        textScaleFactor: 1.0),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Container(
+                                      height: 5.0,
+                                      width: 5.0,
+                                      decoration: BoxDecoration(
+                                          color: widget.conversation
+                                                          .lastMessageUserId !=
+                                                      ref
+                                                          .read(
+                                                              userNotifierProvider)
+                                                          .id &&
+                                                  !widget.conversation
+                                                      .isLastMessageRead
+                                              ? Theme.of(context).brightness ==
+                                                      Brightness.light
+                                                  ? cBlack
+                                                  : cWhite
+                                              : cGrey,
+                                          shape: BoxShape.circle),
+                                    ),
+                                  ),
+                                  StreamBuilder(
+                                      stream: Stream<String>.periodic(
+                                          const Duration(minutes: 1),
+                                          ((computationCount) {
+                                        return Helpers.readTimeStamp(
                                             context,
                                             int.parse(widget.conversation
-                                                .timestampLastMessage)),
-                                        style: textStyleCustomMedium(
-                                            widget.conversation
-                                                            .lastMessageUserId !=
-                                                        ref
-                                                            .read(
-                                                                userNotifierProvider)
-                                                            .id &&
-                                                    !widget.conversation
-                                                        .isLastMessageRead
-                                                ? Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? cBlack
-                                                    : cWhite
-                                                : cGrey,
-                                            12),
-                                        textScaleFactor: 1.0);
-                                  } else {
-                                    return Text(snapshot.data.toString(),
-                                        style: textStyleCustomMedium(
-                                            widget.conversation
-                                                            .lastMessageUserId !=
-                                                        ref
-                                                            .read(
-                                                                userNotifierProvider)
-                                                            .id &&
-                                                    !widget.conversation
-                                                        .isLastMessageRead
-                                                ? Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? cBlack
-                                                    : cWhite
-                                                : cGrey,
-                                            12),
-                                        textScaleFactor: 1.0);
-                                  }
-                                }),
-                          ],
-                        ),
+                                                .timestampLastMessage));
+                                      })),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.data == null) {
+                                          return Text(
+                                              Helpers.readTimeStamp(
+                                                  context,
+                                                  int.parse(widget.conversation
+                                                      .timestampLastMessage)),
+                                              style: textStyleCustomMedium(
+                                                  widget.conversation
+                                                                  .lastMessageUserId !=
+                                                              ref
+                                                                  .read(
+                                                                      userNotifierProvider)
+                                                                  .id &&
+                                                          !widget.conversation
+                                                              .isLastMessageRead
+                                                      ? Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? cBlack
+                                                          : cWhite
+                                                      : cGrey,
+                                                  12),
+                                              textScaleFactor: 1.0);
+                                        } else {
+                                          return Text(snapshot.data.toString(),
+                                              style: textStyleCustomMedium(
+                                                  widget.conversation
+                                                                  .lastMessageUserId !=
+                                                              ref
+                                                                  .read(
+                                                                      userNotifierProvider)
+                                                                  .id &&
+                                                          !widget.conversation
+                                                              .isLastMessageRead
+                                                      ? Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? cBlack
+                                                          : cWhite
+                                                      : cGrey,
+                                                  12),
+                                              textScaleFactor: 1.0);
+                                        }
+                                      }),
+                                ],
+                              ),
                       ],
                     ),
                   ),

@@ -115,7 +115,12 @@ class Helpers {
     } else if (difference.inHours > 24 && difference.inHours <= 48) {
       return "Hier";
     } else {
-      var formattedDate = DateFormat('EEE d MMM', locale).format(date);
+      String formattedDate = "";
+      if (date.year == DateTime.now().year) {
+        formattedDate = DateFormat('EEE d MMM', locale).format(date);
+      } else {
+        formattedDate = DateFormat('d MMM y', locale).format(date);
+      }
       return formattedDate;
     }
   }

@@ -143,35 +143,37 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-            AppLocalization.of(context).translate("activities_screen", "chat"),
-            style: textStyleCustomBold(Helpers.uiApp(context), 20),
-            textScaleFactor: 1.0,
-          ),
-           Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                              onPressed: () => _newConversationBottomSheet(
-                                  navAuthKey.currentContext!),
-                              icon: Icon(Icons.edit_note,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  size: 33)),
-                        )
+              AppLocalization.of(context)
+                  .translate("activities_screen", "chat"),
+              style: textStyleCustomBold(Helpers.uiApp(context), 20),
+              textScaleFactor: 1.0,
+            ),
+            Material(
+              color: Colors.transparent,
+              shape: const CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              child: IconButton(
+                  onPressed: () =>
+                      _newConversationBottomSheet(navAuthKey.currentContext!),
+                  icon: Icon(Icons.edit_note,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? cBlack
+                          : cWhite,
+                      size: 33)),
+            )
           ],
         ),
         ...listConversations!.map((conversation) {
           late int userId;
           late UserModel userConv;
           late int indexUserConv;
+          late int indexOtherUserConv;
           int index = listConversations!.indexOf(conversation);
 
           for (var user in conversation.users) {
             if (user["id"] != ref.read(userNotifierProvider).id) {
               userId = user["id"];
+              indexOtherUserConv = conversation.users.indexOf(user);
             } else {
               indexUserConv = conversation.users.indexOf(user);
             }
@@ -180,10 +182,12 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
               .firstWhere((element) => element.id == userId);
 
           return ConversationComponent(
-              conversation: conversation,
-              indexConversations: index,
-              userConv: userConv,
-              indexUserConv: indexUserConv);
+            conversation: conversation,
+            indexConversations: index,
+            userConv: userConv,
+            indexUserConv: indexUserConv,
+            indexOtherUserConv: indexOtherUserConv,
+          );
         })
       ],
     );
