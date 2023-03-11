@@ -75,7 +75,7 @@ List<MessageModel> listMessagesWith4DatasMockes = [
       idSender: 1,
       type: "image",
       message:
-          "https://rare-gallery.com/uploads/posts/574997-Code-geass-Lelouch.jpg",
+          "https://static.wikia.nocookie.net/codegeass/images/0/0a/Lelouch_empereur.jpg/revision/latest?cb=20150611020318&path-prefix=fr",
       isRead: true,
       timestamp: "1674902409000"),
   MessageModel(

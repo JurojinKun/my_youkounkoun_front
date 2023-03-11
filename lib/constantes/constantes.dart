@@ -23,7 +23,7 @@ const String userProfile = "userProfile";
 const String chatDetails = "chatDetails";
 const String infosApp = "infosApp";
 const String dataTest = "dataTest";
-const String pictureFullscreen = "picturesFullscreen";
+const String carousselPictures = "carousselPictures";
 
 //route observer
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();

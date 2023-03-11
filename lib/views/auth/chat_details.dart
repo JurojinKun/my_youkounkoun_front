@@ -62,6 +62,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   bool startAudio = false;
 
   List<MessageModel> messagesUsers = [];
+  List<MessageModel> messagesMediasUsers = [];
 
   GlobalKey keyChatField = GlobalKey();
 
@@ -499,6 +500,12 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     super.initState();
 
     messagesUsers = getListMessagesUsers();
+    for (MessageModel message in messagesUsers) {
+      if (message.type != "text") {
+        messagesMediasUsers.add(message);
+      }
+    }
+    print(messagesMediasUsers.length);
 
     if (mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -754,24 +761,24 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     );
   }
 
-  Widget gradientChat() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0XFF4284C4),
-            Color(0XFF4284C4),
-            Color(0xFF00A9BC),
-            Color(0xFF00A9BC)
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget gradientChat() {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width,
+  //     height: MediaQuery.of(context).size.height,
+  //     decoration: const BoxDecoration(
+  //       gradient: LinearGradient(
+  //         begin: Alignment.topCenter,
+  //         end: Alignment.bottomCenter,
+  //         colors: [
+  //           Color(0XFF4284C4),
+  //           Color(0XFF4284C4),
+  //           Color(0xFF00A9BC),
+  //           Color(0xFF00A9BC)
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget messages() {
     return LayoutBuilder(builder: (_, constraints) {
@@ -821,7 +828,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   showIndicator: true,
                   bubbleColor: Theme.of(context).canvasColor,
                   flashingCircleBrightColor: cBlue,
-                  flashingCircleDarkColor: Theme.of(context).scaffoldBackgroundColor,
+                  flashingCircleDarkColor:
+                      Theme.of(context).scaffoldBackgroundColor,
                   user: widget.user,
                 ),
               ],
@@ -1127,8 +1135,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       case "image":
         if (message.idSender != ref.read(userNotifierProvider).id) {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
-                arguments: [message, widget.user]),
+            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
+                arguments: [messagesMediasUsers, message, widget.user]),
             child: Container(
               height: 200,
               width: 150,
@@ -1203,8 +1211,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
           );
         } else {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(pictureFullscreen,
-                arguments: [message, ref.read(userNotifierProvider)]),
+            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
+                arguments: [messagesMediasUsers, message, widget.user]),
             child: Container(
               height: 200,
               width: 150,
@@ -1275,126 +1283,147 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         }
       case "gif":
         if (message.idSender != ref.read(userNotifierProvider).id) {
-          return Container(
-            height: 200,
-            width: 150,
-            margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.0)),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Stack(
-                  children: [
-                    Image.network(
-                      message.message,
-                      headers: const {'accept': 'image/*'},
-                      filterQuality: FilterQuality.low,
-                      fit: BoxFit.fill,
-                      height: double.infinity,
-                      width: double.infinity,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: cBlue,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                            strokeWidth: 2.0,
+          return GestureDetector(
+            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
+                arguments: [messagesMediasUsers, message, widget.user]),
+            child: Container(
+              height: 200,
+              width: 150,
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Hero(
+                    tag: "picture ${message.message}",
+                    transitionOnUserGestures: true,
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          message.message,
+                          headers: const {'accept': 'image/*'},
+                          filterQuality: FilterQuality.low,
+                          fit: BoxFit.fill,
+                          height: double.infinity,
+                          width: double.infinity,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: cBlue,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2.0,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(Icons.replay_outlined,
+                                  color: Helpers.uiApp(context), size: 33),
+                            );
+                          },
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Text(
+                            Helpers.formatDateHoursMinutes(
+                                int.parse(message.timestamp),
+                                ref
+                                    .read(localeLanguageNotifierProvider)
+                                    .languageCode),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 10),
+                            textScaleFactor: 1.0,
                           ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(Icons.replay_outlined,
-                              color: Helpers.uiApp(context), size: 33),
-                        );
-                      },
+                        )
+                      ],
                     ),
-                    Positioned(
-                      bottom: 5,
-                      right: 5,
-                      child: Text(
-                        Helpers.formatDateHoursMinutes(
-                            int.parse(message.timestamp),
-                            ref
-                                .read(localeLanguageNotifierProvider)
-                                .languageCode),
-                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
-                      ),
-                    )
-                  ],
-                )),
+                  )),
+            ),
           );
         } else {
-          return Container(
-            height: 200,
-            width: 150,
-            margin: EdgeInsets.symmetric(
-                horizontal: messagesUsers.length != index + 1 &&
-                        messagesUsers[index + 1].idSender !=
-                            ref.read(userNotifierProvider).id
-                    ? 35.0
-                    : 10.0,
-                vertical: 5.0),
-            decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.0)),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Stack(
-                  children: [
-                    Image.network(
-                      message.message,
-                      headers: const {'accept': 'image/*'},
-                      filterQuality: FilterQuality.low,
-                      fit: BoxFit.fill,
-                      height: double.infinity,
-                      width: double.infinity,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: cBlue,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                            strokeWidth: 2.0,
+          return GestureDetector(
+            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
+                arguments: [messagesMediasUsers, message, widget.user]),
+            child: Container(
+              height: 200,
+              width: 150,
+              margin: EdgeInsets.symmetric(
+                  horizontal: messagesUsers.length != index + 1 &&
+                          messagesUsers[index + 1].idSender !=
+                              ref.read(userNotifierProvider).id
+                      ? 35.0
+                      : 10.0,
+                  vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Hero(
+                    tag: "picture ${message.message}",
+                    transitionOnUserGestures: true,
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          message.message,
+                          headers: const {'accept': 'image/*'},
+                          filterQuality: FilterQuality.low,
+                          fit: BoxFit.fill,
+                          height: double.infinity,
+                          width: double.infinity,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: cBlue,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2.0,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(Icons.replay_outlined,
+                                  color: Helpers.uiApp(context), size: 33),
+                            );
+                          },
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: Text(
+                            Helpers.formatDateHoursMinutes(
+                                int.parse(message.timestamp),
+                                ref
+                                    .read(localeLanguageNotifierProvider)
+                                    .languageCode),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 10),
+                            textScaleFactor: 1.0,
                           ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(Icons.replay_outlined,
-                              color: Helpers.uiApp(context), size: 33),
-                        );
-                      },
+                        )
+                      ],
                     ),
-                    Positioned(
-                      bottom: 5,
-                      right: 5,
-                      child: Text(
-                        Helpers.formatDateHoursMinutes(
-                            int.parse(message.timestamp),
-                            ref
-                                .read(localeLanguageNotifierProvider)
-                                .languageCode),
-                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
-                      ),
-                    )
-                  ],
-                )),
+                  )),
+            ),
           );
         }
       default:

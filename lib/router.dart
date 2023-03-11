@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
-import 'package:myyoukounkoun/components/picture_fullscreen.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/controllers/bottom_nav_controller.dart';
 import 'package:myyoukounkoun/route_observer.dart';
+import 'package:myyoukounkoun/views/auth/caroussel_pictures.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:myyoukounkoun/views/auth/datas_test.dart';
 import 'package:myyoukounkoun/views/auth/infos_app.dart';
@@ -34,7 +34,8 @@ Route<dynamic> generateRouteNonAuth(
               const RouteObserverWidget(name: welcome, child: Welcome()));
     case login:
       return MaterialPageRoute(
-          builder: (_) => const RouteObserverWidget(name: login, child: Login()));
+          builder: (_) =>
+              const RouteObserverWidget(name: login, child: Login()));
     case register:
       return MaterialPageRoute(
           builder: (_) =>
@@ -70,8 +71,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
               name: validateUser, child: ValidateUser()));
     case editAccount:
       return MaterialPageRoute(
-          builder: (_) =>
-              const RouteObserverWidget(name: editAccount, child: EditAccount()));
+          builder: (_) => const RouteObserverWidget(
+              name: editAccount, child: EditAccount()));
     case editSecurity:
       return MaterialPageRoute(
           builder: (_) => const RouteObserverWidget(
@@ -104,11 +105,15 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
               name: dataTest, child: DatasTest(index: args![0])));
-    case pictureFullscreen:
+    case carousselPictures:
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
-              name: pictureFullscreen,
-              child: PictureFullscreen(message: args![0], user: args[1])));
+              name: carousselPictures,
+              child: CarousselPictures(
+                messagesMedias: args![0],
+                message: args[1],
+                user: args[2],
+              )));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
