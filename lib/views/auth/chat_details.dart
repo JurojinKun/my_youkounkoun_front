@@ -1297,7 +1297,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Hero(
-                    tag: "picture ${message.message}",
+                    tag: "gif ${message.message}",
                     transitionOnUserGestures: true,
                     child: Stack(
                       children: [
@@ -1371,7 +1371,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Hero(
-                    tag: "picture ${message.message}",
+                    tag: "gif ${message.message}",
                     transitionOnUserGestures: true,
                     child: Stack(
                       children: [
