@@ -715,7 +715,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     widthContainer: 45,
                                     iconSize: 23),
                             const SizedBox(
-                              width: 15.0,
+                              width: 5.0,
                             ),
                             Expanded(
                               child: Text(
@@ -760,25 +760,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       ),
     );
   }
-
-  // Widget gradientChat() {
-  //   return Container(
-  //     width: MediaQuery.of(context).size.width,
-  //     height: MediaQuery.of(context).size.height,
-  //     decoration: const BoxDecoration(
-  //       gradient: LinearGradient(
-  //         begin: Alignment.topCenter,
-  //         end: Alignment.bottomCenter,
-  //         colors: [
-  //           Color(0XFF4284C4),
-  //           Color(0XFF4284C4),
-  //           Color(0xFF00A9BC),
-  //           Color(0xFF00A9BC)
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget messages() {
     return LayoutBuilder(builder: (_, constraints) {
@@ -1021,13 +1002,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   typeMessage(message, index),
                 ],
               ),
-              if (message.isRead && messagesUsers.length == index + 1)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                  child: Text("Vu",
-                      style: textStyleCustomMedium(cGrey, 12),
-                      textScaleFactor: 1.0),
-                )
             ],
           )
         : Align(
@@ -1152,12 +1126,14 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   borderRadius: BorderRadius.circular(10.0)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: Hero(
-                    tag: "picture ${message.message}",
-                    transitionOnUserGestures: true,
-                    child: Stack(
-                      children: [
-                        Image.network(
+                child: Stack(
+                  children: [
+                    Hero(
+                      tag: "picture ${message.message}",
+                      transitionOnUserGestures: true,
+                      flightShuttleBuilder: (flightContext, animation,
+                          flightDirection, fromHeroContext, toHeroContext) {
+                        return Image.network(
                           message.message,
                           fit: BoxFit.cover,
                           height: double.infinity,
@@ -1189,23 +1165,56 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   size: 33),
                             );
                           },
-                        ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: Text(
-                            Helpers.formatDateHoursMinutes(
-                                int.parse(message.timestamp),
-                                ref
-                                    .read(localeLanguageNotifierProvider)
-                                    .languageCode),
-                            style:
-                                textStyleCustomBold(Helpers.uiApp(context), 10),
-                            textScaleFactor: 1.0,
-                          ),
-                        )
-                      ],
-                    )),
+                        );
+                      },
+                      child: Image.network(
+                        message.message,
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: cBlue,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                              strokeWidth: 2.0,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Icon(Icons.replay_outlined,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                size: 33),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -1223,12 +1232,14 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   borderRadius: BorderRadius.circular(10.0)),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: Hero(
-                    tag: "picture ${message.message}",
-                    transitionOnUserGestures: true,
-                    child: Stack(
-                      children: [
-                        Image.network(
+                child: Stack(
+                  children: [
+                    Hero(
+                      tag: "picture ${message.message}",
+                      transitionOnUserGestures: true,
+                      flightShuttleBuilder: (flightContext, animation,
+                          flightDirection, fromHeroContext, toHeroContext) {
+                        return Image.network(
                           message.message,
                           fit: BoxFit.cover,
                           height: double.infinity,
@@ -1260,23 +1271,56 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   size: 33),
                             );
                           },
-                        ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: Text(
-                            Helpers.formatDateHoursMinutes(
-                                int.parse(message.timestamp),
-                                ref
-                                    .read(localeLanguageNotifierProvider)
-                                    .languageCode),
-                            style:
-                                textStyleCustomBold(Helpers.uiApp(context), 10),
-                            textScaleFactor: 1.0,
-                          ),
-                        )
-                      ],
-                    )),
+                        );
+                      },
+                      child: Image.network(
+                        message.message,
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: cBlue,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                              strokeWidth: 2.0,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Icon(Icons.replay_outlined,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? cBlack
+                                    : cWhite,
+                                size: 33),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Text(
+                        Helpers.formatDateHoursMinutes(
+                            int.parse(message.timestamp),
+                            ref
+                                .read(localeLanguageNotifierProvider)
+                                .languageCode),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                        textScaleFactor: 1.0,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -1296,12 +1340,46 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   borderRadius: BorderRadius.circular(10.0)),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Hero(
-                    tag: "gif ${message.message}",
-                    transitionOnUserGestures: true,
-                    child: Stack(
-                      children: [
-                        Image.network(
+                  child: Stack(
+                    children: [
+                      Hero(
+                        tag: "gif ${message.message}",
+                        transitionOnUserGestures: true,
+                        flightShuttleBuilder: (flightContext, animation,
+                            flightDirection, fromHeroContext, toHeroContext) {
+                          return Image.network(
+                            message.message,
+                            headers: const {'accept': 'image/*'},
+                            filterQuality: FilterQuality.low,
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: cBlue,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  strokeWidth: 2.0,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Center(
+                                child: Icon(Icons.replay_outlined,
+                                    color: Helpers.uiApp(context), size: 33),
+                              );
+                            },
+                          );
+                        },
+                        child: Image.network(
                           message.message,
                           headers: const {'accept': 'image/*'},
                           filterQuality: FilterQuality.low,
@@ -1332,22 +1410,22 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             );
                           },
                         ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: Text(
-                            Helpers.formatDateHoursMinutes(
-                                int.parse(message.timestamp),
-                                ref
-                                    .read(localeLanguageNotifierProvider)
-                                    .languageCode),
-                            style:
-                                textStyleCustomBold(Helpers.uiApp(context), 10),
-                            textScaleFactor: 1.0,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: Text(
+                          Helpers.formatDateHoursMinutes(
+                              int.parse(message.timestamp),
+                              ref
+                                  .read(localeLanguageNotifierProvider)
+                                  .languageCode),
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 10),
+                          textScaleFactor: 1.0,
+                        ),
+                      )
+                    ],
                   )),
             ),
           );
@@ -1370,12 +1448,46 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   borderRadius: BorderRadius.circular(10.0)),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Hero(
-                    tag: "gif ${message.message}",
-                    transitionOnUserGestures: true,
-                    child: Stack(
-                      children: [
-                        Image.network(
+                  child: Stack(
+                    children: [
+                      Hero(
+                        tag: "gif ${message.message}",
+                        transitionOnUserGestures: true,
+                        flightShuttleBuilder: (flightContext, animation,
+                            flightDirection, fromHeroContext, toHeroContext) {
+                          return Image.network(
+                            message.message,
+                            headers: const {'accept': 'image/*'},
+                            filterQuality: FilterQuality.low,
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: cBlue,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  strokeWidth: 2.0,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Center(
+                                child: Icon(Icons.replay_outlined,
+                                    color: Helpers.uiApp(context), size: 33),
+                              );
+                            },
+                          );
+                        },
+                        child: Image.network(
                           message.message,
                           headers: const {'accept': 'image/*'},
                           filterQuality: FilterQuality.low,
@@ -1406,22 +1518,22 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             );
                           },
                         ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: Text(
-                            Helpers.formatDateHoursMinutes(
-                                int.parse(message.timestamp),
-                                ref
-                                    .read(localeLanguageNotifierProvider)
-                                    .languageCode),
-                            style:
-                                textStyleCustomBold(Helpers.uiApp(context), 10),
-                            textScaleFactor: 1.0,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: Text(
+                          Helpers.formatDateHoursMinutes(
+                              int.parse(message.timestamp),
+                              ref
+                                  .read(localeLanguageNotifierProvider)
+                                  .languageCode),
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 10),
+                          textScaleFactor: 1.0,
+                        ),
+                      )
+                    ],
                   )),
             ),
           );

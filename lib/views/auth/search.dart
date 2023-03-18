@@ -271,29 +271,30 @@ class SearchState extends ConsumerState<Search>
   }
 
   Widget datasShimmer() {
-    return Shimmer.fromColors(
-        baseColor: Theme.of(context).scaffoldBackgroundColor,
-        highlightColor: cBlue.withOpacity(0.5),
-        direction: ShimmerDirection.ltr,
-        period: const Duration(milliseconds: 1500),
-        child: GridView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                childAspectRatio: 1.0,
-                mainAxisExtent: 200.0),
-            itemCount: 10,
-            itemBuilder: (_, int index) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.0)),
-              );
-            }));
+    return GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 15,
+            childAspectRatio: 1.0,
+            mainAxisExtent: 200.0),
+        itemCount: 10,
+        itemBuilder: (_, int index) {
+          return Shimmer.fromColors(
+            baseColor: Theme.of(context).scaffoldBackgroundColor,
+            highlightColor: cBlue.withOpacity(0.5),
+            direction: ShimmerDirection.ltr,
+            period: const Duration(milliseconds: 1000),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10.0)),
+            ),
+          );
+        });
   }
 
   Widget datasItems() {
@@ -319,6 +320,24 @@ class SearchState extends ConsumerState<Search>
             child: Hero(
               tag: "data test $index",
               transitionOnUserGestures: true,
+              flightShuttleBuilder: (flightContext, animation, flightDirection,
+                  fromHeroContext, toHeroContext) {
+                return Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: cBlue),
+                      color: cBlue.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  padding: const EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Text(dataTestString,
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0),
+                  ),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: cBlue),

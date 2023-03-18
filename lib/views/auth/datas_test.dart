@@ -101,21 +101,43 @@ class DatasTestState extends ConsumerState<DatasTest>
             ],
           ),
         ),
-        body: Hero(
-          tag: "data test ${widget.index}",
-          transitionOnUserGestures: true,
-          child: PageView.builder(
-              controller: _pageController,
-              scrollDirection: Axis.vertical,
-              physics: const AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics()),
-              itemCount: datasItemsCount,
-              itemBuilder: (context, index) {
-                String dataTest = "Data test $index";
+        body: PageView.builder(
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
+            itemCount: datasItemsCount,
+            itemBuilder: (context, index) {
+              String dataTest = "Data test $index";
 
-                return Container(
+              return Hero(
+                tag: "data test ${widget.index}",
+                transitionOnUserGestures: true,
+                flightShuttleBuilder: (flightContext, animation,
+                    flightDirection, fromHeroContext, toHeroContext) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.all(2.5),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: cBlue),
+                        color: cBlue.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    alignment: Alignment.center,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Text(dataTest,
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 18),
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.0),
+                    ),
+                  );
+                },
+                child: Container(
                   height: MediaQuery.of(context).size.height,
-                  margin: const EdgeInsets.only(bottom: 2.5, top: 2.5),
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.all(2.5),
                   decoration: BoxDecoration(
                       border: Border.all(color: cBlue),
                       color: cBlue.withOpacity(0.15),
@@ -128,8 +150,8 @@ class DatasTestState extends ConsumerState<DatasTest>
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0),
                   ),
-                );
-              }),
-        ));
+                ),
+              );
+            }));
   }
 }
