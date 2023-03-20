@@ -214,8 +214,8 @@ class SearchState extends ConsumerState<Search>
                       appBar.preferredSize.height +
                       65.0,
                   distance: 40.0,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  color: cBlue,
+                  backgroundColor: cBlue,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 footer: ClassicFooter(
                   height: MediaQuery.of(context).padding.bottom + 110.0,
@@ -240,6 +240,8 @@ class SearchState extends ConsumerState<Search>
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  canLoadingIcon: const SizedBox(),
+                  idleIcon: const SizedBox(),
                 ),
                 onRefresh: _refreshDatasSearch,
                 onLoading: _loadMoreDatasSearch,
