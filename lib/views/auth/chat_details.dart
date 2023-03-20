@@ -691,8 +691,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           horizontal: widget.openWithModal ? 15.0 : 0.0),
                       child: GestureDetector(
                         onTap: () {
-                          navAuthKey.currentState!.pushNamed(userProfile,
-                              arguments: [widget.user, false]);
+                          navAuthKey.currentState!.pushNamed(informationsConv,
+                              arguments: [widget.user]);
                         },
                         child: Row(
                           children: [
@@ -715,17 +715,13 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     widthContainer: 45,
                                     iconSize: 23),
                             const SizedBox(
-                              width: 5.0,
+                              width: 10.0,
                             ),
                             Expanded(
                               child: Text(
                                 widget.user.pseudo,
                                 style: textStyleCustomBold(
-                                    Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? cBlack
-                                        : cWhite,
-                                    20),
+                                    Helpers.uiApp(context), 20),
                                 textScaleFactor: 1.0,
                                 overflow: TextOverflow.ellipsis,
                               ),

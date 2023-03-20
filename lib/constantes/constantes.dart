@@ -24,6 +24,7 @@ const String chatDetails = "chatDetails";
 const String infosApp = "infosApp";
 const String dataTest = "dataTest";
 const String carousselPictures = "carousselPictures";
+const String informationsConv = "informationsConv";
 
 //route observer
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();

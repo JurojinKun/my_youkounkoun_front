@@ -215,7 +215,7 @@ class SearchState extends ConsumerState<Search>
                       65.0,
                   distance: 40.0,
                   backgroundColor: cBlue,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: cBlack
                 ),
                 footer: ClassicFooter(
                   height: MediaQuery.of(context).padding.bottom + 110.0,
