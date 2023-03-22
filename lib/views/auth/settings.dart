@@ -12,6 +12,7 @@ import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';
@@ -19,7 +20,6 @@ import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -58,7 +58,6 @@ class SettingsState extends ConsumerState<Settings> {
       //logic ws try log out
       await Future.delayed(const Duration(seconds: 1));
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
       ref
@@ -68,13 +67,13 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      if (prefs.getString("pushToken") != null) {
+      if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
         await FirebaseMessaging.instance.deleteToken();
-        await prefs.remove("pushToken");
+        await SyncSharedPrefsLib().prefs!.remove("pushToken");
         ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
       }
       ref.read(userNotifierProvider.notifier).clearUser();
-      prefs.remove("user");
+      SyncSharedPrefsLib().prefs!.remove("user");
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -87,7 +86,6 @@ class SettingsState extends ConsumerState<Settings> {
       //logic ws delete account
       await Future.delayed(const Duration(seconds: 1));
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
       ref
@@ -97,13 +95,13 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      if (prefs.getString("pushToken") != null) {
+      if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
         await FirebaseMessaging.instance.deleteToken();
-        await prefs.remove("pushToken");
+        await SyncSharedPrefsLib().prefs!.remove("pushToken");
         ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
       }
       ref.read(userNotifierProvider.notifier).clearUser();
-      prefs.remove("user");
+      SyncSharedPrefsLib().prefs!.remove("user");
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -525,20 +523,17 @@ class SettingsState extends ConsumerState<Settings> {
                   activeColor: cBlue,
                   value: _isDarkTheme,
                   onChanged: (newTheme) async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-
                     setState(() {
                       _isDarkTheme = newTheme;
                     });
 
                     if (newTheme) {
-                      await prefs.setString("theme", "darkTheme");
+                      await SyncSharedPrefsLib().prefs!.setString("theme", "darkTheme");
                       ref
                           .read(themeAppNotifierProvider.notifier)
                           .setThemeApp("darkTheme");
                     } else {
-                      await prefs.setString("theme", "lightTheme");
+                      await SyncSharedPrefsLib().prefs!.setString("theme", "lightTheme");
                       ref
                           .read(themeAppNotifierProvider.notifier)
                           .setThemeApp("lightTheme");

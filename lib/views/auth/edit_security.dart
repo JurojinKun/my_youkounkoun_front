@@ -9,12 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/edit_security_account_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class EditSecurity extends ConsumerStatefulWidget {
   const EditSecurity({Key? key}) : super(key: key);
@@ -368,8 +368,6 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
   }
 
   Future<void> _saveUpdateSecurity() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     try {
       if (_isModifMail) {
         //logic ws vérification bon mot de passe pour modifier le mail
@@ -392,7 +390,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
         UserModel user = UserModel.fromJSON(mapUser);
         ref.read(userNotifierProvider.notifier).setUser(user);
         String userEncoded = jsonEncode(mapUser);
-        prefs.setString("user", userEncoded);
+        SyncSharedPrefsLib().prefs!.setString("user", userEncoded);
 
         _mailController.text = ref.read(userNotifierProvider).email;
         _actualPasswordController.clear();

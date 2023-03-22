@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
@@ -22,7 +23,6 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsLib {
   // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -309,32 +309,34 @@ class NotificationsLib {
   }
 
   static Future<void> setActiveNotifications(WidgetRef ref) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String os;
     String? uuid;
 
     if (Platform.isIOS) {
-      NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission(
+      await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
         sound: true,
       );
+
+      NotificationSettings settings =
+          await FirebaseMessaging.instance.getNotificationSettings();
 
       os = "apple";
       IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
       uuid = deviceInfoIOS.identifierForVendor;
       String token = ref.read(userNotifierProvider).token;
 
-      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+          settings.authorizationStatus == AuthorizationStatus.provisional) {
         String pushToken = await FirebaseMessaging.instance.getToken() ?? "";
         if (kDebugMode) {
           print("push token: $pushToken");
         }
 
-        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
+        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") && pushToken != "") {
           try {
             //logic ws send push token
             Map<String, dynamic> map = {
@@ -346,7 +348,7 @@ class NotificationsLib {
             ref
                 .read(pushTokenNotifierProvider.notifier)
                 .updatePushToken(pushToken);
-            prefs.setString("pushToken", pushToken);
+            SyncSharedPrefsLib().prefs!.setString("pushToken", pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -358,7 +360,7 @@ class NotificationsLib {
               .updatePushToken(pushToken);
         }
       } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-        if (prefs.getString("pushToken") != null) {
+        if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
           try {
             //logic ws send push token null
             Map<String, dynamic> map = {
@@ -368,7 +370,7 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await prefs.remove("pushToken");
+            await SyncSharedPrefsLib().prefs!.remove("pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -393,7 +395,7 @@ class NotificationsLib {
           print("push token: $pushToken");
         }
 
-        if (pushToken != prefs.getString("pushToken") && pushToken != "") {
+        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") && pushToken != "") {
           try {
             //logic ws send push token
             Map<String, dynamic> map = {
@@ -405,7 +407,7 @@ class NotificationsLib {
             ref
                 .read(pushTokenNotifierProvider.notifier)
                 .updatePushToken(pushToken);
-            prefs.setString("pushToken", pushToken);
+            SyncSharedPrefsLib().prefs!.setString("pushToken", pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -417,7 +419,7 @@ class NotificationsLib {
               .updatePushToken(pushToken);
         }
       } else {
-        if (prefs.getString("pushToken") != null) {
+        if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
           try {
             //logic ws send push token null
             Map<String, dynamic> map = {
@@ -427,7 +429,7 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await prefs.remove("pushToken");
+            await SyncSharedPrefsLib().prefs!.remove("pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);

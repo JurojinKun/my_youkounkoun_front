@@ -7,7 +7,6 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/main.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NewVersionApp extends ConsumerStatefulWidget {
   const NewVersionApp({Key? key}) : super(key: key);
@@ -72,9 +71,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                         setState(() {
                           _alreadyCliked = true;
                         });
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await loadDataUser(prefs, ref);
+                        await loadDataUser(ref);
                         ref
                             .read(
                                 newMajInfosAlreadySeenNotifierProvider.notifier)

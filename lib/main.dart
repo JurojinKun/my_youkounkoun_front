@@ -16,13 +16,13 @@ import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/libraries/http_overrides_lib.dart';
 import 'package:myyoukounkoun/libraries/notifications_lib.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
 import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:myyoukounkoun/models/user_model.dart';
@@ -42,9 +42,9 @@ Future<void> searchPotentialNewMaj(WidgetRef ref) async {
   ref.read(newMajInfosNotifierProvider.notifier).setNewMajInfos(newMajInfos);
 }
 
-Future<void> loadDataUser(SharedPreferences prefs, WidgetRef ref) async {
+Future<void> loadDataUser(WidgetRef ref) async {
   //logic already log
-  String? userEncoded = prefs.getString("user") ?? "";
+  String? userEncoded = SyncSharedPrefsLib().prefs!.getString("user") ?? "";
 
   if (userEncoded.trim() != "") {
     Map<String, dynamic> decodedUserMap = json.decode(userEncoded);
@@ -70,6 +70,9 @@ Future<void> main() async {
   HttpOverrides.global = HttpOverridesLib();
   await DefaultCacheManager().emptyCache();
   await NotificationsLib.notificationsLogicMain();
+
+  // Instantiate Global SyncSharedPrefs
+  SyncSharedPrefsLib();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -116,16 +119,14 @@ class MyAppState extends ConsumerState<MyApp> {
         .read(initConnectivityStatusAppNotifierProvider.notifier)
         .setInitConnectivityStatus(result);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     //logic theme system or theme choice user
-    String theme = prefs.getString("theme") ?? "";
+    String theme = SyncSharedPrefsLib().prefs!.getString("theme") ?? "";
     await ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
 
     //logic langue device or choice user
     await ref
         .read(localeLanguageNotifierProvider.notifier)
-        .setLocaleLanguage(prefs);
+        .setLocaleLanguage();
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     ref
@@ -138,7 +139,7 @@ class MyAppState extends ConsumerState<MyApp> {
 
       if (!ref.read(newMajInfosNotifierProvider)["newMajAvailable"]) {
         //logic load datas user
-        await loadDataUser(prefs, ref);
+        await loadDataUser(ref);
       }
     }
 

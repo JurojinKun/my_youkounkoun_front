@@ -6,9 +6,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -63,9 +63,8 @@ class LoginState extends ConsumerState<Login> {
       "validPrivacyPolicy": true,
       "validEmail": false
     };
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     String encodedUserMap = json.encode(userMap);
-    prefs.setString("user", encodedUserMap);
+    SyncSharedPrefsLib().prefs!.setString("user", encodedUserMap);
     ref
         .read(userNotifierProvider.notifier)
         .setUser(UserModel.fromJSON(userMap));

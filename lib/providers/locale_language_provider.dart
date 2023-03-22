@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 
 final localeLanguageNotifierProvider =
     StateNotifierProvider<LocaleLanguageProvider, Locale>(
@@ -11,9 +11,9 @@ final localeLanguageNotifierProvider =
 class LocaleLanguageProvider extends StateNotifier<Locale> {
   LocaleLanguageProvider() : super(const Locale('en', ''));
 
-  Future<void> setLocaleLanguage(SharedPreferences prefs) async {
+  Future<void> setLocaleLanguage() async {
     Locale localeLanguage;
-    String? languePrefs = prefs.getString("langue");
+    String? languePrefs = SyncSharedPrefsLib().prefs!.getString("langue");
     if (languePrefs != null) {
       localeLanguage = Locale(languePrefs, '');
     } else {
@@ -28,8 +28,7 @@ class LocaleLanguageProvider extends StateNotifier<Locale> {
   }
 
   Future<void> updateLocaleLanguage(Locale localeLanguage) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("langue", localeLanguage.languageCode);
+    await SyncSharedPrefsLib().prefs!.setString("langue", localeLanguage.languageCode);
     state = localeLanguage;
   }
 }

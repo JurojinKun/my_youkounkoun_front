@@ -13,13 +13,13 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/edit_picture_lib.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/register_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends ConsumerStatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -1430,10 +1430,8 @@ class RegisterState extends ConsumerState<Register>
                                     "validPrivacyPolicy": true,
                                     "validEmail": false
                                   };
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
                                   String encodedUserMap = json.encode(userMap);
-                                  prefs.setString("user", encodedUserMap);
+                                  SyncSharedPrefsLib().prefs!.setString("user", encodedUserMap);
                                   ref
                                       .read(userNotifierProvider.notifier)
                                       .setUser(UserModel.fromJSON(userMap));

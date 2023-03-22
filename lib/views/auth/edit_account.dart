@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/edit_picture_lib.dart';
+import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/edit_account_provider.dart';
@@ -20,7 +21,6 @@ import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
   const EditAccount({Key? key}) : super(key: key);
@@ -61,8 +61,6 @@ class EditAccountState extends ConsumerState<EditAccount> {
   }
 
   Future<void> _saveModifUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
      //logic à modifier lorsque câbler avec le back
     try {
       Map<String, dynamic> mapUser = {
@@ -81,7 +79,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
       UserModel user = UserModel.fromJSON(mapUser);
       ref.read(userNotifierProvider.notifier).setUser(user);
       String userEncoded = jsonEncode(mapUser);
-      prefs.setString("user", userEncoded);
+      SyncSharedPrefsLib().prefs!.setString("user", userEncoded);
 
       _pseudoController.text = user.pseudo;
       ref
