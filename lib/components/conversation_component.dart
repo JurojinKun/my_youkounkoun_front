@@ -114,7 +114,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
           child: InkWell(
             onTap: () {
               navAuthKey.currentState!
-                  .pushNamed(chatDetails, arguments: [widget.userConv, false]);
+                  .pushNamed(chatDetails, arguments: [widget.userConv, false, widget.conversation]);
               if (!widget.conversation.isLastMessageRead &&
                   widget.conversation.lastMessageUserId !=
                       ref.read(userNotifierProvider).id) {

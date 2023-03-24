@@ -89,6 +89,7 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
               child: ChatDetails(
                 user: args![0],
                 openWithModal: args[1],
+                conversation: args[2],
               )));
     case infosApp:
       return MaterialPageRoute(
@@ -118,7 +119,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
     case informationsConv:
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
-              name: informationsConv, child: InformationsConv(user: args![0])));
+              name: informationsConv,
+              child: InformationsConv(user: args![0])));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

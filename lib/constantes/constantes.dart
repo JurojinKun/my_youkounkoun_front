@@ -86,11 +86,6 @@ const Color cBlack = Color(0xFF030303);
 const Color cGrey = Colors.grey;
 MaterialColor materialColorBlue =
     MaterialColor(0xFF00A9BC, Helpers.getSwatch(const Color(0xFF00A9BC)));
-LinearGradient defaultGradientMessagesChat =
-    const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [Color(0XFF4284C4), Color(0xFF00A9BC)]);
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(

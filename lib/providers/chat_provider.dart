@@ -23,7 +23,7 @@ class ConversationsProvider extends StateNotifier<List<ConversationModel>?> {
     state = [...newState];
   }
 
-  void muteConversation(int idConv, int indexUserConv, bool muteConv) {
+  void muteConversation(String idConv, int indexUserConv, bool muteConv) {
     List<ConversationModel> newState = [...state!];
     ConversationModel? conversation;
     int? indexConv;
@@ -50,6 +50,26 @@ class ConversationsProvider extends StateNotifier<List<ConversationModel>?> {
       if (conv.id == conversation.id && !conv.isLastMessageRead) {
         conv.isLastMessageRead = true;
       }
+    }
+
+    state = [...newState];
+  }
+
+  void newThemeConversation(String idConv, List<String> newStateTheme) {
+    List<ConversationModel> newState = [...state!];
+    ConversationModel? conversation;
+    int? indexConv;
+
+    for (var conv in newState) {
+      if (conv.id == idConv) {
+        conversation = conv;
+        indexConv = newState.indexOf(conv);
+      }
+    }
+
+    if (conversation != null && indexConv != null) {
+      conversation.themeConv = [...newStateTheme];
+      newState[indexConv] = conversation;
     }
 
     state = [...newState];

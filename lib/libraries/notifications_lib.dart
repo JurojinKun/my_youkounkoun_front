@@ -11,9 +11,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
+import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';
@@ -45,14 +47,39 @@ class NotificationsLib {
 
   static Future showMaterialRedirectNotifChat(
       BuildContext context, WidgetRef ref, String idSender) async {
-    UserModel? user;
+    UserModel? otherUser;
     try {
       for (var item in potentialsResultsSearchDatasMockes) {
         if (item.id.toString() == idSender) {
-          user = item;
+          otherUser = item;
         }
       }
-      if (user != null) {
+      if (otherUser != null) {
+        //TODO replace this logic with logic firebase
+        ConversationModel? currentConversation;
+        bool convWithCurrentUser = false;
+        bool convWithOtherUser = false;
+
+        for (ConversationModel conversation
+            in ref.read(conversationsNotifierProvider)!) {
+          for (var user in conversation.users) {
+            if (user["id"] == ref.read(userNotifierProvider).id) {
+              convWithCurrentUser = true;
+            }
+            if (user["id"] == otherUser.id) {
+              convWithOtherUser = true;
+            }
+          }
+
+          if (convWithCurrentUser &&
+              convWithOtherUser &&
+              (conversation.lastMessageUserId ==
+                      ref.read(userNotifierProvider).id ||
+                  conversation.lastMessageUserId == otherUser.id)) {
+            currentConversation = conversation;
+          }
+        }
+
         return showMaterialModalBottomSheet(
             context: context,
             expand: true,
@@ -60,7 +87,19 @@ class NotificationsLib {
             builder: (context) {
               return RouteObserverWidget(
                   name: chatDetails,
-                  child: ChatDetails(user: user!, openWithModal: true));
+                  child: ChatDetails(
+                      user: otherUser!,
+                      openWithModal: true,
+                      conversation: currentConversation ??
+                          ConversationModel(
+                              id: "temporary",
+                              users: [],
+                              lastMessageUserId: 0,
+                              lastMessage: "",
+                              isLastMessageRead: false,
+                              timestampLastMessage: "",
+                              typeLastMessage: "",
+                              themeConv: [])));
             });
       } else {
         messageUser(
@@ -336,7 +375,8 @@ class NotificationsLib {
           print("push token: $pushToken");
         }
 
-        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") && pushToken != "") {
+        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") &&
+            pushToken != "") {
           try {
             //logic ws send push token
             Map<String, dynamic> map = {
@@ -395,7 +435,8 @@ class NotificationsLib {
           print("push token: $pushToken");
         }
 
-        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") && pushToken != "") {
+        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") &&
+            pushToken != "") {
           try {
             //logic ws send push token
             Map<String, dynamic> map = {

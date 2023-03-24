@@ -18,6 +18,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 import 'package:myyoukounkoun/components/indicator_typing_component.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:image/image.dart' as img;
@@ -38,8 +39,13 @@ import '../../models/user_model.dart';
 class ChatDetails extends ConsumerStatefulWidget {
   final UserModel user;
   final bool openWithModal;
+  final ConversationModel conversation;
 
-  const ChatDetails({Key? key, required this.user, required this.openWithModal})
+  const ChatDetails(
+      {Key? key,
+      required this.user,
+      required this.openWithModal,
+      required this.conversation})
       : super(key: key);
 
   @override
@@ -76,6 +82,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   GiphyCollection? searchGifsResults;
   String currentSearchGifs = "";
   Timer? _timer;
+
+  late ConversationModel _currentConversation;
 
   void _scrollChatListener() {
     if (_scrollChatController.position.pixels >=
@@ -512,6 +520,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         ref
             .read(currentChatUserIdNotifierProvider.notifier)
             .setChatUserId(widget.user.id);
+        ref.read(currentConvNotifierProvider.notifier).setCurrentConv(widget.conversation);
         ref.read(toolsStayHideNotifierProvider.notifier).clearStayHide();
         ref.read(showEmotionsNotifierProvider.notifier).clearShowEmotions();
         ref.read(showPicturesNotifierProvider.notifier).clearShowPictures();
@@ -569,6 +578,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
 
   @override
   Widget build(BuildContext context) {
+    _currentConversation = ref.watch(currentConvNotifierProvider);
     _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
     toolsStayHide = ref.watch(toolsStayHideNotifierProvider);
     showEmotions = ref.watch(showEmotionsNotifierProvider);

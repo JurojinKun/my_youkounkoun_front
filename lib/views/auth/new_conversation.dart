@@ -8,7 +8,9 @@ import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
@@ -67,7 +69,33 @@ class NewConversationState extends ConsumerState<NewConversation> {
     });
   }
 
-  Future _conversationBottomSheet(BuildContext context, UserModel user) async {
+  Future _conversationBottomSheet(
+      BuildContext context, UserModel otherUser) async {
+    //TODO replace this logic with logic firebase
+    ConversationModel? currentConversation;
+    bool convWithCurrentUser = false;
+    bool convWithOtherUser = false;
+
+    for (ConversationModel conversation
+        in ref.read(conversationsNotifierProvider)!) {
+      for (var user in conversation.users) {
+        if (user["id"] == ref.read(userNotifierProvider).id) {
+          convWithCurrentUser = true;
+        }
+        if (user["id"] == otherUser.id) {
+          convWithOtherUser = true;
+        }
+      }
+
+      if (convWithCurrentUser &&
+          convWithOtherUser &&
+          (conversation.lastMessageUserId ==
+                  ref.read(userNotifierProvider).id ||
+              conversation.lastMessageUserId == otherUser.id)) {
+        currentConversation = conversation;
+      }
+    }
+
     return showMaterialModalBottomSheet(
         context: context,
         expand: true,
@@ -75,7 +103,19 @@ class NewConversationState extends ConsumerState<NewConversation> {
         builder: (context) {
           return RouteObserverWidget(
               name: chatDetails,
-              child: ChatDetails(user: user, openWithModal: true));
+              child: ChatDetails(
+                  user: otherUser,
+                  openWithModal: true,
+                  conversation: currentConversation ??
+                      ConversationModel(
+                          id: "temporary",
+                          users: [],
+                          lastMessageUserId: 0,
+                          lastMessage: "",
+                          isLastMessageRead: false,
+                          timestampLastMessage: "",
+                          typeLastMessage: "",
+                          themeConv: [])));
         });
   }
 
