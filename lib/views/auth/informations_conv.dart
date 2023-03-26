@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 
+import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
@@ -78,23 +78,20 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
             ),
           ),
         ),
-        body: LayoutBuilder(builder: (context, constraints) {
-          return SingleChildScrollView(
+        body: SizedBox.expand(
+          child: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(
                 20.0,
-                MediaQuery.of(context).padding.top + 20.0,
+                MediaQuery.of(context).padding.top +
+                    appBar.preferredSize.height +
+                    20.0,
                 20.0,
-                MediaQuery.of(context).padding.bottom + 10.0),
+                MediaQuery.of(context).padding.bottom + 20.0),
             physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics()),
-            child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight -
-                        (MediaQuery.of(context).padding.top +
-                            MediaQuery.of(context).padding.bottom)),
-                child: infosConv()),
-          );
-        }));
+            child: infosConv(),
+          ),
+        ));
   }
 
   Widget infosConv() {
@@ -123,105 +120,161 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           textScaleFactor: 1.0,
         ),
         const SizedBox(height: 20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              width: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        _currentConversation.id != "temporary"
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: cBlue.withOpacity(0.5),
-                        highlightColor: cBlue.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15.0),
-                        onTap: () => navAuthKey.currentState!.pushNamed(
-                            userProfile,
-                            arguments: [widget.user, false]),
-                        child:
-                            Icon(Icons.person, color: Helpers.uiApp(context)),
-                      ),
+                  SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: cBlue.withOpacity(0.5),
+                              highlightColor: cBlue.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(15.0),
+                              onTap: () => navAuthKey.currentState!.pushNamed(
+                                  userProfile,
+                                  arguments: [widget.user, false]),
+                              child: Icon(Icons.person,
+                                  color: Helpers.uiApp(context)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Text(
+                          "Profil",
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 14),
+                          textScaleFactor: 1.0,
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 5.0),
-                  Text(
-                    "Profil",
-                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                  SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: cBlue.withOpacity(0.5),
+                              highlightColor: cBlue.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(15.0),
+                              onTap: () {
+                                if (_currentConversation.users[indexUserConv]
+                                    ["convMute"]) {
+                                  ref
+                                      .read(conversationsNotifierProvider
+                                          .notifier)
+                                      .muteConversation(
+                                          _currentConversation.id,
+                                          indexUserConv,
+                                          false);
+                                  ref
+                                      .read(currentConvNotifierProvider
+                                          .notifier)
+                                      .muteConversation(indexUserConv, false);
+                                } else {
+                                  ref
+                                      .read(conversationsNotifierProvider
+                                          .notifier)
+                                      .muteConversation(
+                                          _currentConversation.id,
+                                          indexUserConv,
+                                          true);
+                                  ref
+                                      .read(currentConvNotifierProvider
+                                          .notifier)
+                                      .muteConversation(indexUserConv, true);
+                                }
+                              },
+                              child: Icon(
+                                  _currentConversation.users[indexUserConv]
+                                          ["convMute"]
+                                      ? Icons.notifications_active
+                                      : Icons.notifications_off,
+                                  color: Helpers.uiApp(context)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Text(
+                          _currentConversation.users[indexUserConv]
+                                  ["convMute"]
+                              ? "Réactiver"
+                              : "Désactiver",
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 14),
+                          textScaleFactor: 1.0,
+                        )
+                      ],
+                    ),
                   )
                 ],
-              ),
-            ),
-            SizedBox(
-              width: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: cBlue.withOpacity(0.5),
-                        highlightColor: cBlue.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15.0),
-                        onTap: () {
-                          if (_currentConversation.users[indexUserConv]
-                              ["convMute"]) {
-                            ref
-                                .read(conversationsNotifierProvider.notifier)
-                                .muteConversation(_currentConversation.id,
-                                    indexUserConv, false);
-                            ref
-                                .read(currentConvNotifierProvider.notifier)
-                                .muteConversation(indexUserConv, false);
-                          } else {
-                            ref
-                                .read(conversationsNotifierProvider.notifier)
-                                .muteConversation(_currentConversation.id,
-                                    indexUserConv, true);
-                            ref
-                                .read(currentConvNotifierProvider.notifier)
-                                .muteConversation(indexUserConv, true);
-                          }
-                        },
-                        child: Icon(
-                            _currentConversation.users[indexUserConv]
-                                    ["convMute"]
-                                ? Icons.notifications_active
-                                : Icons.notifications_off,
-                            color: Helpers.uiApp(context)),
+              )
+            : SizedBox(
+                width: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(15.0)),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: cBlue.withOpacity(0.5),
+                          highlightColor: cBlue.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(15.0),
+                          onTap: () => navAuthKey.currentState!.pushNamed(
+                              userProfile,
+                              arguments: [widget.user, false]),
+                          child: Icon(Icons.person,
+                              color: Helpers.uiApp(context)),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5.0),
-                  Text(
-                    _currentConversation.users[indexUserConv]["convMute"]
-                        ? "Réactiver"
-                        : "Désactiver",
-                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
-                  )
-                ],
+                    const SizedBox(height: 5.0),
+                    Text(
+                      "Profil",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 14),
+                      textScaleFactor: 1.0,
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
         const SizedBox(
           height: 25.0,
         ),
+        if (_currentConversation.id != "temporary") customization(),
+        details(),
+        othersActions()
+      ],
+    );
+  }
+
+  Widget customization() {
+    return Column(
+      children: [
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -253,44 +306,58 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                     .newThemeConversation(["#c442c2", "#5142c4"]);
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 10.0),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 25.0,
-                      width: 25.0,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(int.parse(
-                                        _currentConversation.themeConv[0]
-                                            .substring(1, 7),
-                                        radix: 16) +
-                                    0xFF000000),
-                                Color(int.parse(
-                                        _currentConversation.themeConv[1]
-                                            .substring(1, 7),
-                                        radix: 16) +
-                                    0xFF000000)
-                              ]),
-                          shape: BoxShape.circle),
-                    ),
-                    const SizedBox(width: 15.0),
-                    Text(
-                      "Thème conversation",
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
-                      textScaleFactor: 1.0,
-                    )
-                  ],
-                ),
-              ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 25.0,
+                            width: 25.0,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(int.parse(
+                                              _currentConversation.themeConv[0]
+                                                  .substring(1, 7),
+                                              radix: 16) +
+                                          0xFF000000),
+                                      Color(int.parse(
+                                              _currentConversation.themeConv[1]
+                                                  .substring(1, 7),
+                                              radix: 16) +
+                                          0xFF000000)
+                                    ]),
+                                shape: BoxShape.circle),
+                          ),
+                          const SizedBox(width: 15.0),
+                          Text(
+                            "Thème conversation",
+                            style: textStyleCustomBold(
+                                Helpers.uiApp(context), 16.0),
+                            textScaleFactor: 1.0,
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Helpers.uiApp(context), size: 16)
+                    ],
+                  )),
             ),
           ),
         ),
         const SizedBox(height: 25.0),
+      ],
+    );
+  }
+
+  Widget details() {
+    return Column(
+      children: [
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -318,75 +385,91 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   topRight: Radius.circular(15.0)),
               onTap: () => print("rechercher message"),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 10.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.search, color: Helpers.uiApp(context)),
-                    const SizedBox(width: 15.0),
-                    Text(
-                      "Rechercher message",
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
-                      textScaleFactor: 1.0,
-                    )
-                  ],
-                ),
-              ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.search, color: Helpers.uiApp(context)),
+                          const SizedBox(width: 15.0),
+                          Text(
+                            "Rechercher message",
+                            style: textStyleCustomBold(
+                                Helpers.uiApp(context), 16.0),
+                            textScaleFactor: 1.0,
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Helpers.uiApp(context), size: 16)
+                    ],
+                  )),
             ),
           ),
         ),
         const SizedBox(height: 2.0),
-        Container(
-          color: Theme.of(context).canvasColor,
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: cBlue.withOpacity(0.5),
-              highlightColor: cBlue.withOpacity(0.5),
-              onTap: () {
-                if (_currentConversation.users[indexUserConv]["convMute"]) {
-                  ref
-                      .read(conversationsNotifierProvider.notifier)
-                      .muteConversation(
-                          _currentConversation.id, indexUserConv, false);
-                  ref
-                      .read(currentConvNotifierProvider.notifier)
-                      .muteConversation(indexUserConv, false);
-                } else {
-                  ref
-                      .read(conversationsNotifierProvider.notifier)
-                      .muteConversation(
-                          _currentConversation.id, indexUserConv, true);
-                  ref
-                      .read(currentConvNotifierProvider.notifier)
-                      .muteConversation(indexUserConv, true);
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 10.0),
-                child: Row(
-                  children: [
-                    Icon(
-                        _currentConversation.users[indexUserConv]["convMute"]
-                            ? Icons.notifications_active
-                            : Icons.notifications_off,
-                        color: Helpers.uiApp(context)),
-                    const SizedBox(width: 15.0),
-                    Text(
-                      _currentConversation.users[indexUserConv]["convMute"]
-                          ? "Réactiver"
-                          : "Désactiver",
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
-                      textScaleFactor: 1.0,
-                    )
-                  ],
+        if (_currentConversation.id != "temporary")
+          Column(
+            children: [
+              Container(
+                color: Theme.of(context).canvasColor,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: cBlue.withOpacity(0.5),
+                    highlightColor: cBlue.withOpacity(0.5),
+                    onTap: () {
+                      if (_currentConversation.users[indexUserConv]
+                          ["convMute"]) {
+                        ref
+                            .read(conversationsNotifierProvider.notifier)
+                            .muteConversation(
+                                _currentConversation.id, indexUserConv, false);
+                        ref
+                            .read(currentConvNotifierProvider.notifier)
+                            .muteConversation(indexUserConv, false);
+                      } else {
+                        ref
+                            .read(conversationsNotifierProvider.notifier)
+                            .muteConversation(
+                                _currentConversation.id, indexUserConv, true);
+                        ref
+                            .read(currentConvNotifierProvider.notifier)
+                            .muteConversation(indexUserConv, true);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                              _currentConversation.users[indexUserConv]
+                                      ["convMute"]
+                                  ? Icons.notifications_active
+                                  : Icons.notifications_off,
+                              color: Helpers.uiApp(context)),
+                          const SizedBox(width: 15.0),
+                          Text(
+                            _currentConversation.users[indexUserConv]
+                                    ["convMute"]
+                                ? "Réactiver"
+                                : "Désactiver",
+                            style: textStyleCustomBold(
+                                Helpers.uiApp(context), 16.0),
+                            textScaleFactor: 1.0,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 2.0),
+            ],
           ),
-        ),
-        const SizedBox(height: 2.0),
         Container(
           decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
@@ -403,24 +486,38 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   bottomRight: Radius.circular(15.0)),
               onTap: () => print("multimédias"),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 10.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.photo, color: Helpers.uiApp(context)),
-                    const SizedBox(width: 15.0),
-                    Text(
-                      "Multimédias conversation",
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
-                      textScaleFactor: 1.0,
-                    )
-                  ],
-                ),
-              ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.photo, color: Helpers.uiApp(context)),
+                          const SizedBox(width: 15.0),
+                          Text(
+                            "Multimédias conversation",
+                            style: textStyleCustomBold(
+                                Helpers.uiApp(context), 16.0),
+                            textScaleFactor: 1.0,
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Helpers.uiApp(context), size: 16)
+                    ],
+                  )),
             ),
           ),
         ),
         const SizedBox(height: 25.0),
+      ],
+    );
+  }
+
+  Widget othersActions() {
+    return Column(
+      children: [
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -432,54 +529,88 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               ),
             )),
         const SizedBox(height: 10.0),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0))),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: cRed.withOpacity(0.2),
-              highlightColor: cRed.withOpacity(0.2),
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0)),
-              onTap: () => print("effacer conversation"),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 10.0),
-                  child: Text(
-                    "Effacer conversation",
-                    style: textStyleCustomBold(cRed, 16.0),
-                    textScaleFactor: 1.0,
-                  )),
-            ),
-          ),
-        ),
-        const SizedBox(height: 2.0),
-        Container(
-            width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).canvasColor,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                splashColor: cRed.withOpacity(0.2),
-                highlightColor: cRed.withOpacity(0.2),
-                onTap: () => print("signaler user"),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 10.0),
-                  child: Text(
-                    "Signaler ${widget.user.pseudo}",
-                    style: textStyleCustomBold(cRed, 16.0),
-                    textScaleFactor: 1.0,
+        if (_currentConversation.id != "temporary")
+          Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0))),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: cRed.withOpacity(0.2),
+                    highlightColor: cRed.withOpacity(0.2),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0)),
+                    onTap: () => print("effacer conversation"),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 10.0),
+                        child: Text(
+                          "Effacer conversation",
+                          style: textStyleCustomBold(cRed, 16.0),
+                          textScaleFactor: 1.0,
+                        )),
                   ),
                 ),
               ),
-            )),
+              const SizedBox(height: 2.0),
+            ],
+          ),
+        _currentConversation.id != "temporary"
+            ? Container(
+                width: MediaQuery.of(context).size.width,
+                color: Theme.of(context).canvasColor,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: cRed.withOpacity(0.2),
+                    highlightColor: cRed.withOpacity(0.2),
+                    onTap: () => print("signaler user"),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      child: Text(
+                        "Signaler ${widget.user.pseudo}",
+                        style: textStyleCustomBold(cRed, 16.0),
+                        textScaleFactor: 1.0,
+                      ),
+                    ),
+                  ),
+                ))
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0)),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: cRed.withOpacity(0.2),
+                    highlightColor: cRed.withOpacity(0.2),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0)),
+                    onTap: () => print("signaler user"),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      child: Text(
+                        "Signaler ${widget.user.pseudo}",
+                        style: textStyleCustomBold(cRed, 16.0),
+                        textScaleFactor: 1.0,
+                      ),
+                    ),
+                  ),
+                )),
         const SizedBox(height: 2.0),
         Container(
             width: MediaQuery.of(context).size.width,

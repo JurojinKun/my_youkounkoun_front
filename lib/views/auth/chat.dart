@@ -34,37 +34,6 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
         });
   }
 
-  Future<void> setChat() async {
-    //logique back à mettre en place mais plus avec un stream builder et via firebase firestore
-    await Future.delayed(const Duration(seconds: 3));
-
-    List<ConversationModel> conversationsUser = [];
-    for (var conv in conversationsDatasMockes) {
-      for (var user in conv.users) {
-        if (user["id"] == ref.read(userNotifierProvider).id) {
-          conversationsUser.add(conv);
-        }
-      }
-    }
-
-    if (conversationsUser.isNotEmpty) {
-      conversationsUser.sort((a, b) => int.parse(b.timestampLastMessage)
-          .compareTo(int.parse(a.timestampLastMessage)));
-      ref
-          .read(conversationsNotifierProvider.notifier)
-          .setConversations(conversationsUser);
-    } else {
-      ref.read(conversationsNotifierProvider.notifier).setConversations([]);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    setChat();
-  }
-
   @override
   bool get wantKeepAlive => true;
 

@@ -19,28 +19,6 @@ class NotificationsState extends ConsumerState<Notifications>
     with AutomaticKeepAliveClientMixin {
   List<NotificationModel>? notifications = [];
 
-  //logic back à mettre en place ici (à voir si j'utilise stream builder ou pas pour les notifs au final)
-  Future<void> setNotifications() async {
-    await Future.delayed(const Duration(seconds: 3));
-    //Attention mettre une liste vide si pas encore de notifs pour enlever le statut null du provider et mettre la logique du length == 0
-    if (notificationsInformativesDatasMockes.isNotEmpty) {
-      notificationsInformativesDatasMockes.sort(
-          (a, b) => int.parse(b.timestamp).compareTo(int.parse(a.timestamp)));
-      ref
-          .read(notificationsNotifierProvider.notifier)
-          .setNotifications(notificationsInformativesDatasMockes);
-    } else {
-      ref.read(notificationsNotifierProvider.notifier).setNotifications([]);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    setNotifications();
-  }
-
   @override
   void dispose() {
     super.dispose();
