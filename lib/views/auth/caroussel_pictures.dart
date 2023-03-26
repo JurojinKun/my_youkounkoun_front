@@ -12,12 +12,14 @@ class CarousselPictures extends ConsumerStatefulWidget {
   final List<MessageModel> messagesMedias;
   final MessageModel message;
   final UserModel user;
+  final Color? colorTheme;
 
   const CarousselPictures(
       {Key? key,
       required this.messagesMedias,
       required this.message,
-      required this.user})
+      required this.user,
+      this.colorTheme})
       : super(key: key);
 
   @override
@@ -77,7 +79,7 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
           children: [
             PageView.builder(
                 controller: _pageController,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.messagesMedias.length,
                 itemBuilder: (context, int index) {
@@ -114,7 +116,7 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                         .withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(10.0)),
                                 child: CircularProgressIndicator(
-                                  color: cBlue,
+                                  color: widget.colorTheme ?? cBlue,
                                   value: loadingProgress.expectedTotalBytes !=
                                           null
                                       ? loadingProgress.cumulativeBytesLoaded /
@@ -160,7 +162,7 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                       .withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(10.0)),
                               child: CircularProgressIndicator(
-                                color: cBlue,
+                                color: widget.colorTheme ?? cBlue,
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -224,12 +226,16 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                                 width: 40,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  border:
-                                                      Border.all(color: cBlue),
+                                                  border: Border.all(
+                                                      color:
+                                                          widget.colorTheme ??
+                                                              cBlue),
                                                   color: cGrey.withOpacity(0.2),
                                                 ),
-                                                child: const Icon(Icons.person,
-                                                    color: cBlue, size: 15),
+                                                child: Icon(Icons.person,
+                                                    color: widget.colorTheme ??
+                                                        cBlue,
+                                                    size: 15),
                                               )
                                             : CachedNetworkImageCustom(
                                                 profilePictureUrl: ref
@@ -237,7 +243,9 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                                     .profilePictureUrl,
                                                 heightContainer: 40,
                                                 widthContainer: 40,
-                                                iconSize: 15),
+                                                iconSize: 15,
+                                                colorTheme:
+                                                    widget.colorTheme ?? cBlue),
                                       )),
                                   Expanded(
                                     child: Column(
@@ -292,19 +300,25 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                                 width: 40,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  border:
-                                                      Border.all(color: cBlue),
+                                                  border: Border.all(
+                                                      color:
+                                                          widget.colorTheme ??
+                                                              cBlue),
                                                   color: cGrey.withOpacity(0.2),
                                                 ),
-                                                child: const Icon(Icons.person,
-                                                    color: cBlue, size: 15),
+                                                child: Icon(Icons.person,
+                                                    color: widget.colorTheme ??
+                                                        cBlue,
+                                                    size: 15),
                                               )
                                             : CachedNetworkImageCustom(
                                                 profilePictureUrl: widget
                                                     .user.profilePictureUrl,
                                                 heightContainer: 40,
                                                 widthContainer: 40,
-                                                iconSize: 15),
+                                                iconSize: 15,
+                                                colorTheme:
+                                                    widget.colorTheme ?? cBlue),
                                       )),
                                   Expanded(
                                     child: Column(

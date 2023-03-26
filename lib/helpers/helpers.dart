@@ -197,4 +197,9 @@ class Helpers {
       900: (hslColor.withLightness(lightness - (highStep * 4))).toColor(),
     };
   }
+
+  static Color stringToColor(String colorString) {
+    return Color(
+        int.parse(colorString.substring(1, 7), radix: 16) + 0xFF000000);
+  }
 }

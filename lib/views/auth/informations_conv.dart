@@ -103,16 +103,44 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 width: 145,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: cBlue),
+                  border: Border.all(
+                      color: _currentConversation.themeConv.isEmpty
+                          ? Color.lerp(const Color(0xFF4284C4),
+                              const Color(0xFF00A9BC), 0.5)!
+                          : Color.lerp(
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[0]),
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[1]),
+                              0.5)!),
                   color: cGrey.withOpacity(0.2),
                 ),
-                child: const Icon(Icons.person, color: cBlue, size: 55),
+                child: Icon(Icons.person,
+                    color: _currentConversation.themeConv.isEmpty
+                        ? Color.lerp(const Color(0xFF4284C4),
+                            const Color(0xFF00A9BC), 0.5)!
+                        : Color.lerp(
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[0]),
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[1]),
+                            0.5)!,
+                    size: 55),
               )
             : CachedNetworkImageCustom(
                 profilePictureUrl: widget.user.profilePictureUrl,
                 heightContainer: 145,
                 widthContainer: 145,
-                iconSize: 55),
+                iconSize: 55,
+                colorTheme: _currentConversation.themeConv.isEmpty
+                    ? Color.lerp(
+                        const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                    : Color.lerp(
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[0]),
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[1]),
+                        0.5)!),
         const SizedBox(height: 10.0),
         Text(
           widget.user.pseudo,
@@ -138,8 +166,34 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              splashColor: cBlue.withOpacity(0.5),
-                              highlightColor: cBlue.withOpacity(0.5),
+                              splashColor: _currentConversation
+                                      .themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      .withOpacity(0.5)
+                                  : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!
+                                      .withOpacity(0.5),
+                              highlightColor: _currentConversation
+                                      .themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      .withOpacity(0.5)
+                                  : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!
+                                      .withOpacity(0.5),
                               borderRadius: BorderRadius.circular(15.0),
                               onTap: () => navAuthKey.currentState!.pushNamed(
                                   userProfile,
@@ -173,8 +227,34 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              splashColor: cBlue.withOpacity(0.5),
-                              highlightColor: cBlue.withOpacity(0.5),
+                              splashColor: _currentConversation
+                                      .themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      .withOpacity(0.5)
+                                  : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!
+                                      .withOpacity(0.5),
+                              highlightColor: _currentConversation
+                                      .themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      .withOpacity(0.5)
+                                  : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!
+                                      .withOpacity(0.5),
                               borderRadius: BorderRadius.circular(15.0),
                               onTap: () {
                                 if (_currentConversation.users[indexUserConv]
@@ -182,25 +262,21 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                   ref
                                       .read(conversationsNotifierProvider
                                           .notifier)
-                                      .muteConversation(
-                                          _currentConversation.id,
-                                          indexUserConv,
-                                          false);
+                                      .muteConversation(_currentConversation.id,
+                                          indexUserConv, false);
                                   ref
-                                      .read(currentConvNotifierProvider
-                                          .notifier)
+                                      .read(
+                                          currentConvNotifierProvider.notifier)
                                       .muteConversation(indexUserConv, false);
                                 } else {
                                   ref
                                       .read(conversationsNotifierProvider
                                           .notifier)
-                                      .muteConversation(
-                                          _currentConversation.id,
-                                          indexUserConv,
-                                          true);
+                                      .muteConversation(_currentConversation.id,
+                                          indexUserConv, true);
                                   ref
-                                      .read(currentConvNotifierProvider
-                                          .notifier)
+                                      .read(
+                                          currentConvNotifierProvider.notifier)
                                       .muteConversation(indexUserConv, true);
                                 }
                               },
@@ -215,8 +291,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         ),
                         const SizedBox(height: 5.0),
                         Text(
-                          _currentConversation.users[indexUserConv]
-                                  ["convMute"]
+                          _currentConversation.users[indexUserConv]["convMute"]
                               ? "Réactiver"
                               : "Désactiver",
                           style:
@@ -242,14 +317,35 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          splashColor: cBlue.withOpacity(0.5),
-                          highlightColor: cBlue.withOpacity(0.5),
+                          splashColor: _currentConversation.themeConv.isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)!
+                                  .withOpacity(0.5)
+                              : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5)!
+                                  .withOpacity(0.5)
+                                  .withOpacity(0.5),
+                          highlightColor: _currentConversation.themeConv.isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)!
+                                  .withOpacity(0.5)
+                              : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5)!
+                                  .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(15.0),
                           onTap: () => navAuthKey.currentState!.pushNamed(
                               userProfile,
                               arguments: [widget.user, false]),
-                          child: Icon(Icons.person,
-                              color: Helpers.uiApp(context)),
+                          child:
+                              Icon(Icons.person, color: Helpers.uiApp(context)),
                         ),
                       ),
                     ),
@@ -293,8 +389,28 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              splashColor: cBlue.withOpacity(0.5),
-              highlightColor: cBlue.withOpacity(0.5),
+              splashColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
+              highlightColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
               borderRadius: BorderRadius.circular(15.0),
               onTap: () {
                 ref
@@ -378,8 +494,28 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              splashColor: cBlue.withOpacity(0.5),
-              highlightColor: cBlue.withOpacity(0.5),
+              splashColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
+              highlightColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15.0),
                   topRight: Radius.circular(15.0)),
@@ -418,8 +554,28 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    splashColor: cBlue.withOpacity(0.5),
-                    highlightColor: cBlue.withOpacity(0.5),
+                    splashColor: _currentConversation.themeConv.isEmpty
+                        ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)!
+                            .withOpacity(0.5)
+                        : Color.lerp(
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[0]),
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[1]),
+                                0.5)!
+                            .withOpacity(0.5),
+                    highlightColor: _currentConversation.themeConv.isEmpty
+                        ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)!
+                            .withOpacity(0.5)
+                        : Color.lerp(
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[0]),
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[1]),
+                                0.5)!
+                            .withOpacity(0.5),
                     onTap: () {
                       if (_currentConversation.users[indexUserConv]
                           ["convMute"]) {
@@ -479,8 +635,28 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              splashColor: cBlue.withOpacity(0.5),
-              highlightColor: cBlue.withOpacity(0.5),
+              splashColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
+              highlightColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC),
+                          0.5)!
+                      .withOpacity(0.5)
+                  : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!
+                      .withOpacity(0.5),
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(15.0),
                   bottomRight: Radius.circular(15.0)),

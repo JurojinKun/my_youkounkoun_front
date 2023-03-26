@@ -73,6 +73,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   GlobalKey keyChatField = GlobalKey();
 
   late TabController _tabControllerEmotions;
+  bool _emojisCanBuild = false;
 
   GiphyClient gif = GiphyClient(
       apiKey: EnvironmentConfigLib().getEnvironmentConfigKeyApiGiphy);
@@ -177,7 +178,16 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 controller: _searchGifController,
                                 focusNode: _searchGifFocusNode,
                                 showCursor: true,
-                                cursorColor: cBlue,
+                                cursorColor: _currentConversation
+                                        .themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                                 textInputAction: TextInputAction.search,
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
@@ -201,7 +211,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                       borderSide: BorderSide(
                                         width: 2.0,
                                         color: _searchGifFocusNode.hasFocus
-                                            ? cBlue
+                                            ? _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!
                                             : cGrey,
                                       ),
                                       borderRadius:
@@ -210,7 +233,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                       borderSide: BorderSide(
                                         width: 2.0,
                                         color: _searchGifFocusNode.hasFocus
-                                            ? cBlue
+                                            ? _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!
                                             : cGrey,
                                       ),
                                       borderRadius:
@@ -219,7 +255,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                       borderSide: BorderSide(
                                         width: 2.0,
                                         color: _searchGifFocusNode.hasFocus
-                                            ? cBlue
+                                            ? _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!
                                             : cGrey,
                                       ),
                                       borderRadius:
@@ -228,7 +277,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                       borderSide: BorderSide(
                                         width: 2.0,
                                         color: _searchGifFocusNode.hasFocus
-                                            ? cBlue
+                                            ? _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!
                                             : cGrey,
                                       ),
                                       borderRadius:
@@ -244,7 +306,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                           child: Icon(
                                             Icons.clear,
                                             color: _searchGifFocusNode.hasFocus
-                                                ? cBlue
+                                                ? _currentConversation
+                                                        .themeConv.isEmpty
+                                                    ? Color.lerp(
+                                                        const Color(0xFF4284C4),
+                                                        const Color(0xFF00A9BC),
+                                                        0.5)
+                                                    : Color.lerp(
+                                                        Helpers.stringToColor(
+                                                            _currentConversation
+                                                                .themeConv[0]),
+                                                        Helpers.stringToColor(
+                                                            _currentConversation
+                                                                .themeConv[1]),
+                                                        0.5)
                                                 : cGrey,
                                           ),
                                         )
@@ -434,7 +509,24 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                     return Center(
                                                       child:
                                                           CircularProgressIndicator(
-                                                        color: cBlue,
+                                                        color: _currentConversation
+                                                                .themeConv
+                                                                .isEmpty
+                                                            ? Color.lerp(
+                                                                const Color(
+                                                                    0xFF4284C4),
+                                                                const Color(
+                                                                    0xFF00A9BC),
+                                                                0.5)
+                                                            : Color.lerp(
+                                                                Helpers.stringToColor(
+                                                                    _currentConversation
+                                                                            .themeConv[
+                                                                        0]),
+                                                                Helpers.stringToColor(
+                                                                    _currentConversation
+                                                                        .themeConv[1]),
+                                                                0.5),
                                                         value: loadingProgress
                                                                     .expectedTotalBytes !=
                                                                 null
@@ -513,17 +605,21 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         messagesMediasUsers.add(message);
       }
     }
-    print(messagesMediasUsers.length);
 
     if (mounted) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         ref
             .read(currentChatUserIdNotifierProvider.notifier)
             .setChatUserId(widget.user.id);
-        ref.read(currentConvNotifierProvider.notifier).setCurrentConv(widget.conversation);
+        ref
+            .read(currentConvNotifierProvider.notifier)
+            .setCurrentConv(widget.conversation);
         ref.read(toolsStayHideNotifierProvider.notifier).clearStayHide();
         ref.read(showEmotionsNotifierProvider.notifier).clearShowEmotions();
         ref.read(showPicturesNotifierProvider.notifier).clearShowPictures();
+        setState(() {
+          _emojisCanBuild = true;
+        });
       });
     }
 
@@ -635,13 +731,36 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           decoration: BoxDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
                               shape: BoxShape.circle,
-                              boxShadow: const [
-                                BoxShadow(color: cBlue, blurRadius: 3)
+                              boxShadow: [
+                                BoxShadow(
+                                    color:
+                                        _currentConversation.themeConv.isEmpty
+                                            ? Color.lerp(
+                                                const Color(0xFF4284C4),
+                                                const Color(0xFF00A9BC),
+                                                0.5)!
+                                            : Color.lerp(
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[0]),
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[1]),
+                                                0.5)!,
+                                    blurRadius: 3)
                               ]),
                           alignment: Alignment.center,
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_downward,
-                            color: cBlue,
+                            color: _currentConversation.themeConv.isEmpty
+                                ? Color.lerp(const Color(0xFF4284C4),
+                                    const Color(0xFF00A9BC), 0.5)!
+                                : Color.lerp(
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[0]),
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[1]),
+                                    0.5)!,
                             size: 23,
                           ),
                         ),
@@ -712,18 +831,60 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     width: 45,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
+                                      border: Border.all(
+                                          color: _currentConversation
+                                                  .themeConv.isEmpty
+                                              ? Color.lerp(
+                                                  const Color(0xFF4284C4),
+                                                  const Color(0xFF00A9BC),
+                                                  0.5)!
+                                              : Color.lerp(
+                                                  Helpers.stringToColor(
+                                                      _currentConversation
+                                                          .themeConv[0]),
+                                                  Helpers.stringToColor(
+                                                      _currentConversation
+                                                          .themeConv[1]),
+                                                  0.5)!),
                                       color: cGrey.withOpacity(0.2),
                                     ),
-                                    child: const Icon(Icons.person,
-                                        color: cBlue, size: 23),
+                                    child: Icon(Icons.person,
+                                        color: _currentConversation
+                                                .themeConv.isEmpty
+                                            ? Color.lerp(
+                                                const Color(0xFF4284C4),
+                                                const Color(0xFF00A9BC),
+                                                0.5)
+                                            : Color.lerp(
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[0]),
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[1]),
+                                                0.5),
+                                        size: 23),
                                   )
                                 : CachedNetworkImageCustom(
                                     profilePictureUrl:
                                         widget.user.profilePictureUrl,
                                     heightContainer: 45,
                                     widthContainer: 45,
-                                    iconSize: 23),
+                                    iconSize: 23,
+                                    colorTheme:
+                                        _currentConversation.themeConv.isEmpty
+                                            ? Color.lerp(
+                                                const Color(0xFF4284C4),
+                                                const Color(0xFF00A9BC),
+                                                0.5)
+                                            : Color.lerp(
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[0]),
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[1]),
+                                                0.5)),
                             const SizedBox(
                               width: 10.0,
                             ),
@@ -814,10 +975,28 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 TypingIndicator(
                   showIndicator: true,
                   bubbleColor: Theme.of(context).canvasColor,
-                  flashingCircleBrightColor: cBlue,
+                  flashingCircleBrightColor:
+                      _currentConversation.themeConv.isEmpty
+                          ? Color.lerp(const Color(0xFF4284C4),
+                              const Color(0xFF00A9BC), 0.5)!
+                          : Color.lerp(
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[0]),
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[1]),
+                              0.5)!,
                   flashingCircleDarkColor:
                       Theme.of(context).scaffoldBackgroundColor,
                   user: widget.user,
+                  colorThemeConv: _currentConversation.themeConv.isEmpty
+                      ? Color.lerp(const Color(0xFF4284C4),
+                          const Color(0xFF00A9BC), 0.5)!
+                      : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!,
                 ),
               ],
             ),
@@ -835,16 +1014,44 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   width: 145,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: cBlue),
+                    border: Border.all(
+                        color: _currentConversation.themeConv.isEmpty
+                            ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)!
+                            : Color.lerp(
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[0]),
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[1]),
+                                0.5)!),
                     color: cGrey.withOpacity(0.2),
                   ),
-                  child: const Icon(Icons.person, color: cBlue, size: 55),
+                  child: Icon(Icons.person,
+                      color: _currentConversation.themeConv.isEmpty
+                          ? Color.lerp(const Color(0xFF4284C4),
+                              const Color(0xFF00A9BC), 0.5)
+                          : Color.lerp(
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[0]),
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[1]),
+                              0.5),
+                      size: 55),
                 )
               : CachedNetworkImageCustom(
                   profilePictureUrl: widget.user.profilePictureUrl,
                   heightContainer: 145,
                   widthContainer: 145,
-                  iconSize: 55),
+                  iconSize: 55,
+                  colorTheme: _currentConversation.themeConv.isEmpty
+                      ? Color.lerp(
+                          const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                      : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)),
           const SizedBox(
             height: 15.0,
           ),
@@ -903,7 +1110,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: cBlue,
+                    backgroundColor: _currentConversation.themeConv.isEmpty
+                        ? Color.lerp(const Color(0xFF4284C4),
+                            const Color(0xFF00A9BC), 0.5)
+                        : Color.lerp(
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[0]),
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[1]),
+                            0.5),
                     foregroundColor: Colors.white,
                     shadowColor: Colors.transparent,
                   ),
@@ -958,7 +1173,17 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 child: Padding(
                   padding: const EdgeInsets.all(7.5),
                   child: Text(value,
-                      style: textStyleCustomMedium(cBlue, 14),
+                      style: textStyleCustomMedium(
+                          _currentConversation.themeConv.isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                  const Color(0xFF00A9BC), 0.5)!
+                              : Color.lerp(
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[0]),
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[1]),
+                                  0.5)!,
+                          14),
                       textScaleFactor: 1.0),
                 ),
               )),
@@ -993,17 +1218,51 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               width: 25,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: cBlue),
+                                border: Border.all(
+                                    color:
+                                        _currentConversation.themeConv.isEmpty
+                                            ? Color.lerp(
+                                                const Color(0xFF4284C4),
+                                                const Color(0xFF00A9BC),
+                                                0.5)!
+                                            : Color.lerp(
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[0]),
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[1]),
+                                                0.5)!),
                                 color: cGrey.withOpacity(0.2),
                               ),
-                              child: const Icon(Icons.person,
-                                  color: cBlue, size: 15),
+                              child: Icon(Icons.person,
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5),
+                                  size: 15),
                             )
                           : CachedNetworkImageCustom(
                               profilePictureUrl: widget.user.profilePictureUrl,
                               heightContainer: 25,
                               widthContainer: 25,
-                              iconSize: 15),
+                              iconSize: 15,
+                              colorTheme: _currentConversation.themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)
+                                  : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5)),
                     ),
                   typeMessage(message, index),
                 ],
@@ -1080,11 +1339,18 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0XFF4284C4), Color(0xFF00A9BC)],
-                      stops: [0.0, 1.0]),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: _currentConversation.themeConv.isEmpty
+                        ? const [Color(0xFF4284C4), Color(0xFF00A9BC)]
+                        : [
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[0]),
+                            Helpers.stringToColor(
+                                _currentConversation.themeConv[1])
+                          ],
+                  ),
                   borderRadius: BorderRadius.circular(10.0)),
               child: IntrinsicWidth(
                 child: Column(
@@ -1115,8 +1381,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       case "image":
         if (message.idSender != ref.read(userNotifierProvider).id) {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
-                arguments: [messagesMediasUsers, message, widget.user]),
+            onTap: () => navAuthKey.currentState!
+                .pushNamed(carousselPictures, arguments: [
+              messagesMediasUsers,
+              message,
+              widget.user,
+              _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)
+            ]),
             child: Container(
               height: 200,
               width: 150,
@@ -1151,7 +1428,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             }
                             return Center(
                               child: CircularProgressIndicator(
-                                color: cBlue,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -1185,7 +1470,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           }
                           return Center(
                             child: CircularProgressIndicator(
-                              color: cBlue,
+                              color: _currentConversation.themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)
+                                  : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5),
                               value: loadingProgress.expectedTotalBytes != null
                                   ? loadingProgress.cumulativeBytesLoaded /
                                       loadingProgress.expectedTotalBytes!
@@ -1226,8 +1519,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
           );
         } else {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
-                arguments: [messagesMediasUsers, message, widget.user]),
+            onTap: () => navAuthKey.currentState!
+                .pushNamed(carousselPictures, arguments: [
+              messagesMediasUsers,
+              message,
+              widget.user,
+              _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)
+            ]),
             child: Container(
               height: 200,
               width: 150,
@@ -1257,7 +1561,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             }
                             return Center(
                               child: CircularProgressIndicator(
-                                color: cBlue,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -1291,7 +1603,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           }
                           return Center(
                             child: CircularProgressIndicator(
-                              color: cBlue,
+                              color: _currentConversation.themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)
+                                  : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5),
                               value: loadingProgress.expectedTotalBytes != null
                                   ? loadingProgress.cumulativeBytesLoaded /
                                       loadingProgress.expectedTotalBytes!
@@ -1334,8 +1654,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       case "gif":
         if (message.idSender != ref.read(userNotifierProvider).id) {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
-                arguments: [messagesMediasUsers, message, widget.user]),
+            onTap: () => navAuthKey.currentState!
+                .pushNamed(carousselPictures, arguments: [
+              messagesMediasUsers,
+              message,
+              widget.user,
+              _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)
+            ]),
             child: Container(
               height: 200,
               width: 150,
@@ -1367,7 +1698,17 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               }
                               return Center(
                                 child: CircularProgressIndicator(
-                                  color: cBlue,
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5),
                                   value: loadingProgress.expectedTotalBytes !=
                                           null
                                       ? loadingProgress.cumulativeBytesLoaded /
@@ -1399,7 +1740,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             }
                             return Center(
                               child: CircularProgressIndicator(
-                                color: cBlue,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -1437,8 +1786,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
           );
         } else {
           return GestureDetector(
-            onTap: () => navAuthKey.currentState!.pushNamed(carousselPictures,
-                arguments: [messagesMediasUsers, message, widget.user]),
+            onTap: () => navAuthKey.currentState!
+                .pushNamed(carousselPictures, arguments: [
+              messagesMediasUsers,
+              message,
+              widget.user,
+              _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)
+            ]),
             child: Container(
               height: 200,
               width: 150,
@@ -1475,7 +1835,17 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               }
                               return Center(
                                 child: CircularProgressIndicator(
-                                  color: cBlue,
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5),
                                   value: loadingProgress.expectedTotalBytes !=
                                           null
                                       ? loadingProgress.cumulativeBytesLoaded /
@@ -1507,7 +1877,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             }
                             return Center(
                               child: CircularProgressIndicator(
-                                color: cBlue,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -1612,12 +1990,38 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       if (showPictures)
-                                        const BoxShadow(
-                                            color: cBlue, blurRadius: 3)
+                                        BoxShadow(
+                                            color: _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!,
+                                            blurRadius: 3)
                                     ]),
                                 child: Icon(
                                   showPictures ? Icons.clear : Icons.add,
-                                  color: showPictures ? cBlue : cGrey,
+                                  color: showPictures
+                                      ? _currentConversation.themeConv.isEmpty
+                                          ? Color.lerp(const Color(0xFF4284C4),
+                                              const Color(0xFF00A9BC), 0.5)
+                                          : Color.lerp(
+                                              Helpers.stringToColor(
+                                                  _currentConversation
+                                                      .themeConv[0]),
+                                              Helpers.stringToColor(
+                                                  _currentConversation
+                                                      .themeConv[1]),
+                                              0.5)
+                                      : cGrey,
                                   size: showPictures ? 25 : 30,
                                 ),
                               ),
@@ -1651,12 +2055,38 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       if (startAudio)
-                                        const BoxShadow(
-                                            color: cBlue, blurRadius: 3)
+                                        BoxShadow(
+                                            color: _currentConversation
+                                                    .themeConv.isEmpty
+                                                ? Color.lerp(
+                                                    const Color(0xFF4284C4),
+                                                    const Color(0xFF00A9BC),
+                                                    0.5)!
+                                                : Color.lerp(
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[0]),
+                                                    Helpers.stringToColor(
+                                                        _currentConversation
+                                                            .themeConv[1]),
+                                                    0.5)!,
+                                            blurRadius: 3)
                                     ]),
                                 child: Icon(
                                   Icons.mic_rounded,
-                                  color: startAudio ? cBlue : cGrey,
+                                  color: startAudio
+                                      ? _currentConversation.themeConv.isEmpty
+                                          ? Color.lerp(const Color(0xFF4284C4),
+                                              const Color(0xFF00A9BC), 0.5)
+                                          : Color.lerp(
+                                              Helpers.stringToColor(
+                                                  _currentConversation
+                                                      .themeConv[0]),
+                                              Helpers.stringToColor(
+                                                  _currentConversation
+                                                      .themeConv[1]),
+                                              0.5)
+                                      : cGrey,
                                   size: 25,
                                 ),
                               ),
@@ -1674,7 +2104,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         focusNode: _chatFocusNode,
                         readOnly: showEmotions || showPictures ? true : false,
                         showCursor: true,
-                        cursorColor: cBlue,
+                        cursorColor: _currentConversation.themeConv.isEmpty
+                            ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)
+                            : Color.lerp(
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[0]),
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[1]),
+                                0.5),
                         textInputAction: TextInputAction.newline,
                         keyboardType: TextInputType.multiline,
                         textCapitalization: TextCapitalization.sentences,
@@ -1691,25 +2129,73 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.0,
-                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                                color: _chatFocusNode.hasFocus
+                                    ? _currentConversation.themeConv.isEmpty
+                                        ? Color.lerp(const Color(0xFF4284C4),
+                                            const Color(0xFF00A9BC), 0.5)!
+                                        : Color.lerp(
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[0]),
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[1]),
+                                            0.5)!
+                                    : cGrey,
                               ),
                               borderRadius: BorderRadius.circular(10.0)),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.0,
-                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                                color: _chatFocusNode.hasFocus
+                                    ? _currentConversation.themeConv.isEmpty
+                                        ? Color.lerp(const Color(0xFF4284C4),
+                                            const Color(0xFF00A9BC), 0.5)!
+                                        : Color.lerp(
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[0]),
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[1]),
+                                            0.5)!
+                                    : cGrey,
                               ),
                               borderRadius: BorderRadius.circular(10.0)),
                           errorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.0,
-                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                                color: _chatFocusNode.hasFocus
+                                    ? _currentConversation.themeConv.isEmpty
+                                        ? Color.lerp(const Color(0xFF4284C4),
+                                            const Color(0xFF00A9BC), 0.5)!
+                                        : Color.lerp(
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[0]),
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[1]),
+                                            0.5)!
+                                    : cGrey,
                               ),
                               borderRadius: BorderRadius.circular(10.0)),
                           focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.0,
-                                color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                                color: _chatFocusNode.hasFocus
+                                    ? _currentConversation.themeConv.isEmpty
+                                        ? Color.lerp(const Color(0xFF4284C4),
+                                            const Color(0xFF00A9BC), 0.5)!
+                                        : Color.lerp(
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[0]),
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[1]),
+                                            0.5)!
+                                    : cGrey,
                               ),
                               borderRadius: BorderRadius.circular(10.0)),
                           suffixIcon: GestureDetector(
@@ -1730,7 +2216,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               showEmotions
                                   ? Icons.keyboard
                                   : Icons.emoji_emotions,
-                              color: _chatFocusNode.hasFocus ? cBlue : cGrey,
+                              color: _chatFocusNode.hasFocus
+                                  ? _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)
+                                  : cGrey,
                             ),
                           ),
                         ),
@@ -1782,12 +2280,32 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         decoration: BoxDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
                             shape: BoxShape.circle,
-                            boxShadow: const [
-                              BoxShadow(color: cBlue, blurRadius: 3)
+                            boxShadow: [
+                              BoxShadow(
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!,
+                                  blurRadius: 3)
                             ]),
-                        child: const Icon(
+                        child: Icon(
                           Icons.send,
-                          color: cBlue,
+                          color: _currentConversation.themeConv.isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                  const Color(0xFF00A9BC), 0.5)
+                              : Color.lerp(
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[0]),
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[1]),
+                                  0.5),
                           size: 20,
                         ),
                       ),
@@ -1818,9 +2336,19 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   unselectedLabelColor: cGrey,
                   labelStyle: textStyleCustomBold(Helpers.uiApp(context), 16),
                   unselectedLabelStyle: textStyleCustomBold(cGrey, 16),
-                  indicator: const BoxDecoration(
-                      border:
-                          Border(bottom: BorderSide(color: cBlue, width: 2.0))),
+                  indicator: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: _currentConversation.themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)!
+                                  : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5)!,
+                              width: 2.0))),
                   tabs: const [
                     SizedBox.expand(
                       child: Center(
@@ -1842,31 +2370,45 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
   }
 
   Widget emojis() {
-    return emoji.EmojiPicker(
-      textEditingController: _chatController,
-      config: emoji.Config(
-        columns: 7,
-        emojiSizeMax: 30 * (Platform.isIOS ? 1.30 : 1.0),
-        verticalSpacing: 0,
-        horizontalSpacing: 0,
-        gridPadding: EdgeInsets.zero,
-        initCategory: emoji.Category.RECENT,
-        bgColor: Colors.transparent,
-        indicatorColor: cBlue,
-        iconColor: cGrey,
-        iconColorSelected: cBlue,
-        enableSkinTones: true,
-        showRecentsTab: true,
-        recentsLimit: 28,
-        replaceEmojiOnLimitExceed: true,
-        noRecents: const NoRecentEmoji(),
-        loadingIndicator: const SizedBox.shrink(),
-        tabIndicatorAnimDuration: kTabScrollDuration,
-        categoryIcons: const emoji.CategoryIcons(),
-        buttonMode: emoji.ButtonMode.MATERIAL,
-        checkPlatformCompatibility: true,
-      ),
-    );
+    return _emojisCanBuild
+        ? emoji.EmojiPicker(
+            textEditingController: _chatController,
+            config: emoji.Config(
+              columns: 7,
+              emojiSizeMax: 30 * (Platform.isIOS ? 1.30 : 1.0),
+              verticalSpacing: 0,
+              horizontalSpacing: 0,
+              gridPadding: EdgeInsets.zero,
+              initCategory: emoji.Category.RECENT,
+              bgColor: Colors.transparent,
+              indicatorColor: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)!,
+              iconColor: cGrey,
+              iconColorSelected: _currentConversation.themeConv.isEmpty
+                  ? Color.lerp(
+                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                  : Color.lerp(
+                      Helpers.stringToColor(_currentConversation.themeConv[0]),
+                      Helpers.stringToColor(_currentConversation.themeConv[1]),
+                      0.5)!,
+              enableSkinTones: true,
+              showRecentsTab: true,
+              recentsLimit: 28,
+              replaceEmojiOnLimitExceed: true,
+              noRecents: const NoRecentEmoji(),
+              loadingIndicator: const SizedBox.shrink(),
+              tabIndicatorAnimDuration: kTabScrollDuration,
+              categoryIcons: const emoji.CategoryIcons(),
+              buttonMode: emoji.ButtonMode.MATERIAL,
+              checkPlatformCompatibility: true,
+            ),
+          )
+        : const SizedBox();
   }
 
   Widget gifs() {
@@ -1880,7 +2422,15 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   style: ElevatedButton.styleFrom(
                       elevation: 6,
                       backgroundColor: Theme.of(context).canvasColor,
-                      foregroundColor: cBlue,
+                      foregroundColor: _currentConversation.themeConv.isEmpty
+                          ? Color.lerp(const Color(0xFF4284C4),
+                              const Color(0xFF00A9BC), 0.5)
+                          : Color.lerp(
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[0]),
+                              Helpers.stringToColor(
+                                  _currentConversation.themeConv[1]),
+                              0.5),
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -1970,7 +2520,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 }
                                 return Center(
                                   child: CircularProgressIndicator(
-                                    color: cBlue,
+                                    color:
+                                        _currentConversation.themeConv.isEmpty
+                                            ? Color.lerp(
+                                                const Color(0xFF4284C4),
+                                                const Color(0xFF00A9BC),
+                                                0.5)
+                                            : Color.lerp(
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[0]),
+                                                Helpers.stringToColor(
+                                                    _currentConversation
+                                                        .themeConv[1]),
+                                                0.5),
                                     value: loadingProgress.expectedTotalBytes !=
                                             null
                                         ? loadingProgress
@@ -1997,12 +2560,20 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   }))
             ],
           )
-        : const Center(
+        : Center(
             child: SizedBox(
               height: 25.0,
               width: 25.0,
               child: CircularProgressIndicator(
-                color: cBlue,
+                color: _currentConversation.themeConv.isEmpty
+                    ? Color.lerp(
+                        const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                    : Color.lerp(
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[0]),
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[1]),
+                        0.5),
                 strokeWidth: 1.0,
               ),
             ),
@@ -2036,7 +2607,16 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            backgroundColor: cBlue,
+                            backgroundColor:
+                                _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                             foregroundColor: Colors.white,
                             shadowColor: Colors.transparent,
                             shape: RoundedRectangleBorder(
@@ -2080,7 +2660,16 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            backgroundColor: cBlue,
+                            backgroundColor:
+                                _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5),
                             foregroundColor: Colors.white,
                             shadowColor: Colors.transparent,
                             shape: RoundedRectangleBorder(

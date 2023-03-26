@@ -12,6 +12,7 @@ class TypingIndicator extends ConsumerStatefulWidget {
   final Color flashingCircleDarkColor;
   final Color flashingCircleBrightColor;
   final UserModel user;
+  final Color colorThemeConv;
 
   const TypingIndicator(
       {super.key,
@@ -19,7 +20,8 @@ class TypingIndicator extends ConsumerStatefulWidget {
       required this.bubbleColor,
       required this.flashingCircleDarkColor,
       required this.flashingCircleBrightColor,
-      required this.user});
+      required this.user,
+      required this.colorThemeConv});
 
   @override
   TypingIndicatorState createState() => TypingIndicatorState();
@@ -141,16 +143,18 @@ class TypingIndicatorState extends ConsumerState<TypingIndicator>
                     width: 25,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: cBlue),
+                      border: Border.all(color: widget.colorThemeConv),
                       color: cGrey.withOpacity(0.2),
                     ),
-                    child: const Icon(Icons.person, color: cBlue, size: 15),
+                    child: Icon(Icons.person,
+                        color: widget.colorThemeConv, size: 15),
                   )
                 : CachedNetworkImageCustom(
                     profilePictureUrl: widget.user.profilePictureUrl,
                     heightContainer: 25,
                     widthContainer: 25,
-                    iconSize: 15),
+                    iconSize: 15,
+                    colorTheme: widget.colorThemeConv),
           ),
           Expanded(
             child: Stack(

@@ -115,6 +115,7 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
                 messagesMedias: args![0],
                 message: args[1],
                 user: args[2],
+                colorTheme: args[3],
               )));
     case informationsConv:
       return MaterialPageRoute(
