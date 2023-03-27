@@ -126,11 +126,13 @@ class SettingsState extends ConsumerState<Settings> {
                 AppLocalization.of(context)
                     .translate("settings_screen", "logout_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("settings_screen", "logout_content"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
               ),
               actions: [
                 TextButton(
@@ -152,6 +154,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
                     )),
                 TextButton(
                     onPressed: () {
@@ -161,6 +164,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
                     ))
               ],
             );
@@ -185,11 +189,13 @@ class SettingsState extends ConsumerState<Settings> {
                 AppLocalization.of(context)
                     .translate("settings_screen", "delete_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("settings_screen", "delete_content"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
               ),
               actions: [
                 TextButton(
@@ -211,6 +217,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
                     )),
                 TextButton(
                     onPressed: () {
@@ -220,6 +227,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
                     ))
               ],
             );

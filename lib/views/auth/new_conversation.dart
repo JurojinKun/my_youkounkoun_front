@@ -203,7 +203,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
                   child: Container(
-                    height: 50.0,
+                    height: 45.0,
                     alignment: Alignment.center,
                     child: TextField(
                       scrollPhysics: const BouncingScrollPhysics(),

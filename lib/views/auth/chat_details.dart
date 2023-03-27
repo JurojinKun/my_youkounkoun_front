@@ -170,7 +170,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
-                              height: 50.0,
+                              height: 45.0,
                               child: TextField(
                                 minLines: 1,
                                 maxLines: 1,

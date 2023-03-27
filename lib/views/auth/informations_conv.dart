@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -11,6 +13,11 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:myyoukounkoun/views/auth/multimedias.dart';
+import 'package:myyoukounkoun/views/auth/search_messages.dart';
+import 'package:myyoukounkoun/views/auth/theme_conv.dart';
 
 class InformationsConv extends ConsumerStatefulWidget {
   final UserModel user;
@@ -27,6 +34,188 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
   late ConversationModel _currentConversation;
 
   int indexUserConv = 0;
+
+  Future _themeConvBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: true,
+        builder: (context) {
+          return const RouteObserverWidget(name: themeConv, child: ThemeConv());
+        });
+  }
+
+  Future _searchMessagesBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: true,
+        builder: (context) {
+          return const RouteObserverWidget(
+              name: searchMessages, child: SearchMessages());
+        });
+  }
+
+  Future _multimediasBottomSheet(BuildContext context) async {
+    return showMaterialModalBottomSheet(
+        context: context,
+        expand: true,
+        enableDrag: true,
+        builder: (context) {
+          return const RouteObserverWidget(
+              name: multimedias, child: Multimedias());
+        });
+  }
+
+  Future _showDialogDeleteChat() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black.withOpacity(0.1)
+            : Colors.white.withOpacity(0.1),
+        builder: (context) {
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialogCustom(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text(
+                "Effacer conversation",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
+              ),
+              content: Text(
+                "Es-tu sûr de vouloir supprimer la conversation entre ${widget.user.pseudo} et toi ?",
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
+                    ))
+              ],
+            );
+          });
+        });
+  }
+
+  Future _showDialogReportUser() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black.withOpacity(0.1)
+            : Colors.white.withOpacity(0.1),
+        builder: (context) {
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialogCustom(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text(
+                "Signaler ${widget.user.pseudo}",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
+              ),
+              content: Text(
+                "Es-tu sûr de vouloir signaler l'utilisateur ${widget.user.pseudo} ?",
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
+                    ))
+              ],
+            );
+          });
+        });
+  }
+
+  Future _showDialogBlockUser() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black.withOpacity(0.1)
+            : Colors.white.withOpacity(0.1),
+        builder: (context) {
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialogCustom(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text(
+                "Bloquer ${widget.user.pseudo}",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
+              ),
+              content: Text(
+                "Es-tu sûr de vouloir bloquer l'utilisateur ${widget.user.pseudo} ?",
+                style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
+                    ))
+              ],
+            );
+          });
+        });
+  }
 
   @override
   void initState() {
@@ -413,13 +602,14 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       .withOpacity(0.5),
               borderRadius: BorderRadius.circular(15.0),
               onTap: () {
-                ref
-                    .read(conversationsNotifierProvider.notifier)
-                    .newThemeConversation(
-                        _currentConversation.id, ["#c442c2", "#5142c4"]);
-                ref
-                    .read(currentConvNotifierProvider.notifier)
-                    .newThemeConversation(["#c442c2", "#5142c4"]);
+                _themeConvBottomSheet(context);
+                // ref
+                //     .read(conversationsNotifierProvider.notifier)
+                //     .newThemeConversation(
+                //         _currentConversation.id, ["#c442c2", "#5142c4"]);
+                // ref
+                //     .read(currentConvNotifierProvider.notifier)
+                //     .newThemeConversation(["#c442c2", "#5142c4"]);
               },
               child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -519,7 +709,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15.0),
                   topRight: Radius.circular(15.0)),
-              onTap: () => print("rechercher message"),
+              onTap: () => _searchMessagesBottomSheet(context),
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
@@ -546,86 +736,6 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           ),
         ),
         const SizedBox(height: 2.0),
-        if (_currentConversation.id != "temporary")
-          Column(
-            children: [
-              Container(
-                color: Theme.of(context).canvasColor,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    splashColor: _currentConversation.themeConv.isEmpty
-                        ? Color.lerp(const Color(0xFF4284C4),
-                                const Color(0xFF00A9BC), 0.5)!
-                            .withOpacity(0.5)
-                        : Color.lerp(
-                                Helpers.stringToColor(
-                                    _currentConversation.themeConv[0]),
-                                Helpers.stringToColor(
-                                    _currentConversation.themeConv[1]),
-                                0.5)!
-                            .withOpacity(0.5),
-                    highlightColor: _currentConversation.themeConv.isEmpty
-                        ? Color.lerp(const Color(0xFF4284C4),
-                                const Color(0xFF00A9BC), 0.5)!
-                            .withOpacity(0.5)
-                        : Color.lerp(
-                                Helpers.stringToColor(
-                                    _currentConversation.themeConv[0]),
-                                Helpers.stringToColor(
-                                    _currentConversation.themeConv[1]),
-                                0.5)!
-                            .withOpacity(0.5),
-                    onTap: () {
-                      if (_currentConversation.users[indexUserConv]
-                          ["convMute"]) {
-                        ref
-                            .read(conversationsNotifierProvider.notifier)
-                            .muteConversation(
-                                _currentConversation.id, indexUserConv, false);
-                        ref
-                            .read(currentConvNotifierProvider.notifier)
-                            .muteConversation(indexUserConv, false);
-                      } else {
-                        ref
-                            .read(conversationsNotifierProvider.notifier)
-                            .muteConversation(
-                                _currentConversation.id, indexUserConv, true);
-                        ref
-                            .read(currentConvNotifierProvider.notifier)
-                            .muteConversation(indexUserConv, true);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 10.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                              _currentConversation.users[indexUserConv]
-                                      ["convMute"]
-                                  ? Icons.notifications_active
-                                  : Icons.notifications_off,
-                              color: Helpers.uiApp(context)),
-                          const SizedBox(width: 15.0),
-                          Text(
-                            _currentConversation.users[indexUserConv]
-                                    ["convMute"]
-                                ? "Réactiver"
-                                : "Désactiver",
-                            style: textStyleCustomBold(
-                                Helpers.uiApp(context), 16.0),
-                            textScaleFactor: 1.0,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 2.0),
-            ],
-          ),
         Container(
           decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
@@ -660,7 +770,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(15.0),
                   bottomRight: Radius.circular(15.0)),
-              onTap: () => print("multimédias"),
+              onTap: () => _multimediasBottomSheet(context),
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
@@ -723,7 +833,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15.0),
                         topRight: Radius.circular(15.0)),
-                    onTap: () => print("effacer conversation"),
+                    onTap: () async {
+                      await _showDialogDeleteChat();
+                    },
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 10.0),
@@ -747,7 +859,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   child: InkWell(
                     splashColor: cRed.withOpacity(0.2),
                     highlightColor: cRed.withOpacity(0.2),
-                    onTap: () => print("signaler user"),
+                    onTap: () async {
+                      await _showDialogReportUser();
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
@@ -775,7 +889,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15.0),
                         topRight: Radius.circular(15.0)),
-                    onTap: () => print("signaler user"),
+                    onTap: () async {
+                      await _showDialogReportUser();
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
@@ -803,7 +919,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(15.0),
                     bottomRight: Radius.circular(15.0)),
-                onTap: () => print("bloquer user"),
+                onTap: () async {
+                  await _showDialogBlockUser();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),

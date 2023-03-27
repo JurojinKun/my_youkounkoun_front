@@ -36,11 +36,13 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                 AppLocalization.of(context)
                     .translate("new_maj_screen", "title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("new_maj_screen", "content_available"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0,
               ),
               actions: [
                 TextButton(
@@ -64,6 +66,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                       AppLocalization.of(context)
                           .translate("new_maj_screen", "go_now"),
                       style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
                     )),
                 TextButton(
                     onPressed: () async {
@@ -88,6 +91,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                       AppLocalization.of(context)
                           .translate("new_maj_screen", "later"),
                       style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
                     ))
               ],
             );
@@ -110,11 +114,13 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
             title: Text(
               AppLocalization.of(context).translate("new_maj_screen", "title"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
+              textScaleFactor: 1.0,
             ),
             content: Text(
               AppLocalization.of(context)
                   .translate("new_maj_screen", "content_required"),
               style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+              textScaleFactor: 1.0,
             ),
             actions: [
               TextButton(
@@ -135,6 +141,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                     AppLocalization.of(context)
                         .translate("new_maj_screen", "go_now"),
                     style: textStyleCustomMedium(cBlue, 14),
+                    textScaleFactor: 1.0,
                   )),
             ],
           );

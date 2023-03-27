@@ -8,15 +8,18 @@ import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:myyoukounkoun/views/auth/datas_test.dart';
 import 'package:myyoukounkoun/views/auth/informations_conv.dart';
 import 'package:myyoukounkoun/views/auth/infos_app.dart';
+import 'package:myyoukounkoun/views/auth/multimedias.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 import 'package:myyoukounkoun/views/auth/recent_searches.dart';
 import 'package:myyoukounkoun/views/auth/search.dart';
 import 'package:myyoukounkoun/views/auth/edit_account.dart';
 import 'package:myyoukounkoun/views/auth/edit_security.dart';
 import 'package:myyoukounkoun/views/auth/home.dart';
+import 'package:myyoukounkoun/views/auth/search_messages.dart';
 import 'package:myyoukounkoun/views/auth/settings.dart';
 import 'package:myyoukounkoun/views/auth/activities.dart';
 import 'package:myyoukounkoun/views/auth/profile.dart';
+import 'package:myyoukounkoun/views/auth/theme_conv.dart';
 import 'package:myyoukounkoun/views/auth/user_profile.dart';
 import 'package:myyoukounkoun/views/auth/validate_user.dart';
 import 'package:myyoukounkoun/views/nonAuth/forgot_password.dart';
@@ -120,8 +123,19 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
     case informationsConv:
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
-              name: informationsConv,
-              child: InformationsConv(user: args![0])));
+              name: informationsConv, child: InformationsConv(user: args![0])));
+    case themeConv:
+      return MaterialPageRoute(
+          builder: (_) =>
+              const RouteObserverWidget(name: themeConv, child: ThemeConv()));
+    case searchMessages:
+      return MaterialPageRoute(
+          builder: (_) => const RouteObserverWidget(
+              name: searchMessages, child: SearchMessages()));
+    case multimedias:
+      return MaterialPageRoute(
+          builder: (_) => const RouteObserverWidget(
+              name: multimedias, child: Multimedias()));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

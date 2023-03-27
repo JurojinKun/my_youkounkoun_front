@@ -25,6 +25,9 @@ const String infosApp = "infosApp";
 const String dataTest = "dataTest";
 const String carousselPictures = "carousselPictures";
 const String informationsConv = "informationsConv";
+const String themeConv = "themeConv";
+const String searchMessages = "searchMessages";
+const String multimedias = "multimedias";
 
 //route observer
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
