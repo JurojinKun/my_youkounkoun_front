@@ -54,9 +54,17 @@ class SettingsState extends ConsumerState<Settings> {
   }
 
   Future<void> _tryLogOut(BuildContext context) async {
+    setState(() {
+      _loadingLogout = true;
+    });
+
     try {
       //logic ws try log out
       await Future.delayed(const Duration(seconds: 1));
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
 
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
@@ -74,17 +82,35 @@ class SettingsState extends ConsumerState<Settings> {
       }
       ref.read(userNotifierProvider.notifier).clearUser();
       SyncSharedPrefsLib().prefs!.remove("user");
+      if (mounted) {
+        setState(() {
+          _loadingLogout = false;
+        });
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
+      }
+      if (mounted) {
+        setState(() {
+          _loadingLogout = false;
+        });
       }
     }
   }
 
   Future<void> _tryDeleteAccount(BuildContext context) async {
+    setState(() {
+      _loadingDeleteAccount = true;
+    });
+
     try {
       //logic ws delete account
       await Future.delayed(const Duration(seconds: 1));
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
 
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
@@ -102,9 +128,19 @@ class SettingsState extends ConsumerState<Settings> {
       }
       ref.read(userNotifierProvider.notifier).clearUser();
       SyncSharedPrefsLib().prefs!.remove("user");
+      if (mounted) {
+        setState(() {
+          _loadingDeleteAccount = false;
+        });
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
+      }
+      if (mounted) {
+        setState(() {
+          _loadingDeleteAccount = false;
+        });
       }
     }
   }
@@ -138,16 +174,7 @@ class SettingsState extends ConsumerState<Settings> {
                 TextButton(
                     onPressed: () async {
                       if (!_loadingLogout) {
-                        setState(() {
-                          _loadingLogout = true;
-                        });
                         await _tryLogOut(context);
-                        if (mounted) {
-                          setState(() {
-                            _loadingLogout = false;
-                          });
-                          Navigator.pop(context);
-                        }
                       }
                     },
                     child: Text(
@@ -201,16 +228,7 @@ class SettingsState extends ConsumerState<Settings> {
                 TextButton(
                     onPressed: () async {
                       if (!_loadingDeleteAccount) {
-                        setState(() {
-                          _loadingDeleteAccount = true;
-                        });
                         await _tryDeleteAccount(context);
-                        if (mounted) {
-                          setState(() {
-                          _loadingDeleteAccount = false;
-                        });
-                        Navigator.pop(context);
-                        }
                       }
                     },
                     child: Text(
@@ -393,10 +411,13 @@ class SettingsState extends ConsumerState<Settings> {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Helpers.uiApp(context),
-              size: 18,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
             )
           ],
         ),
@@ -432,10 +453,13 @@ class SettingsState extends ConsumerState<Settings> {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Helpers.uiApp(context),
-              size: 18,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
             )
           ],
         ),
@@ -467,33 +491,36 @@ class SettingsState extends ConsumerState<Settings> {
               ],
             ),
           ),
-          DropdownButton(
-            style: textStyleCustomBold(Helpers.uiApp(context), 16),
-            iconSize: 33,
-            iconEnabledColor: Helpers.uiApp(context),
-            underline: const SizedBox(),
-            dropdownColor: Theme.of(context).scaffoldBackgroundColor,
-            items: [
-              DropdownMenuItem(
-                  alignment: Alignment.center,
-                  value: const Locale('fr', ''),
-                  child: Text(
-                      AppLocalization.of(context)
-                          .translate("settings_screen", "language_french"),
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                      textScaleFactor: 1.0)),
-              DropdownMenuItem(
-                  alignment: Alignment.center,
-                  value: const Locale('en', ''),
-                  child: Text(
-                      AppLocalization.of(context)
-                          .translate("settings_screen", "language_english"),
-                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                      textScaleFactor: 1.0))
-            ],
-            value: _localeLanguage,
-            onChanged: dropdownCallback,
-          )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5),
+            child: DropdownButton(
+              style: textStyleCustomBold(Helpers.uiApp(context), 16),
+              iconSize: 33,
+              iconEnabledColor: Helpers.uiApp(context),
+              underline: const SizedBox(),
+              dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+              items: [
+                DropdownMenuItem(
+                    alignment: Alignment.center,
+                    value: const Locale('fr', ''),
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "language_french"),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        textScaleFactor: 1.0)),
+                DropdownMenuItem(
+                    alignment: Alignment.center,
+                    value: const Locale('en', ''),
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "language_english"),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        textScaleFactor: 1.0))
+              ],
+              value: _localeLanguage,
+              onChanged: dropdownCallback,
+            ),
+          ),
         ],
       ),
     );
@@ -524,31 +551,38 @@ class SettingsState extends ConsumerState<Settings> {
               ],
             ),
           ),
-          Row(
-            children: [
-              Icon(Icons.light_mode, color: Helpers.uiApp(context)),
-              Switch(
-                  activeColor: cBlue,
-                  value: _isDarkTheme,
-                  onChanged: (newTheme) async {
-                    setState(() {
-                      _isDarkTheme = newTheme;
-                    });
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5),
+            child: Row(
+              children: [
+                Icon(Icons.light_mode, color: Helpers.uiApp(context)),
+                Switch(
+                    activeColor: cBlue,
+                    value: _isDarkTheme,
+                    onChanged: (newTheme) async {
+                      setState(() {
+                        _isDarkTheme = newTheme;
+                      });
 
-                    if (newTheme) {
-                      await SyncSharedPrefsLib().prefs!.setString("theme", "darkTheme");
-                      ref
-                          .read(themeAppNotifierProvider.notifier)
-                          .setThemeApp("darkTheme");
-                    } else {
-                      await SyncSharedPrefsLib().prefs!.setString("theme", "lightTheme");
-                      ref
-                          .read(themeAppNotifierProvider.notifier)
-                          .setThemeApp("lightTheme");
-                    }
-                  }),
-              Icon(Icons.dark_mode, color: Helpers.uiApp(context)),
-            ],
+                      if (newTheme) {
+                        await SyncSharedPrefsLib()
+                            .prefs!
+                            .setString("theme", "darkTheme");
+                        ref
+                            .read(themeAppNotifierProvider.notifier)
+                            .setThemeApp("darkTheme");
+                      } else {
+                        await SyncSharedPrefsLib()
+                            .prefs!
+                            .setString("theme", "lightTheme");
+                        ref
+                            .read(themeAppNotifierProvider.notifier)
+                            .setThemeApp("lightTheme");
+                      }
+                    }),
+                Icon(Icons.dark_mode, color: Helpers.uiApp(context)),
+              ],
+            ),
           )
         ],
       ),
@@ -577,17 +611,20 @@ class SettingsState extends ConsumerState<Settings> {
               ],
             ),
           ),
-          Row(
-            children: [
-              Icon(Icons.notifications_off, color: Helpers.uiApp(context)),
-              Switch(
-                  activeColor: cBlue,
-                  value: pushToken.trim() != "" ? true : false,
-                  onChanged: (newSettingsNotifications) async {
-                    await AppSettings.openNotificationSettings();
-                  }),
-              Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5),
+            child: Row(
+              children: [
+                Icon(Icons.notifications_off, color: Helpers.uiApp(context)),
+                Switch(
+                    activeColor: cBlue,
+                    value: pushToken.trim() != "" ? true : false,
+                    onChanged: (newSettingsNotifications) async {
+                      await AppSettings.openNotificationSettings();
+                    }),
+                Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
+              ],
+            ),
           )
         ],
       ),
@@ -622,10 +659,13 @@ class SettingsState extends ConsumerState<Settings> {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Helpers.uiApp(context),
-              size: 18,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
             )
           ],
         ),

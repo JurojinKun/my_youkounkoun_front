@@ -399,6 +399,19 @@ class NewConversationState extends ConsumerState<NewConversation> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: ListTile(
+                      onTap: () {
+                        if (choice == null || choice != user.pseudo) {
+                          setState(() {
+                            choice = user.pseudo;
+                            choiceUser = user;
+                          });
+                        } else if (choice != null && choice == user.pseudo) {
+                          setState(() {
+                            choice = null;
+                            choiceUser = null;
+                          });
+                        }
+                      },
                       contentPadding: const EdgeInsets.symmetric(vertical: 5.0),
                       leading: user.profilePictureUrl.trim() == ""
                           ? Container(

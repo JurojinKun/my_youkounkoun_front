@@ -479,80 +479,148 @@ class RegisterState extends ConsumerState<Register>
                 const SizedBox(height: 35.0),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
-                  child: CheckboxListTile(
-                      value: _validCGU,
-                      dense: false,
-                      checkColor: Helpers.uiApp(context),
-                      activeColor: cBlue,
-                      side: BorderSide(color: Helpers.uiApp(context)),
-                      title: RichText(
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 1.0,
-                          text: TextSpan(
-                              text: AppLocalization.of(context)
-                                  .translate("register_screen", "accept_cgu"),
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14),
-                              children: [
-                                TextSpan(
-                                    text: AppLocalization.of(context)
-                                        .translate("register_screen", "cgu"),
-                                    style: textStyleCustomBold(cBlue, 14),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        //change url google to url cgu
-                                        Helpers.launchMyUrl(
-                                            "https://www.google.fr/");
-                                      }),
-                              ])),
-                      onChanged: (value) {
-                        setState(() {
-                          _validCGU = value!;
-                        });
-                      }),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 150,
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: RichText(
+                            textScaleFactor: 1.0,
+                            text: TextSpan(
+                                text: AppLocalization.of(context)
+                                    .translate("register_screen", "accept_cgu"),
+                                style: textStyleCustomMedium(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? cBlack
+                                        : cWhite,
+                                    14),
+                                children: [
+                                  TextSpan(
+                                      text: AppLocalization.of(context)
+                                          .translate("register_screen", "cgu"),
+                                      style: textStyleCustomBold(cBlue, 14),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          //change url google to url cgu
+                                          Helpers.launchMyUrl(
+                                              "https://www.google.fr/");
+                                        }),
+                                ])),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _validCGU = !_validCGU;
+                          });
+                        },
+                        child: Container(
+                          height: 25.0,
+                          width: 25.0,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              border: Border.all(
+                                  color: _validCGU
+                                      ? cBlue
+                                      : Helpers.uiApp(context), width: 2.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(1.5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: _validCGU
+                                      ? cBlue
+                                      : Theme.of(context)
+                                          .scaffoldBackgroundColor),
+                              child: _validCGU
+                                  ? Icon(
+                                      Icons.check,
+                                      size: 11,
+                                      color: Helpers.uiApp(context),
+                                    )
+                                  : const SizedBox(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
-                  child: CheckboxListTile(
-                      value: _validPrivacypolicy,
-                      dense: false,
-                      checkColor: Helpers.uiApp(context),
-                      activeColor: cBlue,
-                      side: BorderSide(color: Helpers.uiApp(context)),
-                      title: RichText(
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 1.0,
-                          text: TextSpan(
-                              text: AppLocalization.of(context).translate(
-                                  "register_screen", "accept_policy_privacy"),
-                              style: textStyleCustomMedium(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14),
-                              children: [
-                                TextSpan(
-                                    text: AppLocalization.of(context).translate(
-                                        "register_screen", "policy_privacy"),
-                                    style: textStyleCustomBold(cBlue, 14),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        //change url google to url cgu
-                                        Helpers.launchMyUrl(
-                                            "https://www.google.fr/");
-                                      }),
-                              ])),
-                      onChanged: (value) {
-                        setState(() {
-                          _validPrivacypolicy = value!;
-                        });
-                      }),
-                ),
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 150,
+                          margin: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: RichText(
+                              textScaleFactor: 1.0,
+                              text: TextSpan(
+                                  text: AppLocalization.of(context).translate(
+                                      "register_screen",
+                                      "accept_policy_privacy"),
+                                  style: textStyleCustomMedium(
+                                      Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      14),
+                                  children: [
+                                    TextSpan(
+                                        text: AppLocalization.of(context)
+                                            .translate("register_screen",
+                                                "policy_privacy"),
+                                        style: textStyleCustomBold(cBlue, 14),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            //change url google to url cgu
+                                            Helpers.launchMyUrl(
+                                                "https://www.google.fr/");
+                                          }),
+                                  ])),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _validPrivacypolicy = !_validPrivacypolicy;
+                            });
+                          },
+                          child: Container(
+                            height: 25.0,
+                            width: 25.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                border: Border.all(
+                                    color: _validPrivacypolicy
+                                        ? cBlue
+                                        : Helpers.uiApp(context), width: 2.0)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(1.5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: _validPrivacypolicy
+                                        ? cBlue
+                                        : Theme.of(context)
+                                            .scaffoldBackgroundColor),
+                                child: _validPrivacypolicy
+                                    ? Icon(
+                                        Icons.check,
+                                        size: 11,
+                                        color: Helpers.uiApp(context),
+                                      )
+                                    : const SizedBox(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
               ],
             ),
           )),
@@ -586,7 +654,8 @@ class RegisterState extends ConsumerState<Register>
                               });
                             }
                           },
-                          style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                          style:
+                              ElevatedButton.styleFrom(backgroundColor: cBlue),
                           child: _loadingStepOne
                               ? SizedBox(
                                   height: 15,
@@ -758,7 +827,8 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: cBlue),
                               child: _loadingStepTwo
                                   ? SizedBox(
                                       height: 15,
@@ -937,7 +1007,8 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: cBlue),
                               child: _loadingStepThree
                                   ? SizedBox(
                                       height: 15,
@@ -1096,7 +1167,8 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: cBlue),
                               child: _loadingStepFourth
                                   ? SizedBox(
                                       height: 15,
@@ -1247,7 +1319,8 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: cBlue),
                               child: _loadingStepFifth
                                   ? SizedBox(
                                       height: 15,
@@ -1431,7 +1504,9 @@ class RegisterState extends ConsumerState<Register>
                                     "validEmail": false
                                   };
                                   String encodedUserMap = json.encode(userMap);
-                                  SyncSharedPrefsLib().prefs!.setString("user", encodedUserMap);
+                                  SyncSharedPrefsLib()
+                                      .prefs!
+                                      .setString("user", encodedUserMap);
                                   ref
                                       .read(userNotifierProvider.notifier)
                                       .setUser(UserModel.fromJSON(userMap));
@@ -1440,7 +1515,8 @@ class RegisterState extends ConsumerState<Register>
                                   });
                                 }
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: cBlue),
                               child: _loadingStepSixth
                                   ? SizedBox(
                                       height: 15,
