@@ -145,8 +145,8 @@ class ProfileState extends ConsumerState<Profile>
                       imageUrl: user.profilePictureUrl,
                       imageBuilder: ((context, imageProvider) {
                         return Container(
-                            height: 175,
-                            width: 175,
+                            height: 145,
+                            width: 145,
                             foregroundDecoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(color: cBlue),
@@ -158,7 +158,7 @@ class ProfileState extends ConsumerState<Profile>
                               color: cGrey.withOpacity(0.2),
                             ),
                             child: const Icon(Icons.person,
-                                color: cBlue, size: 75));
+                                color: cBlue, size: 55));
                       }),
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) {
@@ -174,26 +174,26 @@ class ProfileState extends ConsumerState<Profile>
                         }
 
                         return Container(
-                          height: 175,
-                          width: 175,
+                          height: 145,
+                          width: 145,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: cBlue),
                             color: cGrey.withOpacity(0.2),
                           ),
                           child:
-                              const Icon(Icons.person, color: cBlue, size: 75),
+                              const Icon(Icons.person, color: cBlue, size: 55),
                         );
                       },
                       errorWidget: (context, url, error) => Container(
-                        height: 175,
-                        width: 175,
+                        height: 145,
+                        width: 145,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: cBlue),
                           color: cGrey.withOpacity(0.2),
                         ),
-                        child: const Icon(Icons.person, color: cBlue, size: 75),
+                        child: const Icon(Icons.person, color: cBlue, size: 55),
                       ),
                     ),
               const SizedBox(

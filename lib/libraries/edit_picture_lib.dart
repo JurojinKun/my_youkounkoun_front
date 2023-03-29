@@ -182,10 +182,11 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
               ),
             ),
             Expanded(
-                child: Ink(
+                child: Material(
+              color: Colors.transparent,
               child: InkWell(
-                splashColor: cBlue.withOpacity(0.3),
-                highlightColor: cBlue.withOpacity(0.3),
+                splashColor: cBlue.withOpacity(0.1),
+                highlightColor: cBlue.withOpacity(0.1),
                 onTap: () async {
                   if (widget.cropped) {
                     await EditPictureLib.pickImageWithCropped(
@@ -215,10 +216,11 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
               ),
             )),
             Expanded(
-                child: Ink(
+                child: Material(
+              color: Colors.transparent,
               child: InkWell(
-                splashColor: cBlue.withOpacity(0.3),
-                highlightColor: cBlue.withOpacity(0.3),
+                splashColor: cBlue.withOpacity(0.1),
+                highlightColor: cBlue.withOpacity(0.1),
                 onTap: () async {
                   if (widget.cropped) {
                     await EditPictureLib.pickImageWithCropped(

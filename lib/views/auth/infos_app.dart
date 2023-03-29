@@ -121,10 +121,13 @@ class InfosAppState extends ConsumerState<InfosApp> {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Helpers.uiApp(context),
-              size: 18,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
             )
           ],
         ),
@@ -163,10 +166,13 @@ class InfosAppState extends ConsumerState<InfosApp> {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Helpers.uiApp(context),
-              size: 18,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
             )
           ],
         ),
@@ -200,9 +206,12 @@ class InfosAppState extends ConsumerState<InfosApp> {
               ],
             ),
           ),
-          Text(versionApp,
-              style: textStyleCustomBold(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5),
+            child: Text(versionApp,
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0),
+          )
         ],
       ),
     );

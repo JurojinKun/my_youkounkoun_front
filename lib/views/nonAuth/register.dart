@@ -1377,14 +1377,14 @@ class RegisterState extends ConsumerState<Register>
                 Expanded(
                   child: Center(
                     child: SizedBox(
-                      height: 175,
-                      width: 175,
+                      height: 145,
+                      width: 145,
                       child: Stack(
                         children: [
                           validProfilePicture == null
                               ? Container(
-                                  height: 175,
-                                  width: 175,
+                                  height: 145,
+                                  width: 145,
                                   decoration: BoxDecoration(
                                       color: cGrey.withOpacity(0.2),
                                       shape: BoxShape.circle,
@@ -1393,12 +1393,12 @@ class RegisterState extends ConsumerState<Register>
                                   child: const Icon(
                                     Icons.person,
                                     color: cBlue,
-                                    size: 75.0,
+                                    size: 55.0,
                                   ),
                                 )
                               : Container(
-                                  height: 175,
-                                  width: 175,
+                                  height: 145,
+                                  width: 145,
                                   foregroundDecoration: BoxDecoration(
                                       color: cGrey.withOpacity(0.2),
                                       shape: BoxShape.circle,
@@ -1416,7 +1416,7 @@ class RegisterState extends ConsumerState<Register>
                                   child: const Icon(
                                     Icons.person,
                                     color: cBlue,
-                                    size: 75.0,
+                                    size: 55.0,
                                   ),
                                 ),
                           Align(

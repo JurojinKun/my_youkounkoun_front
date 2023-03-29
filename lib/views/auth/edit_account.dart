@@ -281,14 +281,14 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(height: 20.0),
             Center(
               child: SizedBox(
-                height: 175,
-                width: 175,
+                height: 145,
+                width: 145,
                 child: Stack(
                   children: [
                     editPictureProfile != null
                         ? Container(
-                            height: 175,
-                            width: 175,
+                            height: 145,
+                            width: 145,
                             foregroundDecoration: BoxDecoration(
                                 color: cGrey.withOpacity(0.2),
                                 shape: BoxShape.circle,
@@ -305,7 +305,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             child: const Icon(
                               Icons.person,
                               color: cBlue,
-                              size: 60.0,
+                              size: 55.0,
                             ),
                           )
                         : user.profilePictureUrl.trim() == "" ||
@@ -313,8 +313,8 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                         ConnectivityResult.none &&
                                     !profilePictureAlreadyLoaded)
                             ? Container(
-                                height: 175,
-                                width: 175,
+                                height: 145,
+                                width: 145,
                                 decoration: BoxDecoration(
                                     color: cGrey.withOpacity(0.2),
                                     shape: BoxShape.circle,
@@ -323,15 +323,15 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                 child: const Icon(
                                   Icons.person,
                                   color: cBlue,
-                                  size: 75.0,
+                                  size: 55.0,
                                 ),
                               )
                             : CachedNetworkImage(
                                 imageUrl: user.profilePictureUrl,
                                 imageBuilder: ((context, imageProvider) {
                                   return Container(
-                                      height: 175,
-                                      width: 175,
+                                      height: 145,
+                                      width: 145,
                                       foregroundDecoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(color: cBlue),
@@ -344,7 +344,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                         color: cGrey.withOpacity(0.2),
                                       ),
                                       child: const Icon(Icons.person,
-                                          color: cBlue, size: 75));
+                                          color: cBlue, size: 55));
                                 }),
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) {
@@ -361,27 +361,27 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                   }
 
                                   return Container(
-                                    height: 175,
-                                    width: 175,
+                                    height: 145,
+                                    width: 145,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(color: cBlue),
                                       color: cGrey.withOpacity(0.2),
                                     ),
                                     child: const Icon(Icons.person,
-                                        color: cBlue, size: 75),
+                                        color: cBlue, size: 55),
                                   );
                                 },
                                 errorWidget: (context, url, error) => Container(
-                                  height: 175,
-                                  width: 175,
+                                  height: 145,
+                                  width: 145,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: cBlue),
                                     color: cGrey.withOpacity(0.2),
                                   ),
                                   child: const Icon(Icons.person,
-                                      color: cBlue, size: 75),
+                                      color: cBlue, size: 55),
                                 ),
                               ),
                     Align(

@@ -163,20 +163,20 @@ class UserProfileState extends ConsumerState<UserProfile> {
               children: [
                 widget.user.profilePictureUrl.trim() == ""
                     ? Container(
-                        height: 175,
-                        width: 175,
+                        height: 145,
+                        width: 145,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: cBlue),
                           color: cGrey.withOpacity(0.2),
                         ),
-                        child: const Icon(Icons.person, color: cBlue, size: 75),
+                        child: const Icon(Icons.person, color: cBlue, size: 55),
                       )
                     : CachedNetworkImageCustom(
                         profilePictureUrl: widget.user.profilePictureUrl,
-                        heightContainer: 175,
-                        widthContainer: 175,
-                        iconSize: 75),
+                        heightContainer: 145,
+                        widthContainer: 145,
+                        iconSize: 55),
                 const SizedBox(
                   height: 15.0,
                 ),
