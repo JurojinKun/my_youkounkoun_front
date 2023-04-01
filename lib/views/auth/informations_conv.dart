@@ -603,13 +603,6 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               borderRadius: BorderRadius.circular(15.0),
               onTap: () {
                 _themeConvBottomSheet(context);
-                // ref
-                //     .read(conversationsNotifierProvider.notifier)
-                //     .newThemeConversation(
-                //         _currentConversation.id, ["#c442c2", "#5142c4"]);
-                // ref
-                //     .read(currentConvNotifierProvider.notifier)
-                //     .newThemeConversation(["#c442c2", "#5142c4"]);
               },
               child: Padding(
                   padding: const EdgeInsets.symmetric(

@@ -210,13 +210,12 @@ class SearchState extends ConsumerState<Search>
                 enablePullDown: true,
                 enablePullUp: true,
                 header: WaterDropMaterialHeader(
-                  offset: MediaQuery.of(context).padding.top +
-                      appBar.preferredSize.height +
-                      65.0,
-                  distance: 40.0,
-                  backgroundColor: cBlue,
-                  color: cBlack
-                ),
+                    offset: MediaQuery.of(context).padding.top +
+                        appBar.preferredSize.height +
+                        65.0,
+                    distance: 40.0,
+                    backgroundColor: cBlue,
+                    color: cBlack),
                 footer: ClassicFooter(
                   height: MediaQuery.of(context).padding.bottom + 110.0,
                   iconPos: IconPosition.top,
@@ -273,30 +272,40 @@ class SearchState extends ConsumerState<Search>
   }
 
   Widget datasShimmer() {
-    return GridView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15,
-            childAspectRatio: 1.0,
-            mainAxisExtent: 200.0),
-        itemCount: 10,
-        itemBuilder: (_, int index) {
-          return Shimmer.fromColors(
-            baseColor: Theme.of(context).scaffoldBackgroundColor,
-            highlightColor: cBlue.withOpacity(0.5),
-            direction: ShimmerDirection.ltr,
-            period: const Duration(milliseconds: 1000),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(10.0)),
-            ),
-          );
-        });
+    return Stack(
+      children: [
+        Shimmer.fromColors(
+          baseColor: Theme.of(context).canvasColor,
+          highlightColor: cBlue.withOpacity(0.5),
+          child: GridView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 1.0,
+                  mainAxisExtent: 200.0),
+              itemCount: 6,
+              itemBuilder: (_, int index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.0)),
+                );
+              }),
+        ),
+        Positioned.fill(
+          bottom: MediaQuery.of(context).size.height,
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.pink,
+            child: Container(),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget datasItems() {

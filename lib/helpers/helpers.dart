@@ -202,4 +202,9 @@ class Helpers {
     return Color(
         int.parse(colorString.substring(1, 7), radix: 16) + 0xFF000000);
   }
+
+  static String colorToString(Color color) {
+    String hexaString = "#${color.value.toRadixString(16).substring(2).toUpperCase()}";
+    return hexaString;
+  }
 }
