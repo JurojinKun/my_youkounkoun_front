@@ -281,46 +281,39 @@ class NotificationsLib {
 
       //logic de mise en silence d'une nouvelle notif push si le user est déjà sur le screen activities index 1 ou sur le chat details
       if (notification != null && !kIsWeb) {
-        // if (message.data["type"] == "I") {
-        //   if (tabControllerActivities == null ||
-        //       (tabControllerBottomNav!.index != 2 ||
-        //           tabControllerActivities!.index != 1)) {
-        //     flutterLocalNotificationsPlugin.show(
-        //       notification.hashCode,
-        //       notification.title,
-        //       notification.body,
-        //       platformChannelSpecifics,
-        //     );
-        //   }
-        //   //à voir si ça suffit pour add la notif dans la liste des notifs
-        //   if (ref.read(notificationsNotifierProvider) != null) {
-        //     NotificationModel newNotif =
-        //         NotificationModel.fromJSON(message.data["data"]);
-        //     ref
-        //         .read(notificationsNotifierProvider.notifier)
-        //         .addNewNotification(newNotif);
-        //   }
-        // } else if (message.data["type"] == "M") {
-        //   if (ref.read(currentRouteAppNotifierProvider) != "chatDetails") {
-        //     flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //         notification.title, notification.body, platformChannelSpecifics,
-        //         payload: message.data["idSender"]);
-        //   } else if (ref.read(currentRouteAppNotifierProvider) ==
-        //           "chatDetails" &&
-        //       ref.read(currentChatUserIdNotifierProvider) !=
-        //           message.data["idSender"]) {
-        //     flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //         notification.title, notification.body, platformChannelSpecifics,
-        //         payload: message.data["idSender"]);
-        //   }
-        // }
-
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          platformChannelSpecifics,
-        );
+        if (message.data["type"] == "I") {
+          if (tabControllerActivities == null ||
+              (tabControllerBottomNav!.index != 2 ||
+                  tabControllerActivities!.index != 1)) {
+            flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              platformChannelSpecifics,
+            );
+          }
+          //à voir si ça suffit pour add la notif dans la liste des notifs
+          if (ref.read(notificationsNotifierProvider) != null) {
+            NotificationModel newNotif =
+                NotificationModel.fromJSON(message.data["data"]);
+            ref
+                .read(notificationsNotifierProvider.notifier)
+                .addNewNotification(newNotif);
+          }
+        } else if (message.data["type"] == "M") {
+          if (ref.read(currentRouteAppNotifierProvider) != "chatDetails") {
+            flutterLocalNotificationsPlugin.show(notification.hashCode,
+                notification.title, notification.body, platformChannelSpecifics,
+                payload: message.data["idSender"]);
+          } else if (ref.read(currentRouteAppNotifierProvider) ==
+                  "chatDetails" &&
+              ref.read(currentChatUserIdNotifierProvider) !=
+                  message.data["idSender"]) {
+            flutterLocalNotificationsPlugin.show(notification.hashCode,
+                notification.title, notification.body, platformChannelSpecifics,
+                payload: message.data["idSender"]);
+          }
+        }
 
         //logic de test de mise en silence de notifs push
         // if (tabControllerActivities == null ||
