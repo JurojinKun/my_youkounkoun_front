@@ -13,7 +13,7 @@
     <application
         android:label="My youkounkoun"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:allowBackup="false">
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -55,7 +55,7 @@
         </receiver>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notif_new"/>
+            android:resource="@mipmap/ic_notif_new"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />

@@ -178,7 +178,7 @@ class NotificationsLib {
       TickerProvider tickerProvider) async {
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notif_new');
+        AndroidInitializationSettings('@mipmap/ic_notif_new');
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
             onDidReceiveLocalNotification: onDidReceiveLocalNotification);

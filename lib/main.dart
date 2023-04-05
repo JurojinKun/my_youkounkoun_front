@@ -92,7 +92,6 @@ class MyAppState extends ConsumerState<MyApp> {
 
   //add all assets in our app here
   List<Image> imagesApp = [
-    Image.asset("assets/images/ic_app.png"),
     Image.asset("assets/images/ic_app_new.png")
   ];
 
