@@ -108,11 +108,8 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
 
   assets: 
-    - assets/images/ic_app.png
     - assets/images/ic_app_new.png
-    - assets/logos/ic_launcher.png
     - assets/logos/ic_launcher_new.png
-    - assets/logos/ic_splash.png
     - assets/logos/ic_splash_new.png
     - lib/translations/locales/fr.json
     - lib/translations/locales/en.json
