@@ -6,7 +6,9 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 
 class SearchMessages extends ConsumerStatefulWidget {
-  const SearchMessages({Key? key}) : super(key: key);
+  final String keyWords;
+
+  const SearchMessages({Key? key, required this.keyWords}) : super(key: key);
 
   @override
   SearchMessagesState createState() => SearchMessagesState();
@@ -39,8 +41,9 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
             backgroundColor: Colors.transparent,
             systemOverlayStyle: Helpers.uiOverlayApp(context),
             title: Text(
-              "Rechercher messages",
+              widget.keyWords,
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),

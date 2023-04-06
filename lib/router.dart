@@ -130,8 +130,8 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
               const RouteObserverWidget(name: themeConv, child: ThemeConv()));
     case searchMessages:
       return MaterialPageRoute(
-          builder: (_) => const RouteObserverWidget(
-              name: searchMessages, child: SearchMessages()));
+          builder: (_) => RouteObserverWidget(
+              name: searchMessages, child: SearchMessages(keyWords: args![0])));
     case multimedias:
       return MaterialPageRoute(
           builder: (_) => const RouteObserverWidget(

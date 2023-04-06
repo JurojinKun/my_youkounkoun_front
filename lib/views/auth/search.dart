@@ -241,6 +241,8 @@ class SearchState extends ConsumerState<Search>
                   ),
                   canLoadingIcon: const SizedBox(),
                   idleIcon: const SizedBox(),
+                  idleText: "",
+                  canLoadingText: "",
                 ),
                 onRefresh: _refreshDatasSearch,
                 onLoading: _loadMoreDatasSearch,
@@ -272,39 +274,27 @@ class SearchState extends ConsumerState<Search>
   }
 
   Widget datasShimmer() {
-    return Stack(
-      children: [
-        Shimmer.fromColors(
-          baseColor: Theme.of(context).canvasColor,
-          highlightColor: cBlue.withOpacity(0.5),
-          child: GridView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  childAspectRatio: 1.0,
-                  mainAxisExtent: 200.0),
-              itemCount: 6,
-              itemBuilder: (_, int index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.0)),
-                );
-              }),
-        ),
-        Positioned.fill(
-          bottom: MediaQuery.of(context).size.height,
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.pink,
-            child: Container(),
-          ),
-        ),
-      ],
+    return Shimmer.fromColors(
+      baseColor: Theme.of(context).canvasColor,
+      highlightColor: cBlue.withOpacity(0.5),
+      child: GridView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              childAspectRatio: 1.0,
+              mainAxisExtent: 200.0),
+          itemCount: 6,
+          itemBuilder: (_, int index) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10.0)),
+            );
+          }),
     );
   }
 

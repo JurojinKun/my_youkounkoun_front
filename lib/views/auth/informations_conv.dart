@@ -32,8 +32,11 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
   final AppBar appBar = AppBar();
 
   late ConversationModel _currentConversation;
-
   int indexUserConv = 0;
+
+  bool searchEnabled = false;
+  late TextEditingController _searchMessagesController;
+  late FocusNode _searchMessagesFocusNode;
 
   Future _themeConvBottomSheet(BuildContext context) async {
     return showMaterialModalBottomSheet(
@@ -51,8 +54,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
         expand: true,
         enableDrag: true,
         builder: (context) {
-          return const RouteObserverWidget(
-              name: searchMessages, child: SearchMessages());
+          return RouteObserverWidget(
+              name: searchMessages,
+              child: SearchMessages(keyWords: _searchMessagesController.text));
         });
   }
 
@@ -227,60 +231,84 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
             ref.read(currentConvNotifierProvider).users.indexOf(user);
       }
     }
+
+    _searchMessagesController = TextEditingController();
+    _searchMessagesFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _searchMessagesFocusNode.dispose();
+    _searchMessagesController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     _currentConversation = ref.watch(currentConvNotifierProvider);
 
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: PreferredSize(
-          preferredSize: Size(
-              MediaQuery.of(context).size.width, appBar.preferredSize.height),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBar(
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                shadowColor: Colors.transparent,
-                backgroundColor: Colors.transparent,
-                systemOverlayStyle: Helpers.uiOverlayApp(context),
-                leading: Material(
-                  color: Colors.transparent,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.hardEdge,
-                  child: IconButton(
-                      onPressed: () => navAuthKey.currentState!.pop(),
-                      icon: Icon(Icons.arrow_back_ios,
-                          color: Helpers.uiApp(context))),
+    return Stack(
+      children: [
+        Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: PreferredSize(
+              preferredSize: Size(MediaQuery.of(context).size.width,
+                  appBar.preferredSize.height),
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: AppBar(
+                    automaticallyImplyLeading: false,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    backgroundColor: Colors.transparent,
+                    systemOverlayStyle: Helpers.uiOverlayApp(context),
+                    leading: Material(
+                      color: Colors.transparent,
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: IconButton(
+                          onPressed: () => navAuthKey.currentState!.pop(),
+                          icon: Icon(Icons.arrow_back_ios,
+                              color: Helpers.uiApp(context))),
+                    ),
+                    title: Text(
+                      "Informations conversation",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                      textScaleFactor: 1.0,
+                    ),
+                    centerTitle: false,
+                  ),
                 ),
-                title: Text(
-                  "Informations conversation",
-                  style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0,
-                ),
-                centerTitle: false,
               ),
             ),
-          ),
-        ),
-        body: SizedBox.expand(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(
-                20.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
+            body: SizedBox.expand(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
                     20.0,
-                20.0,
-                MediaQuery.of(context).padding.bottom + 20.0),
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            child: infosConv(),
-          ),
-        ));
+                    MediaQuery.of(context).padding.top +
+                        appBar.preferredSize.height +
+                        20.0,
+                    20.0,
+                    MediaQuery.of(context).padding.bottom + 20.0),
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                child: infosConv(),
+              ),
+            )),
+        if (searchEnabled)
+          WillPopScope(
+              onWillPop: () async {
+                setState(() {
+                  searchEnabled = false;
+                });
+                _searchMessagesController.clear();
+                return false;
+              },
+              child: searchMessagesBar())
+      ],
+    );
   }
 
   Widget infosConv() {
@@ -702,7 +730,11 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15.0),
                   topRight: Radius.circular(15.0)),
-              onTap: () => _searchMessagesBottomSheet(context),
+              onTap: () {
+                setState(() {
+                  searchEnabled = true;
+                });
+              },
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
@@ -927,6 +959,128 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               ),
             )),
       ],
+    );
+  }
+
+  Widget searchMessagesBar() {
+    return SizedBox.expand(
+      child: Container(
+          color: Colors.black.withOpacity(0.5),
+          alignment: Alignment.topCenter,
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            height: 80,
+            child: Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Container(
+                    height: 40.0,
+                    alignment: Alignment.center,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: TextField(
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        controller: _searchMessagesController,
+                        autofocus: true,
+                        focusNode: _searchMessagesFocusNode,
+                        cursorColor: Theme.of(context).colorScheme.primary,
+                        textInputAction: TextInputAction.search,
+                        maxLines: 1,
+                        style: textStyleCustomMedium(
+                            _searchMessagesFocusNode.hasFocus
+                                ? Theme.of(context).colorScheme.primary
+                                : cGrey,
+                            14 / MediaQuery.of(context).textScaleFactor),
+                        decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.only(top: 15.0, left: 15.0),
+                            filled: true,
+                            fillColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            hintText: "Rechercher un message",
+                            hintStyle: textStyleCustomMedium(
+                                _searchMessagesFocusNode.hasFocus
+                                    ? cBlue
+                                    : cGrey,
+                                14),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: cGrey),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: cBlue,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0)),
+                            prefixIcon: const Icon(
+                              Icons.search_sharp,
+                              size: 20,
+                            ),
+                            suffixIcon: _searchMessagesController
+                                    .text.isNotEmpty
+                                ? Material(
+                                    color: Colors.transparent,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _searchMessagesController.clear();
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.clear,
+                                          size: 20,
+                                          color:
+                                              _searchMessagesFocusNode.hasFocus
+                                                  ? cBlue
+                                                  : cGrey,
+                                        )),
+                                  )
+                                : const SizedBox()),
+                        onTap: () {
+                          setState(() {
+                            FocusScope.of(context)
+                                .requestFocus(_searchMessagesFocusNode);
+                          });
+                        },
+                        onEditingComplete: () async {
+                          Helpers.hideKeyboard(context);
+                          setState(() {
+                            searchEnabled = false;
+                          });
+                          if (_searchMessagesController.text.isNotEmpty &&
+                              _searchMessagesController.text.trim() != "") {
+                            await _searchMessagesBottomSheet(context);
+                          }
+                          _searchMessagesController.clear();
+                        },
+                      ),
+                    ),
+                  ),
+                )),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        searchEnabled = false;
+                      });
+                      _searchMessagesController.clear();
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+                      textScaleFactor: 1.0,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )),
     );
   }
 }
