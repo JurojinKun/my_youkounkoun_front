@@ -4,10 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
+import 'package:myyoukounkoun/components/text_highlights.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -25,6 +28,8 @@ class SearchMessages extends ConsumerStatefulWidget {
 
 class SearchMessagesState extends ConsumerState<SearchMessages> {
   final AppBar appBar = AppBar();
+
+  late ConversationModel _currentConversation;
 
   late RefreshController refreshController;
 
@@ -99,6 +104,8 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
 
   @override
   Widget build(BuildContext context) {
+    _currentConversation = ref.watch(currentConvNotifierProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBodyBehindAppBar: true,
@@ -140,6 +147,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                     icon: Icon(
                       Icons.clear,
                       color: Helpers.uiApp(context),
+                      size: 33,
                     )),
               )
             ],
@@ -152,8 +160,18 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
   Widget bodySearchMessages() {
     return SizedBox.expand(
       child: !_loadedSearchedMessages
-          ? const Center(
-              child: CircularProgressIndicator(color: cBlue, strokeWidth: 1.0),
+          ? Center(
+              child: CircularProgressIndicator(
+                  color: _currentConversation.themeConv.isEmpty
+                      ? Color.lerp(const Color(0xFF4284C4),
+                          const Color(0xFF00A9BC), 0.5)!
+                      : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!,
+                  strokeWidth: 1.0),
             )
           : searchedMessagesConv(),
     );
@@ -169,7 +187,13 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
           )
         : GlowingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            color: cBlue,
+            color: _currentConversation.themeConv.isEmpty
+                ? Color.lerp(
+                    const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                : Color.lerp(
+                    Helpers.stringToColor(_currentConversation.themeConv[0]),
+                    Helpers.stringToColor(_currentConversation.themeConv[1]),
+                    0.5)!,
             child: SmartRefresher(
                 controller: refreshController,
                 physics: const AlwaysScrollableScrollPhysics(
@@ -180,13 +204,22 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                   height: MediaQuery.of(context).padding.bottom + 30.0,
                   iconPos: IconPosition.top,
                   loadingText: "",
-                  loadingIcon: const Align(
+                  loadingIcon: Align(
                     alignment: Alignment.topCenter,
                     child: SizedBox(
                         height: 20.0,
                         width: 20.0,
                         child: CircularProgressIndicator(
-                            color: cBlue, strokeWidth: 1.0)),
+                            color: _currentConversation.themeConv.isEmpty
+                                ? Color.lerp(const Color(0xFF4284C4),
+                                    const Color(0xFF00A9BC), 0.5)!
+                                : Color.lerp(
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[0]),
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[1]),
+                                    0.5)!,
+                            strokeWidth: 1.0)),
                   ),
                   noDataText: "",
                   noMoreIcon: Align(
@@ -238,11 +271,31 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             width: 45,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
+                              border: Border.all(
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!),
                               color: cGrey.withOpacity(0.2),
                             ),
-                            child: const Icon(Icons.person,
-                                color: cBlue, size: 28),
+                            child: Icon(Icons.person,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)!
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5)!,
+                                size: 28),
                           )
                         : CachedNetworkImageCustom(
                             profilePictureUrl: widget.user.profilePictureUrl,
@@ -256,46 +309,14 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.user.pseudo,
-                            style: textStyleCustomBold(
-                                Helpers.uiApp(context),
-                                16),
-                            textScaleFactor: 1.0),
-                        const SizedBox(width: 5.0),
-                        Wrap(
+                        Row(
                           children: [
-                            message.message.length <= 40
-                                ? Text(message.message,
-                                    style: textStyleCustomRegular(cGrey, 14),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textScaleFactor: 1.0)
-                                : RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              message.message.substring(0, 40),
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                        TextSpan(
-                                          text: '...',
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                        TextSpan(
-                                          text: message.message.substring(40),
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                      ],
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                            Text(widget.user.pseudo,
+                                style: textStyleCustomBold(
+                                    Helpers.uiApp(context), 16),
+                                textScaleFactor: 1.0),
                             Container(
-                              height: 14.0,
+                              height: 10.0,
                               width: 10.0,
                               alignment: Alignment.center,
                               child: Container(
@@ -305,7 +326,8 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                     color: cGrey, shape: BoxShape.circle),
                               ),
                             ),
-                            Text(
+                            Flexible(
+                              child: Text(
                                 Helpers.formatDateDayWeek(
                                     int.parse(message.timestamp),
                                     ref
@@ -313,9 +335,17 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                         .languageCode,
                                     false),
                                 style: textStyleCustomRegular(cGrey, 14),
-                                textScaleFactor: 1.0)
+                                textScaleFactor: 1.0,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
                           ],
-                        )
+                        ),
+                        const SizedBox(width: 5.0),
+                        TextHighlight(
+                            text: message.message,
+                            keyword: widget.keyWords,
+                            brightness: Theme.of(context).brightness),
                       ],
                     ),
                   ),
@@ -339,11 +369,31 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             width: 45,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
+                              border: Border.all(
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!),
                               color: cGrey.withOpacity(0.2),
                             ),
-                            child: const Icon(Icons.person,
-                                color: cBlue, size: 28),
+                            child: Icon(Icons.person,
+                                color: _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)!
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5)!,
+                                size: 28),
                           )
                         : CachedNetworkImageCustom(
                             profilePictureUrl: ref
@@ -351,7 +401,17 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                 .profilePictureUrl,
                             heightContainer: 45,
                             widthContainer: 45,
-                            iconSize: 28),
+                            iconSize: 28,
+                            colorTheme: _currentConversation.themeConv.isEmpty
+                                ? Color.lerp(const Color(0xFF4284C4),
+                                    const Color(0xFF00A9BC), 0.5)!
+                                : Color.lerp(
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[0]),
+                                    Helpers.stringToColor(
+                                        _currentConversation.themeConv[1]),
+                                    0.5)!,
+                          ),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
@@ -359,46 +419,14 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(ref.read(userNotifierProvider).pseudo,
-                            style: textStyleCustomBold(
-                                Helpers.uiApp(context),
-                                16),
-                            textScaleFactor: 1.0),
-                        const SizedBox(width: 5.0),
-                        Wrap(
+                        Row(
                           children: [
-                            message.message.length <= 40
-                                ? Text(message.message,
-                                    style: textStyleCustomRegular(cGrey, 14),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textScaleFactor: 1.0)
-                                : RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              message.message.substring(0, 40),
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                        TextSpan(
-                                          text: '...',
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                        TextSpan(
-                                          text: message.message.substring(40),
-                                          style:
-                                              textStyleCustomRegular(cGrey, 14),
-                                        ),
-                                      ],
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                            Text(ref.read(userNotifierProvider).pseudo,
+                                style: textStyleCustomBold(
+                                    Helpers.uiApp(context), 16),
+                                textScaleFactor: 1.0),
                             Container(
-                              height: 14.0,
+                              height: 10.0,
                               width: 10.0,
                               alignment: Alignment.center,
                               child: Container(
@@ -408,17 +436,25 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                     color: cGrey, shape: BoxShape.circle),
                               ),
                             ),
-                            Text(
-                                Helpers.formatDateDayWeek(
-                                    int.parse(message.timestamp),
-                                    ref
-                                        .read(localeLanguageNotifierProvider)
-                                        .languageCode,
-                                    false),
-                                style: textStyleCustomRegular(cGrey, 14),
-                                textScaleFactor: 1.0)
+                            Flexible(
+                              child: Text(
+                                  Helpers.formatDateDayWeek(
+                                      int.parse(message.timestamp),
+                                      ref
+                                          .read(localeLanguageNotifierProvider)
+                                          .languageCode,
+                                      false),
+                                  style: textStyleCustomRegular(cGrey, 14),
+                                  textScaleFactor: 1.0,
+                                  overflow: TextOverflow.ellipsis),
+                            )
                           ],
-                        )
+                        ),
+                        const SizedBox(width: 5.0),
+                        TextHighlight(
+                            text: message.message,
+                            keyword: widget.keyWords,
+                            brightness: Theme.of(context).brightness),
                       ],
                     ),
                   ),

@@ -6,7 +6,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
-import 'package:myyoukounkoun/components/custom_scroll_behavior.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
@@ -58,8 +57,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           return RouteObserverWidget(
               name: searchMessages,
               child: SearchMessages(
-                  keyWords: _searchMessagesController.text,
-                  user: widget.user));
+                  keyWords: _searchMessagesController.text, user: widget.user));
         });
   }
 
@@ -281,8 +279,17 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               ),
             ),
             body: SizedBox.expand(
-              child: ScrollConfiguration(
-                behavior: const CustomScrollBehavior(overscrollColor: cBlue),
+              child: GlowingOverscrollIndicator(
+                color: _currentConversation.themeConv.isEmpty
+                    ? Color.lerp(
+                        const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                    : Color.lerp(
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[0]),
+                        Helpers.stringToColor(
+                            _currentConversation.themeConv[1]),
+                        0.5)!,
+                axisDirection: AxisDirection.down,
                 child: SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(
                       20.0,
@@ -985,12 +992,28 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         controller: _searchMessagesController,
                         autofocus: true,
                         focusNode: _searchMessagesFocusNode,
-                        cursorColor: Theme.of(context).colorScheme.primary,
+                        cursorColor: _currentConversation.themeConv.isEmpty
+                            ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)!
+                            : Color.lerp(
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[0]),
+                                Helpers.stringToColor(
+                                    _currentConversation.themeConv[1]),
+                                0.5)!,
                         textInputAction: TextInputAction.search,
                         maxLines: 1,
                         style: textStyleCustomMedium(
                             _searchMessagesFocusNode.hasFocus
-                                ? Theme.of(context).colorScheme.primary
+                                ? _currentConversation.themeConv.isEmpty
+                                    ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)!
+                                    : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5)!
                                 : cGrey,
                             14 / MediaQuery.of(context).textScaleFactor),
                         decoration: InputDecoration(
@@ -1002,20 +1025,49 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                             hintText: "Rechercher un message",
                             hintStyle: textStyleCustomMedium(
                                 _searchMessagesFocusNode.hasFocus
-                                    ? cBlue
+                                    ? _currentConversation.themeConv.isEmpty
+                                        ? Color.lerp(const Color(0xFF4284C4),
+                                            const Color(0xFF00A9BC), 0.5)!
+                                        : Color.lerp(
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[0]),
+                                            Helpers.stringToColor(
+                                                _currentConversation
+                                                    .themeConv[1]),
+                                            0.5)!
                                     : cGrey,
                                 14),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: cGrey),
                                 borderRadius: BorderRadius.circular(10.0)),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: cBlue,
+                                borderSide: BorderSide(
+                                  color: _currentConversation.themeConv.isEmpty
+                                      ? Color.lerp(const Color(0xFF4284C4),
+                                          const Color(0xFF00A9BC), 0.5)!
+                                      : Color.lerp(
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[0]),
+                                          Helpers.stringToColor(
+                                              _currentConversation
+                                                  .themeConv[1]),
+                                          0.5)!,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0)),
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.search_sharp,
                               size: 20,
+                              color: _currentConversation.themeConv.isEmpty
+                                  ? Color.lerp(const Color(0xFF4284C4),
+                                      const Color(0xFF00A9BC), 0.5)!
+                                  : Color.lerp(
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[0]),
+                                      Helpers.stringToColor(
+                                          _currentConversation.themeConv[1]),
+                                      0.5)!,
                             ),
                             suffixIcon: _searchMessagesController
                                     .text.isNotEmpty
@@ -1032,10 +1084,23 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                         icon: Icon(
                                           Icons.clear,
                                           size: 20,
-                                          color:
-                                              _searchMessagesFocusNode.hasFocus
-                                                  ? cBlue
-                                                  : cGrey,
+                                          color: _searchMessagesFocusNode
+                                                  .hasFocus
+                                              ? _currentConversation
+                                                      .themeConv.isEmpty
+                                                  ? Color.lerp(
+                                                      const Color(0xFF4284C4),
+                                                      const Color(0xFF00A9BC),
+                                                      0.5)!
+                                                  : Color.lerp(
+                                                      Helpers.stringToColor(
+                                                          _currentConversation
+                                                              .themeConv[0]),
+                                                      Helpers.stringToColor(
+                                                          _currentConversation
+                                                              .themeConv[1]),
+                                                      0.5)!
+                                              : cGrey,
                                         )),
                                   )
                                 : const SizedBox()),
@@ -1069,6 +1134,19 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       });
                       _searchMessagesController.clear();
                     },
+                    style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            _currentConversation.themeConv.isEmpty
+                                ? Color.lerp(const Color(0xFF4284C4),
+                                        const Color(0xFF00A9BC), 0.5)!
+                                    .withOpacity(0.5)
+                                : Color.lerp(
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[0]),
+                                        Helpers.stringToColor(
+                                            _currentConversation.themeConv[1]),
+                                        0.5)!
+                                    .withOpacity(0.5))),
                     child: Text(
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),

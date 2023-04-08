@@ -29,6 +29,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
     return showDialog(
         context: context,
         barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (BuildContext context) {
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.pop(context);
@@ -75,6 +76,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
     return showDialog(
         context: context,
         barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (BuildContext context) {
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.pop(context);
@@ -248,8 +250,8 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: PinCodeTextField(
                         appContext: context,
-                        textStyle: textStyleCustomBold(cBlue,
-                            18 / MediaQuery.of(context).textScaleFactor),
+                        textStyle: textStyleCustomBold(
+                            cBlue, 18 / MediaQuery.of(context).textScaleFactor),
                         length: 6,
                         animationType: AnimationType.fade,
                         autoDisposeControllers: false,

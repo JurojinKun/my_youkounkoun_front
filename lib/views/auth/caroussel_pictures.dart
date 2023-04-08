@@ -12,6 +12,7 @@ class CarousselPictures extends ConsumerStatefulWidget {
   final List<MessageModel> messagesMedias;
   final MessageModel message;
   final UserModel user;
+  final String heroTag;
   final Color? colorTheme;
 
   const CarousselPictures(
@@ -19,6 +20,7 @@ class CarousselPictures extends ConsumerStatefulWidget {
       required this.messagesMedias,
       required this.message,
       required this.user,
+      required this.heroTag,
       this.colorTheme})
       : super(key: key);
 
@@ -79,117 +81,137 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
           children: [
             PageView.builder(
                 controller: _pageController,
-                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.messagesMedias.length,
-                itemBuilder: (context, int index) {
+                itemBuilder: (context, index) {
                   MessageModel message = widget.messagesMedias[index];
 
                   return Center(
                       child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Hero(
-                        tag: widget.message.type == "image"
-                            ? "picture ${widget.message.message}"
-                            : "gif ${widget.message.message}",
-                        transitionOnUserGestures: true,
-                        flightShuttleBuilder: (flightContext, animation,
-                            flightDirection, fromHeroContext, toHeroContext) {
-                          return Image.network(
-                            message.message,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Container(
-                                height: MediaQuery.of(context).size.height / 2,
-                                width: MediaQuery.of(context).size.width / 2,
-                                constraints: const BoxConstraints(
-                                    maxHeight: 800, maxWidth: 800),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .canvasColor
-                                        .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                child: CircularProgressIndicator(
-                                  color: widget.colorTheme ?? cBlue,
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Builder(builder: (_) {
+                          return Hero(
+                            tag: widget.heroTag,
+                            transitionOnUserGestures: true,
+                            flightShuttleBuilder: (flightContext,
+                                animation,
+                                flightDirection,
+                                fromHeroContext,
+                                toHeroContext) {
+                              return Image.network(
+                                message.message,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    constraints: const BoxConstraints(
+                                        maxHeight: 800, maxWidth: 800),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .canvasColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: CircularProgressIndicator(
+                                      color: widget.colorTheme ?? cBlue,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    constraints: const BoxConstraints(
+                                        maxHeight: 800, maxWidth: 800),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .canvasColor
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    child: Icon(Icons.replay_outlined,
+                                        color: Helpers.uiApp(context),
+                                        size: 33),
+                                  );
+                                },
                               );
                             },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: MediaQuery.of(context).size.height / 2,
-                                width: MediaQuery.of(context).size.width / 2,
-                                constraints: const BoxConstraints(
-                                    maxHeight: 800, maxWidth: 800),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .canvasColor
-                                        .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                child: Icon(Icons.replay_outlined,
-                                    color: Helpers.uiApp(context), size: 33),
-                              );
-                            },
+                            child: Image.network(
+                              message.message,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  constraints: const BoxConstraints(
+                                      maxHeight: 800, maxWidth: 800),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .canvasColor
+                                          .withOpacity(0.2),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  child: CircularProgressIndicator(
+                                    color: widget.colorTheme ?? cBlue,
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  constraints: const BoxConstraints(
+                                      maxHeight: 800, maxWidth: 800),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .canvasColor
+                                          .withOpacity(0.2),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  child: Icon(Icons.replay_outlined,
+                                      color: Helpers.uiApp(context), size: 33),
+                                );
+                              },
+                            ),
                           );
-                        },
-                        child: Image.network(
-                          message.message,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return Container(
-                              height: MediaQuery.of(context).size.height / 2,
-                              width: MediaQuery.of(context).size.width / 2,
-                              constraints: const BoxConstraints(
-                                  maxHeight: 800, maxWidth: 800),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .canvasColor
-                                      .withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: CircularProgressIndicator(
-                                color: widget.colorTheme ?? cBlue,
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height / 2,
-                              width: MediaQuery.of(context).size.width / 2,
-                              constraints: const BoxConstraints(
-                                  maxHeight: 800, maxWidth: 800),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .canvasColor
-                                      .withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Icon(Icons.replay_outlined,
-                                  color: Helpers.uiApp(context), size: 33),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                        })),
                   ));
                 }),
             Align(

@@ -88,6 +88,7 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
                     icon: Icon(
                       Icons.clear,
                       color: Helpers.uiApp(context),
+                      size: 33,
                     )),
               )
             ],

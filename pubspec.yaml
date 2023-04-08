@@ -56,10 +56,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
 
 dependency_overrides:
-  modal_bottom_sheet:
-    git:
-      url: https://github.com/danReynolds/modal_bottom_sheet.git
-      path: modal_bottom_sheet
+  modal_bottom_sheet: ^3.0.0-pre 
 
 dev_dependencies:
   flutter_test:

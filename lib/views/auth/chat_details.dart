@@ -1142,7 +1142,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       elements: messagesUsers,
       groupBy: (MessageModel message) => Helpers.formatDateDayWeek(
           int.parse(message.timestamp),
-          ref.read(localeLanguageNotifierProvider).languageCode, true),
+          ref.read(localeLanguageNotifierProvider).languageCode,
+          true),
       groupComparator: (String value1, String value2) {
         final timestamp1 = (DateFormat('EEE d MMM',
                     ref.read(localeLanguageNotifierProvider).languageCode)
@@ -1386,6 +1387,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               messagesMediasUsers,
               message,
               widget.user,
+              "picture chat ${message.message}",
               _currentConversation.themeConv.isEmpty
                   ? Color.lerp(
                       const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
@@ -1412,7 +1414,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 child: Stack(
                   children: [
                     Hero(
-                      tag: "picture ${message.message}",
+                      tag: "picture chat ${message.message}",
                       transitionOnUserGestures: true,
                       flightShuttleBuilder: (flightContext, animation,
                           flightDirection, fromHeroContext, toHeroContext) {
@@ -1524,6 +1526,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               messagesMediasUsers,
               message,
               widget.user,
+              "picture chat ${message.message}",
               _currentConversation.themeConv.isEmpty
                   ? Color.lerp(
                       const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
@@ -1545,7 +1548,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 child: Stack(
                   children: [
                     Hero(
-                      tag: "picture ${message.message}",
+                      tag: "picture chat ${message.message}",
                       transitionOnUserGestures: true,
                       flightShuttleBuilder: (flightContext, animation,
                           flightDirection, fromHeroContext, toHeroContext) {
@@ -1659,6 +1662,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               messagesMediasUsers,
               message,
               widget.user,
+              "gif chat ${message.message}",
               _currentConversation.themeConv.isEmpty
                   ? Color.lerp(
                       const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
@@ -1680,7 +1684,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   child: Stack(
                     children: [
                       Hero(
-                        tag: "gif ${message.message}",
+                        tag: "gif chat ${message.message}",
                         transitionOnUserGestures: true,
                         flightShuttleBuilder: (flightContext, animation,
                             flightDirection, fromHeroContext, toHeroContext) {
@@ -1791,6 +1795,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               messagesMediasUsers,
               message,
               widget.user,
+              "gif chat ${message.message}",
               _currentConversation.themeConv.isEmpty
                   ? Color.lerp(
                       const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
@@ -1817,7 +1822,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   child: Stack(
                     children: [
                       Hero(
-                        tag: "gif ${message.message}",
+                        tag: "gif chat ${message.message}",
                         transitionOnUserGestures: true,
                         flightShuttleBuilder: (flightContext, animation,
                             flightDirection, fromHeroContext, toHeroContext) {

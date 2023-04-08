@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
-import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -23,6 +23,8 @@ class Multimedias extends ConsumerStatefulWidget {
 
 class MultimediasState extends ConsumerState<Multimedias> {
   final AppBar appBar = AppBar();
+
+  late ConversationModel _currentConversation;
 
   bool multimediasEnabled = false;
   List<MessageModel> multimedias = [];
@@ -107,6 +109,8 @@ class MultimediasState extends ConsumerState<Multimedias> {
 
   @override
   Widget build(BuildContext context) {
+    _currentConversation = ref.watch(currentConvNotifierProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBodyBehindAppBar: true,
@@ -147,6 +151,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
                     icon: Icon(
                       Icons.clear,
                       color: Helpers.uiApp(context),
+                      size: 33,
                     )),
               )
             ],
@@ -164,7 +169,14 @@ class MultimediasState extends ConsumerState<Multimedias> {
   Widget multimediasShimmer() {
     return Shimmer.fromColors(
       baseColor: Theme.of(context).canvasColor,
-      highlightColor: cBlue.withOpacity(0.5),
+      highlightColor: _currentConversation.themeConv.isEmpty
+          ? Color.lerp(const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+              .withOpacity(0.5)
+          : Color.lerp(
+                  Helpers.stringToColor(_currentConversation.themeConv[0]),
+                  Helpers.stringToColor(_currentConversation.themeConv[1]),
+                  0.5)!
+              .withOpacity(0.5),
       child: GridView.builder(
           padding: EdgeInsets.fromLTRB(
               20.0,
@@ -205,7 +217,13 @@ class MultimediasState extends ConsumerState<Multimedias> {
           )
         : GlowingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            color: cBlue,
+            color: _currentConversation.themeConv.isEmpty
+                ? Color.lerp(
+                    const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
+                : Color.lerp(
+                    Helpers.stringToColor(_currentConversation.themeConv[0]),
+                    Helpers.stringToColor(_currentConversation.themeConv[1]),
+                    0.5)!,
             child: SmartRefresher(
               controller: refreshController,
               physics: const AlwaysScrollableScrollPhysics(
@@ -216,13 +234,22 @@ class MultimediasState extends ConsumerState<Multimedias> {
                 height: MediaQuery.of(context).padding.bottom + 30.0,
                 iconPos: IconPosition.top,
                 loadingText: "",
-                loadingIcon: const Align(
+                loadingIcon: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                       height: 20.0,
                       width: 20.0,
                       child: CircularProgressIndicator(
-                          color: cBlue, strokeWidth: 1.0)),
+                          color: _currentConversation.themeConv.isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                  const Color(0xFF00A9BC), 0.5)!
+                              : Color.lerp(
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[0]),
+                                  Helpers.stringToColor(
+                                      _currentConversation.themeConv[1]),
+                                  0.5)!,
+                          strokeWidth: 1.0)),
                 ),
                 noDataText: "",
                 noMoreIcon: Align(
@@ -264,11 +291,11 @@ class MultimediasState extends ConsumerState<Multimedias> {
             mainAxisExtent: 200.0),
         itemCount: multimedias.length,
         itemBuilder: (_, int index) {
-          return multimedia(multimedias[index]);
+          return multimedia(multimedias[index], index);
         });
   }
 
-  Widget multimedia(MessageModel message) {
+  Widget multimedia(MessageModel message, int index) {
     switch (message.type) {
       case "image":
         return GestureDetector(
@@ -277,14 +304,13 @@ class MultimediasState extends ConsumerState<Multimedias> {
             multimedias,
             message,
             widget.user,
-            ref.read(currentConvNotifierProvider).themeConv.isEmpty
+            "picture multimedias ${message.message}",
+            _currentConversation.themeConv.isEmpty
                 ? Color.lerp(
                     const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
                 : Color.lerp(
-                    Helpers.stringToColor(
-                        ref.read(currentConvNotifierProvider).themeConv[0]),
-                    Helpers.stringToColor(
-                        ref.read(currentConvNotifierProvider).themeConv[1]),
+                    Helpers.stringToColor(_currentConversation.themeConv[0]),
+                    Helpers.stringToColor(_currentConversation.themeConv[1]),
                     0.5)
           ]),
           child: Container(
@@ -294,7 +320,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Hero(
-                tag: "picture ${message.message}",
+                tag: "picture multimedias ${message.message}",
                 transitionOnUserGestures: true,
                 flightShuttleBuilder: (flightContext, animation,
                     flightDirection, fromHeroContext, toHeroContext) {
@@ -335,9 +361,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
                     errorBuilder: (context, error, stackTrace) {
                       return Center(
                         child: Icon(Icons.replay_outlined,
-                            color:
-                                Helpers.uiApp(context),
-                            size: 33),
+                            color: Helpers.uiApp(context), size: 33),
                       );
                     },
                   );
@@ -379,9 +403,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
                       child: Icon(Icons.replay_outlined,
-                          color:
-                              Helpers.uiApp(context),
-                          size: 33),
+                          color: Helpers.uiApp(context), size: 33),
                     );
                   },
                 ),
@@ -396,14 +418,13 @@ class MultimediasState extends ConsumerState<Multimedias> {
             multimedias,
             message,
             widget.user,
-            ref.read(currentConvNotifierProvider).themeConv.isEmpty
+            "gif multimedias ${message.message}",
+            _currentConversation.themeConv.isEmpty
                 ? Color.lerp(
                     const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
                 : Color.lerp(
-                    Helpers.stringToColor(
-                        ref.read(currentConvNotifierProvider).themeConv[0]),
-                    Helpers.stringToColor(
-                        ref.read(currentConvNotifierProvider).themeConv[1]),
+                    Helpers.stringToColor(_currentConversation.themeConv[0]),
+                    Helpers.stringToColor(_currentConversation.themeConv[1]),
                     0.5)
           ]),
           child: Container(
@@ -413,7 +434,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Hero(
-                  tag: "gif ${message.message}",
+                  tag: "gif multimedias ${message.message}",
                   transitionOnUserGestures: true,
                   flightShuttleBuilder: (flightContext, animation,
                       flightDirection, fromHeroContext, toHeroContext) {

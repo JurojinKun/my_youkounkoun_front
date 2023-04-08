@@ -110,12 +110,32 @@ class DatasTestState extends ConsumerState<DatasTest>
             itemBuilder: (context, index) {
               String dataTest = "Data test $index";
 
-              return Hero(
-                tag: "data test ${widget.index}",
-                transitionOnUserGestures: true,
-                flightShuttleBuilder: (flightContext, animation,
-                    flightDirection, fromHeroContext, toHeroContext) {
-                  return Container(
+              return Builder(builder: (_) {
+                return Hero(
+                  tag: "data test ${widget.index}",
+                  transitionOnUserGestures: true,
+                  flightShuttleBuilder: (flightContext, animation,
+                      flightDirection, fromHeroContext, toHeroContext) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.all(2.5),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: cBlue),
+                          color: cBlue.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      alignment: Alignment.center,
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(dataTest,
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 18),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 1.0),
+                      ),
+                    );
+                  },
+                  child: Container(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.all(2.5),
@@ -132,26 +152,9 @@ class DatasTestState extends ConsumerState<DatasTest>
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.0),
                     ),
-                  );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.all(2.5),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: cBlue),
-                      color: cBlue.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(10.0)),
-                  alignment: Alignment.center,
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Text(dataTest,
-                        style: textStyleCustomBold(Helpers.uiApp(context), 18),
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.0),
                   ),
-                ),
-              );
+                );
+              });
             }));
   }
 }
