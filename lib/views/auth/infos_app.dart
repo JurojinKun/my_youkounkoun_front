@@ -79,9 +79,9 @@ class InfosAppState extends ConsumerState<InfosApp> {
           child: Column(
             children: [
               cguApp(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               policyPrivacyApp(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               versionAppWidget()
             ],
           ),

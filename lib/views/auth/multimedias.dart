@@ -5,11 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/message_model.dart';
+import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/providers/chat_details_provider.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Multimedias extends ConsumerStatefulWidget {
-  const Multimedias({Key? key}) : super(key: key);
+  final UserModel user;
+
+  const Multimedias({Key? key, required this.user}) : super(key: key);
 
   @override
   MultimediasState createState() => MultimediasState();
@@ -19,40 +25,70 @@ class MultimediasState extends ConsumerState<Multimedias> {
   final AppBar appBar = AppBar();
 
   bool multimediasEnabled = false;
-  List multimedias = [];
+  List<MessageModel> multimedias = [];
 
   late RefreshController refreshController;
+
+  //fake fct => get datas mockés switch id user
+  List<MessageModel> getListMessagesUsers() {
+    List<MessageModel> messages = [];
+
+    switch (widget.user.id) {
+      case 186:
+        messages = [...listMessagesWith186DatasMockes];
+        break;
+      case 4:
+        messages = [...listMessagesWith4DatasMockes];
+        break;
+      default:
+        messages = [];
+        break;
+    }
+
+    //Bien vérifier que la logique de timestamps fonctionnent bien par rapport au grouped list view
+    //TODO order by timestamp du plus récent au plus vieux
+    messages.sort(
+        (a, b) => int.parse(b.timestamp).compareTo(int.parse(a.timestamp)));
+
+    return messages;
+  }
 
   //TODO logic loading multimedias current conv
   Future<void> _initMultimedias() async {
     try {
       await Future.delayed(const Duration(seconds: 3));
-      for (var i = 0; i < 15; i++) {
-        multimedias.add(i);
+      List<MessageModel> messages = getListMessagesUsers();
+      for (var message in messages) {
+        if (message.type != "text") {
+          multimedias.add(message);
+        }
       }
+      setState(() {
+        multimediasEnabled = true;
+      });
+      // TODO seulement si on atteint pas la limit de datas qu'on va cherché (par ex: si la length de multimédias est en dessous de 15 qui est la limite dans la recherche)
+      refreshController.loadNoData();
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
     }
-    setState(() {
-      multimediasEnabled = true;
-    });
   }
 
   //TODO logic loading more multimedias current conv
-  Future<void> _loadMoreMultimedias() async {
-    await Future.delayed(const Duration(seconds: 3));
-    if (multimedias.length < 50) {
-      for (var i = 0; i < 15; i++) {
-        multimedias.add(i);
-      }
-      setState(() {});
-      refreshController.loadComplete();
-    } else {
-      refreshController.loadNoData();
-    }
-  }
+
+  // Future<void> _loadMoreMultimedias() async {
+  //   await Future.delayed(const Duration(seconds: 3));
+  //   if (multimedias.length < 50) {
+  //     for (var i = 0; i < 15; i++) {
+  //       multimedias.add(i);
+  //     }
+  //     setState(() {});
+  //     refreshController.loadComplete();
+  //   } else {
+  //     refreshController.loadNoData();
+  //   }
+  // }
 
   @override
   void initState() {
@@ -134,7 +170,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
               20.0,
               MediaQuery.of(context).padding.top +
                   appBar.preferredSize.height +
-                  20.0,
+                  30.0,
               20.0,
               MediaQuery.of(context).padding.bottom + 20.0),
           shrinkWrap: true,
@@ -167,41 +203,45 @@ class MultimediasState extends ConsumerState<Multimedias> {
               textScaleFactor: 1.0,
             ),
           )
-        : SmartRefresher(
-            controller: refreshController,
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            enablePullDown: false,
-            enablePullUp: true,
-            footer: ClassicFooter(
-              height: MediaQuery.of(context).padding.bottom + 30.0,
-              iconPos: IconPosition.top,
-              loadingText: "",
-              loadingIcon: const Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                    child: CircularProgressIndicator(
-                        color: cBlue, strokeWidth: 1.0)),
-              ),
-              noDataText: "",
-              noMoreIcon: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Pas plus de multimédias actuellement",
-                  style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                  textScaleFactor: 1.0,
-                  textAlign: TextAlign.center,
+        : GlowingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            color: cBlue,
+            child: SmartRefresher(
+              controller: refreshController,
+              physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+              enablePullDown: false,
+              enablePullUp: true,
+              footer: ClassicFooter(
+                height: MediaQuery.of(context).padding.bottom + 30.0,
+                iconPos: IconPosition.top,
+                loadingText: "",
+                loadingIcon: const Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                      height: 20.0,
+                      width: 20.0,
+                      child: CircularProgressIndicator(
+                          color: cBlue, strokeWidth: 1.0)),
                 ),
+                noDataText: "",
+                noMoreIcon: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    "Pas plus de multimédias actuellement",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
+                    textScaleFactor: 1.0,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                canLoadingIcon: const SizedBox(),
+                idleIcon: const SizedBox(),
+                idleText: "",
+                canLoadingText: "",
               ),
-              canLoadingIcon: const SizedBox(),
-              idleIcon: const SizedBox(),
-              idleText: "",
-              canLoadingText: "",
+              // onLoading: _loadMoreMultimedias,
+              child: multimediasItems(),
             ),
-            onLoading: _loadMoreMultimedias,
-            child: multimediasItems(),
           );
   }
 
@@ -211,12 +251,11 @@ class MultimediasState extends ConsumerState<Multimedias> {
             20.0,
             MediaQuery.of(context).padding.top +
                 appBar.preferredSize.height +
-                20.0,
+                30.0,
             20.0,
             MediaQuery.of(context).padding.bottom + 20.0),
         shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics()),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 15,
@@ -225,11 +264,251 @@ class MultimediasState extends ConsumerState<Multimedias> {
             mainAxisExtent: 200.0),
         itemCount: multimedias.length,
         itemBuilder: (_, int index) {
-          return Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.circular(10.0)),
-          );
+          return multimedia(multimedias[index]);
         });
+  }
+
+  Widget multimedia(MessageModel message) {
+    switch (message.type) {
+      case "image":
+        return GestureDetector(
+          onTap: () =>
+              navAuthKey.currentState!.pushNamed(carousselPictures, arguments: [
+            multimedias,
+            message,
+            widget.user,
+            ref.read(currentConvNotifierProvider).themeConv.isEmpty
+                ? Color.lerp(
+                    const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                : Color.lerp(
+                    Helpers.stringToColor(
+                        ref.read(currentConvNotifierProvider).themeConv[0]),
+                    Helpers.stringToColor(
+                        ref.read(currentConvNotifierProvider).themeConv[1]),
+                    0.5)
+          ]),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Hero(
+                tag: "picture ${message.message}",
+                transitionOnUserGestures: true,
+                flightShuttleBuilder: (flightContext, animation,
+                    flightDirection, fromHeroContext, toHeroContext) {
+                  return Image.network(
+                    message.message,
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: ref
+                                  .read(currentConvNotifierProvider)
+                                  .themeConv
+                                  .isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                  const Color(0xFF00A9BC), 0.5)
+                              : Color.lerp(
+                                  Helpers.stringToColor(ref
+                                      .read(currentConvNotifierProvider)
+                                      .themeConv[0]),
+                                  Helpers.stringToColor(ref
+                                      .read(currentConvNotifierProvider)
+                                      .themeConv[1]),
+                                  0.5),
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2.0,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.replay_outlined,
+                            color:
+                                Helpers.uiApp(context),
+                            size: 33),
+                      );
+                    },
+                  );
+                },
+                child: Image.network(
+                  message.message,
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  width: double.infinity,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ref
+                                .read(currentConvNotifierProvider)
+                                .themeConv
+                                .isEmpty
+                            ? Color.lerp(const Color(0xFF4284C4),
+                                const Color(0xFF00A9BC), 0.5)
+                            : Color.lerp(
+                                Helpers.stringToColor(ref
+                                    .read(currentConvNotifierProvider)
+                                    .themeConv[0]),
+                                Helpers.stringToColor(ref
+                                    .read(currentConvNotifierProvider)
+                                    .themeConv[1]),
+                                0.5),
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                        strokeWidth: 2.0,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Icon(Icons.replay_outlined,
+                          color:
+                              Helpers.uiApp(context),
+                          size: 33),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      case "gif":
+        return GestureDetector(
+          onTap: () =>
+              navAuthKey.currentState!.pushNamed(carousselPictures, arguments: [
+            multimedias,
+            message,
+            widget.user,
+            ref.read(currentConvNotifierProvider).themeConv.isEmpty
+                ? Color.lerp(
+                    const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)
+                : Color.lerp(
+                    Helpers.stringToColor(
+                        ref.read(currentConvNotifierProvider).themeConv[0]),
+                    Helpers.stringToColor(
+                        ref.read(currentConvNotifierProvider).themeConv[1]),
+                    0.5)
+          ]),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Hero(
+                  tag: "gif ${message.message}",
+                  transitionOnUserGestures: true,
+                  flightShuttleBuilder: (flightContext, animation,
+                      flightDirection, fromHeroContext, toHeroContext) {
+                    return Image.network(
+                      message.message,
+                      headers: const {'accept': 'image/*'},
+                      filterQuality: FilterQuality.low,
+                      fit: BoxFit.fill,
+                      height: double.infinity,
+                      width: double.infinity,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: ref
+                                    .read(currentConvNotifierProvider)
+                                    .themeConv
+                                    .isEmpty
+                                ? Color.lerp(const Color(0xFF4284C4),
+                                    const Color(0xFF00A9BC), 0.5)
+                                : Color.lerp(
+                                    Helpers.stringToColor(ref
+                                        .read(currentConvNotifierProvider)
+                                        .themeConv[0]),
+                                    Helpers.stringToColor(ref
+                                        .read(currentConvNotifierProvider)
+                                        .themeConv[1]),
+                                    0.5),
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                            strokeWidth: 2.0,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(Icons.replay_outlined,
+                              color: Helpers.uiApp(context), size: 33),
+                        );
+                      },
+                    );
+                  },
+                  child: Image.network(
+                    message.message,
+                    headers: const {'accept': 'image/*'},
+                    filterQuality: FilterQuality.low,
+                    fit: BoxFit.fill,
+                    height: double.infinity,
+                    width: double.infinity,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: ref
+                                  .read(currentConvNotifierProvider)
+                                  .themeConv
+                                  .isEmpty
+                              ? Color.lerp(const Color(0xFF4284C4),
+                                  const Color(0xFF00A9BC), 0.5)
+                              : Color.lerp(
+                                  Helpers.stringToColor(ref
+                                      .read(currentConvNotifierProvider)
+                                      .themeConv[0]),
+                                  Helpers.stringToColor(ref
+                                      .read(currentConvNotifierProvider)
+                                      .themeConv[1]),
+                                  0.5),
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2.0,
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.replay_outlined,
+                            color: Helpers.uiApp(context), size: 33),
+                      );
+                    },
+                  ),
+                )),
+          ),
+        );
+      default:
+        return const SizedBox();
+    }
   }
 }

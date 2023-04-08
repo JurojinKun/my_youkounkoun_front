@@ -113,8 +113,8 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
               ]),
           child: InkWell(
             onTap: () {
-              navAuthKey.currentState!
-                  .pushNamed(chatDetails, arguments: [widget.userConv, false, widget.conversation]);
+              navAuthKey.currentState!.pushNamed(chatDetails,
+                  arguments: [widget.userConv, false, widget.conversation]);
               if (!widget.conversation.isLastMessageRead &&
                   widget.conversation.lastMessageUserId !=
                       ref.read(userNotifierProvider).id) {
@@ -208,8 +208,8 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5.0),
                                     child: Container(
-                                      height: 5.0,
-                                      width: 5.0,
+                                      height: 2.5,
+                                      width: 2.5,
                                       decoration: BoxDecoration(
                                           color: widget.conversation
                                                           .lastMessageUserId !=
@@ -307,7 +307,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
         ),
         if (widget.indexConversations !=
             ref.read(conversationsNotifierProvider)!.length - 1)
-          const Divider(thickness: 1, color: cGrey)
+          const Divider(thickness: 0.5, color: cGrey)
       ],
     );
   }

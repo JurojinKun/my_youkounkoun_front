@@ -1228,7 +1228,7 @@ class RegisterState extends ConsumerState<Register>
                 Container(
                     height: 45,
                     decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         border: Border.all(color: cGrey),
                         borderRadius: BorderRadius.circular(5.0)),
                     child: CountryCodePicker(

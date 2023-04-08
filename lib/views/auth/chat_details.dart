@@ -154,7 +154,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
     return showBarModalBottomSheet(
         context: context,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        barrierColor: Colors.black54,
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
             return GestureDetector(
@@ -1142,7 +1142,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
       elements: messagesUsers,
       groupBy: (MessageModel message) => Helpers.formatDateDayWeek(
           int.parse(message.timestamp),
-          ref.read(localeLanguageNotifierProvider).languageCode),
+          ref.read(localeLanguageNotifierProvider).languageCode, true),
       groupComparator: (String value1, String value2) {
         final timestamp1 = (DateFormat('EEE d MMM',
                     ref.read(localeLanguageNotifierProvider).languageCode)

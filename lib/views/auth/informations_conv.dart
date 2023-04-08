@@ -6,6 +6,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
+import 'package:myyoukounkoun/components/custom_scroll_behavior.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
@@ -56,7 +57,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
         builder: (context) {
           return RouteObserverWidget(
               name: searchMessages,
-              child: SearchMessages(keyWords: _searchMessagesController.text));
+              child: SearchMessages(
+                  keyWords: _searchMessagesController.text,
+                  user: widget.user));
         });
   }
 
@@ -66,8 +69,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
         expand: true,
         enableDrag: true,
         builder: (context) {
-          return const RouteObserverWidget(
-              name: multimedias, child: Multimedias());
+          return RouteObserverWidget(
+              name: multimedias, child: Multimedias(user: widget.user));
         });
   }
 
@@ -75,9 +78,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (_, setState) {
             return AlertDialogCustom(
@@ -125,9 +126,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (_, setState) {
             return AlertDialogCustom(
@@ -175,9 +174,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (_, setState) {
             return AlertDialogCustom(
@@ -284,17 +281,19 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               ),
             ),
             body: SizedBox.expand(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                    20.0,
-                    MediaQuery.of(context).padding.top +
-                        appBar.preferredSize.height +
-                        20.0,
-                    20.0,
-                    MediaQuery.of(context).padding.bottom + 20.0),
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                child: infosConv(),
+              child: ScrollConfiguration(
+                behavior: const CustomScrollBehavior(overscrollColor: cBlue),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                      20.0,
+                      MediaQuery.of(context).padding.top +
+                          appBar.preferredSize.height +
+                          20.0,
+                      20.0,
+                      MediaQuery.of(context).padding.bottom + 20.0),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: infosConv(),
+                ),
               ),
             )),
         if (searchEnabled)

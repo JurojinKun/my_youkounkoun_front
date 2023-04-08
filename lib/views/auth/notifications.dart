@@ -317,7 +317,7 @@ class NotificationsState extends ConsumerState<Notifications>
           ),
         ),
         if (index != notifications!.length - 1)
-          const Divider(thickness: 1, color: cGrey)
+          const Divider(thickness: 0.5, color: cGrey)
       ],
     );
   }

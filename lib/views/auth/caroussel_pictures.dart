@@ -270,7 +270,7 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                               textScaleFactor: 1.0),
                                         ),
                                         Text(
-                                            "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
+                                            "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode, true)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
                                             style:
                                                 textStyleCustomBold(cGrey, 14),
                                             textScaleFactor: 1.0)
@@ -340,7 +340,7 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                               textScaleFactor: 1.0),
                                         ),
                                         Text(
-                                            "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
+                                            "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode, true)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
                                             style:
                                                 textStyleCustomBold(cGrey, 14),
                                             textScaleFactor: 1.0)

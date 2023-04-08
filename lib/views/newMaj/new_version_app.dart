@@ -23,9 +23,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: ((context, setState) {
             return AlertDialogCustom(
@@ -103,9 +101,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return AlertDialogCustom(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,

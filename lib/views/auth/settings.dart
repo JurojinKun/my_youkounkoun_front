@@ -149,9 +149,7 @@ class SettingsState extends ConsumerState<Settings> {
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (_, setState) {
             return AlertDialogCustom(
@@ -203,9 +201,7 @@ class SettingsState extends ConsumerState<Settings> {
     return showDialog(
         context: context,
         barrierDismissible: false,
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.1)
-            : Colors.white.withOpacity(0.1),
+        barrierColor: Colors.black.withOpacity(0.5),
         builder: (context) {
           return StatefulBuilder(builder: (_, setState) {
             return AlertDialogCustom(
@@ -366,15 +362,15 @@ class SettingsState extends ConsumerState<Settings> {
           child: Column(
             children: [
               accountSettings(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               securitySettings(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               langueSettings(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               themeSettings(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               notificationsSettings(),
-              const Divider(thickness: 1, color: cGrey),
+              const Divider(thickness: 0.5, color: cGrey),
               infosAppSettings()
             ],
           ),

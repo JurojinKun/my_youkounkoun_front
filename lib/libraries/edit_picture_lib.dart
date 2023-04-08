@@ -174,9 +174,7 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(Icons.clear,
                             color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
+                                Helpers.uiApp(context))),
                   )
                 ],
               ),

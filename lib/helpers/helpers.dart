@@ -105,15 +105,26 @@ class Helpers {
   }
 
   // Récupérer le jour de la semaine, la date du jour et le mois formatés
-  static String formatDateDayWeek(int timestamp, String locale) {
+  static String formatDateDayWeek(
+      int timestamp, String locale, bool withHours) {
     DateTime dateNow = DateTime.now();
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
     Duration difference = dateNow.difference(date);
 
-    if (difference.inHours <= 24) {
-      return "Aujourd'hui";
-    } else if (difference.inHours > 24 && difference.inHours <= 48) {
-      return "Hier";
+    if (withHours) {
+      if (difference.inHours <= 24) {
+        return "Aujourd'hui";
+      } else if (difference.inHours > 24 && difference.inHours <= 48) {
+        return "Hier";
+      } else {
+        String formattedDate = "";
+        if (date.year == DateTime.now().year) {
+          formattedDate = DateFormat('EEE d MMM', locale).format(date);
+        } else {
+          formattedDate = DateFormat('d MMM y', locale).format(date);
+        }
+        return formattedDate;
+      }
     } else {
       String formattedDate = "";
       if (date.year == DateTime.now().year) {
@@ -204,7 +215,8 @@ class Helpers {
   }
 
   static String colorToString(Color color) {
-    String hexaString = "#${color.value.toRadixString(16).substring(2).toUpperCase()}";
+    String hexaString =
+        "#${color.value.toRadixString(16).substring(2).toUpperCase()}";
     return hexaString;
   }
 }

@@ -131,11 +131,12 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
     case searchMessages:
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
-              name: searchMessages, child: SearchMessages(keyWords: args![0])));
+              name: searchMessages,
+              child: SearchMessages(keyWords: args![0], user: args[1])));
     case multimedias:
       return MaterialPageRoute(
-          builder: (_) => const RouteObserverWidget(
-              name: multimedias, child: Multimedias()));
+          builder: (_) => RouteObserverWidget(
+              name: multimedias, child: Multimedias(user: args![0])));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
