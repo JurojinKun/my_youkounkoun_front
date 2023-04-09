@@ -987,7 +987,6 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               0.5)!,
                   flashingCircleDarkColor:
                       Theme.of(context).scaffoldBackgroundColor,
-                  user: widget.user,
                   colorThemeConv: _currentConversation.themeConv.isEmpty
                       ? Color.lerp(const Color(0xFF4284C4),
                           const Color(0xFF00A9BC), 0.5)!
@@ -997,6 +996,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           Helpers.stringToColor(
                               _currentConversation.themeConv[1]),
                           0.5)!,
+                  user: widget.user,
                 ),
               ],
             ),

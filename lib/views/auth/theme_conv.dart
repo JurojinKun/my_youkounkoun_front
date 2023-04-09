@@ -1,15 +1,15 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myyoukounkoun/components/indicator_typing_component.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
+import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ThemeConv extends ConsumerStatefulWidget {
@@ -26,12 +26,126 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
 
   late Color pickerColor1, pickerColor2;
 
-  void changeColor1(Color color) {
+  void changePickerColor1(Color color) {
     setState(() => pickerColor1 = color);
   }
 
-  void changeColor2(Color color) {
+  void changePickerColor2(Color color) {
     setState(() => pickerColor2 = color);
+  }
+
+  Future _showDialogPickerColor1() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.5),
+        builder: (context) {
+          Color changeColor = pickerColor1;
+
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialog(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              scrollable: true,
+              title: Text(
+                "Choix première couleur du thème",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
+              ),
+              content: ColorPicker(
+                  enableAlpha: false,
+                  // ignore: deprecated_member_use
+                  showLabel: false,
+                  pickerAreaBorderRadius: BorderRadius.circular(10.0),
+                  pickerAreaHeightPercent: 1.0,
+                  pickerColor: changeColor,
+                  onColorChanged: (color) {
+                    setState(() => changeColor = color);
+                  }),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      changePickerColor1(changeColor);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
+                    ))
+              ],
+            );
+          });
+        });
+  }
+
+  Future _showDialogPickerColor2() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.5),
+        builder: (context) {
+          Color changeColor = pickerColor2;
+
+          return StatefulBuilder(builder: (_, setState) {
+            return AlertDialog(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              scrollable: true,
+              title: Text(
+                "Choix seconde couleur du thème",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                textScaleFactor: 1.0,
+              ),
+              content: ColorPicker(
+                  enableAlpha: false,
+                  // ignore: deprecated_member_use
+                  showLabel: false,
+                  pickerAreaBorderRadius: BorderRadius.circular(10.0),
+                  pickerAreaHeightPercent: 1.0,
+                  pickerColor: changeColor,
+                  onColorChanged: (color) {
+                    setState(() => changeColor = color);
+                  }),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      changePickerColor2(changeColor);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_confirm"),
+                      style: textStyleCustomMedium(cBlue, 14),
+                      textScaleFactor: 1.0,
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppLocalization.of(context)
+                          .translate("general", "btn_cancel"),
+                      style: textStyleCustomMedium(cRed, 14),
+                      textScaleFactor: 1.0,
+                    ))
+              ],
+            );
+          });
+        });
   }
 
   @override
@@ -132,28 +246,118 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Choix première couleur du thème",
-                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+            Row(
+              children: [
+                Expanded(
+                    child: Text("Choix première couleur du thème",
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 1.0)),
+                const SizedBox(width: 15.0),
+                GestureDetector(
+                  onTap: () async {
+                    await _showDialogPickerColor1();
+                  },
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    decoration: BoxDecoration(
+                        color: pickerColor1, shape: BoxShape.circle),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 40.0),
+            Row(
+              children: [
+                Expanded(
+                    child: Text("Choix seconde couleur du thème",
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 1.0)),
+                const SizedBox(width: 15.0),
+                GestureDetector(
+                  onTap: () async {
+                    await _showDialogPickerColor2();
+                  },
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    decoration: BoxDecoration(
+                        color: pickerColor2, shape: BoxShape.circle),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 40.0),
+            Text("Aperçu du thème de la conversation",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
                 textScaleFactor: 1.0),
-                const SizedBox(height: 20.0),
-            ColorPicker(
-                enableAlpha: false,
-                showLabel: false,
-                pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                pickerColor: pickerColor1,
-                onColorChanged: changeColor1),
-                const SizedBox(height: 20.0),
-            Text("Choix seconde couleur du thème",
-                style: textStyleCustomBold(Helpers.uiApp(context), 16),
+            const SizedBox(height: 25.0),
+            _previewTheme(),
+            const SizedBox(height: 40.0),
+            Text("Aperçu du gradient de la conversation",
+                style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
                 textScaleFactor: 1.0),
-                const SizedBox(height: 20.0),
-            ColorPicker(
-                enableAlpha: false,
-                showLabel: false,
-                pickerColor: pickerColor2,
-                pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                onColorChanged: changeColor2),
+            const SizedBox(height: 25.0),
+            _previewGradient(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _previewTheme() {
+    return Center(
+      child: Container(
+          constraints: BoxConstraints(
+              minWidth: 0, maxWidth: MediaQuery.of(context).size.width / 1.5),
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [pickerColor1, pickerColor2],
+              ),
+              borderRadius: BorderRadius.circular(10.0)),
+          child: IntrinsicWidth(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Aperçu du thème de la conversation sélectionné à travers un message",
+                  style: textStyleCustomRegular(Helpers.uiApp(context), 14),
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 5.0),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    Helpers.formatDateHoursMinutes(1681076523000,
+                        ref.read(localeLanguageNotifierProvider).languageCode),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 10),
+                    textScaleFactor: 1.0,
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget _previewGradient() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: 105,
+        child: TypingIndicator(
+          showIndicator: true,
+          bubbleColor: Theme.of(context).canvasColor,
+          flashingCircleBrightColor:
+              Color.lerp(pickerColor1, pickerColor2, 0.5)!,
+          flashingCircleDarkColor: Theme.of(context).scaffoldBackgroundColor,
+          colorThemeConv: Color.lerp(pickerColor1, pickerColor2, 0.5)!,
         ),
       ),
     );
