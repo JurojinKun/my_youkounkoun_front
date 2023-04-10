@@ -19,13 +19,22 @@ class AdMobConfig {
         throw UnsupportedError("Unsupported platform");
       }
     } else {
+      //TODO uncomment id admob prod my youkounkoun version prod
+
       if (Platform.isAndroid) {
-        return EnvironmentConfigLib().getEnvironmentBannerAdmobIdAndroid;
+        return "ca-app-pub-3940256099942544/6300978111";
       } else if (Platform.isIOS) {
-        return EnvironmentConfigLib().getEnvironmentBannerAdmobIdIos;
+        return "ca-app-pub-3940256099942544/2934735716";
       } else {
         throw UnsupportedError("Unsupported platform");
       }
+      // if (Platform.isAndroid) {
+      //   return EnvironmentConfigLib().getEnvironmentBannerAdmobIdAndroid;
+      // } else if (Platform.isIOS) {
+      //   return EnvironmentConfigLib().getEnvironmentBannerAdmobIdIos;
+      // } else {
+      //   throw UnsupportedError("Unsupported platform");
+      // }
     }
   }
 

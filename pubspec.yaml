@@ -46,7 +46,7 @@ dependencies:
   sticky_headers: ^0.3.0+2
   image: ^4.0.15
   path_provider: ^2.0.12
-  google_mobile_ads: ^2.3.0
+  google_mobile_ads: ^2.4.0
   flutter_dotenv: ^5.0.2
   app_tracking_transparency: ^2.0.3
   app_settings: ^4.2.0

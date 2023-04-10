@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="default_channel_name">Default channel</string>
     <string name="default_channel_description">Default channel for notifications</string>
+    <!-- <string name="custom_notification_channel_id">custom_notification_channel_id</string>
+    <string name="custom_channel_name">Custom channel</string>
+    <string name="custom_channel_description">Custom channel for notifications</string> -->
 </resources>

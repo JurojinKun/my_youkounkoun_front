@@ -161,6 +161,9 @@ class NotificationsLib {
     const channelId = 'default_notification_channel_id';
     const channelName = 'Default Channel';
     const channelDescription = 'Default channel for notifications';
+    // const channelCustomId = 'custom_notification_channel_id';
+    // const channelCustomName = 'Custom Channel';
+    // const channelCustomDescription = 'Custom channel for notifications';
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -172,6 +175,27 @@ class NotificationsLib {
             importance: Importance.high,
             enableVibration: true,
             sound: RawResourceAndroidNotificationSound('sound_diamond')));
+
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(const AndroidNotificationChannel(
+    //         channelId, // id
+    //         channelName, // title
+    //         description: channelDescription, // description
+    //         importance: Importance.high,
+    //         enableVibration: true));
+
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(const AndroidNotificationChannel(
+    //         channelCustomId, // id
+    //         channelCustomName, // title
+    //         description: channelCustomDescription, // description
+    //         importance: Importance.high,
+    //         enableVibration: true,
+    //         sound: RawResourceAndroidNotificationSound('sound_diamond')));
   }
 
   static void notificationsLogicController(BuildContext context, WidgetRef ref,
@@ -271,6 +295,28 @@ class NotificationsLib {
               presentSound:
                   true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
               sound: "sound_diamond.caf");
+
+      // const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      //     AndroidNotificationDetails(
+      //   "custom_notification_channel_id",
+      //   "Custom channel",
+      //   channelDescription: "Custom channel for notifications",
+      //   importance: Importance.high,
+      //   priority: Priority.high,
+      //   playSound: true,
+      //   icon: '@mipmap/ic_notif_new',
+      //   sound: RawResourceAndroidNotificationSound('sound_diamond'),
+      // );
+
+      // const DarwinNotificationDetails darwinPlatformChannelSpecifics =
+      //     DarwinNotificationDetails(
+      //         presentAlert:
+      //             true, // Present an alert when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+      //         presentBadge:
+      //             true, // Present the badge number when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+      //         presentSound:
+      //             true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+      //         sound: 'sound_diamond.caf');
 
       // Set platform specific channel
       const NotificationDetails platformChannelSpecifics = NotificationDetails(
