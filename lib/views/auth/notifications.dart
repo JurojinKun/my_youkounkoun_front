@@ -243,8 +243,8 @@ class NotificationsState extends ConsumerState<Notifications>
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 5.0),
                               child: Container(
-                                height: 5.0,
-                                width: 5.0,
+                                height: 2.5,
+                                width: 2.5,
                                 decoration: BoxDecoration(
                                     color: notification.isRead
                                         ? cGrey

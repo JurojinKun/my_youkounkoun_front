@@ -161,9 +161,6 @@ class NotificationsLib {
     const channelId = 'default_notification_channel_id';
     const channelName = 'Default Channel';
     const channelDescription = 'Default channel for notifications';
-    // const channelCustomId = 'custom_notification_channel_id';
-    // const channelCustomName = 'Custom Channel';
-    // const channelCustomDescription = 'Custom channel for notifications';
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -175,36 +172,14 @@ class NotificationsLib {
             importance: Importance.high,
             enableVibration: true,
             sound: RawResourceAndroidNotificationSound('sound_diamond'),
-            ledColor: cBlue
-            ));
-
-    // await flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()
-    //     ?.createNotificationChannel(const AndroidNotificationChannel(
-    //         channelId, // id
-    //         channelName, // title
-    //         description: channelDescription, // description
-    //         importance: Importance.high,
-    //         enableVibration: true));
-
-    // await flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()
-    //     ?.createNotificationChannel(const AndroidNotificationChannel(
-    //         channelCustomId, // id
-    //         channelCustomName, // title
-    //         description: channelCustomDescription, // description
-    //         importance: Importance.high,
-    //         enableVibration: true,
-    //         sound: RawResourceAndroidNotificationSound('sound_diamond')));
+            ledColor: cBlue));
   }
 
   static void notificationsLogicController(BuildContext context, WidgetRef ref,
       TickerProvider tickerProvider) async {
     /// Set OS configs
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_notif_nb');
+        AndroidInitializationSettings('@drawable/ic_test_notif');
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
             onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -282,15 +257,14 @@ class NotificationsLib {
       // Set Android channel
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
-              'default_notification_channel_id',
-              'Default Channel',
+              'default_notification_channel_id', 'Default Channel',
               importance: Importance.high,
               priority: Priority.high,
               sound: RawResourceAndroidNotificationSound('sound_diamond'),
+              color: cBlue,
               ledColor: cBlue,
               ledOnMs: 500,
-              ledOffMs: 500
-              );
+              ledOffMs: 500);
 
       // Set iOS channel
       const DarwinNotificationDetails darwinPlatformChannelSpecifics =
@@ -303,28 +277,6 @@ class NotificationsLib {
                   true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
               sound: "sound_diamond.caf");
 
-      // const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      //     AndroidNotificationDetails(
-      //   "custom_notification_channel_id",
-      //   "Custom channel",
-      //   channelDescription: "Custom channel for notifications",
-      //   importance: Importance.high,
-      //   priority: Priority.high,
-      //   playSound: true,
-      //   icon: '@mipmap/ic_notif_new_nb',
-      //   sound: RawResourceAndroidNotificationSound('sound_diamond'),
-      // );
-
-      // const DarwinNotificationDetails darwinPlatformChannelSpecifics =
-      //     DarwinNotificationDetails(
-      //         presentAlert:
-      //             true, // Present an alert when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
-      //         presentBadge:
-      //             true, // Present the badge number when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
-      //         presentSound:
-      //             true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
-      //         sound: 'sound_diamond.caf');
-
       // Set platform specific channel
       const NotificationDetails platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
@@ -334,70 +286,47 @@ class NotificationsLib {
 
       //logic de mise en silence d'une nouvelle notif push si le user est déjà sur le screen activities index 1 ou sur le chat details
       if (notification != null && !kIsWeb) {
-        // if (message.data["type"] == "I") {
-        //   if (tabControllerActivities == null ||
-        //       (tabControllerBottomNav!.index != 2 ||
-        //           tabControllerActivities!.index != 1)) {
-        //     flutterLocalNotificationsPlugin.show(
-        //       notification.hashCode,
-        //       notification.title,
-        //       notification.body,
-        //       platformChannelSpecifics,
-        //     );
-        //   }
-        //   //à voir si ça suffit pour add la notif dans la liste des notifs
-        //   if (ref.read(notificationsNotifierProvider) != null) {
-        //     NotificationModel newNotif =
-        //         NotificationModel.fromJSON(message.data["data"]);
-        //     ref
-        //         .read(notificationsNotifierProvider.notifier)
-        //         .addNewNotification(newNotif);
-        //   }
-        // } else if (message.data["type"] == "M") {
-        //   if (ref.read(currentRouteAppNotifierProvider) != "chatDetails") {
-        //     flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //         notification.title, notification.body, platformChannelSpecifics,
-        //         payload: message.data["idSender"]);
-        //   } else if (ref.read(currentRouteAppNotifierProvider) ==
-        //           "chatDetails" &&
-        //       ref.read(currentChatUserIdNotifierProvider) !=
-        //           message.data["idSender"]) {
-        //     flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //         notification.title, notification.body, platformChannelSpecifics,
-        //         payload: message.data["idSender"]);
-        //   }
-        // }
-
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          platformChannelSpecifics,
-        );
-
-        //logic de test de mise en silence de notifs push
-        // if (tabControllerActivities == null ||
-        //     (tabControllerBottomNav!.index != 2 ||
-        //         tabControllerActivities!.index != 1)) {
-        //   print("premier if");
-        //   flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //       notification.title, notification.body, platformChannelSpecifics,
-        //       //à la place de "45" mettre l'id sender
-        //       payload: "45");
-        // } else if (ref.read(inChatDetailsNotifierProvider).isEmpty ||
-        //     (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
-        //         ref.read(inChatDetailsNotifierProvider)["screen"] ==
-        //             "ChatDetails" &&
-        //         ref.read(inChatDetailsNotifierProvider)["userID"] != "45") ||
-        //     (ref.read(inChatDetailsNotifierProvider).isNotEmpty &&
-        //         ref.read(inChatDetailsNotifierProvider)["screen"] ==
-        //             "UserProfile")) {
-        //   print("second if");
-        //   flutterLocalNotificationsPlugin.show(notification.hashCode,
-        //       notification.title, notification.body, platformChannelSpecifics,
-        //       //à la place de "45" mettre l'id sender
-        //       payload: "45");
-        // }
+        if (message.data["type"] == "I") {
+          if (tabControllerActivities == null ||
+              (tabControllerBottomNav!.index != 2 ||
+                  tabControllerActivities!.index != 1)) {
+            flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              platformChannelSpecifics,
+            );
+          }
+          //à voir si ça suffit pour add la notif dans la liste des notifs
+          if (ref.read(notificationsNotifierProvider) != null) {
+            NotificationModel newNotif =
+                NotificationModel.fromJSON(message.data["data"]);
+            ref
+                .read(notificationsNotifierProvider.notifier)
+                .addNewNotification(newNotif);
+          }
+        } else if (message.data["type"] == "M") {
+          if (ref.read(currentRouteAppNotifierProvider) != "chatDetails") {
+            flutterLocalNotificationsPlugin.show(notification.hashCode,
+                notification.title, notification.body, platformChannelSpecifics,
+                payload: message.data["idSender"]);
+          } else if (ref.read(currentRouteAppNotifierProvider) ==
+                  "chatDetails" &&
+              ref.read(currentChatUserIdNotifierProvider) !=
+                  message.data["idSender"]) {
+            flutterLocalNotificationsPlugin.show(notification.hashCode,
+                notification.title, notification.body, platformChannelSpecifics,
+                payload: message.data["idSender"]);
+          }
+        } else {
+          //TODO delete this else version prod
+          flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            platformChannelSpecifics,
+          );
+        }
       }
     });
   }
