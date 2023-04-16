@@ -524,7 +524,8 @@ class RegisterState extends ConsumerState<Register>
                               border: Border.all(
                                   color: _validCGU
                                       ? cBlue
-                                      : Helpers.uiApp(context), width: 2.0)),
+                                      : Helpers.uiApp(context),
+                                  width: 2.0)),
                           child: Padding(
                             padding: const EdgeInsets.all(1.5),
                             child: Container(
@@ -598,7 +599,8 @@ class RegisterState extends ConsumerState<Register>
                                 border: Border.all(
                                     color: _validPrivacypolicy
                                         ? cBlue
-                                        : Helpers.uiApp(context), width: 2.0)),
+                                        : Helpers.uiApp(context),
+                                    width: 2.0)),
                             child: Padding(
                               padding: const EdgeInsets.all(1.5),
                               child: Container(
@@ -1499,6 +1501,10 @@ class RegisterState extends ConsumerState<Register>
                                     "nationality": "FR",
                                     "profilePictureUrl":
                                         "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+                                    "followers": 1001,
+                                    "followings": 157,
+                                    "bio":
+                                        "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
                                     "validCGU": true,
                                     "validPrivacyPolicy": true,
                                     "validEmail": false

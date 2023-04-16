@@ -4,23 +4,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 
-final editProfilePictureUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfilePictureUserProvider, File?>((ref) => EditProfilePictureUserProvider());
-final editPseudoUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfilePseudoUserProvider, bool>((ref) => EditProfilePseudoUserProvider());
-final editGenderUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfileGenderUserProvider, String>((ref) => EditProfileGenderUserProvider());
-final editBirthdayUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfileBirthdayUserProvider, DateTime?>((ref) => EditProfileBirthdayUserProvider());
-final editNationalityUserNotifierProvider = StateNotifierProvider.autoDispose<EditProfileNationalityUserProvider, String>((ref) => EditProfileNationalityUserProvider());
+final editProfilePictureUserNotifierProvider =
+    StateNotifierProvider.autoDispose<EditProfilePictureUserProvider, File?>(
+        (ref) => EditProfilePictureUserProvider());
+final editPseudoUserNotifierProvider =
+    StateNotifierProvider.autoDispose<EditProfilePseudoUserProvider, bool>(
+        (ref) => EditProfilePseudoUserProvider());
+final editGenderUserNotifierProvider =
+    StateNotifierProvider.autoDispose<EditProfileGenderUserProvider, String>(
+        (ref) => EditProfileGenderUserProvider());
+final editBirthdayUserNotifierProvider = StateNotifierProvider.autoDispose<
+    EditProfileBirthdayUserProvider,
+    DateTime?>((ref) => EditProfileBirthdayUserProvider());
+final editNationalityUserNotifierProvider = StateNotifierProvider.autoDispose<
+    EditProfileNationalityUserProvider,
+    String>((ref) => EditProfileNationalityUserProvider());
+final editBioUserNotifierProvider =
+    StateNotifierProvider<EditProfileBioUserProvider, bool>(
+        (ref) => EditProfileBioUserProvider());
 
 final editProfileNotifierProvider = FutureProvider.autoDispose<bool>((ref) {
-  final profilePicture =
-      ref.watch(editProfilePictureUserNotifierProvider);
+  final profilePicture = ref.watch(editProfilePictureUserNotifierProvider);
   final pseudo = ref.watch(editPseudoUserNotifierProvider);
   final gender = ref.watch(editGenderUserNotifierProvider);
   final birthday = ref.watch(editBirthdayUserNotifierProvider);
   final nationality = ref.watch(editNationalityUserNotifierProvider);
-  
+  final bio = ref.watch(editBioUserNotifierProvider);
 
-  if (profilePicture != null || pseudo || gender != ref.read(userNotifierProvider).gender || birthday != Helpers.convertStringToDateTime(
-        ref.read(userNotifierProvider).birthday) || nationality != ref.read(userNotifierProvider).nationality) {
+  if (profilePicture != null ||
+      pseudo ||
+      gender != ref.read(userNotifierProvider).gender ||
+      birthday !=
+          Helpers.convertStringToDateTime(
+              ref.read(userNotifierProvider).birthday) ||
+      nationality != ref.read(userNotifierProvider).nationality ||
+      bio) {
     return true;
   } else {
     return false;
@@ -94,7 +112,19 @@ class EditProfileNationalityUserProvider extends StateNotifier<String> {
     state = newState;
   }
 
-   void clearNationality(String actualNationality) {
+  void clearNationality(String actualNationality) {
     state = actualNationality;
-   }
+  }
+}
+
+class EditProfileBioUserProvider extends StateNotifier<bool> {
+  EditProfileBioUserProvider() : super(false);
+
+  void editBio(bool newState) {
+    state = newState;
+  }
+
+  void clearBio() {
+    state = false;
+  }
 }

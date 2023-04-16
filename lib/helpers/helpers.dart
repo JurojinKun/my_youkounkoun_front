@@ -219,4 +219,31 @@ class Helpers {
         "#${color.value.toRadixString(16).substring(2).toUpperCase()}";
     return hexaString;
   }
+
+  static String formatNumber(int number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number < 1000000) {
+      double k = number / 1000;
+      if (k % 1 == 0) {
+        return '${k.toInt()}k';
+      } else {
+        return '${k.toStringAsFixed(k.truncateToDouble() == k ? 0 : 1)}k';
+      }
+    } else if (number < 1000000000) {
+      double m = number / 1000000;
+      if (m % 1 == 0) {
+        return '${m.toInt()}m';
+      } else {
+        return '${m.toStringAsFixed(m.truncateToDouble() == m ? 0 : 1)}m';
+      }
+    } else {
+      double b = number / 1000000000;
+      if (b % 1 == 0) {
+        return '${b.toInt()}b';
+      } else {
+        return '${b.toStringAsFixed(b.truncateToDouble() == b ? 0 : 1)}b';
+      }
+    }
+  }
 }

@@ -128,64 +128,65 @@ class ProfileState extends ConsumerState<Profile>
               parent: BouncingScrollPhysics()),
           child: Column(
             children: [
-              user.profilePictureUrl.trim() == "" ||
-                      (connectivityStatusApp == ConnectivityResult.none &&
-                          !profilePictureAlreadyLoaded)
-                  ? Container(
-                      height: 175,
-                      width: 175,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: cBlue),
-                        color: cGrey.withOpacity(0.2),
-                      ),
-                      child: const Icon(Icons.person, color: cBlue, size: 75),
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: user.profilePictureUrl,
-                      imageBuilder: ((context, imageProvider) {
-                        return Container(
-                            height: 145,
-                            width: 145,
-                            foregroundDecoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: cBlue),
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover)),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cBlue),
-                              color: cGrey.withOpacity(0.2),
-                            ),
-                            child: const Icon(Icons.person,
-                                color: cBlue, size: 55));
-                      }),
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) {
-                        if (downloadProgress.progress == 1.0 &&
-                            !profilePictureAlreadyLoaded) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            ref
-                                .read(
-                                    profilePictureAlreadyLoadedNotifierProvider
-                                        .notifier)
-                                .profilePictureLoaded(true);
-                          });
-                        }
+              topProfile(),
+              const SizedBox(height: 10.0),
+              bodyProfile()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                        return Container(
+  Widget topProfile() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            user.profilePictureUrl.trim() == "" ||
+                    (connectivityStatusApp == ConnectivityResult.none &&
+                        !profilePictureAlreadyLoaded)
+                ? Container(
+                    height: 145,
+                    width: 145,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: cBlue),
+                      color: cGrey.withOpacity(0.2),
+                    ),
+                    child: const Icon(Icons.person, color: cBlue, size: 75),
+                  )
+                : CachedNetworkImage(
+                    imageUrl: user.profilePictureUrl,
+                    imageBuilder: ((context, imageProvider) {
+                      return Container(
                           height: 145,
                           width: 145,
+                          foregroundDecoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cBlue),
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover)),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color: cBlue),
                             color: cGrey.withOpacity(0.2),
                           ),
                           child:
-                              const Icon(Icons.person, color: cBlue, size: 55),
-                        );
-                      },
-                      errorWidget: (context, url, error) => Container(
+                              const Icon(Icons.person, color: cBlue, size: 55));
+                    }),
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      if (downloadProgress.progress == 1.0 &&
+                          !profilePictureAlreadyLoaded) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ref
+                              .read(profilePictureAlreadyLoadedNotifierProvider
+                                  .notifier)
+                              .profilePictureLoaded(true);
+                        });
+                      }
+
+                      return Container(
                         height: 145,
                         width: 145,
                         decoration: BoxDecoration(
@@ -194,73 +195,113 @@ class ProfileState extends ConsumerState<Profile>
                           color: cGrey.withOpacity(0.2),
                         ),
                         child: const Icon(Icons.person, color: cBlue, size: 55),
+                      );
+                    },
+                    errorWidget: (context, url, error) => Container(
+                      height: 145,
+                      width: 145,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: cBlue),
+                        color: cGrey.withOpacity(0.2),
                       ),
+                      child: const Icon(Icons.person, color: cBlue, size: 55),
                     ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    user.pseudo,
-                    style: textStyleCustomBold(Helpers.uiApp(context), 23),
-                    textScaleFactor: 1.0,
-                    textAlign: TextAlign.center,
                   ),
-                  Flag.flagsCode.contains(user.nationality.toUpperCase())
-                      ? Flag.fromString(
-                          user.nationality.toUpperCase(),
-                          height: 25,
-                          width: 50,
-                          fit: BoxFit.contain,
-                          replacement: const SizedBox(),
-                        )
-                      : Flag.flagsCode.contains(user.nationality.toLowerCase())
-                          ? Flag.fromString(
-                              user.nationality.toLowerCase(),
-                              height: 25,
-                              width: 50,
-                              fit: BoxFit.contain,
-                              replacement: const SizedBox(),
-                            )
-                          : const SizedBox()
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(user.gender == "Male" ? Icons.male : Icons.female,
-                      color: Helpers.uiApp(context)),
-                  Text(
-                    " - ",
-                    style: textStyleCustomBold(Helpers.uiApp(context), 18),
-                  ),
-                  Text(
-                      AgeCalculator.age(Helpers.convertStringToDateTime(
-                                  user.birthday))
-                              .years
-                              .toString() +
-                          AppLocalization.of(context)
-                              .translate("profile_screen", "years_old"),
-                      style: textStyleCustomBold(Helpers.uiApp(context), 18.0))
-                ],
-              ),
-              Container(
-                height: 150.0,
-                alignment: Alignment.center,
-                child: Text(
-                  AppLocalization.of(context)
-                      .translate("general", "message_continue"),
-                  style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+            const SizedBox(width: 25.0),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.pseudo,
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                      textScaleFactor: 1.0,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(width: 5.0),
+                    Flag.flagsCode.contains(user.nationality.toUpperCase())
+                        ? Flag.fromString(
+                            user.nationality.toUpperCase(),
+                            height: 15,
+                            width: 20,
+                            fit: BoxFit.contain,
+                            replacement: const SizedBox(),
+                          )
+                        : Flag.flagsCode
+                                .contains(user.nationality.toLowerCase())
+                            ? Flag.fromString(
+                                user.nationality.toLowerCase(),
+                                height: 15,
+                                width: 20,
+                                fit: BoxFit.contain,
+                                replacement: const SizedBox(),
+                              )
+                            : const SizedBox()
+                  ],
                 ),
-              )
-            ],
-          ),
+                const SizedBox(height: 5.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      user.gender == "Male" ? Icons.male : Icons.female,
+                      color: Helpers.uiApp(context),
+                      size: 20,
+                    ),
+                    Text(
+                      " - ",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                    ),
+                    Text(
+                        AgeCalculator.age(Helpers.convertStringToDateTime(
+                                    user.birthday))
+                                .years
+                                .toString() +
+                            AppLocalization.of(context)
+                                .translate("profile_screen", "years_old"),
+                        style:
+                            textStyleCustomBold(Helpers.uiApp(context), 16.0))
+                  ],
+                ),
+                const SizedBox(height: 5.0),
+                Text("${Helpers.formatNumber(user.followers)} Abonnés",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
+                    textScaleFactor: 1.0,
+                    maxLines: 2,
+                    overflow: TextOverflow.clip),
+                const SizedBox(height: 5.0),
+                Text("${Helpers.formatNumber(user.followings)} Abonnements",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
+                    textScaleFactor: 1.0,
+                    maxLines: 2,
+                    overflow: TextOverflow.clip),
+              ],
+            ))
+          ],
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(user.bio,
+              style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+              textScaleFactor: 1.0),
+        )
+      ],
+    );
+  }
+
+  Widget bodyProfile() {
+    return Container(
+      height: 150.0,
+      alignment: Alignment.center,
+      child: Text(
+        AppLocalization.of(context).translate("general", "message_continue"),
+        style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+        textAlign: TextAlign.center,
+        textScaleFactor: 1.0,
       ),
     );
   }

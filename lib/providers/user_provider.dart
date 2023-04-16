@@ -18,6 +18,9 @@ class UserProvider extends StateNotifier<UserModel> {
             birthday: "",
             nationality: "",
             profilePictureUrl: "",
+            followers: 0,
+            followings: 0,
+            bio: "",
             validCGU: false,
             validPrivacyPolicy: false,
             validEmail: false));
@@ -36,6 +39,9 @@ class UserProvider extends StateNotifier<UserModel> {
         birthday: "",
         nationality: "",
         profilePictureUrl: "",
+        followers: 0,
+        followings: 0,
+        bio: "",
         validCGU: false,
         validPrivacyPolicy: false,
         validEmail: false);

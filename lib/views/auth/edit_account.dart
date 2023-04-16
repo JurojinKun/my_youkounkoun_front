@@ -35,8 +35,8 @@ class EditAccountState extends ConsumerState<EditAccount> {
   late UserModel user;
 
   File? editPictureProfile;
-  late TextEditingController _pseudoController;
-  late FocusNode _pseudoFocusNode;
+  late TextEditingController _pseudoController, _bioController;
+  late FocusNode _pseudoFocusNode, _bioFocusNode;
   List genders = [];
   String _selectedGender = "";
   DateTime? _dateBirthday;
@@ -60,8 +60,17 @@ class EditAccountState extends ConsumerState<EditAccount> {
     }
   }
 
+  void updateBio() {
+    if (_bioController.text != ref.read(userNotifierProvider).bio &&
+        _bioController.text.length <= 100) {
+      ref.read(editBioUserNotifierProvider.notifier).editBio(true);
+    } else {
+      ref.read(editBioUserNotifierProvider.notifier).editBio(false);
+    }
+  }
+
   Future<void> _saveModifUser() async {
-     //logic à modifier lorsque câbler avec le back
+    //logic à modifier lorsque câbler avec le back
     try {
       Map<String, dynamic> mapUser = {
         "id": 1,
@@ -72,6 +81,9 @@ class EditAccountState extends ConsumerState<EditAccount> {
         "birthday": _dateBirthday.toString(),
         "nationality": _selectedCountry,
         "profilePictureUrl": "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+        "followers": ref.read(userNotifierProvider).followers,
+        "followings": ref.read(userNotifierProvider).followings,
+        "bio": _bioController.text,
         "validCGU": true,
         "validPrivacyPolicy": true,
         "validEmail": false
@@ -95,12 +107,13 @@ class EditAccountState extends ConsumerState<EditAccount> {
       ref
           .read(editNationalityUserNotifierProvider.notifier)
           .clearNationality(user.nationality);
+      _bioController.text = user.bio;
 
       if (mounted) {
         messageUser(
-          context,
-          AppLocalization.of(context).translate(
-              "edit_account_screen", "message_success_update_account"));
+            context,
+            AppLocalization.of(context).translate(
+                "edit_account_screen", "message_success_update_account"));
       }
     } catch (e) {
       if (kDebugMode) {
@@ -108,7 +121,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
       }
       if (mounted) {
         messageUser(context,
-          AppLocalization.of(context).translate("general", "message_error"));
+            AppLocalization.of(context).translate("general", "message_error"));
       }
     }
   }
@@ -126,6 +139,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
     ref
         .read(editNationalityUserNotifierProvider.notifier)
         .clearNationality(user.nationality);
+    _bioController.text = user.bio;
   }
 
   @override
@@ -150,12 +164,22 @@ class EditAccountState extends ConsumerState<EditAccount> {
     _pseudoController.addListener(() {
       updatePseudo();
     });
+
+    _bioController =
+        TextEditingController(text: ref.read(userNotifierProvider).bio);
+    _bioFocusNode = FocusNode();
+    _bioController.addListener(() {
+      updateBio();
+    });
   }
 
   @override
   void deactivate() {
     _pseudoController.removeListener(() {
       updatePseudo();
+    });
+    _bioController.removeListener(() {
+      updateBio();
     });
     super.deactivate();
   }
@@ -164,6 +188,8 @@ class EditAccountState extends ConsumerState<EditAccount> {
   void dispose() {
     _pseudoController.dispose();
     _pseudoFocusNode.dispose();
+    _bioController.dispose();
+    _bioFocusNode.dispose();
     super.dispose();
   }
 
@@ -271,14 +297,24 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(
               height: 25.0,
             ),
-            Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "picture_profile"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 18),
+            RichText(
+              text: TextSpan(children: [
+                WidgetSpan(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Icon(Icons.image,
+                      size: 20, color: Helpers.uiApp(context)),
+                )),
+                TextSpan(
+                  text: AppLocalization.of(context)
+                      .translate("edit_account_screen", "picture_profile"),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                )
+              ]),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Center(
               child: SizedBox(
                 height: 145,
@@ -418,14 +454,24 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(
               height: 20.0,
             ),
-            Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "pseudo_profile"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 18),
+            RichText(
+              text: TextSpan(children: [
+                WidgetSpan(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Icon(Icons.person,
+                      size: 20, color: Helpers.uiApp(context)),
+                )),
+                TextSpan(
+                  text: AppLocalization.of(context)
+                      .translate("edit_account_screen", "pseudo_profile"),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                )
+              ]),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Center(
               child: TextField(
                 scrollPhysics: const BouncingScrollPhysics(),
@@ -453,8 +499,6 @@ class EditAccountState extends ConsumerState<EditAccount> {
                       cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                   labelStyle: textStyleCustomRegular(
                       cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                  prefixIcon: Icon(Icons.person,
-                      color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                   suffixIcon: _pseudoController.text.isNotEmpty
                       ? Material(
                           color: Colors.transparent,
@@ -503,15 +547,97 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(
               height: 20.0,
             ),
-            Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "gender_profile"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 18),
+            RichText(
+                text: TextSpan(children: [
+                  WidgetSpan(
+                      child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(Icons.rate_review,
+                        color: Helpers.uiApp(context), size: 20),
+                  )),
+                  TextSpan(
+                    text: "Biographie",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                  )
+                ]),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.0),
+            const SizedBox(height: 10.0),
+            Center(
+              child: TextField(
+                scrollPhysics: const BouncingScrollPhysics(),
+                controller: _bioController,
+                focusNode: _bioFocusNode,
+                minLines: 1,
+                maxLines: null,
+                maxLength: 100,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.text,
+                onChanged: (val) {
+                  setState(() {
+                    val = _bioController.text;
+                  });
+                },
+                onSubmitted: (val) {
+                  Helpers.hideKeyboard(context);
+                },
+                style: textStyleCustomRegular(
+                    _bioFocusNode.hasFocus ? cBlue : cGrey,
+                    14 / MediaQuery.of(context).textScaleFactor),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                  hintText: "Biographie",
+                  hintStyle: textStyleCustomRegular(
+                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                  labelStyle: textStyleCustomRegular(
+                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                        color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                        color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                        color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2.0,
+                        color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0)),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            RichText(
+              text: TextSpan(children: [
+                WidgetSpan(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Icon(Icons.diversity_1,
+                      size: 20, color: Helpers.uiApp(context)),
+                )),
+                TextSpan(
+                  text: AppLocalization.of(context)
+                      .translate("edit_account_screen", "gender_profile"),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                )
+              ]),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
             const SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
             GridView.builder(
                 padding: EdgeInsets.zero,
@@ -587,74 +713,89 @@ class EditAccountState extends ConsumerState<EditAccount> {
             const SizedBox(
               height: 20.0,
             ),
-            Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "birthday_profile"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 18),
+            RichText(
+              text: TextSpan(children: [
+                WidgetSpan(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Icon(Icons.celebration,
+                      size: 20, color: Helpers.uiApp(context)),
+                )),
+                TextSpan(
+                  text: AppLocalization.of(context)
+                      .translate("edit_account_screen", "birthday_profile"),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                )
+              ]),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
             const SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      locale: localeLanguage.languageCode == "fr"
-                          ? LocaleType.fr
-                          : LocaleType.en,
-                      theme: DatePickerTheme(
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        cancelStyle: textStyleCustomBold(cBlue, 16),
-                        doneStyle: textStyleCustomBold(cBlue, 16),
-                        itemStyle: textStyleCustomBold(
-                            Theme.of(context).iconTheme.color!, 18),
-                      ),
-                      minTime: DateTime(1900, 1, 1),
-                      maxTime: DateTime.now(), onConfirm: (date) {
-                    //verif 18 years old or not
-                    final verif =
-                        DateTime.now().subtract(const Duration(days: 6570));
-                    if (date.isBefore(verif)) {
-                      ref
-                          .read(editBirthdayUserNotifierProvider.notifier)
-                          .updateBirthday(date);
-                    }
-                  }, currentTime: _dateBirthday ?? DateTime.now());
-                },
-                child: Container(
-                  height: 34.0,
-                  decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 1.0, color: Helpers.uiApp(context))),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                        Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
-                            localeLanguage.languageCode),
-                        style: textStyleCustomBold(Helpers.uiApp(context), 24),
-                        textScaleFactor: 1.0),
-                  ),
+            GestureDetector(
+              onTap: () {
+            DatePicker.showDatePicker(context,
+                showTitleActions: true,
+                locale: localeLanguage.languageCode == "fr"
+                    ? LocaleType.fr
+                    : LocaleType.en,
+                theme: DatePickerTheme(
+                  backgroundColor:
+                      Theme.of(context).scaffoldBackgroundColor,
+                  cancelStyle: textStyleCustomBold(cBlue, 16),
+                  doneStyle: textStyleCustomBold(cBlue, 16),
+                  itemStyle: textStyleCustomBold(
+                      Theme.of(context).iconTheme.color!, 18),
                 ),
+                minTime: DateTime(1900, 1, 1),
+                maxTime: DateTime.now(), onConfirm: (date) {
+              //verif 18 years old or not
+              final verif =
+                  DateTime.now().subtract(const Duration(days: 6570));
+              if (date.isBefore(verif)) {
+                ref
+                    .read(editBirthdayUserNotifierProvider.notifier)
+                    .updateBirthday(date);
+              }
+            }, currentTime: _dateBirthday ?? DateTime.now());
+              },
+              child: Container(
+            height: 45.0,
+            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: cGrey),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: Text(
+                Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
+                    localeLanguage.languageCode),
+                style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                textScaleFactor: 1.0),
               ),
             ),
             const SizedBox(
               height: 20.0,
             ),
-            Text(
-              AppLocalization.of(context)
-                  .translate("edit_account_screen", "nationality_profile"),
-              style: textStyleCustomBold(Helpers.uiApp(context), 18),
+            RichText(
+              text: TextSpan(children: [
+                WidgetSpan(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Icon(Icons.travel_explore,
+                      size: 20, color: Helpers.uiApp(context)),
+                )),
+                TextSpan(
+                  text: AppLocalization.of(context)
+                      .translate("edit_account_screen", "nationality_profile"),
+                  style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                )
+              ]),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
             ),
             const SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
             Center(
               child: Container(

@@ -10,6 +10,9 @@ List<UserModel> recentSearchesDatasMockes = [
       nationality: "CA",
       profilePictureUrl:
           "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
+      followers: 10,
+      followings: 15897,
+      bio: "Je suis un Kevin donc je vous laisse imaginer un peu le délire...",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -23,6 +26,9 @@ List<UserModel> recentSearchesDatasMockes = [
       nationality: "FR",
       profilePictureUrl:
           "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
+      followers: 1745,
+      followings: 15897,
+      bio: "Mmmmh j'adore la lecture et l'écriture wallah...",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -35,6 +41,9 @@ List<UserModel> recentSearchesDatasMockes = [
       birthday: "1995-02-06 00:00",
       nationality: "FR",
       profilePictureUrl: "",
+      followers: 174578,
+      followings: 197,
+      bio: "Dans la légende",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -52,6 +61,9 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       nationality: "CA",
       profilePictureUrl:
           "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
+      followers: 10,
+      followings: 15897,
+      bio: "Je suis un Kevin donc je vous laisse imaginer un peu le délire...",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -64,6 +76,10 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       birthday: "1997-06-06 00:00",
       nationality: "FR",
       profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+      followers: 1001,
+      followings: 157,
+      bio:
+          "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -77,6 +93,9 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       nationality: "FR",
       profilePictureUrl:
           "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
+      followers: 1745,
+      followings: 15897,
+      bio: "Mmmmh j'adore la lecture et l'écriture wallah...",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -89,6 +108,9 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       birthday: "1995-02-06 00:00",
       nationality: "FR",
       profilePictureUrl: "",
+      followers: 174578,
+      followings: 197,
+      bio: "Dans la légende",
       validCGU: true,
       validPrivacyPolicy: true,
       validEmail: false),
@@ -103,6 +125,9 @@ class UserModel {
   String birthday;
   String nationality;
   String profilePictureUrl;
+  int followers;
+  int followings;
+  String bio;
   bool validCGU;
   bool validPrivacyPolicy;
   bool validEmail;
@@ -116,6 +141,9 @@ class UserModel {
       required this.birthday,
       required this.nationality,
       required this.profilePictureUrl,
+      required this.followers,
+      required this.followings,
+      required this.bio,
       required this.validCGU,
       required this.validPrivacyPolicy,
       required this.validEmail});
@@ -129,6 +157,9 @@ class UserModel {
         birthday = jsonMap["birthday"] ?? "",
         nationality = jsonMap["nationality"] ?? "",
         profilePictureUrl = jsonMap["profilePictureUrl"] ?? "",
+        followers = jsonMap["followers"] ?? 0,
+        followings = jsonMap["followings"] ?? 0,
+        bio = jsonMap["bio"] ?? "",
         validCGU = jsonMap["validCGU"] ?? false,
         validPrivacyPolicy = jsonMap["validPrivacyPolicy"] ?? false,
         validEmail = jsonMap["validEmail"] ?? false;
@@ -143,6 +174,9 @@ class UserModel {
       "birthday": birthday,
       "nationality": nationality,
       "profilePictureUrl": profilePictureUrl,
+      "followers": followers,
+      "followings": followings,
+      "bio": bio,
       "validCGU": validCGU,
       "validPrivacyPolicy": validPrivacyPolicy,
       "validEmail": validEmail
@@ -161,6 +195,9 @@ class UserModel {
         birthday: birthday,
         nationality: nationality,
         profilePictureUrl: profilePictureUrl,
+        followers: followers,
+        followings: followings,
+        bio: bio,
         validCGU: validCGU,
         validPrivacyPolicy: validPrivacyPolicy,
         validEmail: validEmail);
