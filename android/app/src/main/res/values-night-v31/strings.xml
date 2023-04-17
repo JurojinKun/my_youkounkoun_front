@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="default_channel_name">Default channel</string>
+    <string name="default_channel_description">Default channel for notifications</string>
+</resources>
