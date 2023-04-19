@@ -81,8 +81,8 @@ flutter_native_splash:
   image_dark: assets/logos/ic_splash_new.png
   android: true
   android_12: 
-    image: assets/logos/ic_splash_android12_new.png
-    image_dark: assets/logos/ic_splash_android12_new.png
+    image: assets/logos/App-Android12-11521152_pixels.png
+    image_dark: assets/logos/App-Android12-11521152_pixels.png
   ios: true
   web: false
 
