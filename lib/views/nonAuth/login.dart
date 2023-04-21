@@ -186,6 +186,30 @@ class LoginState extends ConsumerState<Login> {
                     const SizedBox(
                       height: 25.0,
                     ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        text: TextSpan(children: [
+                          WidgetSpan(
+                              child: Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(Icons.mail,
+                                size: 20, color: Helpers.uiApp(context)),
+                          )),
+                          TextSpan(
+                            text: AppLocalization.of(context)
+                                .translate("login_screen", "mail"),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 18),
+                          )
+                        ]),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
                     TextField(
                       scrollPhysics: const BouncingScrollPhysics(),
                       controller: _mailController,
@@ -214,8 +238,6 @@ class LoginState extends ConsumerState<Login> {
                             cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                         labelStyle: textStyleCustomRegular(
                             cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                        prefixIcon: Icon(Icons.mail,
-                            color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                         suffixIcon: _mailController.text.isNotEmpty
                             ? Material(
                                 color: Colors.transparent,
@@ -262,7 +284,31 @@ class LoginState extends ConsumerState<Login> {
                       ),
                     ),
                     const SizedBox(
-                      height: 35.0,
+                      height: 20.0,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        text: TextSpan(children: [
+                          WidgetSpan(
+                              child: Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: Icon(Icons.lock,
+                                size: 20, color: Helpers.uiApp(context)),
+                          )),
+                          TextSpan(
+                            text: AppLocalization.of(context)
+                                .translate("login_screen", "password"),
+                            style:
+                                textStyleCustomBold(Helpers.uiApp(context), 18),
+                          )
+                        ]),
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
                     ),
                     TextField(
                       scrollPhysics: const BouncingScrollPhysics(),
@@ -304,8 +350,6 @@ class LoginState extends ConsumerState<Login> {
                             cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                         labelStyle: textStyleCustomRegular(
                             cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                        prefixIcon: Icon(Icons.lock,
-                            color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
                         suffixIcon: Material(
                           color: Colors.transparent,
                           shape: const CircleBorder(),
@@ -354,7 +398,6 @@ class LoginState extends ConsumerState<Login> {
                             borderRadius: BorderRadius.circular(10.0)),
                       ),
                     ),
-                    const SizedBox(height: 15.0),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton(
@@ -368,7 +411,7 @@ class LoginState extends ConsumerState<Login> {
                           )),
                     ),
                     const SizedBox(
-                      height: 35.0,
+                      height: 20.0,
                     ),
                     SizedBox(
                         height: 50.0,

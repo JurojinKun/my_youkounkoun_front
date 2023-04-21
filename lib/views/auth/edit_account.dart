@@ -800,6 +800,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
             Center(
               child: Container(
                   height: 45,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       border: Border.all(color: cGrey),
@@ -822,7 +823,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                     initialSelection: _selectedCountry,
                     showCountryOnly: true,
                     showOnlyCountryWhenClosed: true,
-                    alignLeft: true,
+                    alignLeft: false,
                     enabled: true,
                     dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
                         MediaQuery.of(context).size.height / 1.25),

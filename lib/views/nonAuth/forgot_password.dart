@@ -206,6 +206,28 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                   textScaleFactor: 1.0,
                 ),
                 const SizedBox(height: 45.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(children: [
+                      WidgetSpan(
+                          child: Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: Icon(Icons.mail,
+                            size: 20, color: Helpers.uiApp(context)),
+                      )),
+                      TextSpan(
+                        text: "Email",
+                        style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                      )
+                    ]),
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
                 TextField(
                   scrollPhysics: const BouncingScrollPhysics(),
                   controller: _mailController,
@@ -233,8 +255,6 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                         cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,

@@ -35,11 +35,13 @@ class RegisterState extends ConsumerState<Register>
   late TextEditingController _mailController,
       _passwordController,
       _confirmPasswordController,
-      _pseudoController;
+      _pseudoController,
+      _bioController;
   late FocusNode _mailFocusNode,
       _passwordFocusNode,
       _confirmPasswordFocusNode,
-      _pseudoFocusNode;
+      _pseudoFocusNode,
+      _bioFocusNode;
 
   bool _validCGU = false;
   bool _validPrivacypolicy = false;
@@ -58,10 +60,6 @@ class RegisterState extends ConsumerState<Register>
   bool _passwordObscure = true;
   bool _loadingStepOne = false;
   bool _loadingStepTwo = false;
-  bool _loadingStepThree = false;
-  bool _loadingStepFourth = false;
-  bool _loadingStepFifth = false;
-  bool _loadingStepSixth = false;
   bool _swipeBack = false;
 
   late Locale localeLanguage;
@@ -72,16 +70,19 @@ class RegisterState extends ConsumerState<Register>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
 
     _mailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
     _pseudoController = TextEditingController();
+    _bioController = TextEditingController();
+
     _mailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
     _confirmPasswordFocusNode = FocusNode();
     _pseudoFocusNode = FocusNode();
+    _bioFocusNode = FocusNode();
   }
 
   @override
@@ -92,10 +93,13 @@ class RegisterState extends ConsumerState<Register>
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _pseudoController.dispose();
+    _bioController.dispose();
+
     _mailFocusNode.dispose();
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
     _pseudoFocusNode.dispose();
+    _bioFocusNode.dispose();
     super.dispose();
   }
 
@@ -194,10 +198,6 @@ class RegisterState extends ConsumerState<Register>
               children: [
                 firstStepRegister(),
                 secondStepRegister(),
-                thirdStepRegister(),
-                fourthStepRegister(),
-                fifthStepRegister(),
-                sixthStepRegister()
               ]),
         ),
       ),
@@ -238,7 +238,25 @@ class RegisterState extends ConsumerState<Register>
                         .translate("register_screen", "step_one"),
                     style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
-                const SizedBox(height: 35.0),
+                const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.mail,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: AppLocalization.of(context)
+                          .translate("register_screen", "mail"),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
                 TextField(
                   scrollPhysics: const BouncingScrollPhysics(),
                   controller: _mailController,
@@ -266,8 +284,6 @@ class RegisterState extends ConsumerState<Register>
                         cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.mail,
-                        color: _mailFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,
@@ -313,8 +329,26 @@ class RegisterState extends ConsumerState<Register>
                   ),
                 ),
                 const SizedBox(
-                  height: 35.0,
+                  height: 20.0,
                 ),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.lock,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: AppLocalization.of(context)
+                          .translate("register_screen", "password"),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
                 TextField(
                   scrollPhysics: const BouncingScrollPhysics(),
                   controller: _passwordController,
@@ -390,7 +424,7 @@ class RegisterState extends ConsumerState<Register>
                   ),
                 ),
                 const SizedBox(
-                  height: 35.0,
+                  height: 10.0,
                 ),
                 TextField(
                   scrollPhysics: const BouncingScrollPhysics(),
@@ -476,7 +510,7 @@ class RegisterState extends ConsumerState<Register>
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                 ),
-                const SizedBox(height: 35.0),
+                const SizedBox(height: 40.0),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Row(
@@ -657,7 +691,16 @@ class RegisterState extends ConsumerState<Register>
                             }
                           },
                           style:
-                              ElevatedButton.styleFrom(backgroundColor: cBlue),
+                              ElevatedButton.styleFrom(backgroundColor: _mailController.text.isNotEmpty &&
+                                EmailValidator.validate(_mailController.text) &&
+                                _passwordController.text.isNotEmpty &&
+                                _passwordController.text.length >= 3 &&
+                                _confirmPasswordController.text.isNotEmpty &&
+                                _confirmPasswordController.text.length >= 3 &&
+                                _passwordController.text ==
+                                    _confirmPasswordController.text &&
+                                _validCGU &&
+                                _validPrivacypolicy ? cBlue : cGrey),
                           child: _loadingStepOne
                               ? SizedBox(
                                   height: 15,
@@ -711,14 +754,124 @@ class RegisterState extends ConsumerState<Register>
                     style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0),
                 const SizedBox(
-                  height: 55.0,
+                  height: 20.0,
                 ),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.image,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: "Image de profil",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
+                Center(
+                  child: SizedBox(
+                    height: 145,
+                    width: 145,
+                    child: Stack(
+                      children: [
+                        validProfilePicture == null
+                            ? Container(
+                                height: 145,
+                                width: 145,
+                                decoration: BoxDecoration(
+                                    color: cGrey.withOpacity(0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue)),
+                                alignment: Alignment.center,
+                                child: const Icon(
+                                  Icons.person,
+                                  color: cBlue,
+                                  size: 55.0,
+                                ),
+                              )
+                            : Container(
+                                height: 145,
+                                width: 145,
+                                foregroundDecoration: BoxDecoration(
+                                    color: cGrey.withOpacity(0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cBlue),
+                                    image: DecorationImage(
+                                        image: FileImage(validProfilePicture!),
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.high)),
+                                decoration: BoxDecoration(
+                                  color: cGrey.withOpacity(0.2),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: cBlue),
+                                ),
+                                child: const Icon(
+                                  Icons.person,
+                                  color: cBlue,
+                                  size: 55.0,
+                                ),
+                              ),
+                        Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                                onTap: () async {
+                                  await EditPictureLib
+                                      .showOptionsImageWithCropped(context);
+                                },
+                                child: Container(
+                                  height: 50.0,
+                                  width: 50.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      shape: BoxShape.circle,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: cBlue,
+                                          blurRadius: 5,
+                                        )
+                                      ]),
+                                  child: const Icon(
+                                    Icons.photo_camera,
+                                    color: cBlue,
+                                    size: 30.0,
+                                  ),
+                                )))
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.person,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: AppLocalization.of(context)
+                          .translate("register_screen", "pseudo"),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
                 TextField(
                   scrollPhysics: const BouncingScrollPhysics(),
                   controller: _pseudoController,
                   focusNode: _pseudoFocusNode,
                   maxLines: 1,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   cursorColor: cBlue,
                   onChanged: (val) {
@@ -727,7 +880,7 @@ class RegisterState extends ConsumerState<Register>
                     });
                   },
                   onSubmitted: (val) {
-                    Helpers.hideKeyboard(context);
+                    FocusScope.of(context).requestFocus(_bioFocusNode);
                   },
                   style: textStyleCustomRegular(
                       _pseudoFocusNode.hasFocus ? cBlue : cGrey,
@@ -740,8 +893,6 @@ class RegisterState extends ConsumerState<Register>
                         cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                     labelStyle: textStyleCustomRegular(
                         cBlue, 14 / MediaQuery.of(context).textScaleFactor),
-                    prefixIcon: Icon(Icons.person,
-                        color: _pseudoFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,
@@ -786,105 +937,95 @@ class RegisterState extends ConsumerState<Register>
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                 ),
-              ],
-            ),
-          )),
-          Container(
-            height: 115 + MediaQuery.of(context).padding.bottom,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: _isKeyboard
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _tabController.index -= 1;
-                            });
-                          },
-                          child: Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "previous"),
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14,
-                                  TextDecoration.underline),
-                              textScaleFactor: 1.0)),
-                      SizedBox(
-                          height: 50.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                if (_pseudoController.text.isNotEmpty) {
-                                  setState(() {
-                                    _loadingStepTwo = true;
-                                  });
-                                  _tabController.index += 1;
-                                  setState(() {
-                                    _loadingStepTwo = false;
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: cBlue),
-                              child: _loadingStepTwo
-                                  ? SizedBox(
-                                      height: 15,
-                                      width: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          strokeWidth: 1.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      AppLocalization.of(context)
-                                          .translate("register_screen", "next"),
-                                      style: textStyleCustomMedium(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          20),
-                                      textScaleFactor: 1.0))),
-                    ],
-                  ),
-          )
-        ],
-      ),
-    );
-  }
-
-  thirdStepRegister() {
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                25.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
-                    20.0,
-                25.0,
-                MediaQuery.of(context).padding.bottom + 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    AppLocalization.of(context)
-                        .translate("register_screen", "step_three"),
-                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
                 const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.rate_review,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: "Biographie",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
+                TextField(
+                  scrollPhysics: const BouncingScrollPhysics(),
+                  controller: _bioController,
+                  focusNode: _bioFocusNode,
+                  minLines: 1,
+                  maxLines: null,
+                  maxLength: 100,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
+                  onChanged: (val) {
+                    setState(() {
+                      val = _bioController.text;
+                    });
+                  },
+                  onSubmitted: (val) {
+                    Helpers.hideKeyboard(context);
+                  },
+                  style: textStyleCustomRegular(
+                      _bioFocusNode.hasFocus ? cBlue : cGrey,
+                      14 / MediaQuery.of(context).textScaleFactor),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                    hintText: "Biographie",
+                    hintStyle: textStyleCustomRegular(
+                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    labelStyle: textStyleCustomRegular(
+                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: _bioFocusNode.hasFocus ? cBlue : cGrey,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.diversity_1,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: "Genre",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
+                ),
+                const SizedBox(height: 10.0),
                 GridView.builder(
                     padding: EdgeInsets.zero,
                     gridDelegate:
@@ -965,108 +1106,25 @@ class RegisterState extends ConsumerState<Register>
                                     textScaleFactor: 1.0)
                               ],
                             );
-                    })
-              ],
-            ),
-          )),
-          Container(
-            height: 115 + MediaQuery.of(context).padding.bottom,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: _isKeyboard
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _tabController.index -= 1;
-                            });
-                          },
-                          child: Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "previous"),
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14,
-                                  TextDecoration.underline),
-                              textScaleFactor: 1.0)),
-                      SizedBox(
-                          height: 50.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                if (validGender.trim() != "") {
-                                  setState(() {
-                                    _loadingStepThree = true;
-                                  });
-                                  _tabController.index += 1;
-                                  setState(() {
-                                    _loadingStepThree = false;
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: cBlue),
-                              child: _loadingStepThree
-                                  ? SizedBox(
-                                      height: 15,
-                                      width: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          strokeWidth: 1.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      AppLocalization.of(context)
-                                          .translate("register_screen", "next"),
-                                      style: textStyleCustomMedium(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          20),
-                                      textScaleFactor: 1.0))),
-                    ],
-                  ),
-          )
-        ],
-      ),
-    );
-  }
-
-  fourthStepRegister() {
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                25.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
-                    20.0,
-                25.0,
-                MediaQuery.of(context).padding.bottom + 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    AppLocalization.of(context)
-                        .translate("register_screen", "step_four"),
-                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
-                const SizedBox(
-                  height: 55.0,
+                    }),
+                const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.celebration,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: "Date de naissance",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
                 ),
+                const SizedBox(height: 10.0),
                 Center(
                   child: GestureDetector(
                     onTap: () {
@@ -1103,132 +1161,43 @@ class RegisterState extends ConsumerState<Register>
                       }, currentTime: _dateBirthday ?? DateTime.now());
                     },
                     child: Container(
-                      height: 34.0,
+                      height: 45.0,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 1.0,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? cBlack
-                                    : cWhite)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                            Helpers.formattingDate(
-                                _dateBirthday ?? DateTime.now(),
-                                localeLanguage.languageCode),
-                            style:
-                                textStyleCustomBold(Helpers.uiApp(context), 24),
-                            textScaleFactor: 1.0),
-                      ),
+                          border: Border.all(color: cGrey),
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Text(
+                          Helpers.formattingDate(
+                              _dateBirthday ?? DateTime.now(),
+                              localeLanguage.languageCode),
+                          style:
+                              textStyleCustomBold(Helpers.uiApp(context), 20),
+                          textScaleFactor: 1.0),
                     ),
                   ),
                 ),
-              ],
-            ),
-          )),
-          Container(
-            height: 115 + MediaQuery.of(context).padding.bottom,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: _isKeyboard
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _tabController.index -= 1;
-                            });
-                          },
-                          child: Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "previous"),
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14,
-                                  TextDecoration.underline),
-                              textScaleFactor: 1.0)),
-                      SizedBox(
-                          height: 50.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                if (validBirthday) {
-                                  setState(() {
-                                    _loadingStepFourth = true;
-                                  });
-                                  _tabController.index += 1;
-                                  setState(() {
-                                    _loadingStepFourth = false;
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: cBlue),
-                              child: _loadingStepFourth
-                                  ? SizedBox(
-                                      height: 15,
-                                      width: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          strokeWidth: 1.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      AppLocalization.of(context)
-                                          .translate("register_screen", "next"),
-                                      style: textStyleCustomMedium(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          20),
-                                      textScaleFactor: 1.0))),
-                    ],
-                  ),
-          )
-        ],
-      ),
-    );
-  }
-
-  fifthStepRegister() {
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                25.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
-                    20.0,
-                25.0,
-                MediaQuery.of(context).padding.bottom + 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    AppLocalization.of(context)
-                        .translate("register_screen", "step_five"),
-                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
-                const SizedBox(
-                  height: 55.0,
+                const SizedBox(height: 20.0),
+                RichText(
+                  text: TextSpan(children: [
+                    WidgetSpan(
+                        child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(Icons.travel_explore,
+                          size: 20, color: Helpers.uiApp(context)),
+                    )),
+                    TextSpan(
+                      text: "Nationnalité",
+                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                    )
+                  ]),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.0,
                 ),
+                const SizedBox(height: 10.0),
                 Container(
                     height: 45,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         border: Border.all(color: cGrey),
@@ -1249,7 +1218,7 @@ class RegisterState extends ConsumerState<Register>
                       initialSelection: _selectedCountry,
                       showCountryOnly: true,
                       showOnlyCountryWhenClosed: true,
-                      alignLeft: true,
+                      alignLeft: false,
                       enabled: true,
                       dialogSize: Size(MediaQuery.of(context).size.width - 25.0,
                           MediaQuery.of(context).size.height / 1.25),
@@ -1278,278 +1247,113 @@ class RegisterState extends ConsumerState<Register>
               ],
             ),
           )),
-          Container(
-            height: 115 + MediaQuery.of(context).padding.bottom,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: _isKeyboard
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _tabController.index -= 1;
-                            });
-                          },
-                          child: Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "previous"),
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14,
-                                  TextDecoration.underline),
-                              textScaleFactor: 1.0)),
-                      SizedBox(
-                          height: 50.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                if (_selectedCountry != null) {
-                                  if (kDebugMode) {
-                                    print(_selectedCountry);
-                                  }
+          _isKeyboard
+              ? const SizedBox()
+              : Container(
+                  height: 115 + MediaQuery.of(context).padding.bottom,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  child: _isKeyboard
+                      ? const SizedBox()
+                      : Column(
+                          children: [
+                            TextButton(
+                                onPressed: () {
                                   setState(() {
-                                    _loadingStepFifth = true;
+                                    _tabController.index -= 1;
                                   });
-                                  _tabController.index += 1;
-                                  setState(() {
-                                    _loadingStepFifth = false;
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: cBlue),
-                              child: _loadingStepFifth
-                                  ? SizedBox(
-                                      height: 15,
-                                      width: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          strokeWidth: 1.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      AppLocalization.of(context)
-                                          .translate("register_screen", "next"),
-                                      style: textStyleCustomMedium(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          20),
-                                      textScaleFactor: 1.0))),
-                    ],
-                  ),
-          )
-        ],
-      ),
-    );
-  }
-
-  sixthStepRegister() {
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                25.0,
-                MediaQuery.of(context).padding.top +
-                    appBar.preferredSize.height +
-                    20.0,
-                25.0,
-                MediaQuery.of(context).padding.bottom + 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    AppLocalization.of(context)
-                        .translate("register_screen", "step_six"),
-                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
-                Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      height: 145,
-                      width: 145,
-                      child: Stack(
-                        children: [
-                          validProfilePicture == null
-                              ? Container(
-                                  height: 145,
-                                  width: 145,
-                                  decoration: BoxDecoration(
-                                      color: cGrey.withOpacity(0.2),
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue)),
-                                  alignment: Alignment.center,
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: cBlue,
-                                    size: 55.0,
-                                  ),
-                                )
-                              : Container(
-                                  height: 145,
-                                  width: 145,
-                                  foregroundDecoration: BoxDecoration(
-                                      color: cGrey.withOpacity(0.2),
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: cBlue),
-                                      image: DecorationImage(
-                                          image:
-                                              FileImage(validProfilePicture!),
-                                          fit: BoxFit.cover,
-                                          filterQuality: FilterQuality.high)),
-                                  decoration: BoxDecoration(
-                                    color: cGrey.withOpacity(0.2),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cBlue),
-                                  ),
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: cBlue,
-                                    size: 55.0,
-                                  ),
-                                ),
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    await EditPictureLib
-                                        .showOptionsImageWithCropped(context);
-                                  },
-                                  child: Container(
-                                    height: 50.0,
-                                    width: 50.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        shape: BoxShape.circle,
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: cBlue,
-                                            blurRadius: 5,
+                                },
+                                child: Text(
+                                    AppLocalization.of(context).translate(
+                                        "register_screen", "previous"),
+                                    style: textStyleCustomBold(
+                                        Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? cBlack
+                                            : cWhite,
+                                        14,
+                                        TextDecoration.underline),
+                                    textScaleFactor: 1.0)),
+                            SizedBox(
+                                height: 50.0,
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (_pseudoController.text.isNotEmpty &&
+                                          validGender.trim() != "" &&
+                                          validBirthday &&
+                                          _selectedCountry != null &&
+                                          validProfilePicture != null) {
+                                        setState(() {
+                                          _loadingStepTwo = true;
+                                        });
+                                        Map<String, dynamic> userMap = {
+                                          "id": 1,
+                                          "token": "tokenTest1234",
+                                          "email": "ccommunay@gmail.com",
+                                          "pseudo": "0ruj",
+                                          "gender": "Male",
+                                          "birthday": "1997-06-06 00:00",
+                                          "nationality": "FR",
+                                          "profilePictureUrl":
+                                              "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
+                                          "followers": 1001,
+                                          "followings": 157,
+                                          "bio":
+                                              "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
+                                          "validCGU": true,
+                                          "validPrivacyPolicy": true,
+                                          "validEmail": false
+                                        };
+                                        String encodedUserMap =
+                                            json.encode(userMap);
+                                        SyncSharedPrefsLib()
+                                            .prefs!
+                                            .setString("user", encodedUserMap);
+                                        ref
+                                            .read(userNotifierProvider.notifier)
+                                            .setUser(
+                                                UserModel.fromJSON(userMap));
+                                        setState(() {
+                                          _loadingStepTwo = false;
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: _pseudoController.text.isNotEmpty &&
+                                          validGender.trim() != "" &&
+                                          validBirthday &&
+                                          _selectedCountry != null &&
+                                          validProfilePicture != null ? cBlue : cGrey),
+                                    child: _loadingStepTwo
+                                        ? SizedBox(
+                                            height: 15,
+                                            width: 15,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                color: Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? cBlack
+                                                    : cWhite,
+                                                strokeWidth: 1.0,
+                                              ),
+                                            ),
                                           )
-                                        ]),
-                                    child: const Icon(
-                                      Icons.photo_camera,
-                                      color: cBlue,
-                                      size: 30.0,
-                                    ),
-                                  )))
-                        ],
-                      ),
-                    ),
-                  ),
+                                        : Text(
+                                            AppLocalization.of(context)
+                                                .translate("register_screen",
+                                                    "sign_up"),
+                                            style: textStyleCustomMedium(
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? cBlack
+                                                    : cWhite,
+                                                20),
+                                            textScaleFactor: 1.0))),
+                          ],
+                        ),
                 )
-              ],
-            ),
-          )),
-          Container(
-            height: 115 + MediaQuery.of(context).padding.bottom,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: _isKeyboard
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _tabController.index -= 1;
-                            });
-                          },
-                          child: Text(
-                              AppLocalization.of(context)
-                                  .translate("register_screen", "previous"),
-                              style: textStyleCustomBold(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? cBlack
-                                      : cWhite,
-                                  14,
-                                  TextDecoration.underline),
-                              textScaleFactor: 1.0)),
-                      SizedBox(
-                          height: 50.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                //add password/confirm password logic send ws try register
-                                if (validProfilePicture != null) {
-                                  setState(() {
-                                    _loadingStepSixth = true;
-                                  });
-                                  Map<String, dynamic> userMap = {
-                                    "id": 1,
-                                    "token": "tokenTest1234",
-                                    "email": "ccommunay@gmail.com",
-                                    "pseudo": "0ruj",
-                                    "gender": "Male",
-                                    "birthday": "1997-06-06 00:00",
-                                    "nationality": "FR",
-                                    "profilePictureUrl":
-                                        "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-                                    "followers": 1001,
-                                    "followings": 157,
-                                    "bio":
-                                        "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
-                                    "validCGU": true,
-                                    "validPrivacyPolicy": true,
-                                    "validEmail": false
-                                  };
-                                  String encodedUserMap = json.encode(userMap);
-                                  SyncSharedPrefsLib()
-                                      .prefs!
-                                      .setString("user", encodedUserMap);
-                                  ref
-                                      .read(userNotifierProvider.notifier)
-                                      .setUser(UserModel.fromJSON(userMap));
-                                  setState(() {
-                                    _loadingStepSixth = false;
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: cBlue),
-                              child: _loadingStepSixth
-                                  ? SizedBox(
-                                      height: 15,
-                                      width: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          strokeWidth: 1.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      AppLocalization.of(context).translate(
-                                          "register_screen", "sign_up"),
-                                      style: textStyleCustomMedium(
-                                          Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? cBlack
-                                              : cWhite,
-                                          20),
-                                      textScaleFactor: 1.0))),
-                    ],
-                  ),
-          )
         ],
       ),
     );
