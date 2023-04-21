@@ -268,13 +268,13 @@ class ProfileState extends ConsumerState<Profile>
                   ],
                 ),
                 const SizedBox(height: 5.0),
-                Text("${Helpers.formatNumber(user.followers)} Abonnés",
+                Text("${Helpers.formatNumber(user.followers.length)} Abonné(s)",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
                     maxLines: 2,
                     overflow: TextOverflow.clip),
                 const SizedBox(height: 5.0),
-                Text("${Helpers.formatNumber(user.followings)} Abonnements",
+                Text("${Helpers.formatNumber(user.followings.length)} Abonnement(s)",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
                     maxLines: 2,
@@ -283,11 +283,14 @@ class ProfileState extends ConsumerState<Profile>
             ))
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(user.bio,
-              style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-              textScaleFactor: 1.0),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Text(user.bio,
+                style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0),
+          ),
         )
       ],
     );

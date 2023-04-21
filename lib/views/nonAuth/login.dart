@@ -59,8 +59,8 @@ class LoginState extends ConsumerState<Login> {
       "birthday": "1997-06-06 00:00",
       "nationality": "FR",
       "profilePictureUrl": "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-      "followers": 1001,
-      "followings": 157,
+      "followers": [],
+      "followings": [],
       "bio":
           "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
       "validCGU": true,

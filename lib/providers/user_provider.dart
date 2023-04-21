@@ -18,8 +18,8 @@ class UserProvider extends StateNotifier<UserModel> {
             birthday: "",
             nationality: "",
             profilePictureUrl: "",
-            followers: 0,
-            followings: 0,
+            followers: [],
+            followings: [],
             bio: "",
             validCGU: false,
             validPrivacyPolicy: false,
@@ -27,6 +27,18 @@ class UserProvider extends StateNotifier<UserModel> {
 
   void setUser(UserModel user) {
     state = user;
+  }
+
+  void addFollowing(int idUser) {
+    UserModel newState = state.copy();
+    newState.followings.add(idUser);
+    state = newState;
+  }
+
+  void removeFollowing(int idUser) {
+    UserModel newState = state.copy();
+    newState.followings.removeWhere((element) => element == idUser);
+    state = newState;
   }
 
   void clearUser() {
@@ -39,8 +51,8 @@ class UserProvider extends StateNotifier<UserModel> {
         birthday: "",
         nationality: "",
         profilePictureUrl: "",
-        followers: 0,
-        followings: 0,
+        followers: [],
+        followings: [],
         bio: "",
         validCGU: false,
         validPrivacyPolicy: false,

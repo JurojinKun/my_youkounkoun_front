@@ -10,8 +10,8 @@ List<UserModel> recentSearchesDatasMockes = [
       nationality: "CA",
       profilePictureUrl:
           "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
-      followers: 10,
-      followings: 15897,
+      followers: [],
+      followings: [],
       bio: "Je suis un Kevin donc je vous laisse imaginer un peu le délire...",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -26,8 +26,8 @@ List<UserModel> recentSearchesDatasMockes = [
       nationality: "FR",
       profilePictureUrl:
           "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
-      followers: 1745,
-      followings: 15897,
+      followers: [],
+      followings: [],
       bio: "Mmmmh j'adore la lecture et l'écriture wallah...",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -41,8 +41,8 @@ List<UserModel> recentSearchesDatasMockes = [
       birthday: "1995-02-06 00:00",
       nationality: "FR",
       profilePictureUrl: "",
-      followers: 174578,
-      followings: 197,
+      followers: [],
+      followings: [],
       bio: "Dans la légende",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -61,8 +61,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       nationality: "CA",
       profilePictureUrl:
           "https://animeholicph.files.wordpress.com/2008/10/lalouch-mask.png",
-      followers: 10,
-      followings: 15897,
+      followers: [],
+      followings: [],
       bio: "Je suis un Kevin donc je vous laisse imaginer un peu le délire...",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -76,8 +76,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       birthday: "1997-06-06 00:00",
       nationality: "FR",
       profilePictureUrl: "https://pbs.twimg.com/media/FRMrb3IXEAMZfQU.jpg",
-      followers: 1001,
-      followings: 157,
+      followers: [],
+      followings: [],
       bio:
           "Je suis la bio donc à voir ce que ça donne au niveau de l'affichage du profil",
       validCGU: true,
@@ -93,8 +93,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       nationality: "FR",
       profilePictureUrl:
           "https://w0.peakpx.com/wallpaper/291/730/HD-wallpaper-death-note-kira.jpg",
-      followers: 1745,
-      followings: 15897,
+      followers: [],
+      followings: [],
       bio: "Mmmmh j'adore la lecture et l'écriture wallah...",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -108,8 +108,8 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       birthday: "1995-02-06 00:00",
       nationality: "FR",
       profilePictureUrl: "",
-      followers: 174578,
-      followings: 197,
+      followers: [],
+      followings: [],
       bio: "Dans la légende",
       validCGU: true,
       validPrivacyPolicy: true,
@@ -125,8 +125,8 @@ class UserModel {
   String birthday;
   String nationality;
   String profilePictureUrl;
-  int followers;
-  int followings;
+  List followers;
+  List followings;
   String bio;
   bool validCGU;
   bool validPrivacyPolicy;
@@ -157,8 +157,8 @@ class UserModel {
         birthday = jsonMap["birthday"] ?? "",
         nationality = jsonMap["nationality"] ?? "",
         profilePictureUrl = jsonMap["profilePictureUrl"] ?? "",
-        followers = jsonMap["followers"] ?? 0,
-        followings = jsonMap["followings"] ?? 0,
+        followers = jsonMap["followers"] ?? [],
+        followings = jsonMap["followings"] ?? [],
         bio = jsonMap["bio"] ?? "",
         validCGU = jsonMap["validCGU"] ?? false,
         validPrivacyPolicy = jsonMap["validPrivacyPolicy"] ?? false,

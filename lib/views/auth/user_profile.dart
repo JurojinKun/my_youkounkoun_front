@@ -89,6 +89,22 @@ class UserProfileState extends ConsumerState<UserProfile> {
         });
   }
 
+  Future<void> updateFollowUser() async {
+    //TODO ws update follow user
+    if (ref.read(userNotifierProvider).followings.contains(widget.user.id)) {
+      ref.read(userNotifierProvider.notifier).removeFollowing(widget.user.id);
+      setState(() {
+        widget.user.followers.removeWhere(
+            (element) => element == ref.read(userNotifierProvider).id);
+      });
+    } else {
+      ref.read(userNotifierProvider.notifier).addFollowing(widget.user.id);
+      setState(() {
+        widget.user.followers.add(ref.read(userNotifierProvider).id);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,6 +148,31 @@ class UserProfileState extends ConsumerState<UserProfile> {
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
+                              onPressed: () async => await updateFollowUser(),
+                              icon: ref
+                                      .read(userNotifierProvider)
+                                      .followings
+                                      .contains(widget.user.id)
+                                  ? Icon(Icons.person_remove,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      size: 26)
+                                  : Icon(Icons.person_add,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? cBlack
+                                          : cWhite,
+                                      size: 26)),
+                        ),
+                  widget.user.id == ref.read(userNotifierProvider).id
+                      ? const SizedBox()
+                      : Material(
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: IconButton(
                               onPressed: () => _conversationBottomSheet(
                                   navAuthKey.currentContext!),
                               icon: Icon(Icons.edit_note,
@@ -161,40 +202,57 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 parent: BouncingScrollPhysics()),
             child: Column(
               children: [
-                widget.user.profilePictureUrl.trim() == ""
-                    ? Container(
-                        height: 145,
-                        width: 145,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: cBlue),
-                          color: cGrey.withOpacity(0.2),
-                        ),
-                        child: const Icon(Icons.person, color: cBlue, size: 55),
-                      )
-                    : CachedNetworkImageCustom(
-                        profilePictureUrl: widget.user.profilePictureUrl,
-                        heightContainer: 145,
-                        widthContainer: 145,
-                        iconSize: 55),
-                const SizedBox(
-                  height: 15.0,
-                ),
+                topUserProfile(),
+                const SizedBox(height: 10.0),
+                bodyUserProfile()
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Widget topUserProfile() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            widget.user.profilePictureUrl.trim() == ""
+                ? Container(
+                    height: 145,
+                    width: 145,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: cBlue),
+                      color: cGrey.withOpacity(0.2),
+                    ),
+                    child: const Icon(Icons.person, color: cBlue, size: 55),
+                  )
+                : CachedNetworkImageCustom(
+                    profilePictureUrl: widget.user.profilePictureUrl,
+                    heightContainer: 145,
+                    widthContainer: 145,
+                    iconSize: 55),
+            const SizedBox(width: 25.0),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       widget.user.pseudo,
-                      style: textStyleCustomBold(Helpers.uiApp(context), 23),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0,
                       textAlign: TextAlign.center,
                     ),
+                    const SizedBox(width: 5.0),
                     Flag.flagsCode
                             .contains(widget.user.nationality.toUpperCase())
                         ? Flag.fromString(
                             widget.user.nationality.toUpperCase(),
-                            height: 25,
-                            width: 50,
+                            height: 15,
+                            width: 20,
                             fit: BoxFit.contain,
                             replacement: const SizedBox(),
                           )
@@ -202,26 +260,26 @@ class UserProfileState extends ConsumerState<UserProfile> {
                                 .contains(widget.user.nationality.toLowerCase())
                             ? Flag.fromString(
                                 widget.user.nationality.toLowerCase(),
-                                height: 25,
-                                width: 50,
+                                height: 15,
+                                width: 20,
                                 fit: BoxFit.contain,
                                 replacement: const SizedBox(),
                               )
                             : const SizedBox()
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 5.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
-                        widget.user.gender == "Male"
-                            ? Icons.male
-                            : Icons.female,
-                        color: Helpers.uiApp(context)),
+                      widget.user.gender == "Male" ? Icons.male : Icons.female,
+                      color: Helpers.uiApp(context),
+                      size: 20,
+                    ),
                     Text(
                       " - ",
-                      style: textStyleCustomBold(Helpers.uiApp(context), 18),
+                      style: textStyleCustomBold(Helpers.uiApp(context), 16),
                     ),
                     Text(
                         AgeCalculator.age(Helpers.convertStringToDateTime(
@@ -229,25 +287,52 @@ class UserProfileState extends ConsumerState<UserProfile> {
                                 .years
                                 .toString() +
                             AppLocalization.of(context)
-                                .translate("user_profile_screen", "years_old"),
+                                .translate("profile_screen", "years_old"),
                         style:
-                            textStyleCustomBold(Helpers.uiApp(context), 18.0))
+                            textStyleCustomBold(Helpers.uiApp(context), 16.0))
                   ],
                 ),
-                Container(
-                  height: 150.0,
-                  alignment: Alignment.center,
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate("general", "message_continue"),
-                    style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textAlign: TextAlign.center,
+                const SizedBox(height: 5.0),
+                Text(
+                    "${Helpers.formatNumber(widget.user.followers.length)} Abonné(s)",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
-                  ),
-                )
+                    maxLines: 2,
+                    overflow: TextOverflow.clip),
+                const SizedBox(height: 5.0),
+                Text(
+                    "${Helpers.formatNumber(widget.user.followings.length)} Abonnement(s)",
+                    style: textStyleCustomBold(Helpers.uiApp(context), 14),
+                    textScaleFactor: 1.0,
+                    maxLines: 2,
+                    overflow: TextOverflow.clip),
               ],
-            ),
+            ))
+          ],
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Text(widget.user.bio,
+                style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+                textScaleFactor: 1.0),
           ),
-        ));
+        )
+      ],
+    );
+  }
+
+  Widget bodyUserProfile() {
+    return Container(
+      height: 150.0,
+      alignment: Alignment.center,
+      child: Text(
+        AppLocalization.of(context).translate("general", "message_continue"),
+        style: textStyleCustomMedium(Helpers.uiApp(context), 14),
+        textAlign: TextAlign.center,
+        textScaleFactor: 1.0,
+      ),
+    );
   }
 }
