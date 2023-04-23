@@ -85,7 +85,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
         context: context,
         expand: false,
         enableDrag: true,
-        elevation: 6,
+        elevation: 0,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15.0),
@@ -109,17 +109,11 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                   duration: const Duration(milliseconds: 750),
                   height: sizeModalVerif,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: cBlue.withOpacity(0.5),
-                          blurRadius: 10,
-                          offset: const Offset(0.0, -5.0),
-                        )
-                      ]),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0)),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Column(
@@ -165,7 +159,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                           child: Column(
                             children: [
                               const SizedBox(
-                                height: 35,
+                                height: 15,
                               ),
                               Text(
                                   AppLocalization.of(context).translate(
@@ -180,6 +174,31 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                               const SizedBox(
                                 height: 25.0,
                               ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                  text: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 5.0),
+                                      child: Icon(Icons.lock,
+                                          size: 20,
+                                          color: Helpers.uiApp(context)),
+                                    )),
+                                    TextSpan(
+                                      text: AppLocalization.of(context)
+                                          .translate("edit_security_screen",
+                                              "password"),
+                                      style: textStyleCustomBold(
+                                          Helpers.uiApp(context), 18),
+                                    )
+                                  ]),
+                                  textAlign: TextAlign.center,
+                                  textScaleFactor: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
                               TextField(
                                 scrollPhysics: const BouncingScrollPhysics(),
                                 controller: _validModifPasswordController,
@@ -189,22 +208,28 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                 keyboardType: TextInputType.text,
                                 obscureText: _validModifPasswordObscure,
                                 onTap: () {
-                                  if (Platform.isIOS) {
-                                    sizeModalVerif = sizeModalVerif ==
-                                            MediaQuery.of(context).size.height /
-                                                    2 +
-                                                20.0
-                                        ? MediaQuery.of(context).size.height
-                                        : MediaQuery.of(context).size.height /
-                                                2 +
-                                            20.0;
-                                  } else {
-                                    sizeModalVerif = sizeModalVerif ==
-                                            MediaQuery.of(context).size.height /
-                                                2
-                                        ? MediaQuery.of(context).size.height
-                                        : MediaQuery.of(context).size.height /
-                                            2;
+                                  if (!_validModifPasswordFocusNode.hasFocus) {
+                                    if (Platform.isIOS) {
+                                      sizeModalVerif = sizeModalVerif ==
+                                              MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      2 +
+                                                  20.0
+                                          ? MediaQuery.of(context).size.height
+                                          : MediaQuery.of(context).size.height /
+                                                  2 +
+                                              20.0;
+                                    } else {
+                                      sizeModalVerif = sizeModalVerif ==
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  2
+                                          ? MediaQuery.of(context).size.height
+                                          : MediaQuery.of(context).size.height /
+                                              2;
+                                    }
                                   }
                                 },
                                 onChanged: (val) {
@@ -241,11 +266,6 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                       14 /
                                           MediaQuery.of(context)
                                               .textScaleFactor),
-                                  prefixIcon: Icon(Icons.lock,
-                                      color:
-                                          _validModifPasswordFocusNode.hasFocus
-                                              ? cBlue
-                                              : cGrey),
                                   suffixIcon: Material(
                                     color: Colors.transparent,
                                     shape: const CircleBorder(),
@@ -310,7 +330,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 45.0,
+                                height: 25.0,
                               ),
                               SizedBox(
                                   height: 50.0,
@@ -585,8 +605,8 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                 WidgetSpan(
                     child: Padding(
                   padding: const EdgeInsets.only(right: 5.0),
-                  child: Icon(Icons.mail,
-                      size: 20, color: Helpers.uiApp(context)),
+                  child:
+                      Icon(Icons.mail, size: 20, color: Helpers.uiApp(context)),
                 )),
                 TextSpan(
                   text: AppLocalization.of(context)
@@ -677,8 +697,8 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                 WidgetSpan(
                     child: Padding(
                   padding: const EdgeInsets.only(right: 5.0),
-                  child: Icon(Icons.lock,
-                      size: 20, color: Helpers.uiApp(context)),
+                  child:
+                      Icon(Icons.lock, size: 20, color: Helpers.uiApp(context)),
                 )),
                 TextSpan(
                   text: AppLocalization.of(context)
