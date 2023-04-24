@@ -9,6 +9,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
+import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 
 class DatasTest extends ConsumerStatefulWidget {
   final int index;
@@ -30,7 +31,9 @@ class DatasTestState extends ConsumerState<DatasTest>
 
   late TextEditingController _mentionsController;
   late FocusNode _mentionsFocusNode;
+  bool mentionsRecentInteractions = false;
   bool startSearchMention = false;
+  List<UserModel> recentSearchesUsers = [];
   List<UserModel> resultsSearch = [];
 
   Future<void> _scrollPageControllerListener() async {
@@ -56,17 +59,27 @@ class DatasTestState extends ConsumerState<DatasTest>
       if (_mentionsController.text.length > 1) {
         final textAfterLastSign = _mentionsController.text
             .substring(_mentionsController.text.length - 2);
-        if (RegExp(r'(?<=^|\s)@').firstMatch(textAfterLastSign) != null) {
-          print("recent interactions length > 1");
+        if (RegExp(r'(?<=^|\s)@').firstMatch(textAfterLastSign) != null &&
+            !mentionsRecentInteractions) {
+          setState(() {
+            mentionsRecentInteractions = true;
+          });
         }
       } else {
         if (RegExp(r'(?<=^|\s)@').firstMatch(_mentionsController.text) !=
-            null) {
-          print("recent interactions length == 1");
+                null &&
+            !mentionsRecentInteractions) {
+          setState(() {
+            mentionsRecentInteractions = true;
+          });
         }
       }
     } else {
-      print("search");
+      if (mentionsRecentInteractions) {
+        setState(() {
+          mentionsRecentInteractions = false;
+        });
+      }
       final RegExp exp = RegExp(r'(?<=^|\s)@(\w+)$');
       final RegExpMatch? match = exp.firstMatch(_mentionsController.text);
 
@@ -98,6 +111,21 @@ class DatasTestState extends ConsumerState<DatasTest>
         resultsSearch.add(element);
       }
     }
+  }
+
+  Future<void> setNewMention(UserModel user) async {
+    final selection = _mentionsController.selection;
+    final textBeforeCursor =
+        _mentionsController.text.substring(0, selection.start);
+    final lastAtSignIndex = textBeforeCursor.lastIndexOf('@');
+    final prefix = _mentionsController.text.substring(0, lastAtSignIndex);
+
+    final newText = '$prefix@${user.pseudo} ';
+
+    _mentionsController.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
   }
 
   _showMentionsUser() {
@@ -186,7 +214,8 @@ class DatasTestState extends ConsumerState<DatasTest>
                               children: [
                                 Expanded(
                                   child: _mentionsController.text.isEmpty ||
-                                          !startSearchMention
+                                          (!startSearchMention &&
+                                              !mentionsRecentInteractions)
                                       ? Center(
                                           child: Text(
                                             'Mentionne un utilisateur à tout moment en utilisant "@"',
@@ -196,114 +225,187 @@ class DatasTestState extends ConsumerState<DatasTest>
                                             textScaleFactor: 1.0,
                                           ),
                                         )
-                                      : resultsSearch.isEmpty
-                                          ? Center(
-                                              child: Text(
-                                                "Pas d'utilisateurs pour cette mention",
-                                                style: textStyleCustomBold(
-                                                    Helpers.uiApp(context),
-                                                    14.0),
-                                                textAlign: TextAlign.center,
-                                                textScaleFactor: 1.0,
-                                              ),
-                                            )
-                                          : ListView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const AlwaysScrollableScrollPhysics(
-                                                      parent:
-                                                          BouncingScrollPhysics()),
-                                              itemCount: resultsSearch.length,
-                                              itemBuilder: (_, index) {
-                                                UserModel user =
-                                                    resultsSearch[index];
-
-                                                return Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 5.0),
-                                                  child: ListTile(
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                                .symmetric(
-                                                            vertical: 5.0),
-                                                    onTap: () {
-                                                      final selection =
-                                                          _mentionsController
-                                                              .selection;
-                                                      final textBeforeCursor =
-                                                          _mentionsController
-                                                              .text
-                                                              .substring(
-                                                                  0,
-                                                                  selection
-                                                                      .start);
-                                                      final lastAtSignIndex =
-                                                          textBeforeCursor
-                                                              .lastIndexOf('@');
-                                                      final prefix =
-                                                          _mentionsController
-                                                              .text
-                                                              .substring(0,
-                                                                  lastAtSignIndex);
-
-                                                      final newText =
-                                                          '$prefix@${user.pseudo} ';
-
-                                                      _mentionsController
-                                                              .value =
-                                                          TextEditingValue(
-                                                        text: newText,
-                                                        selection: TextSelection
-                                                            .collapsed(
-                                                                offset: newText
-                                                                    .length),
-                                                      );
-
-                                                      setState(() {
-                                                        startSearchMention = false;
-                                                      });
-                                                    },
-                                                    leading: user
-                                                                .profilePictureUrl
-                                                                .trim() ==
-                                                            ""
-                                                        ? Container(
-                                                            height: 65,
-                                                            width: 65,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              border: Border.all(
-                                                                  color: cBlue),
-                                                              color: cGrey
-                                                                  .withOpacity(
-                                                                      0.2),
-                                                            ),
-                                                            child: const Icon(
-                                                                Icons.person,
-                                                                color: cBlue,
-                                                                size: 30),
-                                                          )
-                                                        : CachedNetworkImageCustom(
-                                                            profilePictureUrl: user
-                                                                .profilePictureUrl,
-                                                            heightContainer: 65,
-                                                            widthContainer: 65,
-                                                            iconSize: 30),
-                                                    title: Text(
-                                                      user.pseudo,
+                                      : mentionsRecentInteractions
+                                          ? recentSearchesUsers.isEmpty
+                                              ? Center(
+                                                  child: Text(
+                                                      "Pas de récentes interactions avec des utilisateurs actuellement",
                                                       style:
                                                           textStyleCustomMedium(
                                                               Helpers.uiApp(
                                                                   context),
-                                                              16),
-                                                      textScaleFactor: 1.0,
-                                                    ),
+                                                              14),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      textScaleFactor: 1.0))
+                                              : ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemCount: recentSearchesUsers
+                                                      .length,
+                                                  itemBuilder: (_, index) {
+                                                    UserModel user =
+                                                        recentSearchesUsers[
+                                                            index];
+
+                                                    return Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 5.0),
+                                                      child: ListTile(
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 5.0),
+                                                        onTap: () async {
+                                                          await setNewMention(
+                                                              user);
+                                                          setState(() {
+                                                            mentionsRecentInteractions =
+                                                                false;
+                                                            startSearchMention =
+                                                                false;
+                                                          });
+                                                        },
+                                                        leading: user
+                                                                    .profilePictureUrl
+                                                                    .trim() ==
+                                                                ""
+                                                            ? Container(
+                                                                height: 65,
+                                                                width: 65,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  border: Border
+                                                                      .all(
+                                                                          color:
+                                                                              cBlue),
+                                                                  color: cGrey
+                                                                      .withOpacity(
+                                                                          0.2),
+                                                                ),
+                                                                child: const Icon(
+                                                                    Icons
+                                                                        .person,
+                                                                    color:
+                                                                        cBlue,
+                                                                    size: 30),
+                                                              )
+                                                            : CachedNetworkImageCustom(
+                                                                profilePictureUrl:
+                                                                    user
+                                                                        .profilePictureUrl,
+                                                                heightContainer:
+                                                                    65,
+                                                                widthContainer:
+                                                                    65,
+                                                                iconSize: 30),
+                                                        title: Text(
+                                                          user.pseudo,
+                                                          style:
+                                                              textStyleCustomMedium(
+                                                                  Helpers.uiApp(
+                                                                      context),
+                                                                  16),
+                                                          textScaleFactor: 1.0,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  })
+                                          : resultsSearch.isEmpty
+                                              ? Center(
+                                                  child: Text(
+                                                    "Pas d'utilisateurs pour cette mention",
+                                                    style: textStyleCustomBold(
+                                                        Helpers.uiApp(context),
+                                                        14.0),
+                                                    textAlign: TextAlign.center,
+                                                    textScaleFactor: 1.0,
                                                   ),
-                                                );
-                                                ;
-                                              }),
+                                                )
+                                              : ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const AlwaysScrollableScrollPhysics(
+                                                          parent:
+                                                              BouncingScrollPhysics()),
+                                                  itemCount:
+                                                      resultsSearch.length,
+                                                  itemBuilder: (_, index) {
+                                                    UserModel user =
+                                                        resultsSearch[index];
+
+                                                    return Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 5.0),
+                                                      child: ListTile(
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 5.0),
+                                                        onTap: () async {
+                                                          await setNewMention(
+                                                              user);
+                                                          setState(() {
+                                                            startSearchMention =
+                                                                false;
+                                                            mentionsRecentInteractions =
+                                                                false;
+                                                          });
+                                                        },
+                                                        leading: user
+                                                                    .profilePictureUrl
+                                                                    .trim() ==
+                                                                ""
+                                                            ? Container(
+                                                                height: 65,
+                                                                width: 65,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  border: Border
+                                                                      .all(
+                                                                          color:
+                                                                              cBlue),
+                                                                  color: cGrey
+                                                                      .withOpacity(
+                                                                          0.2),
+                                                                ),
+                                                                child: const Icon(
+                                                                    Icons
+                                                                        .person,
+                                                                    color:
+                                                                        cBlue,
+                                                                    size: 30),
+                                                              )
+                                                            : CachedNetworkImageCustom(
+                                                                profilePictureUrl:
+                                                                    user
+                                                                        .profilePictureUrl,
+                                                                heightContainer:
+                                                                    65,
+                                                                widthContainer:
+                                                                    65,
+                                                                iconSize: 30),
+                                                        title: Text(
+                                                          user.pseudo,
+                                                          style:
+                                                              textStyleCustomMedium(
+                                                                  Helpers.uiApp(
+                                                                      context),
+                                                                  16),
+                                                          textScaleFactor: 1.0,
+                                                        ),
+                                                      ),
+                                                    );
+                                                    ;
+                                                  }),
                                 ),
                                 Container(
                                   height: 60.0,
@@ -487,6 +589,7 @@ class DatasTestState extends ConsumerState<DatasTest>
   @override
   Widget build(BuildContext context) {
     datasItemsCount = ref.watch(datasTestNotifierProvider);
+    recentSearchesUsers = ref.watch(recentSearchesNotifierProvider);
 
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
