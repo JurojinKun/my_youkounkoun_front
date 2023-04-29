@@ -1,15 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:myyoukounkoun/components/cached_network_image_custom.dart';
+import 'package:myyoukounkoun/components/mention_text.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/models/comment_model.dart';
+import 'package:myyoukounkoun/models/mention_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
+import 'package:myyoukounkoun/providers/user_provider.dart';
 
 class DatasTest extends ConsumerStatefulWidget {
   final int index;
@@ -35,6 +41,9 @@ class DatasTestState extends ConsumerState<DatasTest>
   bool startSearchMention = false;
   List<UserModel> recentSearchesUsers = [];
   List<UserModel> resultsSearch = [];
+  List<MentionModel> mentions = [];
+  String encryptionKey = "ENCRYPTUSERDATAS";
+  List<CommentModel> mentionComments = [];
 
   Future<void> _scrollPageControllerListener() async {
     if (_pageController.position.userScrollDirection ==
@@ -126,6 +135,55 @@ class DatasTestState extends ConsumerState<DatasTest>
       text: newText,
       selection: TextSelection.collapsed(offset: newText.length),
     );
+
+    final mentionAlreadyHere =
+        mentions.where((element) => element.pseudo == user.pseudo);
+    if (mentionAlreadyHere.isEmpty) {
+      String encryptedUserDatas = await encryptUserData(user, encryptionKey);
+      Map<String, dynamic> mapMention = {
+        "pseudo": user.pseudo,
+        "encryptedUserDatas": encryptedUserDatas
+      };
+      mentions.add(MentionModel.fromJSON(mapMention));
+    }
+  }
+
+  Future<String> encryptUserData(UserModel user, String keyString) async {
+    final key = encrypt.Key.fromUtf8(keyString);
+    final iv = encrypt.IV.fromLength(16);
+
+    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+    final userDataString = jsonEncode(user.toJson());
+    final encryptedUserData = encrypter.encrypt(userDataString, iv: iv);
+
+    return encryptedUserData.base64;
+  }
+
+  Future<void> sendMentionText() async {
+    String textSend = _mentionsController.text;
+    RegExp pattern = RegExp(r'(?:(?<=\s)|^)@(\S+)');
+    Iterable<RegExpMatch> matches = pattern.allMatches(textSend);
+
+    for (final match in matches) {
+      if (match.group(0) != null) {
+        String pseudo = match.group(0)!.substring(1);
+        MentionModel userMention = mentions.firstWhere(
+            (element) => element.pseudo == pseudo,
+            orElse: () => MentionModel(pseudo: "", encryptedUserDatas: ""));
+        if (userMention.pseudo.trim() != "") {
+          String encryptedUserDatas = userMention.encryptedUserDatas;
+          String textReplace =
+              textSend.replaceFirst(pseudo, encryptedUserDatas);
+          textSend = textReplace;
+        }
+      }
+    }
+
+    mentionComments.add(CommentModel.fromJSON(
+        {"user": ref.read(userNotifierProvider), "comment": textSend}));
+    // mentionComments.insert(0, CommentModel.fromJSON(
+    //     {"user": ref.read(userNotifierProvider), "comment": textSend}));
   }
 
   _showMentionsUser() {
@@ -216,15 +274,35 @@ class DatasTestState extends ConsumerState<DatasTest>
                                   child: _mentionsController.text.isEmpty ||
                                           (!startSearchMention &&
                                               !mentionsRecentInteractions)
-                                      ? Center(
-                                          child: Text(
-                                            'Mentionne un utilisateur à tout moment en utilisant "@"',
-                                            style: textStyleCustomBold(
-                                                Helpers.uiApp(context), 14.0),
-                                            textAlign: TextAlign.center,
-                                            textScaleFactor: 1.0,
-                                          ),
-                                        )
+                                      ? mentionComments.isEmpty
+                                          ? Center(
+                                              child: Text(
+                                                'Mentionne un utilisateur à tout moment en utilisant "@"',
+                                                style: textStyleCustomBold(
+                                                    Helpers.uiApp(context),
+                                                    14.0),
+                                                textAlign: TextAlign.center,
+                                                textScaleFactor: 1.0,
+                                              ),
+                                            )
+                                          : ListView.builder(
+                                              padding: EdgeInsets.zero,
+                                              physics:
+                                                  const AlwaysScrollableScrollPhysics(
+                                                      parent:
+                                                          BouncingScrollPhysics()),
+                                              shrinkWrap: true,
+                                              itemCount: mentionComments.length,
+                                              itemBuilder: (_, index) {
+                                                CommentModel mentionComment =
+                                                    mentionComments[index];
+
+                                                return MentionText(
+                                                    mentionComment:
+                                                        mentionComment,
+                                                    encryptionKey:
+                                                        encryptionKey);
+                                              })
                                       : mentionsRecentInteractions
                                           ? recentSearchesUsers.isEmpty
                                               ? Center(
@@ -241,7 +319,9 @@ class DatasTestState extends ConsumerState<DatasTest>
                                               : ListView.builder(
                                                   padding: EdgeInsets.zero,
                                                   physics:
-                                                      const NeverScrollableScrollPhysics(),
+                                                      const AlwaysScrollableScrollPhysics(
+                                                          parent:
+                                                              BouncingScrollPhysics()),
                                                   shrinkWrap: true,
                                                   itemCount: recentSearchesUsers
                                                       .length,
@@ -408,145 +488,228 @@ class DatasTestState extends ConsumerState<DatasTest>
                                                   }),
                                 ),
                                 Container(
-                                  height: 60.0,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5.0, horizontal: 5.0),
-                                  child: TextField(
-                                    scrollPhysics:
-                                        const BouncingScrollPhysics(),
-                                    controller: _mentionsController,
-                                    focusNode: _mentionsFocusNode,
-                                    maxLines: 1,
-                                    textInputAction: TextInputAction.done,
-                                    keyboardType: TextInputType.text,
-                                    onTap: () async {
-                                      if (Platform.isIOS) {
-                                        sizeModalMentions = sizeModalMentions ==
-                                                MediaQuery.of(context)
+                                    height: 60.0,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 5.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            scrollPhysics:
+                                                const BouncingScrollPhysics(),
+                                            controller: _mentionsController,
+                                            focusNode: _mentionsFocusNode,
+                                            maxLines: 1,
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            keyboardType: TextInputType.text,
+                                            onTap: () async {
+                                              if (Platform.isIOS) {
+                                                sizeModalMentions =
+                                                    sizeModalMentions ==
+                                                            MediaQuery.of(context)
+                                                                        .size
+                                                                        .height /
+                                                                    2 +
+                                                                20.0
+                                                        ? MediaQuery.of(context)
                                                             .size
-                                                            .height /
-                                                        2 +
-                                                    20.0
-                                            ? MediaQuery.of(context).size.height
-                                            : MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    2 +
-                                                20.0;
-                                      } else {
-                                        sizeModalMentions = sizeModalMentions ==
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    2
-                                            ? MediaQuery.of(context).size.height
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                2;
-                                      }
-                                    },
-                                    onChanged: (val) async {
-                                      setState(() {
-                                        val = _mentionsController.text;
-                                      });
+                                                            .height
+                                                        : MediaQuery.of(context)
+                                                                    .size
+                                                                    .height /
+                                                                2 +
+                                                            20.0;
+                                              } else {
+                                                sizeModalMentions =
+                                                    sizeModalMentions ==
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height /
+                                                                2
+                                                        ? MediaQuery.of(context)
+                                                            .size
+                                                            .height
+                                                        : MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            2;
+                                              }
+                                            },
+                                            onChanged: (val) async {
+                                              setState(() {
+                                                val = _mentionsController.text;
+                                              });
 
-                                      await detectNewMentionUser();
-                                    },
-                                    onSubmitted: (val) {
-                                      Helpers.hideKeyboard(context);
-                                      sizeModalMentions = Platform.isIOS
-                                          ? MediaQuery.of(context).size.height /
-                                                  2 +
-                                              20.0
-                                          : MediaQuery.of(context).size.height /
-                                              2;
-                                    },
-                                    style: textStyleCustomRegular(
-                                        _mentionsFocusNode.hasFocus
-                                            ? cBlue
-                                            : cGrey,
-                                        14 /
-                                            MediaQuery.of(context)
-                                                .textScaleFactor),
-                                    decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.fromLTRB(
-                                          12, 12, 12, 12),
-                                      hintText: "@mentionner un utilisateur",
-                                      hintStyle: textStyleCustomRegular(
-                                          cGrey,
-                                          14 /
-                                              MediaQuery.of(context)
-                                                  .textScaleFactor),
-                                      labelStyle: textStyleCustomRegular(
-                                          cBlue,
-                                          14 /
-                                              MediaQuery.of(context)
-                                                  .textScaleFactor),
-                                      suffixIcon: _mentionsController
-                                              .text.isEmpty
-                                          ? const SizedBox()
-                                          : Material(
-                                              color: Colors.transparent,
-                                              shape: const CircleBorder(),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _mentionsController
-                                                          .clear();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.clear,
+                                              await detectNewMentionUser();
+                                            },
+                                            onSubmitted: (val) {
+                                              Helpers.hideKeyboard(context);
+                                              sizeModalMentions = Platform.isIOS
+                                                  ? MediaQuery.of(context)
+                                                              .size
+                                                              .height /
+                                                          2 +
+                                                      20.0
+                                                  : MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      2;
+                                            },
+                                            style: textStyleCustomRegular(
+                                                _mentionsFocusNode.hasFocus
+                                                    ? cBlue
+                                                    : cGrey,
+                                                14 /
+                                                    MediaQuery.of(context)
+                                                        .textScaleFactor),
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      12, 12, 12, 12),
+                                              hintText:
+                                                  "@mentionner un utilisateur",
+                                              hintStyle: textStyleCustomRegular(
+                                                  cGrey,
+                                                  14 /
+                                                      MediaQuery.of(context)
+                                                          .textScaleFactor),
+                                              labelStyle:
+                                                  textStyleCustomRegular(
+                                                      cBlue,
+                                                      14 /
+                                                          MediaQuery.of(context)
+                                                              .textScaleFactor),
+                                              suffixIcon: _mentionsController
+                                                      .text.isEmpty
+                                                  ? const SizedBox()
+                                                  : Material(
+                                                      color: Colors.transparent,
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _mentionsController
+                                                                  .clear();
+                                                              if (mentions
+                                                                  .isNotEmpty) {
+                                                                mentions
+                                                                    .clear();
+                                                              }
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.clear,
+                                                            color:
+                                                                _mentionsFocusNode
+                                                                        .hasFocus
+                                                                    ? cBlue
+                                                                    : cGrey,
+                                                          )),
+                                                    ),
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    width: 2.0,
                                                     color: _mentionsFocusNode
                                                             .hasFocus
                                                         ? cBlue
                                                         : cGrey,
-                                                  )),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    width: 2.0,
+                                                    color: _mentionsFocusNode
+                                                            .hasFocus
+                                                        ? cBlue
+                                                        : cGrey,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              errorBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    width: 2.0,
+                                                    color: _mentionsFocusNode
+                                                            .hasFocus
+                                                        ? cBlue
+                                                        : cGrey,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        width: 2.0,
+                                                        color:
+                                                            _mentionsFocusNode
+                                                                    .hasFocus
+                                                                ? cBlue
+                                                                : cGrey,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0)),
                                             ),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 2.0,
-                                            color: _mentionsFocusNode.hasFocus
-                                                ? cBlue
-                                                : cGrey,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 2.0,
-                                            color: _mentionsFocusNode.hasFocus
-                                                ? cBlue
-                                                : cGrey,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 2.0,
-                                            color: _mentionsFocusNode.hasFocus
-                                                ? cBlue
-                                                : cGrey,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 2.0,
-                                            color: _mentionsFocusNode.hasFocus
-                                                ? cBlue
-                                                : cGrey,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                    ),
-                                  ),
-                                )
+                                        ),
+                                        if (_mentionsController.text.isNotEmpty)
+                                          Row(
+                                            children: [
+                                              const SizedBox(width: 15.0),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await sendMentionText();
+                                                  setState(() {
+                                                    if (mentions.isNotEmpty) {
+                                                      mentions.clear();
+                                                    }
+                                                    _mentionsController.clear();
+                                                  });
+                                                  if (mounted) {
+                                                    Helpers.hideKeyboard(
+                                                        context);
+                                                    sizeModalMentions = Platform
+                                                            .isIOS
+                                                        ? MediaQuery.of(context)
+                                                                    .size
+                                                                    .height /
+                                                                2 +
+                                                            20.0
+                                                        : MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            2;
+                                                  }
+                                                },
+                                                child: Container(
+                                                  height: 45.0,
+                                                  width: 45.0,
+                                                  alignment: Alignment.center,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color: cBlue,
+                                                          shape:
+                                                              BoxShape.circle),
+                                                  child: Icon(Icons.send,
+                                                      color: Helpers.uiApp(
+                                                          context)),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                      ],
+                                    ))
                               ],
                             ),
                           ),
@@ -712,6 +875,9 @@ class DatasTestState extends ConsumerState<DatasTest>
                           onPressed: () async {
                             await _showMentionsUser();
                             _mentionsController.clear();
+                            if (mentions.isNotEmpty) {
+                              mentions.clear();
+                            }
                           },
                           child: Align(
                             alignment: Alignment.centerLeft,

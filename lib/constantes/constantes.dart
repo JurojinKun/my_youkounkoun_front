@@ -55,30 +55,33 @@ TabController? tabControllerActivities;
 
 //fonts app
 textStyleCustomBold(Color color, double fontSize,
-    [TextDecoration? decoration]) {
+    [TextDecoration? decoration, Color? backgroundColor]) {
   return TextStyle(
       fontFamily: 'RobotoBold',
       fontSize: fontSize,
       color: color,
-      decoration: decoration);
+      decoration: decoration,
+      backgroundColor: backgroundColor);
 }
 
 textStyleCustomMedium(Color color, double fontSize,
-    [TextDecoration? decoration]) {
+    [TextDecoration? decoration, Color? backgroundColor]) {
   return TextStyle(
       fontFamily: 'RobotoMedium',
       fontSize: fontSize,
       color: color,
-      decoration: decoration);
+      decoration: decoration,
+      backgroundColor: backgroundColor);
 }
 
 textStyleCustomRegular(Color color, double fontSize,
-    [TextDecoration? decoration]) {
+    [TextDecoration? decoration, Color? backgroundColor]) {
   return TextStyle(
       fontFamily: 'RobotoRegular',
       fontSize: fontSize,
       color: color,
-      decoration: decoration);
+      decoration: decoration,
+      backgroundColor: backgroundColor);
 }
 
 //colors app
