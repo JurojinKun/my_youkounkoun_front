@@ -1,0 +1,178 @@
+{
+    "general": {
+        "home": "Accueil",
+        "search": "Recherche",
+        "activities": "Activités",
+        "profile": "Profil",
+        "btn_confirm": "Confirmer",
+        "btn_cancel": "Annuler",
+        "btn_send": "Envoyer",
+        "btn_save": "Sauvegarder",
+        "btn_validate": "Valider",
+        "message_error": "Un problème est survenu",
+        "title_cropper": "Format de l'image",
+        "message_continue": "Ajoute ce que tu veux dans cette section, c'est à toi de jouer maintenant pour ton app !",
+        "search_user": "Rechercher un utilisateur",
+        "search_of": "Recherche de ",
+        "problem": "Oups, un problème est survenu",
+        "no_user": "Impossible de trouver cet utilisateur",
+        "no_more_data": "C'est tout pour le moment",
+        "now": "maintenant",
+        "minutes": "min",
+        "hours": "h",
+        "days": "j",
+        "weeks": "sem"
+    },
+    "connectivity_screen": {
+        "no_connectivity": "Pas de connexion actuellement"
+    },
+    "new_maj_screen": {
+        "title": "Mis à jour",
+        "content_available": "Une mise à jour est disponible dès maintenant",
+        "content_required": "Une mise à jour est nécessaire afin de pouvoir continuer à utiliser My youkounkoun",
+        "go_now": "Y aller",
+        "later": "Plus tard"
+    },
+    "welcome_screen": {
+        "login": "Connexion",
+        "register": "Inscription",
+        "consult": "Tu peux consulter les ",
+        "cgu": "CGU",
+        "and": " et la ",
+        "privacy_policy": "Politique de confidentialité",
+        "youkounkoun": " du youkounkoun",
+        "version": "Version "
+    },
+    "login_screen": {
+        "login": "Connexion",
+        "mail": "Email",
+        "password": "Mot de passe",
+        "no_account": "Pas encore de compte ?",
+        "sign_up": " Inscris-toi",
+        "forgot_password": "Mot de passe oublié"
+    },
+    "forgot_password_screen": {
+        "forgot_password": "Mot de passe oublié",
+        "content": "Saisis le mail associé à ton compte afin de recevoir un mail pour modifier ton mot de passe.",
+        "mail": "Email",
+        "send_mail": "Un mail vous a été envoyé",
+        "error_send_mail": "Erreur\nLe mail n'a pas pu s'envoyer"
+    },
+    "register_screen": {
+        "add_picture_profile": "Ajout d'une photo de profil",
+        "camera": "Appareil photo",
+        "galery": "Galerie",
+        "register": "Inscription",
+        "step_one": "Première étape, entre les informations générales pour la création de ton compte.\nN'oublie pas d'accepter les CGU et la politique de confidentialité de l'application.",
+        "mail": "Email",
+        "password": "Mot de passe",
+        "confirm_password": "Confirmer mot de passe",
+        "accept_cgu": "Accepter les ",
+        "cgu": "CGU",
+        "accept_policy_privacy": "Accepter la ",
+        "policy_privacy": "politique de confidentialité",
+        "step_two": "Seconde étape, entre les informations personnelles pour la création de ton compte. Ces informations seront vus par tout les autres utilisateurs de l'application.",
+        "pseudo": "Pseudonyme",
+        "man": "Homme",
+        "woman": "Femme",
+        "search_country": "Rechercher un pays",
+        "empty_search_country": "Pas de pays trouvés pour cette recherche",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "sign_up": "S'inscrire"
+    },
+    "home_screen": {
+        "home": "Accueil",
+        "push_token": "Push token du device pour tester les notifs push via Firebase Cloud Messaging:",
+        "no_token": "Pas de token"
+    },
+    "search_screen": {
+        "search": "Rechercher",
+        "explore": "Explorer"
+    },
+    "activities_screen": {
+        "activities": "Activités",
+        "chat": "Messagerie",
+        "notifications": "Notifications",
+        "no_chat": "Pas encore de conversations",
+        "no_notifications": "Pas encore de notifications",
+        "delete": "Supprimer",
+        "mute": "Désactiver",
+        "unmute": "Réactiver"
+    },
+    "profile_screen": {
+        "profile": "Profil",
+        "years_old": " ans"
+    },
+    "settings_screen": {
+        "settings_user": "Paramètres",
+        "my_account": "Informations du compte",
+        "security_account": "Sécurité du compte",
+        "theme": "Thème",
+        "notifications": "Notifications",
+        "logout_title": "Déconnexion",
+        "logout_content": "Es-tu sûr de vouloir te déconnecter ?",
+        "delete_title": "Supprimer mon compte",
+        "delete_content": "Es-tu sûr de vouloir supprimer ton compte ?",
+        "language": "Langue",
+        "language_french": "Français",
+        "language_english": "Anglais",
+        "infos_app": "Informations sur l'app"
+    },
+    "edit_account_screen": {
+        "my_account": "Informations du compte",
+        "message_success_update_account": "Ton profil a bien été mis à jour",
+        "content": "Tu peux modifier tes informations de ton compte directement ici !",
+        "picture_profile": "Image de profil",
+        "pseudo_profile": "Pseudonyme",
+        "gender_profile": "Genre",
+        "birthday_profile": "Date de naissance",
+        "nationality_profile": "Nationnalité"
+    },
+    "edit_security_screen": {
+        "security_account": "Sécurité du compte",
+        "content": "Tu peux modifier la sécurité de ton compte directement ici.\nAttention, tu ne pourras pas modifier ton mail et ton mot de passe en même temps !",
+        "mail": "Email",
+        "password": "Mot de passe",
+        "actual_password": "Actuel mot de passe",
+        "new_password": "Nouveau mot de passe",
+        "confirm_new_password": "Confimer nouveau mot de passe",
+        "update_mail": "Modifier mail",
+        "update_password": "Modifier mot de passe",
+        "error_update": "Impossible de modifier ton mail et ton mot de passe en même temps ! Chaque chose en son temps..",
+        "verify_validity": "Vérification pour valider la modification",
+        "content_verify": "Entre ton mot de passe actuel afin de vérifier et valider ta modification en cours"
+    },
+    "infos_app_screen": {
+        "title": "Informations sur l'app",
+        "cgu": "Conditions générales d'utilisation",
+        "policy_privacy": "Politique de confidentialité",
+        "version":"Version"
+    },
+    "validate_user_screen": {
+        "send_mail": "Un mail vous a été envoyé",
+        "error_send_mail": "Erreur\nLe mail n'a pas pu s'envoyer",
+        "check_account": "Vérifier mon compte",
+        "content": "Afin de valider ton compte, tu peux demander un code qui te sera envoyé sur l'adresse mail lié à celui-ci.",
+        "send_code": "M'envoyer un code",
+        "check_validity": "Vérifier"
+    },
+    "new_conversation_screen": {
+        "new_conversation": "Nouvelle conversation",
+        "start_conversation": "Démarrer conversation",
+        "recent_interactions": "Interactions récentes",
+        "no_recent_interactions": "Pas encore d'interactions récentes avec des utilisateurs",
+        "results": "Résultats",
+        "no_results": "Pas encore de résultats pour cette recherche"
+    },
+    "recent_searches_screen": {
+        "recent_searches": "Recherches récentes",
+        "no_recent_searches": "Pas encore de recherches récentes",
+        "results": "Résultats",
+        "no_results": "Pas de résultats pour cette recherche"
+    },
+    "user_profile_screen": {
+        "profile_of": "Profil de ",
+        "years_old": " ans"
+    }
+}

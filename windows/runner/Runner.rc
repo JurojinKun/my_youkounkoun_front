@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "my_boilerplate" "\0"
+            VALUE "FileDescription", "myyoukounkoun" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "my_boilerplate" "\0"
+            VALUE "InternalName", "myyoukounkoun" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "my_boilerplate.exe" "\0"
-            VALUE "ProductName", "my_boilerplate" "\0"
+            VALUE "OriginalFilename", "myyoukounkoun.exe" "\0"
+            VALUE "ProductName", "myyoukounkoun" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
