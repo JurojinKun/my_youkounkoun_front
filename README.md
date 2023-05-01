@@ -68,7 +68,7 @@ https://riverpod.dev/fr/docs/getting_started
 - Logique riverpod qui change l'état de l'app lorsque s'il y a oui ou non une connectivité via un provider => providers/connectivity_provider.dart
 
 ## Loalizations
-- Toute la mise en place du fichier de langue a été mise en place avec une langue: français
+- Toute la mise en place du fichier de langue a été mise en place avec une langue: français & anglais
 - pour ajouter des labels à votre app, il suffit d'ajouter ceux-ci dans les fichiers json dans le dossier lib/translations dans les langues correspondantes
 - Si vous voulez ajouter une langue pour la localization:
     . dans le main, dans le MaterialApp, ajouter dans la section supportedLocales la langue que vous souhaitez avec le languageCode et si vous le souhaitez le countryCode
