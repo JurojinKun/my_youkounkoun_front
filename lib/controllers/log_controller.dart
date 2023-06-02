@@ -34,7 +34,7 @@ class LogControllerState extends ConsumerState<LogController>
 
   @override
   void didChangeMetrics() async {
-    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    final bottomInset = View.of(context).viewInsets.bottom;
     final newValue = bottomInset > 0.0;
     if (newValue != ref.read(visibleKeyboardAppNotifierProvider)) {
       if (ref.read(connectivityStatusAppNotifierProvider) ==

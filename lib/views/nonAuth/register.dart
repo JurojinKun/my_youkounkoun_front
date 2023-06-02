@@ -3,12 +3,11 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
@@ -1128,12 +1127,12 @@ class RegisterState extends ConsumerState<Register>
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      DatePicker.showDatePicker(context,
+                      picker.DatePicker.showDatePicker(context,
                           showTitleActions: true,
                           locale: localeLanguage.languageCode == "fr"
-                              ? LocaleType.fr
-                              : LocaleType.en,
-                          theme: DatePickerTheme(
+                              ? picker.LocaleType.fr
+                              : picker.LocaleType.en,
+                          theme: picker.DatePickerTheme(
                             backgroundColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             cancelStyle: textStyleCustomBold(cBlue, 16),

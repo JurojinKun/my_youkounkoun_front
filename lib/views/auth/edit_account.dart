@@ -7,8 +7,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
+
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
@@ -735,43 +736,43 @@ class EditAccountState extends ConsumerState<EditAccount> {
             ),
             GestureDetector(
               onTap: () {
-            DatePicker.showDatePicker(context,
-                showTitleActions: true,
-                locale: localeLanguage.languageCode == "fr"
-                    ? LocaleType.fr
-                    : LocaleType.en,
-                theme: DatePickerTheme(
-                  backgroundColor:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  cancelStyle: textStyleCustomBold(cBlue, 16),
-                  doneStyle: textStyleCustomBold(cBlue, 16),
-                  itemStyle: textStyleCustomBold(
-                      Theme.of(context).iconTheme.color!, 18),
-                ),
-                minTime: DateTime(1900, 1, 1),
-                maxTime: DateTime.now(), onConfirm: (date) {
-              //verif 18 years old or not
-              final verif =
-                  DateTime.now().subtract(const Duration(days: 6570));
-              if (date.isBefore(verif)) {
-                ref
-                    .read(editBirthdayUserNotifierProvider.notifier)
-                    .updateBirthday(date);
-              }
-            }, currentTime: _dateBirthday ?? DateTime.now());
+                picker.DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    locale: localeLanguage.languageCode == "fr"
+                        ? picker.LocaleType.fr
+                        : picker.LocaleType.en,
+                    theme: picker.DatePickerTheme(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      cancelStyle: textStyleCustomBold(cBlue, 16),
+                      doneStyle: textStyleCustomBold(cBlue, 16),
+                      itemStyle: textStyleCustomBold(
+                          Theme.of(context).iconTheme.color!, 18),
+                    ),
+                    minTime: DateTime(1900, 1, 1),
+                    maxTime: DateTime.now(), onConfirm: (date) {
+                  //verif 18 years old or not
+                  final verif =
+                      DateTime.now().subtract(const Duration(days: 6570));
+                  if (date.isBefore(verif)) {
+                    ref
+                        .read(editBirthdayUserNotifierProvider.notifier)
+                        .updateBirthday(date);
+                  }
+                }, currentTime: _dateBirthday ?? DateTime.now());
               },
               child: Container(
-            height: 45.0,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                border: Border.all(color: cGrey),
-                borderRadius: BorderRadius.circular(5.0)),
-            child: Text(
-                Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
-                    localeLanguage.languageCode),
-                style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                textScaleFactor: 1.0),
+                height: 45.0,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    border: Border.all(color: cGrey),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: Text(
+                    Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
+                        localeLanguage.languageCode),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                    textScaleFactor: 1.0),
               ),
             ),
             const SizedBox(
