@@ -50,7 +50,7 @@ dependencies:
   app_tracking_transparency: ^2.0.3
   app_settings: ^4.2.0
   device_info_plus: ^8.1.0
-  permission_handler: ^10.2.0
+  permission_handler: ^10.3.0
   grouped_list: ^5.1.2
   flutter_colorpicker: ^1.0.3
   encrypt: ^5.0.1
