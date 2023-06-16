@@ -44,10 +44,11 @@ android {
 
     defaultConfig {
         applicationId "com.example.myyoukounkoun"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {

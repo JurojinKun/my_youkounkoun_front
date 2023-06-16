@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'package:myyoukounkoun/libraries/http_overrides_lib.dart';
 import 'package:myyoukounkoun/libraries/notifications_lib.dart';
 import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
+import 'package:myyoukounkoun/providers/first_request_permissions.dart';
 import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
@@ -91,9 +93,7 @@ class MyAppState extends ConsumerState<MyApp> {
   late Locale localeLanguage;
 
   //add all assets in our app here
-  List<Image> imagesApp = [
-    Image.asset("assets/images/ic_app_new.png")
-  ];
+  List<Image> imagesApp = [Image.asset("assets/images/ic_app_new.png")];
 
   //connectivity
   final Connectivity _connectivity = Connectivity();
@@ -123,9 +123,19 @@ class MyAppState extends ConsumerState<MyApp> {
     await ref.read(themeAppNotifierProvider.notifier).setThemeApp(theme);
 
     //logic langue device or choice user
-    await ref
-        .read(localeLanguageNotifierProvider.notifier)
-        .setLocaleLanguage();
+    await ref.read(localeLanguageNotifierProvider.notifier).setLocaleLanguage();
+
+    //logic first launch android 13
+    if (Platform.isAndroid) {
+      final androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidDeviceInfo.version.sdkInt > 32) {
+        bool firstRequest =
+            SyncSharedPrefsLib().prefs!.getBool("firstRequest") ?? true;
+        ref
+            .read(firstRequestPermissionsNotifierProvider.notifier)
+            .setRequestPermissions(firstRequest);
+      }
+    }
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     ref

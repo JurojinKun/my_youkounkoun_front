@@ -17,6 +17,7 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
+import 'package:myyoukounkoun/providers/first_request_permissions.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -411,7 +412,19 @@ class NotificationsLib {
       uuid = deviceInfoAndroid.id;
       String token = ref.read(userNotifierProvider).token;
 
-      PermissionStatus status = await Permission.notification.request();
+      //condition request permission android 13 and more
+      if (deviceInfoAndroid.version.sdkInt > 32 &&
+          ref.read(firstRequestPermissionsNotifierProvider)) {
+        print("logic android 13 or more");
+        await Permission.notification.request();
+        await ref
+            .read(firstRequestPermissionsNotifierProvider.notifier)
+            .updateRequestPermissions(false);
+      }
+
+      PermissionStatus status = await Permission.notification.status;
+      print("status");
+      print(status);
 
       if (status == PermissionStatus.granted) {
         String pushToken = await FirebaseMessaging.instance.getToken() ?? "";

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/libraries/notifications_lib.dart';
 import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
@@ -19,6 +22,7 @@ import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -615,7 +619,22 @@ class SettingsState extends ConsumerState<Settings> {
                     activeColor: cBlue,
                     value: pushToken.trim() != "" ? true : false,
                     onChanged: (newSettingsNotifications) async {
-                      await AppSettings.openNotificationSettings();
+                      if (Platform.isAndroid) {
+                        final androidInfo =
+                            await DeviceInfoPlugin().androidInfo;
+                        if (androidInfo.version.sdkInt <= 32) {
+                          print("pas android 13 ou plus");
+                          await AppSettings.openNotificationSettings();
+                        } else {
+                          print("android 13 ou plus");
+                          //request permissions notifs et ensuite appel set active notif
+                          PermissionStatus status = await Permission.notification.request();
+                          print(status);
+                          await NotificationsLib.setActiveNotifications(ref);
+                        }
+                      } else {
+                        await AppSettings.openNotificationSettings();
+                      }
                     }),
                 Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
               ],
