@@ -415,7 +415,6 @@ class NotificationsLib {
       //condition request permission android 13 and more
       if (deviceInfoAndroid.version.sdkInt > 32 &&
           ref.read(firstRequestPermissionsNotifierProvider)) {
-        print("logic android 13 or more");
         await Permission.notification.request();
         await ref
             .read(firstRequestPermissionsNotifierProvider.notifier)
@@ -423,8 +422,6 @@ class NotificationsLib {
       }
 
       PermissionStatus status = await Permission.notification.status;
-      print("status");
-      print(status);
 
       if (status == PermissionStatus.granted) {
         String pushToken = await FirebaseMessaging.instance.getToken() ?? "";

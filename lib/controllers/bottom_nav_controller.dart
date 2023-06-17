@@ -29,6 +29,8 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _isKeyboard = false;
 
+  AppLifecycleState _appLifecycleState = AppLifecycleState.resumed;
+
   Future _validateUserBottomSheet(BuildContext context) async {
     return showMaterialModalBottomSheet(
         context: context,
@@ -105,9 +107,11 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed &&
+        _appLifecycleState == AppLifecycleState.paused) {
       await NotificationsLib.setActiveNotifications(ref);
     }
+    _appLifecycleState = state;
   }
 
   @override
