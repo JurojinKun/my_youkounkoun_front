@@ -976,7 +976,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            height: 80,
+            height: appBar.preferredSize.height + 50.0,
             child: Row(
               children: [
                 Expanded(
