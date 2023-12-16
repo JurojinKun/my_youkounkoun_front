@@ -441,7 +441,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 5.0),
                           onTap: () {
-                            if (!resultsSearch
+                            if (ref.read(recentSearchesNotifierProvider).isEmpty || !resultsSearch
                                 .any((element) => element.id == user.id)) {
                               ref
                                   .read(recentSearchesNotifierProvider.notifier)
