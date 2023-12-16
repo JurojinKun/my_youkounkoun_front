@@ -6,6 +6,7 @@ import 'package:myyoukounkoun/components/bottom_sheet_mentions.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class DatasTest extends ConsumerStatefulWidget {
   final int index;
@@ -205,7 +206,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                           },
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("@mentionner un utilisateur",
+                            child: Text(AppLocalization.of(context).translate("datas_test_screen", "mention_user"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light

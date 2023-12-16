@@ -102,7 +102,9 @@
     },
     "profile_screen": {
         "profile": "Profile",
-        "years_old": " years old"
+        "years_old": " years old",
+        "followers": "Follower(s)",
+        "followings": "Following(s)"
     },
     "settings_screen": {
         "settings_user": "Settings",
@@ -172,7 +174,19 @@
         "no_results": "No results for this search"
     },
     "user_profile_screen": {
-        "profile_of": "Profile of ",
-        "years_old": " years old"
+        "profile_of": "Profile of",
+        "years_old": " years old",
+        "followers": "Follower(s)",
+        "followings": "Following(s)"
+    },
+    "datas_test_screen": {
+        "mention_user": "@mention a user"
+    },
+    "bottom_sheet_mentions": {
+        "title": "Mention(s) user(s)",
+        "content": "Mention a user at any time using @",
+        "write_mention": "@mention a user",
+        "no_results": "No users for this mention",
+        "no_recent_interactions": "No recent interactions with users at present"
     }
 }

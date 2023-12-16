@@ -15,6 +15,7 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class BottomSheetMentions extends ConsumerStatefulWidget {
   const BottomSheetMentions({Key? key}) : super(key: key);
@@ -212,7 +213,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text("Mention(s) utilisateur(s)",
+                        child: Text(AppLocalization.of(context).translate("bottom_sheet_mentions", "title"),
                             style: textStyleCustomBold(
                                 Theme.of(context).brightness == Brightness.light
                                     ? cBlack
@@ -272,7 +273,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
     return mentionComments.isEmpty
         ? Center(
             child: Text(
-              'Mentionne un utilisateur à tout moment en utilisant "@"',
+              AppLocalization.of(context).translate("bottom_sheet_mentions", "content"),
               style: textStyleCustomBold(Helpers.uiApp(context), 14.0),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
@@ -297,7 +298,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
     return recentSearchesUsers.isEmpty
         ? Center(
             child: Text(
-                "Pas de récentes interactions avec des utilisateurs actuellement",
+                AppLocalization.of(context).translate("bottom_sheet_mentions", "no_recent_interactions"),
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.0))
@@ -352,7 +353,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
     return resultsSearch.isEmpty
         ? Center(
             child: Text(
-              "Pas d'utilisateurs pour cette mention",
+              AppLocalization.of(context).translate("bottom_sheet_mentions", "no_results"),
               style: textStyleCustomBold(Helpers.uiApp(context), 14.0),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
@@ -435,7 +436,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                     14 / MediaQuery.of(context).textScaleFactor),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  hintText: "@mentionner un utilisateur",
+                  hintText: AppLocalization.of(context).translate("bottom_sheet_mentions", "write_mention"),
                   hintStyle: textStyleCustomRegular(
                       cGrey, 14 / MediaQuery.of(context).textScaleFactor),
                   labelStyle: textStyleCustomRegular(

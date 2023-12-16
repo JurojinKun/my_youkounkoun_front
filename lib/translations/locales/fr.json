@@ -102,7 +102,9 @@
     },
     "profile_screen": {
         "profile": "Profil",
-        "years_old": " ans"
+        "years_old": " ans",
+        "followers": "Abonné(s)",
+        "followings": "Abonnement(s)"
     },
     "settings_screen": {
         "settings_user": "Paramètres",
@@ -172,7 +174,19 @@
         "no_results": "Pas de résultats pour cette recherche"
     },
     "user_profile_screen": {
-        "profile_of": "Profil de ",
-        "years_old": " ans"
+        "profile_of": "Profil de",
+        "years_old": " ans",
+        "followers": "Abonné(s)",
+        "followings": "Abonnement(s)"
+    },
+    "datas_test_screen": {
+        "mention_user": "@mentionner un utilisateur"
+    },
+    "bottom_sheet_mentions": {
+        "title": "Mention(s) utilisateur(s)",
+        "content": "Mentionne un utilisateur à tout moment en utilisant @",
+        "write_mention": "@mentionner un utilisateur",
+        "no_results": "Pas d'utilisateurs pour cette mention",
+        "no_recent_interactions": "Pas de récentes interactions avec des utilisateurs actuellement"
     }
 }

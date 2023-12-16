@@ -308,14 +308,14 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 ),
                 const SizedBox(height: 5.0),
                 Text(
-                    "${Helpers.formatNumber(widget.user.followers.length)} Abonné(s)",
+                    "${Helpers.formatNumber(widget.user.followers.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followers")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
                     maxLines: 2,
                     overflow: TextOverflow.clip),
                 const SizedBox(height: 5.0),
                 Text(
-                    "${Helpers.formatNumber(widget.user.followings.length)} Abonnement(s)",
+                    "${Helpers.formatNumber(widget.user.followings.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followings")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
                     maxLines: 2,
