@@ -94,13 +94,27 @@ class UserProfileState extends ConsumerState<UserProfile> {
     if (ref.read(userNotifierProvider).followings.contains(widget.user.id)) {
       ref.read(userNotifierProvider.notifier).removeFollowing(widget.user.id);
       setState(() {
-        widget.user.followers.removeWhere(
-            (element) => element == ref.read(userNotifierProvider).id);
+        // widget.user.followers.removeWhere(
+        //     (element) => element == ref.read(userNotifierProvider).id);
+        //TODO DELETE THIS LOGIC WITH WS
+        var userToModifyRecentSearchesDM = recentSearchesDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyRecentSearchesDM.followers.removeWhere((element) => element == ref.read(userNotifierProvider).id);
+           var userToModifyPotentialsResultsDM = potentialsResultsSearchDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyPotentialsResultsDM.followers.removeWhere((element) => element == ref.read(userNotifierProvider).id);
       });
     } else {
       ref.read(userNotifierProvider.notifier).addFollowing(widget.user.id);
       setState(() {
-        widget.user.followers.add(ref.read(userNotifierProvider).id);
+        // widget.user.followers.add(ref.read(userNotifierProvider).id);
+        //TODO DELETE THIS LOGIC WITH WS
+         var userToModifyRecentSearchesDM = recentSearchesDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyRecentSearchesDM.followers.add(ref.read(userNotifierProvider).id);
+          var userToModifyPotentialsResultsDM = potentialsResultsSearchDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyPotentialsResultsDM.followers.add(ref.read(userNotifierProvider).id);
       });
     }
   }
