@@ -115,7 +115,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                                         height: 10.0,
                                         width: 10.0,
                                         decoration: const BoxDecoration(
-                                            color: Colors.blue,
+                                            color: cBlue,
                                             shape: BoxShape.circle),
                                       ),
                                     )
