@@ -188,5 +188,52 @@
         "write_mention": "@mentionner un utilisateur",
         "no_results": "Pas d'utilisateurs pour cette mention",
         "no_recent_interactions": "Pas de récentes interactions avec des utilisateurs actuellement"
+    },
+    "chat_details_screen": {
+        "search_giphy_title": "Rechercher dans Giphy",
+        "search_giphy_content": "Recherche et trouve le GIF qui illustre ton humeur du moment",
+        "no_results_giphy": "Pas de résultats dans Giphy pour cette recherche",
+        "see_profile": "Voir profil",
+        "message_seen": "Vu",
+        "write_message": "Écrire un message...",
+        "headlines_giphy": "À la une",
+        "gallery": "Galerie",
+        "camera": "Caméra"
+    },
+    "infos_conv_screen": {
+        "delete_conv_title": "Effacer conversation",
+        "delete_conv_content_1": "Es-tu sûr de vouloir supprimer la conversation entre",
+        "delete_conv_content_2": "et toi ?",
+        "report_user_title": "Signaler",
+        "report_user_content": "Es-tu sûr de vouloir signaler l'utilisateur",
+        "block_user_title": "Bloquer",
+        "block_user_content": "Es-tu sûr de vouloir bloquer l'utilisateur",
+        "title_screen": "Informations conversation",
+        "profile": "Profil",
+        "notif_unmute": "Réactiver",
+        "notif_mute": "Désactiver",
+        "personnalisation": "Personnalisation",
+        "theme_conv": "Thème conversation",
+        "details": "Détails",
+        "search_messages": "Rechercher un message",
+        "multimedias_conv": "Multimédias conversation",
+        "others_actions": "Autres actions"
+    },
+    "theme_conv_screen": {
+        "picker_color_1_title": "Choix première couleur du thème",
+        "picker_color_2_title": "Choix seconde couleur du thème",
+        "title_screen": "Thème conversation",
+        "overview_theme": "Aperçu du thème de la conversation",
+        "overview_message": "Aperçu du thème de la conversation sélectionné à travers un message",
+        "overview_gradient": "Aperçu du gradient de la conversation"
+    },
+    "search_messages_screen": {
+        "no_results": "Pas de résultats pour cette recherche",
+        "no_more_results": "Pas plus de résultats actuellement"
+    },
+    "multimedias_screen": {
+        "title_screen": "Multimédias conversation",
+        "no_multimedias": "Aucun multimédia pour cette conversation actuellement",
+        "no_more_multimedias": "Pas plus de multimédias actuellement"
     }
 }

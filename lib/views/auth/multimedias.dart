@@ -9,6 +9,7 @@ import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/message_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -78,7 +79,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
   }
 
   //TODO logic loading more multimedias current conv
-
+  
   // Future<void> _loadMoreMultimedias() async {
   //   await Future.delayed(const Duration(seconds: 3));
   //   if (multimedias.length < 50) {
@@ -133,7 +134,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
             backgroundColor: Colors.transparent,
             systemOverlayStyle: Helpers.uiOverlayApp(context),
             title: Text(
-              "Multimédias conversation",
+              AppLocalization.of(context).translate("multimedias_screen", "title_screen"),
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
@@ -209,7 +210,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
     return multimedias.isEmpty
         ? Center(
             child: Text(
-              "Aucun multimédia pour cette conversation actuellement",
+              AppLocalization.of(context).translate("multimedias_screen", "no_multimedias"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
@@ -255,7 +256,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
                 noMoreIcon: Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "Pas plus de multimédias actuellement",
+                    AppLocalization.of(context).translate("multimedias_screen", "no_more_multimedias"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
                     textScaleFactor: 1.0,
                     textAlign: TextAlign.center,

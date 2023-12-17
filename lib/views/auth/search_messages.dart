@@ -13,6 +13,7 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchMessages extends ConsumerStatefulWidget {
@@ -180,7 +181,8 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
   Widget searchedMessagesConv() {
     return searchedMessages.isEmpty
         ? Center(
-            child: Text("Pas de résultats pour cette recherche",
+            child: Text(AppLocalization.of(context).translate(
+                              "search_messages_screen", "no_results"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.0),
@@ -225,7 +227,8 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                   noMoreIcon: Align(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      "Pas plus de résultats actuellement",
+                      AppLocalization.of(context).translate(
+                              "search_messages_screen", "no_more_results"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
                       textScaleFactor: 1.0,
                       textAlign: TextAlign.center,

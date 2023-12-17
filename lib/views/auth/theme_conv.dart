@@ -49,7 +49,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
                   borderRadius: BorderRadius.circular(15.0)),
               scrollable: true,
               title: Text(
-                "Choix première couleur du thème",
+                AppLocalization.of(context).translate(
+                              "theme_conv_screen", "picker_color_1_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textScaleFactor: 1.0,
               ),
@@ -106,7 +107,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
                   borderRadius: BorderRadius.circular(15.0)),
               scrollable: true,
               title: Text(
-                "Choix seconde couleur du thème",
+                AppLocalization.of(context).translate(
+                              "theme_conv_screen", "picker_color_2_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textScaleFactor: 1.0,
               ),
@@ -184,7 +186,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
             backgroundColor: Colors.transparent,
             systemOverlayStyle: Helpers.uiOverlayApp(context),
             title: Text(
-              "Thème conversation",
+              AppLocalization.of(context).translate(
+                              "theme_conv_screen", "title_screen"),
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
               textAlign: TextAlign.center,
               textScaleFactor: 1.0,
@@ -249,7 +252,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
             Row(
               children: [
                 Expanded(
-                    child: Text("Choix première couleur du thème",
+                    child: Text(AppLocalization.of(context).translate(
+                              "theme_conv_screen", "picker_color_1_title"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0)),
@@ -271,7 +275,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
             Row(
               children: [
                 Expanded(
-                    child: Text("Choix seconde couleur du thème",
+                    child: Text(AppLocalization.of(context).translate(
+                              "theme_conv_screen", "picker_color_2_title"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
                         textScaleFactor: 1.0)),
@@ -290,13 +295,15 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
               ],
             ),
             const SizedBox(height: 40.0),
-            Text("Aperçu du thème de la conversation",
+            Text(AppLocalization.of(context).translate(
+                              "theme_conv_screen", "overview_theme"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
                 textScaleFactor: 1.0),
             const SizedBox(height: 25.0),
             _previewTheme(),
             const SizedBox(height: 40.0),
-            Text("Aperçu du gradient de la conversation",
+            Text(AppLocalization.of(context).translate(
+                              "theme_conv_screen", "overview_gradient"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16.0),
                 textScaleFactor: 1.0),
             const SizedBox(height: 25.0),
@@ -325,7 +332,8 @@ class ThemeConvState extends ConsumerState<ThemeConv> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Aperçu du thème de la conversation sélectionné à travers un message",
+                  AppLocalization.of(context).translate(
+                              "theme_conv_screen", "overview_message"),
                   style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                   textScaleFactor: 1.0,
                 ),

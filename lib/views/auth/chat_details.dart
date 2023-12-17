@@ -201,7 +201,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   filled: true,
                                   contentPadding:
                                       const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                                  hintText: "Rechercher dans Giphy",
+                                  hintText: AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
                                   hintStyle: textStyleCustomBold(
                                       cGrey,
                                       14 /
@@ -369,7 +369,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ),
                                     const SizedBox(height: 15.0),
                                     Text(
-                                        "Recherche et trouve le GIF qui illustre ton humeur du moment",
+                                        AppLocalization.of(context).translate("chat_details_screen", "search_giphy_content"),
                                         style: textStyleCustomBold(
                                             Theme.of(context).brightness ==
                                                     Brightness.light
@@ -437,7 +437,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                 size: 40),
                                             const SizedBox(height: 10.0),
                                             Text(
-                                                "Pas de résultats dans Giphy pour cette recherche",
+                                               AppLocalization.of(context).translate("chat_details_screen", "no_results_giphy"),
                                                 style: textStyleCustomMedium(
                                                     Theme.of(context)
                                                                 .brightness ==
@@ -1126,7 +1126,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     navAuthKey.currentState!.pushNamed(userProfile,
                         arguments: [widget.user, false]);
                   },
-                  child: Text("Voir profil",
+                  child: Text(AppLocalization.of(context).translate("chat_details_screen", "see_profile"),
                       style: textStyleCustomMedium(Helpers.uiApp(context), 18),
                       textScaleFactor: 1.0)))
         ],
@@ -1279,7 +1279,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 if (message.isRead && messagesUsers.length == index + 1)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text("Vu",
+                    child: Text(AppLocalization.of(context).translate("chat_details_screen", "message_seen"),
                         style: textStyleCustomMedium(cGrey, 12),
                         textScaleFactor: 1.0),
                   )
@@ -2128,7 +2128,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           filled: true,
                           contentPadding:
                               const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                          hintText: "Écrire un message...",
+                          hintText: AppLocalization.of(context).translate("chat_details_screen", "write_message"),
                           hintStyle: textStyleCustomBold(cGrey,
                               12 / MediaQuery.of(context).textScaleFactor),
                           enabledBorder: OutlineInputBorder(
@@ -2460,7 +2460,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         Icon(Icons.search, color: Helpers.uiApp(context)),
                         const SizedBox(width: 15.0),
                         Expanded(
-                            child: Text("Rechercher dans Giphy",
+                            child: Text(AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
                                 textScaleFactor: 1.0))
@@ -2478,7 +2478,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     ),
                     const SizedBox(width: 5.0),
                     Text(
-                      "À la une",
+                      AppLocalization.of(context).translate("chat_details_screen", "headlines_giphy"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 18),
                       textScaleFactor: 1.0,
                     )
@@ -2635,7 +2635,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ? cBlack
                                     : cWhite),
                             const SizedBox(width: 5.0),
-                            Text("Galerie",
+                            Text(AppLocalization.of(context).translate("chat_details_screen", "gallery"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
@@ -2688,7 +2688,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ? cBlack
                                     : cWhite),
                             const SizedBox(width: 5.0),
-                            Text("Caméra",
+                            Text(AppLocalization.of(context).translate("chat_details_screen", "camera"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light

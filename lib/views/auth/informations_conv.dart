@@ -84,12 +84,13 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               title: Text(
-                "Effacer conversation",
+                AppLocalization.of(context)
+                    .translate("infos_conv_screen", "delete_conv_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textScaleFactor: 1.0,
               ),
               content: Text(
-                "Es-tu sûr de vouloir supprimer la conversation entre ${widget.user.pseudo} et toi ?",
+                "${AppLocalization.of(context).translate("infos_conv_screen", "delete_conv_content_1")} ${widget.user.pseudo} ${AppLocalization.of(context).translate("infos_conv_screen", "delete_conv_content_2")}",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                 textScaleFactor: 1.0,
               ),
@@ -132,12 +133,12 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               title: Text(
-                "Signaler ${widget.user.pseudo}",
+                "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textScaleFactor: 1.0,
               ),
               content: Text(
-                "Es-tu sûr de vouloir signaler l'utilisateur ${widget.user.pseudo} ?",
+                "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_content")} ${widget.user.pseudo} ?",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                 textScaleFactor: 1.0,
               ),
@@ -180,12 +181,12 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               title: Text(
-                "Bloquer ${widget.user.pseudo}",
+                "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_title")} ${widget.user.pseudo}",
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textScaleFactor: 1.0,
               ),
               content: Text(
-                "Es-tu sûr de vouloir bloquer l'utilisateur ${widget.user.pseudo} ?",
+                "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_content")} ${widget.user.pseudo} ?",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
                 textScaleFactor: 1.0,
               ),
@@ -269,7 +270,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                               color: Helpers.uiApp(context))),
                     ),
                     title: Text(
-                      "Informations conversation",
+                      AppLocalization.of(context)
+                          .translate("infos_conv_screen", "title_screen"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
                       textScaleFactor: 1.0,
                     ),
@@ -428,7 +430,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         ),
                         const SizedBox(height: 5.0),
                         Text(
-                          "Profil",
+                          AppLocalization.of(context)
+                              .translate("infos_conv_screen", "profile"),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 14),
                           textScaleFactor: 1.0,
@@ -515,8 +518,10 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         const SizedBox(height: 5.0),
                         Text(
                           _currentConversation.users[indexUserConv]["convMute"]
-                              ? "Réactiver"
-                              : "Désactiver",
+                              ? AppLocalization.of(context).translate(
+                                  "infos_conv_screen", "notif_unmute")
+                              : AppLocalization.of(context)
+                                  .translate("infos_conv_screen", "notif_mute"),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 14),
                           textScaleFactor: 1.0,
@@ -574,7 +579,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                     ),
                     const SizedBox(height: 5.0),
                     Text(
-                      "Profil",
+                      AppLocalization.of(context)
+                          .translate("infos_conv_screen", "profile"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
                       textScaleFactor: 1.0,
                     )
@@ -599,7 +605,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
-                "Personnalisation",
+                AppLocalization.of(context)
+                    .translate("infos_conv_screen", "personnalisation"),
                 style: textStyleCustomBold(cGrey, 14),
                 textScaleFactor: 1.0,
               ),
@@ -669,7 +676,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           ),
                           const SizedBox(width: 15.0),
                           Text(
-                            "Thème conversation",
+                            AppLocalization.of(context)
+                                .translate("infos_conv_screen", "theme_conv"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
                             textScaleFactor: 1.0,
@@ -696,7 +704,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
-                "Détails",
+                AppLocalization.of(context)
+                    .translate("infos_conv_screen", "details"),
                 style: textStyleCustomBold(cGrey, 14),
                 textScaleFactor: 1.0,
               ),
@@ -752,7 +761,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           Icon(Icons.search, color: Helpers.uiApp(context)),
                           const SizedBox(width: 15.0),
                           Text(
-                            "Rechercher message",
+                            AppLocalization.of(context).translate(
+                                "infos_conv_screen", "search_messages"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
                             textScaleFactor: 1.0,
@@ -813,7 +823,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           Icon(Icons.photo, color: Helpers.uiApp(context)),
                           const SizedBox(width: 15.0),
                           Text(
-                            "Multimédias conversation",
+                            AppLocalization.of(context).translate(
+                                "infos_conv_screen", "multimedias_conv"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
                             textScaleFactor: 1.0,
@@ -840,7 +851,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
-                "Autres actions",
+                AppLocalization.of(context)
+                    .translate("infos_conv_screen", "others_actions"),
                 style: textStyleCustomBold(cGrey, 14),
                 textScaleFactor: 1.0,
               ),
@@ -871,7 +883,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 10.0),
                         child: Text(
-                          "Effacer conversation",
+                          AppLocalization.of(context).translate(
+                              "infos_conv_screen", "delete_conv_title"),
                           style: textStyleCustomBold(cRed, 16.0),
                           textScaleFactor: 1.0,
                         )),
@@ -897,7 +910,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
                       child: Text(
-                        "Signaler ${widget.user.pseudo}",
+                        "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                         style: textStyleCustomBold(cRed, 16.0),
                         textScaleFactor: 1.0,
                       ),
@@ -927,7 +940,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
                       child: Text(
-                        "Signaler ${widget.user.pseudo}",
+                        "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                         style: textStyleCustomBold(cRed, 16.0),
                         textScaleFactor: 1.0,
                       ),
@@ -957,7 +970,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
                   child: Text(
-                    "Bloquer ${widget.user.pseudo}",
+                    "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_title")} ${widget.user.pseudo}",
                     style: textStyleCustomBold(cRed, 16.0),
                     textScaleFactor: 1.0,
                   ),
@@ -1022,7 +1035,8 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                             filled: true,
                             fillColor:
                                 Theme.of(context).scaffoldBackgroundColor,
-                            hintText: "Rechercher un message",
+                            hintText: AppLocalization.of(context).translate(
+                                "infos_conv_screen", "search_messages"),
                             hintStyle: textStyleCustomMedium(
                                 _searchMessagesFocusNode.hasFocus
                                     ? _currentConversation.themeConv.isEmpty
