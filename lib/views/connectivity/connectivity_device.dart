@@ -55,7 +55,7 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
                       .translate("connectivity_screen", "no_connectivity"),
                   style: textStyleCustomMedium(Helpers.uiApp(context), 16),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )
               ],
             ),

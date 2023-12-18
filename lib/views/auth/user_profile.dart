@@ -152,7 +152,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 title: Text(
                     "${AppLocalization.of(context).translate("user_profile_screen", "profile_of")} ${widget.user.pseudo}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   widget.user.id == ref.read(userNotifierProvider).id
@@ -257,7 +257,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                     Text(
                       widget.user.pseudo,
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(width: 5.0),
@@ -310,14 +310,14 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 Text(
                     "${Helpers.formatNumber(widget.user.followers.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followers")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
                 const SizedBox(height: 5.0),
                 Text(
                     "${Helpers.formatNumber(widget.user.followings.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followings")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
               ],
@@ -330,7 +330,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Text(widget.user.bio,
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           ),
         )
       ],
@@ -345,7 +345,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
         AppLocalization.of(context).translate("general", "message_continue"),
         style: textStyleCustomMedium(Helpers.uiApp(context), 14),
         textAlign: TextAlign.center,
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
       ),
     );
   }

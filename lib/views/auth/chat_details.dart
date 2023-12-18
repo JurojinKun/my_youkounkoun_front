@@ -194,8 +194,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
-                                    14 /
-                                        MediaQuery.of(context).textScaleFactor),
+                                    MediaQuery.of(context).textScaler.scale(14)),
                                 decoration: InputDecoration(
                                   fillColor: Theme.of(context).canvasColor,
                                   filled: true,
@@ -204,9 +203,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   hintText: AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
                                   hintStyle: textStyleCustomBold(
                                       cGrey,
-                                      14 /
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
+                                      MediaQuery.of(context).textScaler.scale(14)),
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         width: 2.0,
@@ -377,7 +374,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                 : cWhite,
                                             14),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: 1.0)
+                                        textScaler: const TextScaler.linear(1.0))
                                   ],
                                 ),
                               )
@@ -413,7 +410,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                   : cWhite,
                                               14),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: 1.0,
+                                          textScaler: const TextScaler.linear(1.0),
                                         )
                                       ],
                                     ),
@@ -446,7 +443,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                         : cWhite,
                                                     14),
                                                 textAlign: TextAlign.center,
-                                                textScaleFactor: 1.0)
+                                                textScaler: const TextScaler.linear(1.0))
                                           ],
                                         ))
                                     : GridView.builder(
@@ -893,7 +890,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 widget.user.pseudo,
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 20),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -1061,7 +1058,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
               Text(
                 widget.user.pseudo,
                 style: textStyleCustomBold(Helpers.uiApp(context), 23),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
                 textAlign: TextAlign.center,
               ),
               Flag.flagsCode.contains(widget.user.nationality.toUpperCase())
@@ -1128,7 +1125,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                   },
                   child: Text(AppLocalization.of(context).translate("chat_details_screen", "see_profile"),
                       style: textStyleCustomMedium(Helpers.uiApp(context), 18),
-                      textScaleFactor: 1.0)))
+                      textScaler: const TextScaler.linear(1.0))))
         ],
       ),
     );
@@ -1185,7 +1182,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                       _currentConversation.themeConv[1]),
                                   0.5)!,
                           14),
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 ),
               )),
         );
@@ -1281,7 +1278,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(AppLocalization.of(context).translate("chat_details_screen", "message_seen"),
                         style: textStyleCustomMedium(cGrey, 12),
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
               ],
             ));
@@ -1313,7 +1310,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     Text(
                       message.message,
                       style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ),
                     const SizedBox(height: 5.0),
                     Align(
@@ -1325,7 +1322,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 .read(localeLanguageNotifierProvider)
                                 .languageCode),
                         style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     )
                   ],
@@ -1360,7 +1357,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     Text(
                       message.message,
                       style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ),
                     const SizedBox(height: 5.0),
                     Align(
@@ -1372,7 +1369,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 .read(localeLanguageNotifierProvider)
                                 .languageCode),
                         style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     )
                   ],
@@ -1511,7 +1508,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 .read(localeLanguageNotifierProvider)
                                 .languageCode),
                         style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     )
                   ],
@@ -1645,7 +1642,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                 .read(localeLanguageNotifierProvider)
                                 .languageCode),
                         style: textStyleCustomBold(Helpers.uiApp(context), 10),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     )
                   ],
@@ -1781,7 +1778,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   .languageCode),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 10),
-                          textScaleFactor: 1.0,
+                          textScaler: const TextScaler.linear(1.0),
                         ),
                       )
                     ],
@@ -1919,7 +1916,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                   .languageCode),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 10),
-                          textScaleFactor: 1.0,
+                          textScaler: const TextScaler.linear(1.0),
                         ),
                       )
                     ],
@@ -2122,7 +2119,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         keyboardType: TextInputType.multiline,
                         textCapitalization: TextCapitalization.sentences,
                         style: textStyleCustomBold(Helpers.uiApp(context),
-                            12 / MediaQuery.of(context).textScaleFactor),
+                            MediaQuery.of(context).textScaler.scale(12)),
                         decoration: InputDecoration(
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
                           filled: true,
@@ -2130,7 +2127,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                               const EdgeInsets.fromLTRB(12, 12, 12, 12),
                           hintText: AppLocalization.of(context).translate("chat_details_screen", "write_message"),
                           hintStyle: textStyleCustomBold(cGrey,
-                              12 / MediaQuery.of(context).textScaleFactor),
+                              MediaQuery.of(context).textScaler.scale(12)),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.0,
@@ -2402,7 +2399,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                       Helpers.stringToColor(_currentConversation.themeConv[1]),
                       0.5)!,
               enableSkinTones: true,
-              showRecentsTab: true,
+              recentTabBehavior: emoji.RecentTabBehavior.RECENT,
               recentsLimit: 28,
               replaceEmojiOnLimitExceed: true,
               noRecents: const NoRecentEmoji(),
@@ -2463,7 +2460,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                             child: Text(AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
-                                textScaleFactor: 1.0))
+                                textScaler: const TextScaler.linear(1.0)))
                       ],
                     ),
                   )),
@@ -2480,7 +2477,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     Text(
                       AppLocalization.of(context).translate("chat_details_screen", "headlines_giphy"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 18),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )
                   ],
                 ),
@@ -2642,7 +2639,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                         ? cBlack
                                         : cWhite,
                                     18),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 overflow: TextOverflow.ellipsis)
                           ],
                         )),
@@ -2695,7 +2692,7 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                         ? cBlack
                                         : cWhite,
                                     18),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 overflow: TextOverflow.ellipsis)
                           ],
                         )),

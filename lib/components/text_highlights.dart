@@ -77,14 +77,14 @@ class TextHighlightState extends ConsumerState<TextHighlight> {
             text: TextSpan(children: snapshot.data!),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           );
         } else {
           return Text(
             widget.text,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           );
         }
       },

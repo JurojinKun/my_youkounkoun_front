@@ -256,7 +256,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                     AppLocalization.of(context)
                         .translate("edit_account_screen", "my_account"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                   centerTitle: false,
                 ),
@@ -293,7 +293,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
               AppLocalization.of(context)
                   .translate("edit_account_screen", "content"),
               style: textStyleCustomRegular(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 25.0,
@@ -313,7 +313,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(height: 10.0),
             Center(
@@ -470,7 +470,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(height: 10.0),
             Center(
@@ -491,15 +491,15 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 },
                 style: textStyleCustomRegular(
                     _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                    14 / MediaQuery.of(context).textScaleFactor),
+                    MediaQuery.of(context).textScaler.scale(14)),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   hintText: AppLocalization.of(context)
                       .translate("edit_account_screen", "pseudo_profile"),
                   hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      cGrey, MediaQuery.of(context).textScaler.scale(14)),
                   labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      cBlue, MediaQuery.of(context).textScaler.scale(14)),
                   suffixIcon: _pseudoController.text.isNotEmpty
                       ? Material(
                           color: Colors.transparent,
@@ -562,7 +562,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                   )
                 ]),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
             const SizedBox(height: 10.0),
             Center(
               child: TextField(
@@ -584,14 +584,14 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 },
                 style: textStyleCustomRegular(
                     _bioFocusNode.hasFocus ? cBlue : cGrey,
-                    14 / MediaQuery.of(context).textScaleFactor),
+                    MediaQuery.of(context).textScaler.scale(14)),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   hintText: "Biographie",
                   hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      cGrey, MediaQuery.of(context).textScaler.scale(14)),
                   labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      cBlue, MediaQuery.of(context).textScaler.scale(14)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2.0,
@@ -635,7 +635,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -676,7 +676,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             const SizedBox(height: 5.0),
                             Text(element["type"],
                                 style: textStyleCustomBold(cBlue, 16),
-                                textScaleFactor: 1.0)
+                                textScaler: const TextScaler.linear(1.0))
                           ],
                         )
                       : Column(
@@ -707,7 +707,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             const SizedBox(height: 5.0),
                             Text(element["type"],
                                 style: textStyleCustomBold(cGrey, 16),
-                                textScaleFactor: 1.0)
+                                textScaler: const TextScaler.linear(1.0))
                           ],
                         );
                 }),
@@ -729,7 +729,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -772,7 +772,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                     Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
                         localeLanguage.languageCode),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
               ),
             ),
             const SizedBox(
@@ -793,7 +793,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -848,7 +848,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             "register_screen", "empty_search_country"),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )),
             ),
           ],
@@ -881,7 +881,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                 .translate("general", "btn_save"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
               const SizedBox(width: 15.0),
               Expanded(
@@ -902,7 +902,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
             ],
           ),

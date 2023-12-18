@@ -73,7 +73,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 0 ? cBlue : cGrey,
                               12),
-                          textScaleFactor: 1.0)
+                          textScaler: const TextScaler.linear(1.0))
                     ],
                   ),
                 )),
@@ -110,7 +110,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 1 ? cBlue : cGrey,
                               12),
-                          textScaleFactor: 1.0)
+                          textScaler: const TextScaler.linear(1.0))
                     ],
                   ),
                 )),
@@ -167,7 +167,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 2 ? cBlue : cGrey,
                               12),
-                          textScaleFactor: 1.0)
+                          textScaler: const TextScaler.linear(1.0))
                     ],
                   ),
                 )),
@@ -204,7 +204,7 @@ class CustomNavBarState extends ConsumerState<CustomNavBar> {
                           style: textStyleCustomRegular(
                               widget.tabController.index == 3 ? cBlue : cGrey,
                               12),
-                          textScaleFactor: 1.0)
+                          textScaler: const TextScaler.linear(1.0))
                     ],
                   ),
                 )),

@@ -165,7 +165,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                         ? cBlack
                                         : cWhite,
                                     16),
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                             const SizedBox(width: 5.0),
                             if (widget.conversation.users[widget.indexUserConv]
                                 ["convMute"])
@@ -179,7 +179,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: textStyleCustomRegular(cGrey, 14),
-                                textScaleFactor: 1.0)
+                                textScaler: const TextScaler.linear(1.0))
                             : Row(
                                 children: [
                                   Flexible(
@@ -202,7 +202,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                                     : cWhite,
                                                 14)
                                             : textStyleCustomRegular(cGrey, 14),
-                                        textScaleFactor: 1.0),
+                                        textScaler: const TextScaler.linear(1.0)),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -259,7 +259,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                                           : cWhite
                                                       : cGrey,
                                                   12),
-                                              textScaleFactor: 1.0);
+                                              textScaler: const TextScaler.linear(1.0));
                                         } else {
                                           return Text(snapshot.data.toString(),
                                               style: textStyleCustomMedium(
@@ -278,7 +278,7 @@ class ConversationComponentState extends ConsumerState<ConversationComponent> {
                                                           : cWhite
                                                       : cGrey,
                                                   12),
-                                              textScaleFactor: 1.0);
+                                              textScaler: const TextScaler.linear(1.0));
                                         }
                                       }),
                                 ],

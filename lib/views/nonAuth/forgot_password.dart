@@ -57,7 +57,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("forgot_password_screen", "send_mail"),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
@@ -103,7 +103,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                     child: Text(
                         AppLocalization.of(context).translate(
                             "forgot_password_screen", "error_send_mail"),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
@@ -124,6 +124,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
       if (kDebugMode) {
         print(e);
       }
+      if (!mounted) return;
       _showDialogErrorSendForgotPassword(context);
     }
   }
@@ -166,7 +167,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                   AppLocalization.of(context)
                       .translate("forgot_password_screen", "forgot_password"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 centerTitle: false,
                 actions: [
@@ -203,7 +204,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                       .translate("forgot_password_screen", "content"),
                   style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 45.0),
                 Align(
@@ -222,7 +223,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                       )
                     ]),
                     textAlign: TextAlign.center,
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                 ),
                 const SizedBox(
@@ -246,15 +247,15 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                   },
                   style: textStyleCustomRegular(
                       _mailFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.only(top: 15.0, left: 15.0),
                     hintText: "Email",
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,
@@ -342,7 +343,7 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword> {
                                         ? cBlack
                                         : cWhite,
                                     20),
-                                textScaleFactor: 1.0))),
+                                textScaler: const TextScaler.linear(1.0)))),
               ],
             ),
           ),

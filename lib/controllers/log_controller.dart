@@ -6,6 +6,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
+import 'package:myyoukounkoun/providers/search_enabled_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/router.dart';
@@ -30,6 +31,11 @@ class LogControllerState extends ConsumerState<LogController>
     WidgetsBinding.instance.addObserver(this);
 
     _heroController = HeroController();
+
+    navHomeKey = GlobalKey<NavigatorState>();
+    navSearchKey = GlobalKey<NavigatorState>();
+    navActivitiesKey = GlobalKey<NavigatorState>();
+    navProfileKey = GlobalKey<NavigatorState>();
   }
 
   @override
@@ -66,7 +72,29 @@ class LogControllerState extends ConsumerState<LogController>
     currentRouteApp = ref.watch(currentRouteAppNotifierProvider);
 
     return user!.token.trim() != ""
-        ? WillPopScope(
+        ? NavigatorPopHandler(
+            onPop: () {
+              if (navAuthKey.currentState!.canPop()) {
+                if (!ref.read(searchEnabledNotifierProvider)) {
+                  navAuthKey.currentState!.pop();
+                }
+              } else {
+                switch (tabControllerBottomNav!.index) {
+                  case 0:
+                    navHomeKey!.currentState!.pop();
+                    break;
+                  case 1:
+                    navSearchKey!.currentState!.pop();
+                    break;
+                  case 2:
+                    navActivitiesKey!.currentState!.pop();
+                    break;
+                  case 3:
+                    navProfileKey!.currentState!.pop();
+                    break;
+                }
+              }
+            },
             child: Navigator(
               key: navAuthKey,
               initialRoute: bottomNav,
@@ -74,21 +102,17 @@ class LogControllerState extends ConsumerState<LogController>
               onGenerateRoute: (settings) =>
                   generateRouteAuth(settings, context),
             ),
-            onWillPop: () async {
-              return !(await navAuthKey.currentState!.maybePop());
-            },
           )
-        : WillPopScope(
+        : NavigatorPopHandler(
+            onPop: () {
+              navNonAuthKey.currentState!.pop();
+            },
             child: Navigator(
               key: navNonAuthKey,
               initialRoute: welcome,
               observers: [routeObserver],
               onGenerateRoute: (settings) =>
                   generateRouteNonAuth(settings, context),
-            ),
-            onWillPop: () async {
-              return !(await navNonAuthKey.currentState!.maybePop());
-            },
-          );
+            ));
   }
 }

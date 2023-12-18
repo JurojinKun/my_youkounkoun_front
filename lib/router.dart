@@ -55,7 +55,7 @@ Route<dynamic> generateRouteNonAuth(
                 body: Center(
                     child: Text(
                   'No route defined for ${settings.name}',
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )),
               ));
   }
@@ -161,7 +161,7 @@ Route<dynamic> generateRouteAuthHome(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
@@ -187,7 +187,7 @@ Route<dynamic> generateRouteAuthSearch(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
@@ -207,7 +207,7 @@ Route<dynamic> generateRouteAuthActivities(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
@@ -227,7 +227,7 @@ Route<dynamic> generateRouteAuthProfile(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }

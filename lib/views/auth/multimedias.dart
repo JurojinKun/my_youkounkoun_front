@@ -137,7 +137,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
               AppLocalization.of(context).translate("multimedias_screen", "title_screen"),
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             centerTitle: false,
             actions: [
@@ -213,7 +213,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
               AppLocalization.of(context).translate("multimedias_screen", "no_multimedias"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
           )
         : GlowingOverscrollIndicator(
@@ -258,7 +258,7 @@ class MultimediasState extends ConsumerState<Multimedias> {
                   child: Text(
                     AppLocalization.of(context).translate("multimedias_screen", "no_more_multimedias"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     textAlign: TextAlign.center,
                   ),
                 ),

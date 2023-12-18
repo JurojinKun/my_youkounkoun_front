@@ -133,7 +133,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             centerTitle: false,
             actions: [
@@ -185,7 +185,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                               "search_messages_screen", "no_results"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           )
         : GlowingOverscrollIndicator(
             axisDirection: AxisDirection.down,
@@ -230,7 +230,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                       AppLocalization.of(context).translate(
                               "search_messages_screen", "no_more_results"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -317,7 +317,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             Text(widget.user.pseudo,
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                             Container(
                               height: 10.0,
                               width: 10.0,
@@ -338,7 +338,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                         .languageCode,
                                     false),
                                 style: textStyleCustomRegular(cGrey, 14),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -427,7 +427,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             Text(ref.read(userNotifierProvider).pseudo,
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                             Container(
                               height: 10.0,
                               width: 10.0,
@@ -448,7 +448,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                           .languageCode,
                                       false),
                                   style: textStyleCustomRegular(cGrey, 14),
-                                  textScaleFactor: 1.0,
+                                  textScaler: const TextScaler.linear(1.0),
                                   overflow: TextOverflow.ellipsis),
                             )
                           ],

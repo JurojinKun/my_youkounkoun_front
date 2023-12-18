@@ -85,7 +85,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                     AppLocalization.of(context)
                         .translate("home_screen", "home"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
@@ -146,7 +146,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                           style:
                               textStyleCustomMedium(Helpers.uiApp(context), 14),
                           textAlign: TextAlign.center,
-                          textScaleFactor: 1.0),
+                          textScaler: const TextScaler.linear(1.0)),
                       const SizedBox(
                         height: 15.0,
                       ),
@@ -171,7 +171,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                                       : cWhite,
                                   14),
                               textAlign: TextAlign.center,
-                              textScaleFactor: 1.0),
+                              textScaler: const TextScaler.linear(1.0)),
                       if (EnvironmentConfigLib().getEnvironmentAdmob)
                         connectivityStatus == ConnectivityResult.none &&
                                 !pubHomeAlreadyLoaded

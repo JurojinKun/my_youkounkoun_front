@@ -221,7 +221,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                                 16),
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,
-                            textScaleFactor: 1.0),
+                            textScaler: const TextScaler.linear(1.0)),
                       ),
                     ),
                     Material(
@@ -276,7 +276,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
               AppLocalization.of(context).translate("bottom_sheet_mentions", "content"),
               style: textStyleCustomBold(Helpers.uiApp(context), 14.0),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
           )
         : ListView.builder(
@@ -301,7 +301,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                 AppLocalization.of(context).translate("bottom_sheet_mentions", "no_recent_interactions"),
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0))
+                textScaler: const TextScaler.linear(1.0)))
         : ListView.builder(
             padding: EdgeInsets.zero,
             physics: const AlwaysScrollableScrollPhysics(
@@ -342,7 +342,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                   title: Text(
                     user.pseudo,
                     style: textStyleCustomMedium(Helpers.uiApp(context), 16),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                 ),
               );
@@ -356,7 +356,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
               AppLocalization.of(context).translate("bottom_sheet_mentions", "no_results"),
               style: textStyleCustomBold(Helpers.uiApp(context), 14.0),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
           )
         : ListView.builder(
@@ -398,7 +398,7 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                   title: Text(
                     user.pseudo,
                     style: textStyleCustomMedium(Helpers.uiApp(context), 16),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                 ),
               );
@@ -433,14 +433,14 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
                 },
                 style: textStyleCustomRegular(
                     _mentionsFocusNode.hasFocus ? cBlue : cGrey,
-                    14 / MediaQuery.of(context).textScaleFactor),
+                    MediaQuery.of(context).textScaler.scale(14)),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   hintText: AppLocalization.of(context).translate("bottom_sheet_mentions", "write_mention"),
                   hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      cGrey, MediaQuery.of(context).textScaler.scale(14)),
                   labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      cBlue, MediaQuery.of(context).textScaler.scale(14)),
                   suffixIcon: _mentionsController.text.isEmpty
                       ? const SizedBox()
                       : Material(

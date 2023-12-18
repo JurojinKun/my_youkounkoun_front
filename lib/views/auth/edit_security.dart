@@ -136,7 +136,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                             : cWhite,
                                         16),
                                     textAlign: TextAlign.left,
-                                    textScaleFactor: 1.0),
+                                    textScaler: const TextScaler.linear(1.0)),
                               ),
                             ),
                             Material(
@@ -170,7 +170,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                           ? cBlack
                                           : cWhite,
                                       14),
-                                  textScaleFactor: 1.0),
+                                  textScaler: const TextScaler.linear(1.0)),
                               const SizedBox(
                                 height: 25.0,
                               ),
@@ -195,7 +195,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                     )
                                   ]),
                                   textAlign: TextAlign.center,
-                                  textScaleFactor: 1.0,
+                                  textScaler: const TextScaler.linear(1.0),
                                 ),
                               ),
                               const SizedBox(height: 10.0),
@@ -248,8 +248,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                     _validModifPasswordFocusNode.hasFocus
                                         ? cBlue
                                         : cGrey,
-                                    14 /
-                                        MediaQuery.of(context).textScaleFactor),
+                                    MediaQuery.of(context).textScaler.scale(14)),
                                 decoration: InputDecoration(
                                   contentPadding:
                                       const EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -258,14 +257,10 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                           "edit_security_screen", "password"),
                                   hintStyle: textStyleCustomRegular(
                                       cGrey,
-                                      14 /
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
+                                      MediaQuery.of(context).textScaler.scale(14)),
                                   labelStyle: textStyleCustomRegular(
                                       cBlue,
-                                      14 /
-                                          MediaQuery.of(context)
-                                              .textScaleFactor),
+                                      MediaQuery.of(context).textScaler.scale(14)),
                                   suffixIcon: Material(
                                     color: Colors.transparent,
                                     shape: const CircleBorder(),
@@ -373,7 +368,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                                       : cWhite,
                                                   20),
                                               textAlign: TextAlign.center,
-                                              textScaleFactor: 1.0)))
+                                              textScaler: const TextScaler.linear(1.0))))
                             ],
                           ),
                         ))
@@ -552,7 +547,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                       AppLocalization.of(context).translate(
                           "edit_security_screen", "security_account"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 ),
               ),
             ),
@@ -595,7 +590,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               AppLocalization.of(context)
                   .translate("edit_security_screen", "content"),
               style: textStyleCustomRegular(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 20.0,
@@ -615,7 +610,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -637,15 +632,15 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               },
               style: textStyleCustomRegular(
                   _mailFocusNode.hasFocus ? cBlue : cGrey,
-                  14 / MediaQuery.of(context).textScaleFactor),
+                  MediaQuery.of(context).textScaler.scale(14)),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                 hintText: AppLocalization.of(context)
                     .translate("edit_security_screen", "mail"),
                 hintStyle: textStyleCustomRegular(
-                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    cGrey, MediaQuery.of(context).textScaler.scale(14)),
                 labelStyle: textStyleCustomRegular(
-                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    cBlue, MediaQuery.of(context).textScaler.scale(14)),
                 suffixIcon: _mailController.text.isNotEmpty
                     ? Material(
                         color: Colors.transparent,
@@ -707,7 +702,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -732,15 +727,15 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               },
               style: textStyleCustomRegular(
                   _actualPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                  14 / MediaQuery.of(context).textScaleFactor),
+                  MediaQuery.of(context).textScaler.scale(14)),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                 hintText: AppLocalization.of(context)
                     .translate("edit_security_screen", "actual_password"),
                 hintStyle: textStyleCustomRegular(
-                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    cGrey, MediaQuery.of(context).textScaler.scale(14)),
                 labelStyle: textStyleCustomRegular(
-                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    cBlue, MediaQuery.of(context).textScaler.scale(14)),
                 suffixIcon: Material(
                   color: Colors.transparent,
                   shape: const CircleBorder(),
@@ -809,15 +804,15 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               },
               style: textStyleCustomRegular(
                   _newPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                  14 / MediaQuery.of(context).textScaleFactor),
+                  MediaQuery.of(context).textScaler.scale(14)),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                 hintText: AppLocalization.of(context)
                     .translate("edit_security_screen", "new_password"),
                 hintStyle: textStyleCustomRegular(
-                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    cGrey, MediaQuery.of(context).textScaler.scale(14)),
                 labelStyle: textStyleCustomRegular(
-                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    cBlue, MediaQuery.of(context).textScaler.scale(14)),
                 suffixIcon: Material(
                   color: Colors.transparent,
                   shape: const CircleBorder(),
@@ -882,15 +877,15 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
               },
               style: textStyleCustomRegular(
                   _confirmNewPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                  14 / MediaQuery.of(context).textScaleFactor),
+                  MediaQuery.of(context).textScaler.scale(14)),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                 hintText: AppLocalization.of(context)
                     .translate("edit_security_screen", "confirm_new_password"),
                 hintStyle: textStyleCustomRegular(
-                    cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                    cGrey, MediaQuery.of(context).textScaler.scale(14)),
                 labelStyle: textStyleCustomRegular(
-                    cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                    cBlue, MediaQuery.of(context).textScaler.scale(14)),
                 suffixIcon: Material(
                   color: Colors.transparent,
                   shape: const CircleBorder(),
@@ -974,7 +969,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                 "edit_security_screen", "update_mail"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
               const SizedBox(width: 15.0),
               Expanded(
@@ -996,7 +991,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
             ],
           ),
@@ -1055,7 +1050,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                         : cWhite,
                                     20),
                                 textAlign: TextAlign.center,
-                                textScaleFactor: 1.0))),
+                                textScaler: const TextScaler.linear(1.0)))),
               ),
               const SizedBox(width: 15.0),
               Expanded(
@@ -1076,7 +1071,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
             ],
           ),
@@ -1099,7 +1094,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
                     .translate("edit_security_screen", "error_update"),
                 style: textStyleCustomBold(cRed, 14),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0)),
+                textScaler: const TextScaler.linear(1.0))),
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/chat_provider.dart';
+import 'package:myyoukounkoun/providers/search_enabled_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -87,12 +88,12 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 AppLocalization.of(context)
                     .translate("infos_conv_screen", "delete_conv_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 "${AppLocalization.of(context).translate("infos_conv_screen", "delete_conv_content_1")} ${widget.user.pseudo} ${AppLocalization.of(context).translate("infos_conv_screen", "delete_conv_content_2")}",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -103,7 +104,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () {
@@ -113,7 +114,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -135,12 +136,12 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               title: Text(
                 "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_content")} ${widget.user.pseudo} ?",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -151,7 +152,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () {
@@ -161,7 +162,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -183,12 +184,12 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               title: Text(
                 "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_title")} ${widget.user.pseudo}",
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_content")} ${widget.user.pseudo} ?",
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -199,7 +200,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () {
@@ -209,7 +210,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -242,6 +243,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
   @override
   Widget build(BuildContext context) {
     _currentConversation = ref.watch(currentConvNotifierProvider);
+    searchEnabled = ref.watch(searchEnabledNotifierProvider);
 
     return Stack(
       children: [
@@ -273,7 +275,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("infos_conv_screen", "title_screen"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ),
                     centerTitle: false,
                   ),
@@ -306,15 +308,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
               ),
             )),
         if (searchEnabled)
-          WillPopScope(
-              onWillPop: () async {
-                setState(() {
-                  searchEnabled = false;
-                });
-                _searchMessagesController.clear();
-                return false;
-              },
-              child: searchMessagesBar())
+          searchMessagesBar()
       ],
     );
   }
@@ -370,7 +364,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
         Text(
           widget.user.pseudo,
           style: textStyleCustomBold(Helpers.uiApp(context), 20.0),
-          textScaleFactor: 1.0,
+          textScaler: const TextScaler.linear(1.0),
         ),
         const SizedBox(height: 20.0),
         _currentConversation.id != "temporary"
@@ -434,7 +428,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                               .translate("infos_conv_screen", "profile"),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 14),
-                          textScaleFactor: 1.0,
+                          textScaler: const TextScaler.linear(1.0),
                         )
                       ],
                     ),
@@ -524,7 +518,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                   .translate("infos_conv_screen", "notif_mute"),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 14),
-                          textScaleFactor: 1.0,
+                          textScaler: const TextScaler.linear(1.0),
                         )
                       ],
                     ),
@@ -582,7 +576,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("infos_conv_screen", "profile"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )
                   ],
                 ),
@@ -608,7 +602,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 AppLocalization.of(context)
                     .translate("infos_conv_screen", "personnalisation"),
                 style: textStyleCustomBold(cGrey, 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
             )),
         const SizedBox(height: 10.0),
@@ -680,7 +674,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                 .translate("infos_conv_screen", "theme_conv"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                           )
                         ],
                       ),
@@ -707,7 +701,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 AppLocalization.of(context)
                     .translate("infos_conv_screen", "details"),
                 style: textStyleCustomBold(cGrey, 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
             )),
         const SizedBox(height: 10.0),
@@ -746,9 +740,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   topLeft: Radius.circular(15.0),
                   topRight: Radius.circular(15.0)),
               onTap: () {
-                setState(() {
-                  searchEnabled = true;
-                });
+                ref
+                    .read(searchEnabledNotifierProvider.notifier)
+                    .updateState(true);
               },
               child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -765,7 +759,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                 "infos_conv_screen", "search_messages"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                           )
                         ],
                       ),
@@ -827,7 +821,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                 "infos_conv_screen", "multimedias_conv"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 16.0),
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                           )
                         ],
                       ),
@@ -854,7 +848,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                 AppLocalization.of(context)
                     .translate("infos_conv_screen", "others_actions"),
                 style: textStyleCustomBold(cGrey, 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
             )),
         const SizedBox(height: 10.0),
@@ -886,7 +880,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           AppLocalization.of(context).translate(
                               "infos_conv_screen", "delete_conv_title"),
                           style: textStyleCustomBold(cRed, 16.0),
-                          textScaleFactor: 1.0,
+                          textScaler: const TextScaler.linear(1.0),
                         )),
                   ),
                 ),
@@ -912,7 +906,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       child: Text(
                         "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                         style: textStyleCustomBold(cRed, 16.0),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     ),
                   ),
@@ -942,7 +936,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       child: Text(
                         "${AppLocalization.of(context).translate("infos_conv_screen", "report_user_title")} ${widget.user.pseudo}",
                         style: textStyleCustomBold(cRed, 16.0),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     ),
                   ),
@@ -972,7 +966,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   child: Text(
                     "${AppLocalization.of(context).translate("infos_conv_screen", "block_user_title")} ${widget.user.pseudo}",
                     style: textStyleCustomBold(cRed, 16.0),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                 ),
               ),
@@ -1028,7 +1022,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                             _currentConversation.themeConv[1]),
                                         0.5)!
                                 : cGrey,
-                            14 / MediaQuery.of(context).textScaleFactor),
+                            MediaQuery.of(context).textScaler.scale(14)),
                         decoration: InputDecoration(
                             contentPadding:
                                 const EdgeInsets.only(top: 15.0, left: 15.0),
@@ -1126,9 +1120,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                         },
                         onEditingComplete: () async {
                           Helpers.hideKeyboard(context);
-                          setState(() {
-                            searchEnabled = false;
-                          });
+                          ref
+                              .read(searchEnabledNotifierProvider.notifier)
+                              .updateState(false);
                           if (_searchMessagesController.text.isNotEmpty &&
                               _searchMessagesController.text.trim() != "") {
                             await _searchMessagesBottomSheet(context);
@@ -1143,9 +1137,9 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: TextButton(
                     onPressed: () {
-                      setState(() {
-                        searchEnabled = false;
-                      });
+                      ref
+                          .read(searchEnabledNotifierProvider.notifier)
+                          .updateState(false);
                       _searchMessagesController.clear();
                     },
                     style: ButtonStyle(
@@ -1165,7 +1159,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ),
                   ),
                 )

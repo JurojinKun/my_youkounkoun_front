@@ -143,62 +143,56 @@ class RegisterState extends ConsumerState<Register>
           }
         }
       },
-      child: WillPopScope(
-        onWillPop: () async {
-          navNonAuthKey.currentState!.pop();
-          return false;
-        },
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: PreferredSize(
-            preferredSize: Size(
-                MediaQuery.of(context).size.width, appBar.preferredSize.height),
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  systemOverlayStyle: Helpers.uiOverlayApp(context),
-                  leading: Material(
-                    color: Colors.transparent,
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: IconButton(
-                        onPressed: () async {
-                          if (_isKeyboard) {
-                            Helpers.hideKeyboard(context);
-                            await Future.delayed(
-                                const Duration(milliseconds: 200));
-                          }
-                          navNonAuthKey.currentState!.pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Helpers.uiApp(context),
-                        )),
-                  ),
-                  title: Text(
-                      AppLocalization.of(context)
-                          .translate("register_screen", "register"),
-                      style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0),
-                  centerTitle: false,
-                  actions: [stepRegister()],
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: PreferredSize(
+          preferredSize: Size(
+              MediaQuery.of(context).size.width, appBar.preferredSize.height),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                systemOverlayStyle: Helpers.uiOverlayApp(context),
+                leading: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      onPressed: () async {
+                        if (_isKeyboard) {
+                          Helpers.hideKeyboard(context);
+                          await Future.delayed(
+                              const Duration(milliseconds: 200));
+                        }
+                        navNonAuthKey.currentState!.pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Helpers.uiApp(context),
+                      )),
                 ),
+                title: Text(
+                    AppLocalization.of(context)
+                        .translate("register_screen", "register"),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                    textScaler: const TextScaler.linear(1.0)),
+                centerTitle: false,
+                actions: [stepRegister()],
               ),
             ),
           ),
-          body: TabBarView(
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                firstStepRegister(),
-                secondStepRegister(),
-              ]),
         ),
+        body: TabBarView(
+            controller: _tabController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              firstStepRegister(),
+              secondStepRegister(),
+            ]),
       ),
     );
   }
@@ -236,7 +230,7 @@ class RegisterState extends ConsumerState<Register>
                     AppLocalization.of(context)
                         .translate("register_screen", "step_one"),
                     style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 const SizedBox(height: 20.0),
                 RichText(
                   text: TextSpan(children: [
@@ -253,7 +247,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 TextField(
@@ -274,15 +268,15 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _mailFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                     MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "mail"),
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     suffixIcon: _mailController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,
@@ -345,7 +339,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 TextField(
@@ -368,15 +362,15 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _passwordFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "password"),
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     prefixIcon: Icon(Icons.lock,
                         color: _passwordFocusNode.hasFocus ? cBlue : cGrey),
                     suffixIcon: Material(
@@ -444,15 +438,15 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _confirmPasswordFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "confirm_password"),
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     prefixIcon: Icon(Icons.lock,
                         color:
                             _confirmPasswordFocusNode.hasFocus ? cBlue : cGrey),
@@ -519,7 +513,7 @@ class RegisterState extends ConsumerState<Register>
                         width: 150,
                         margin: const EdgeInsets.symmetric(vertical: 10.0),
                         child: RichText(
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                             text: TextSpan(
                                 text: AppLocalization.of(context)
                                     .translate("register_screen", "accept_cgu"),
@@ -591,7 +585,7 @@ class RegisterState extends ConsumerState<Register>
                           width: 150,
                           margin: const EdgeInsets.symmetric(vertical: 20.0),
                           child: RichText(
-                              textScaleFactor: 1.0,
+                              textScaler: const TextScaler.linear(1.0),
                               text: TextSpan(
                                   text: AppLocalization.of(context).translate(
                                       "register_screen",
@@ -723,7 +717,7 @@ class RegisterState extends ConsumerState<Register>
                                           ? cBlack
                                           : cWhite,
                                       20),
-                                  textScaleFactor: 1.0))),
+                                  textScaler: const TextScaler.linear(1.0)))),
                 )
         ],
       ),
@@ -751,7 +745,7 @@ class RegisterState extends ConsumerState<Register>
                     AppLocalization.of(context)
                         .translate("register_screen", "step_two"),
                     style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -769,7 +763,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 Center(
@@ -862,7 +856,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 TextField(
@@ -883,15 +877,15 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: AppLocalization.of(context)
                         .translate("register_screen", "pseudo"),
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     suffixIcon: _pseudoController.text.isNotEmpty
                         ? Material(
                             color: Colors.transparent,
@@ -951,7 +945,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 TextField(
@@ -973,14 +967,14 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _bioFocusNode.hasFocus ? cBlue : cGrey,
-                      14 / MediaQuery.of(context).textScaleFactor),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: "Biographie",
                     hintStyle: textStyleCustomRegular(
-                        cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                        cGrey, MediaQuery.of(context).textScaler.scale(14)),
                     labelStyle: textStyleCustomRegular(
-                        cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                        cBlue, MediaQuery.of(context).textScaler.scale(14)),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2.0,
@@ -1022,7 +1016,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 GridView.builder(
@@ -1071,7 +1065,7 @@ class RegisterState extends ConsumerState<Register>
                                 const SizedBox(height: 5.0),
                                 Text(element["type"],
                                     style: textStyleCustomBold(cBlue, 16),
-                                    textScaleFactor: 1.0)
+                                    textScaler: const TextScaler.linear(1.0))
                               ],
                             )
                           : Column(
@@ -1102,7 +1096,7 @@ class RegisterState extends ConsumerState<Register>
                                 const SizedBox(height: 5.0),
                                 Text(element["type"],
                                     style: textStyleCustomBold(cGrey, 16),
-                                    textScaleFactor: 1.0)
+                                    textScaler: const TextScaler.linear(1.0))
                               ],
                             );
                     }),
@@ -1121,7 +1115,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 Center(
@@ -1172,7 +1166,7 @@ class RegisterState extends ConsumerState<Register>
                               localeLanguage.languageCode),
                           style:
                               textStyleCustomBold(Helpers.uiApp(context), 20),
-                          textScaleFactor: 1.0),
+                          textScaler: const TextScaler.linear(1.0)),
                     ),
                   ),
                 ),
@@ -1191,7 +1185,7 @@ class RegisterState extends ConsumerState<Register>
                     )
                   ]),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 const SizedBox(height: 10.0),
                 Container(
@@ -1241,7 +1235,7 @@ class RegisterState extends ConsumerState<Register>
                               "register_screen", "empty_search_country"),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.titleSmall,
-                          textScaleFactor: 1.0),
+                          textScaler: const TextScaler.linear(1.0)),
                     )),
               ],
             ),
@@ -1272,7 +1266,7 @@ class RegisterState extends ConsumerState<Register>
                                             : cWhite,
                                         14,
                                         TextDecoration.underline),
-                                    textScaleFactor: 1.0)),
+                                    textScaler: const TextScaler.linear(1.0))),
                             SizedBox(
                                 height: 50.0,
                                 width: MediaQuery.of(context).size.width / 2,
@@ -1349,7 +1343,7 @@ class RegisterState extends ConsumerState<Register>
                                                     ? cBlack
                                                     : cWhite,
                                                 20),
-                                            textScaleFactor: 1.0))),
+                                            textScaler: const TextScaler.linear(1.0)))),
                           ],
                         ),
                 )

@@ -96,7 +96,7 @@ class SearchState extends ConsumerState<Search>
                   AppLocalization.of(context)
                       .translate("search_screen", "search"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0),
+                  textScaler: const TextScaler.linear(1.0)),
               centerTitle: false,
               actions: [
                 if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
@@ -170,7 +170,7 @@ class SearchState extends ConsumerState<Search>
                                                 ? cBlack
                                                 : cWhite,
                                             16),
-                                        textScaleFactor: 1.0))
+                                        textScaler: const TextScaler.linear(1.0)))
                               ],
                             ))),
                   )),
@@ -198,7 +198,7 @@ class SearchState extends ConsumerState<Search>
                             .translate("search_screen", "explore"),
                         style:
                             textStyleCustomBold(Helpers.uiApp(context), 20.0),
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                     const SizedBox(height: 25.0),
                     datasShimmer()
                   ],
@@ -235,7 +235,7 @@ class SearchState extends ConsumerState<Search>
                       AppLocalization.of(context)
                           .translate("general", "no_more_data"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -263,7 +263,7 @@ class SearchState extends ConsumerState<Search>
                                 .translate("search_screen", "explore"),
                             style: textStyleCustomBold(
                                 Helpers.uiApp(context), 20.0),
-                            textScaleFactor: 1.0),
+                            textScaler: const TextScaler.linear(1.0)),
                         const SizedBox(height: 25.0),
                         datasItems()
                       ],
@@ -335,7 +335,7 @@ class SearchState extends ConsumerState<Search>
                     child: Text(dataTestString,
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   ),
                 );
               },
@@ -351,7 +351,7 @@ class SearchState extends ConsumerState<Search>
                   child: Text(dataTestString,
                       style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       textAlign: TextAlign.center,
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 ),
               ),
             ),

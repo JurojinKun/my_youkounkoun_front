@@ -61,7 +61,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                       AppLocalization.of(context)
                           .translate("infos_app_screen", "title"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                   centerTitle: false,
                 )),
           )),
@@ -116,7 +116,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                             .translate("infos_app_screen", "cgu"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
                 ],
               ),
@@ -161,7 +161,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                             .translate("infos_app_screen", "policy_privacy"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
                 ],
               ),
@@ -201,7 +201,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
                           .translate("infos_app_screen", "version"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 )
               ],
             ),
@@ -210,7 +210,7 @@ class InfosAppState extends ConsumerState<InfosApp> {
             padding: const EdgeInsets.symmetric(horizontal: 7.5),
             child: Text(versionApp,
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           )
         ],
       ),

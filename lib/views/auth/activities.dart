@@ -82,7 +82,7 @@ class ActivitiesState extends ConsumerState<Activities>
                     AppLocalization.of(context)
                         .translate("activities_screen", "activities"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)

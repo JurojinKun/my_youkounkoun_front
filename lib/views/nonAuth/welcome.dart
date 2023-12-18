@@ -68,7 +68,7 @@ class WelcomeState extends ConsumerState<Welcome> {
         Text("My youkounkoun",
             style: textStyleCustomBold(Helpers.uiApp(context), 33),
             textAlign: TextAlign.center,
-            textScaleFactor: 1.0),
+            textScaler: const TextScaler.linear(1.0)),
       ],
     );
   }
@@ -89,7 +89,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                   AppLocalization.of(context)
                       .translate("welcome_screen", "login"),
                   style: textStyleCustomMedium(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0)),
+                  textScaler: const TextScaler.linear(1.0))),
         ),
         const SizedBox(
           height: 55.0,
@@ -106,7 +106,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                   AppLocalization.of(context)
                       .translate("welcome_screen", "register"),
                   style: textStyleCustomMedium(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0)),
+                  textScaler: const TextScaler.linear(1.0))),
         ),
       ],
     );
@@ -118,7 +118,7 @@ class WelcomeState extends ConsumerState<Welcome> {
       children: [
         RichText(
             textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
             text: TextSpan(
                 text: AppLocalization.of(context)
                     .translate("welcome_screen", "consult"),
@@ -159,7 +159,7 @@ class WelcomeState extends ConsumerState<Welcome> {
                 versionApp,
             textAlign: TextAlign.center,
             style: textStyleCustomMedium(Helpers.uiApp(context), 11),
-            textScaleFactor: 1.0)
+            textScaler: const TextScaler.linear(1.0))
       ],
     );
   }

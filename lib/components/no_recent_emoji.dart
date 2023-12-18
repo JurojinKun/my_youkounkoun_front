@@ -11,7 +11,7 @@ class NoRecentEmoji extends StatelessWidget {
       child: Text(
         "Pas d'emojis récents",
         textAlign: TextAlign.center,
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
         style: textStyleCustomMedium(
             Helpers.uiApp(context),
             16),

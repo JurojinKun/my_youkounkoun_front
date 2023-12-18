@@ -100,7 +100,7 @@ class DatasTestState extends ConsumerState<DatasTest>
               curve: Curves.easeInOut,
               child: Text("Datas test",
                   style: textStyleCustomBold(Helpers.uiApp(context), 20.0),
-                  textScaleFactor: 1.0),
+                  textScaler: const TextScaler.linear(1.0)),
             ),
             centerTitle: true,
             actions: [
@@ -152,7 +152,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 18),
                                 textAlign: TextAlign.center,
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                           ),
                         );
                       },
@@ -171,7 +171,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                               style: textStyleCustomBold(
                                   Helpers.uiApp(context), 18),
                               textAlign: TextAlign.center,
-                              textScaleFactor: 1.0),
+                              textScaler: const TextScaler.linear(1.0)),
                         ),
                       ),
                     );
@@ -214,7 +214,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                                         : cWhite,
                                     14),
                                 overflow: TextOverflow.ellipsis,
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                           )),
                     ),
                   )),

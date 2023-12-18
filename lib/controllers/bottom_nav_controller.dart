@@ -89,11 +89,6 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
       setState(() {});
     });
 
-    navHomeKey = GlobalKey<NavigatorState>();
-    navSearchKey = GlobalKey<NavigatorState>();
-    navActivitiesKey = GlobalKey<NavigatorState>();
-    navProfileKey = GlobalKey<NavigatorState>();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!ref.read(userNotifierProvider).validEmail &&
           !ref.read(checkValidUserNotifierProvider)) {
@@ -135,70 +130,65 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   Widget build(BuildContext context) {
     _isKeyboard = ref.watch(visibleKeyboardAppNotifierProvider);
 
-    return WillPopScope(
-        onWillPop: () async {
-          if (tabControllerBottomNav!.index == 0) {
-            return !(await navHomeKey!.currentState!.maybePop());
-          } else if (tabControllerBottomNav!.index == 1) {
-            return !(await navSearchKey!.currentState!.maybePop());
-          } else if (tabControllerBottomNav!.index == 2) {
-            return !(await navActivitiesKey!.currentState!.maybePop());
-          } else if (tabControllerBottomNav!.index == 3) {
-            return !(await navProfileKey!.currentState!.maybePop());
-          } else {
-            return false;
-          }
-        },
-        child: Scaffold(
-          key: EnvironmentConfigLib().getEnvironmentBottomNavBar
-              ? null
-              : drawerScaffoldKey,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          endDrawer: EnvironmentConfigLib().getEnvironmentBottomNavBar
-              ? null
-              : CustomDrawer(tabController: tabControllerBottomNav!),
-          body: EnvironmentConfigLib().getEnvironmentBottomNavBar
-              ? Stack(
-                  children: [
-                    TabBarView(
-                        controller: tabControllerBottomNav,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: tabNavs()),
-                    !_isKeyboard
-                        ? CustomNavBar(tabController: tabControllerBottomNav!)
-                        : const SizedBox()
-                  ],
-                )
-              : TabBarView(
-                  controller: tabControllerBottomNav,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: tabNavs()),
-        ));
+    return Scaffold(
+      key: EnvironmentConfigLib().getEnvironmentBottomNavBar
+          ? null
+          : drawerScaffoldKey,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      endDrawer: EnvironmentConfigLib().getEnvironmentBottomNavBar
+          ? null
+          : CustomDrawer(tabController: tabControllerBottomNav!),
+      body: EnvironmentConfigLib().getEnvironmentBottomNavBar
+          ? Stack(
+              children: [
+                TabBarView(
+                    controller: tabControllerBottomNav,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: tabNavs()),
+                !_isKeyboard
+                    ? CustomNavBar(tabController: tabControllerBottomNav!)
+                    : const SizedBox()
+              ],
+            )
+          : TabBarView(
+              controller: tabControllerBottomNav,
+              physics: const NeverScrollableScrollPhysics(),
+              children: tabNavs()),
+    );
   }
 
   List<Widget> tabNavs() {
     return [
-      Navigator(
-        key: navHomeKey,
-        initialRoute: home,
-        onGenerateRoute: (settings) => generateRouteAuthHome(settings, context),
-      ),
-      Navigator(
-        key: navSearchKey,
-        initialRoute: search,
-        onGenerateRoute: (settings) =>
-            generateRouteAuthSearch(settings, context),
-      ),
-      Navigator(
-          key: navActivitiesKey,
-          initialRoute: activities,
+      NavigatorPopHandler(
+        child: Navigator(
+          key: navHomeKey,
+          initialRoute: home,
           onGenerateRoute: (settings) =>
-              generateRouteAuthActivities(settings, context)),
-      Navigator(
-        key: navProfileKey,
-        initialRoute: profile,
-        onGenerateRoute: (settings) =>
-            generateRouteAuthProfile(settings, context),
+              generateRouteAuthHome(settings, context),
+        ),
+      ),
+      NavigatorPopHandler(
+        child: Navigator(
+          key: navSearchKey,
+          initialRoute: search,
+          onGenerateRoute: (settings) =>
+              generateRouteAuthSearch(settings, context),
+        ),
+      ),
+      NavigatorPopHandler(
+        child: Navigator(
+            key: navActivitiesKey,
+            initialRoute: activities,
+            onGenerateRoute: (settings) =>
+                generateRouteAuthActivities(settings, context)),
+      ),
+      NavigatorPopHandler(
+        child: Navigator(
+          key: navProfileKey,
+          initialRoute: profile,
+          onGenerateRoute: (settings) =>
+              generateRouteAuthProfile(settings, context),
+        ),
       ),
     ];
   }

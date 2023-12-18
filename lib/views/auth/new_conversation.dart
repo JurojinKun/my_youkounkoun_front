@@ -216,7 +216,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                           _searchFocusNode.hasFocus
                               ? Theme.of(context).colorScheme.primary
                               : cGrey,
-                          16 / MediaQuery.of(context).textScaleFactor),
+                          MediaQuery.of(context).textScaler.scale(16)),
                       decoration: InputDecoration(
                           contentPadding:
                               const EdgeInsets.only(top: 15.0, left: 15.0),
@@ -342,7 +342,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                                         ? cBlack
                                         : cWhite,
                                     20),
-                                textScaleFactor: 1.0))),
+                                textScaler: const TextScaler.linear(1.0)))),
                   ),
                 ),
               )
@@ -362,7 +362,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
               AppLocalization.of(context)
                   .translate("new_conversation_screen", "recent_interactions"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
           ],
         ),
@@ -385,7 +385,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
-                        textScaleFactor: 1.0)
+                        textScaler: const TextScaler.linear(1.0))
                   ],
                 ))
             : ListView.builder(
@@ -434,7 +434,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                         user.pseudo,
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                       trailing: user.id == ref.read(userNotifierProvider).id
                           ? const SizedBox()
@@ -481,7 +481,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                       : '${AppLocalization.of(context).translate("general", "search_of")}"${_searchController.text.substring(0, 10)}.."',
                   style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )
               ],
             ),
@@ -501,7 +501,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
               AppLocalization.of(context)
                   .translate("new_conversation_screen", "results"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
           ],
         ),
@@ -523,7 +523,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
-                        textScaleFactor: 1.0)
+                        textScaler: const TextScaler.linear(1.0))
                   ],
                 ))
             : ListView.builder(
@@ -559,7 +559,7 @@ class NewConversationState extends ConsumerState<NewConversation> {
                         user.pseudo,
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                       trailing: user.id == ref.read(userNotifierProvider).id
                           ? const SizedBox()

@@ -159,13 +159,13 @@ class SettingsState extends ConsumerState<Settings> {
                 AppLocalization.of(context)
                     .translate("settings_screen", "logout_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("settings_screen", "logout_content"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -178,7 +178,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () {
@@ -188,7 +188,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -211,13 +211,13 @@ class SettingsState extends ConsumerState<Settings> {
                 AppLocalization.of(context)
                     .translate("settings_screen", "delete_title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("settings_screen", "delete_content"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -230,7 +230,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_confirm"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () {
@@ -240,7 +240,7 @@ class SettingsState extends ConsumerState<Settings> {
                       AppLocalization.of(context)
                           .translate("general", "btn_cancel"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -317,7 +317,7 @@ class SettingsState extends ConsumerState<Settings> {
                   AppLocalization.of(context)
                       .translate("settings_screen", "settings_user"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0),
+                  textScaler: const TextScaler.linear(1.0)),
               centerTitle: false,
               actions: [
                 Material(
@@ -401,7 +401,7 @@ class SettingsState extends ConsumerState<Settings> {
                             .translate("settings_screen", "my_account"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
                 ],
               ),
@@ -443,7 +443,7 @@ class SettingsState extends ConsumerState<Settings> {
                             .translate("settings_screen", "security_account"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
                 ],
               ),
@@ -481,7 +481,7 @@ class SettingsState extends ConsumerState<Settings> {
                           .translate("settings_screen", "language"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 ),
               ],
             ),
@@ -502,7 +502,7 @@ class SettingsState extends ConsumerState<Settings> {
                         AppLocalization.of(context)
                             .translate("settings_screen", "language_french"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
                 DropdownMenuItem(
                     alignment: Alignment.center,
                     value: const Locale('en', ''),
@@ -510,7 +510,7 @@ class SettingsState extends ConsumerState<Settings> {
                         AppLocalization.of(context)
                             .translate("settings_screen", "language_english"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                        textScaleFactor: 1.0))
+                        textScaler: const TextScaler.linear(1.0)))
               ],
               value: _localeLanguage,
               onChanged: dropdownCallback,
@@ -541,7 +541,7 @@ class SettingsState extends ConsumerState<Settings> {
                           .translate("settings_screen", "theme"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 16),
                       overflow: TextOverflow.ellipsis,
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                 ),
               ],
             ),
@@ -602,7 +602,7 @@ class SettingsState extends ConsumerState<Settings> {
                     AppLocalization.of(context)
                         .translate("settings_screen", "notifications"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
               ],
             ),
           ),
@@ -649,7 +649,7 @@ class SettingsState extends ConsumerState<Settings> {
                             .translate("settings_screen", "infos_app"),
                         style: textStyleCustomBold(Helpers.uiApp(context), 16),
                         overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )
                 ],
               ),
