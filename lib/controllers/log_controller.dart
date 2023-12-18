@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/snack_bar_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
@@ -77,20 +78,43 @@ class LogControllerState extends ConsumerState<LogController>
               if (navAuthKey.currentState!.canPop()) {
                 if (!ref.read(searchEnabledNotifierProvider)) {
                   navAuthKey.currentState!.pop();
+                } else {
+                  ref.read(searchEnabledNotifierProvider.notifier).updateState(false);
+                  searchMessagesController!.clear();
                 }
               } else {
                 switch (tabControllerBottomNav!.index) {
                   case 0:
-                    navHomeKey!.currentState!.pop();
+                    if (navHomeKey!.currentState != null &&
+                        navHomeKey!.currentState!.canPop()) {
+                      navHomeKey!.currentState!.pop();
+                    } else {
+                      SystemNavigator.pop();
+                    }
                     break;
                   case 1:
-                    navSearchKey!.currentState!.pop();
+                    if (navSearchKey!.currentState != null &&
+                        navSearchKey!.currentState!.canPop()) {
+                      navSearchKey!.currentState!.pop();
+                    } else {
+                      SystemNavigator.pop();
+                    }
                     break;
                   case 2:
-                    navActivitiesKey!.currentState!.pop();
+                    if (navActivitiesKey!.currentState != null &&
+                        navActivitiesKey!.currentState!.canPop()) {
+                      navActivitiesKey!.currentState!.pop();
+                    } else {
+                      SystemNavigator.pop();
+                    }
                     break;
                   case 3:
-                    navProfileKey!.currentState!.pop();
+                    if (navProfileKey!.currentState != null &&
+                        navProfileKey!.currentState!.canPop()) {
+                      navProfileKey!.currentState!.pop();
+                    } else {
+                      SystemNavigator.pop();
+                    }
                     break;
                 }
               }

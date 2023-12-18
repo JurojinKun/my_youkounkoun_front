@@ -36,7 +36,6 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
   int indexUserConv = 0;
 
   bool searchEnabled = false;
-  late TextEditingController _searchMessagesController;
   late FocusNode _searchMessagesFocusNode;
 
   Future _themeConvBottomSheet(BuildContext context) async {
@@ -58,7 +57,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
           return RouteObserverWidget(
               name: searchMessages,
               child: SearchMessages(
-                  keyWords: _searchMessagesController.text, user: widget.user));
+                  keyWords: searchMessagesController!.text, user: widget.user));
         });
   }
 
@@ -229,14 +228,14 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
       }
     }
 
-    _searchMessagesController = TextEditingController();
+    searchMessagesController = TextEditingController();
     _searchMessagesFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     _searchMessagesFocusNode.dispose();
-    _searchMessagesController.dispose();
+    searchMessagesController!.dispose();
     super.dispose();
   }
 
@@ -996,7 +995,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       color: Colors.transparent,
                       child: TextField(
                         scrollPhysics: const BouncingScrollPhysics(),
-                        controller: _searchMessagesController,
+                        controller: searchMessagesController,
                         autofocus: true,
                         focusNode: _searchMessagesFocusNode,
                         cursorColor: _currentConversation.themeConv.isEmpty
@@ -1077,7 +1076,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                           _currentConversation.themeConv[1]),
                                       0.5)!,
                             ),
-                            suffixIcon: _searchMessagesController
+                            suffixIcon: searchMessagesController!
                                     .text.isNotEmpty
                                 ? Material(
                                     color: Colors.transparent,
@@ -1086,7 +1085,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                                     child: IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            _searchMessagesController.clear();
+                                            searchMessagesController!.clear();
                                           });
                                         },
                                         icon: Icon(
@@ -1123,11 +1122,11 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                           ref
                               .read(searchEnabledNotifierProvider.notifier)
                               .updateState(false);
-                          if (_searchMessagesController.text.isNotEmpty &&
-                              _searchMessagesController.text.trim() != "") {
+                          if (searchMessagesController!.text.isNotEmpty &&
+                              searchMessagesController!.text.trim() != "") {
                             await _searchMessagesBottomSheet(context);
                           }
-                          _searchMessagesController.clear();
+                          searchMessagesController!.clear();
                         },
                       ),
                     ),
@@ -1140,7 +1139,7 @@ class InformationsConvState extends ConsumerState<InformationsConv> {
                       ref
                           .read(searchEnabledNotifierProvider.notifier)
                           .updateState(false);
-                      _searchMessagesController.clear();
+                      searchMessagesController!.clear();
                     },
                     style: ButtonStyle(
                         overlayColor: MaterialStateProperty.all(

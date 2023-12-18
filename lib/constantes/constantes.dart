@@ -53,6 +53,10 @@ final GlobalKey<ScaffoldState> drawerScaffoldKey = GlobalKey<ScaffoldState>();
 TabController? tabControllerBottomNav;
 TabController? tabControllerActivities;
 
+
+//text edit controller
+TextEditingController? searchMessagesController;
+
 //fonts app
 textStyleCustomBold(Color color, double fontSize,
     [TextDecoration? decoration, Color? backgroundColor]) {
