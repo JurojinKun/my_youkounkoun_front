@@ -95,6 +95,7 @@ MaterialColor materialColorBlue =
 
 //theme data app (light/dark theme)
 ThemeData lightTheme = ThemeData(
+    useMaterial3: false,
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color(0XFFF3FAFA),
     primaryColor: materialColorBlue,
@@ -102,6 +103,7 @@ ThemeData lightTheme = ThemeData(
     canvasColor: const Color(0xFFD8DEDE));
 
 ThemeData darkTheme = ThemeData(
+    useMaterial3: false,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: const Color(0XFF151515),
     primaryColor: materialColorBlue,
