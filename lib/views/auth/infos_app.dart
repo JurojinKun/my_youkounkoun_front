@@ -8,7 +8,7 @@ import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class InfosApp extends ConsumerStatefulWidget {
-  const InfosApp({Key? key}) : super(key: key);
+  const InfosApp({super.key});
 
   @override
   InfosAppState createState() => InfosAppState();

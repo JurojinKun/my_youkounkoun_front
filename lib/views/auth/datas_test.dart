@@ -11,7 +11,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 class DatasTest extends ConsumerStatefulWidget {
   final int index;
 
-  const DatasTest({Key? key, required this.index}) : super(key: key);
+  const DatasTest({super.key, required this.index});
 
   @override
   DatasTestState createState() => DatasTestState();

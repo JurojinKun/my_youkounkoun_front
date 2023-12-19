@@ -8,7 +8,7 @@ import 'package:myyoukounkoun/providers/version_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Welcome extends ConsumerStatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({super.key});
 
   @override
   WelcomeState createState() => WelcomeState();

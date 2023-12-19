@@ -16,13 +16,12 @@ class CarousselPictures extends ConsumerStatefulWidget {
   final Color? colorTheme;
 
   const CarousselPictures(
-      {Key? key,
+      {super.key,
       required this.messagesMedias,
       required this.message,
       required this.user,
       required this.heroTag,
-      this.colorTheme})
-      : super(key: key);
+      this.colorTheme});
 
   @override
   CarousselPicturesState createState() => CarousselPicturesState();

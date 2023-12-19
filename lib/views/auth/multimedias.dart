@@ -16,7 +16,7 @@ import 'package:shimmer/shimmer.dart';
 class Multimedias extends ConsumerStatefulWidget {
   final UserModel user;
 
-  const Multimedias({Key? key, required this.user}) : super(key: key);
+  const Multimedias({super.key, required this.user});
 
   @override
   MultimediasState createState() => MultimediasState();

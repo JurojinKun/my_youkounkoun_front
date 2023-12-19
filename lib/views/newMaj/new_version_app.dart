@@ -9,7 +9,7 @@ import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class NewVersionApp extends ConsumerStatefulWidget {
-  const NewVersionApp({Key? key}) : super(key: key);
+  const NewVersionApp({super.key});
 
   @override
   NewVersionAppState createState() => NewVersionAppState();

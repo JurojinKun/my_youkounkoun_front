@@ -16,7 +16,7 @@ import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Profile extends ConsumerStatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   ProfileState createState() => ProfileState();

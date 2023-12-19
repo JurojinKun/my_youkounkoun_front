@@ -3,7 +3,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 
 class NoRecentEmoji extends StatelessWidget {
-  const NoRecentEmoji({Key? key}) : super(key: key);
+  const NoRecentEmoji({super.key});
 
   @override
   Widget build(BuildContext context) {

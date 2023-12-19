@@ -10,7 +10,7 @@ import 'package:myyoukounkoun/views/auth/chat.dart';
 import 'package:myyoukounkoun/views/auth/notifications.dart';
 
 class Activities extends ConsumerStatefulWidget {
-  const Activities({Key? key}) : super(key: key);
+  const Activities({super.key});
 
   @override
   ActivitiesState createState() => ActivitiesState();

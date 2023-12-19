@@ -12,7 +12,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ValidateUser extends ConsumerStatefulWidget {
-  const ValidateUser({Key? key}) : super(key: key);
+  const ValidateUser({super.key});
 
   @override
   ValidateUserState createState() => ValidateUserState();

@@ -42,11 +42,10 @@ class ChatDetails extends ConsumerStatefulWidget {
   final ConversationModel conversation;
 
   const ChatDetails(
-      {Key? key,
+      {super.key,
       required this.user,
       required this.openWithModal,
-      required this.conversation})
-      : super(key: key);
+      required this.conversation});
 
   @override
   ChatDetailsState createState() => ChatDetailsState();

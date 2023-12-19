@@ -18,13 +18,12 @@ class ConversationComponent extends ConsumerStatefulWidget {
   final int indexOtherUserConv;
 
   const ConversationComponent(
-      {Key? key,
+      {super.key,
       required this.conversation,
       required this.indexConversations,
       required this.userConv,
       required this.indexUserConv,
-      required this.indexOtherUserConv})
-      : super(key: key);
+      required this.indexOtherUserConv});
 
   @override
   ConversationComponentState createState() => ConversationComponentState();

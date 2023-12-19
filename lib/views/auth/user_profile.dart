@@ -20,8 +20,7 @@ class UserProfile extends ConsumerStatefulWidget {
   final UserModel user;
   final bool bottomNav;
 
-  const UserProfile({Key? key, required this.user, required this.bottomNav})
-      : super(key: key);
+  const UserProfile({super.key, required this.user, required this.bottomNav});
 
   @override
   UserProfileState createState() => UserProfileState();

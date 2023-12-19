@@ -9,8 +9,7 @@ class RouteObserverWidget extends ConsumerStatefulWidget {
   final String name;
   final Widget child;
 
-  const RouteObserverWidget({Key? key, required this.name, required this.child})
-      : super(key: key);
+  const RouteObserverWidget({super.key, required this.name, required this.child});
 
   @override
   RouteObserverWidgetState createState() => RouteObserverWidgetState();

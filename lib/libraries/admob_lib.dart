@@ -74,11 +74,10 @@ class AdMobWidget extends ConsumerStatefulWidget {
   final String screenPub;
 
   const AdMobWidget(
-      {Key? key,
+      {super.key,
       required this.adSize,
       required this.colorIndicator,
-      required this.screenPub})
-      : super(key: key);
+      required this.screenPub});
 
   @override
   AdMobWidgetState createState() => AdMobWidgetState();

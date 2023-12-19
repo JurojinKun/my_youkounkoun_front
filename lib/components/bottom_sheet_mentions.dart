@@ -18,7 +18,7 @@ import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class BottomSheetMentions extends ConsumerStatefulWidget {
-  const BottomSheetMentions({Key? key}) : super(key: key);
+  const BottomSheetMentions({super.key});
 
   @override
   BottomSheetMentionsState createState() => BottomSheetMentionsState();

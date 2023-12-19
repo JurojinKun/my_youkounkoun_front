@@ -17,7 +17,7 @@ import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Home extends ConsumerStatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   HomeState createState() => HomeState();

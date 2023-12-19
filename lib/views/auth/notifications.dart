@@ -9,7 +9,7 @@ import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Notifications extends ConsumerStatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+  const Notifications({super.key});
 
   @override
   NotificationsState createState() => NotificationsState();

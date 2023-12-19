@@ -13,7 +13,7 @@ import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ThemeConv extends ConsumerStatefulWidget {
-  const ThemeConv({Key? key}) : super(key: key);
+  const ThemeConv({super.key});
 
   @override
   ThemeConvState createState() => ThemeConvState();

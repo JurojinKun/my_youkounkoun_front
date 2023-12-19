@@ -8,11 +8,10 @@ class TextHighlight extends ConsumerStatefulWidget {
   final Brightness brightness;
 
   const TextHighlight(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.keyword,
-      required this.brightness})
-      : super(key: key);
+      required this.brightness});
 
   @override
   TextHighlightState createState() => TextHighlightState();

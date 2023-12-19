@@ -9,7 +9,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ForgotPassword extends ConsumerStatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({super.key});
 
   @override
   ForgotPasswordState createState() => ForgotPasswordState();

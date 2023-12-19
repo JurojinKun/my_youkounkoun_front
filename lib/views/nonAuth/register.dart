@@ -21,7 +21,7 @@ import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Register extends ConsumerStatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  const Register({super.key});
 
   @override
   RegisterState createState() => RegisterState();

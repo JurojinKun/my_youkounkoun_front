@@ -21,7 +21,7 @@ import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Settings extends ConsumerStatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
 
   @override
   SettingsState createState() => SettingsState();
@@ -615,7 +615,7 @@ class SettingsState extends ConsumerState<Settings> {
                     activeColor: cBlue,
                     value: pushToken.trim() != "" ? true : false,
                     onChanged: (newSettingsNotifications) async {
-                      await AppSettings.openNotificationSettings();
+                      await AppSettings.openAppSettings(type: AppSettingsType.notification);
                     }),
                 Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
               ],

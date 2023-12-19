@@ -19,7 +19,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 
 class NewConversation extends ConsumerStatefulWidget {
-  const NewConversation({Key? key}) : super(key: key);
+  const NewConversation({super.key});
 
   @override
   NewConversationState createState() => NewConversationState();

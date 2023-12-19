@@ -13,7 +13,7 @@ import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class RecentSearches extends ConsumerStatefulWidget {
-  const RecentSearches({Key? key}) : super(key: key);
+  const RecentSearches({super.key});
 
   @override
   RecentSearchesState createState() => RecentSearchesState();

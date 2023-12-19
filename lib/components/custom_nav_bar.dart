@@ -7,7 +7,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 class CustomNavBar extends ConsumerStatefulWidget {
   final TabController tabController;
 
-  const CustomNavBar({Key? key, required this.tabController}) : super(key: key);
+  const CustomNavBar({super.key, required this.tabController});
 
   @override
   CustomNavBarState createState() => CustomNavBarState();

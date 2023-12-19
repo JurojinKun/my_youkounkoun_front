@@ -20,7 +20,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/nonAuth/forgot_password.dart';
 
 class Login extends ConsumerStatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   LoginState createState() => LoginState();

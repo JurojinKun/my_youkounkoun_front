@@ -15,8 +15,7 @@ class MentionText extends ConsumerStatefulWidget {
   final String encryptionKey;
 
   const MentionText(
-      {Key? key, required this.mentionComment, required this.encryptionKey})
-      : super(key: key);
+      {super.key, required this.mentionComment, required this.encryptionKey});
 
   @override
   MentionTextState createState() => MentionTextState();

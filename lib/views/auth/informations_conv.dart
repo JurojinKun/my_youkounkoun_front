@@ -23,7 +23,7 @@ import 'package:myyoukounkoun/views/auth/theme_conv.dart';
 class InformationsConv extends ConsumerStatefulWidget {
   final UserModel user;
 
-  const InformationsConv({Key? key, required this.user}) : super(key: key);
+  const InformationsConv({super.key, required this.user});
 
   @override
   InformationsConvState createState() => InformationsConvState();

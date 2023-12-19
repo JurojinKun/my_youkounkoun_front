@@ -19,7 +19,7 @@ import 'package:myyoukounkoun/router.dart';
 import 'package:myyoukounkoun/views/auth/validate_user.dart';
 
 class BottomNavController extends ConsumerStatefulWidget {
-  const BottomNavController({Key? key}) : super(key: key);
+  const BottomNavController({super.key});
 
   @override
   BottomNavControllerState createState() => BottomNavControllerState();
@@ -103,7 +103,7 @@ class BottomNavControllerState extends ConsumerState<BottomNavController>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed &&
-        _appLifecycleState == AppLifecycleState.paused) {
+        _appLifecycleState != AppLifecycleState.resumed) {
       await NotificationsLib.setActiveNotifications(ref);
     }
     _appLifecycleState = state;

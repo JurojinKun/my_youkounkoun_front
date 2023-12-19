@@ -14,7 +14,7 @@ import 'package:myyoukounkoun/views/connectivity/connectivity_device.dart';
 import 'package:myyoukounkoun/views/newMaj/new_version_app.dart';
 
 class ConnectivityController extends ConsumerStatefulWidget {
-  const ConnectivityController({Key? key}) : super(key: key);
+  const ConnectivityController({super.key});
 
   @override
   ConnectivityControllerState createState() => ConnectivityControllerState();

@@ -13,7 +13,7 @@ import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/router.dart';
 
 class LogController extends ConsumerStatefulWidget {
-  const LogController({Key? key}) : super(key: key);
+  const LogController({super.key});
 
   @override
   LogControllerState createState() => LogControllerState();

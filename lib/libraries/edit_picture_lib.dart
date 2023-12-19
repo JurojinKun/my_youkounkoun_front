@@ -130,7 +130,7 @@ class EditPictureLib {
 class EditPictureWidget extends ConsumerStatefulWidget {
   final bool cropped;
 
-  const EditPictureWidget({Key? key, required this.cropped}) : super(key: key);
+  const EditPictureWidget({super.key, required this.cropped});
 
   @override
   EditPictureWidgetState createState() => EditPictureWidgetState();

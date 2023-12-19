@@ -17,7 +17,7 @@ import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditSecurity extends ConsumerStatefulWidget {
-  const EditSecurity({Key? key}) : super(key: key);
+  const EditSecurity({super.key});
 
   @override
   EditSecurityState createState() => EditSecurityState();

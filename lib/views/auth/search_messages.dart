@@ -20,8 +20,7 @@ class SearchMessages extends ConsumerStatefulWidget {
   final String keyWords;
   final UserModel user;
 
-  const SearchMessages({Key? key, required this.keyWords, required this.user})
-      : super(key: key);
+  const SearchMessages({super.key, required this.keyWords, required this.user});
 
   @override
   SearchMessagesState createState() => SearchMessagesState();

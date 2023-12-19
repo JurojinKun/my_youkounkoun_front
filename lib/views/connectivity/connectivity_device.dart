@@ -6,7 +6,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ConnectivityDevice extends ConsumerStatefulWidget {
-  const ConnectivityDevice({Key? key}) : super(key: key);
+  const ConnectivityDevice({super.key});
 
   @override
   ConnectivityDeviceState createState() => ConnectivityDeviceState();
