@@ -3,7 +3,7 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 
 class NoRecentEmoji extends StatelessWidget {
-  const NoRecentEmoji({Key? key}) : super(key: key);
+  const NoRecentEmoji({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class NoRecentEmoji extends StatelessWidget {
       child: Text(
         "Pas d'emojis récents",
         textAlign: TextAlign.center,
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
         style: textStyleCustomMedium(
             Helpers.uiApp(context),
             16),

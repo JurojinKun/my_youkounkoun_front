@@ -130,7 +130,7 @@ class EditPictureLib {
 class EditPictureWidget extends ConsumerStatefulWidget {
   final bool cropped;
 
-  const EditPictureWidget({Key? key, required this.cropped}) : super(key: key);
+  const EditPictureWidget({super.key, required this.cropped});
 
   @override
   EditPictureWidgetState createState() => EditPictureWidgetState();
@@ -165,7 +165,7 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
                       AppLocalization.of(context)
                           .translate("register_screen", "add_picture_profile"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                      textScaleFactor: 1.0),
+                      textScaler: const TextScaler.linear(1.0)),
                   Material(
                     color: Colors.transparent,
                     shape: const CircleBorder(),
@@ -208,7 +208,7 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
                         AppLocalization.of(context)
                             .translate("register_screen", "galery"),
                         style: textStyleCustomBold(cBlue, 16),
-                        textScaleFactor: 1.0)
+                        textScaler: const TextScaler.linear(1.0))
                   ],
                 ),
               ),
@@ -242,7 +242,7 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
                         AppLocalization.of(context)
                             .translate("register_screen", "camera"),
                         style: textStyleCustomBold(cBlue, 16),
-                        textScaleFactor: 1.0)
+                        textScaler: const TextScaler.linear(1.0))
                   ],
                 ),
               ),

@@ -7,8 +7,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
+
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
@@ -23,7 +24,7 @@ import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class EditAccount extends ConsumerStatefulWidget {
-  const EditAccount({Key? key}) : super(key: key);
+  const EditAccount({super.key});
 
   @override
   EditAccountState createState() => EditAccountState();
@@ -255,7 +256,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                     AppLocalization.of(context)
                         .translate("edit_account_screen", "my_account"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                   centerTitle: false,
                 ),
@@ -292,7 +293,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
               AppLocalization.of(context)
                   .translate("edit_account_screen", "content"),
               style: textStyleCustomRegular(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 25.0,
@@ -312,7 +313,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(height: 10.0),
             Center(
@@ -469,7 +470,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(height: 10.0),
             Center(
@@ -490,15 +491,15 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 },
                 style: textStyleCustomRegular(
                     _pseudoFocusNode.hasFocus ? cBlue : cGrey,
-                    14 / MediaQuery.of(context).textScaleFactor),
+                    MediaQuery.of(context).textScaler.scale(14)),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   hintText: AppLocalization.of(context)
                       .translate("edit_account_screen", "pseudo_profile"),
                   hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      cGrey, MediaQuery.of(context).textScaler.scale(14)),
                   labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      cBlue, MediaQuery.of(context).textScaler.scale(14)),
                   suffixIcon: _pseudoController.text.isNotEmpty
                       ? Material(
                           color: Colors.transparent,
@@ -561,7 +562,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                   )
                 ]),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
             const SizedBox(height: 10.0),
             Center(
               child: TextField(
@@ -583,14 +584,14 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 },
                 style: textStyleCustomRegular(
                     _bioFocusNode.hasFocus ? cBlue : cGrey,
-                    14 / MediaQuery.of(context).textScaleFactor),
+                    MediaQuery.of(context).textScaler.scale(14)),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                   hintText: "Biographie",
                   hintStyle: textStyleCustomRegular(
-                      cGrey, 14 / MediaQuery.of(context).textScaleFactor),
+                      cGrey, MediaQuery.of(context).textScaler.scale(14)),
                   labelStyle: textStyleCustomRegular(
-                      cBlue, 14 / MediaQuery.of(context).textScaleFactor),
+                      cBlue, MediaQuery.of(context).textScaler.scale(14)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2.0,
@@ -634,7 +635,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -675,7 +676,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             const SizedBox(height: 5.0),
                             Text(element["type"],
                                 style: textStyleCustomBold(cBlue, 16),
-                                textScaleFactor: 1.0)
+                                textScaler: const TextScaler.linear(1.0))
                           ],
                         )
                       : Column(
@@ -706,7 +707,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             const SizedBox(height: 5.0),
                             Text(element["type"],
                                 style: textStyleCustomBold(cGrey, 16),
-                                textScaleFactor: 1.0)
+                                textScaler: const TextScaler.linear(1.0))
                           ],
                         );
                 }),
@@ -728,50 +729,50 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
             ),
             GestureDetector(
               onTap: () {
-            DatePicker.showDatePicker(context,
-                showTitleActions: true,
-                locale: localeLanguage.languageCode == "fr"
-                    ? LocaleType.fr
-                    : LocaleType.en,
-                theme: DatePickerTheme(
-                  backgroundColor:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  cancelStyle: textStyleCustomBold(cBlue, 16),
-                  doneStyle: textStyleCustomBold(cBlue, 16),
-                  itemStyle: textStyleCustomBold(
-                      Theme.of(context).iconTheme.color!, 18),
-                ),
-                minTime: DateTime(1900, 1, 1),
-                maxTime: DateTime.now(), onConfirm: (date) {
-              //verif 18 years old or not
-              final verif =
-                  DateTime.now().subtract(const Duration(days: 6570));
-              if (date.isBefore(verif)) {
-                ref
-                    .read(editBirthdayUserNotifierProvider.notifier)
-                    .updateBirthday(date);
-              }
-            }, currentTime: _dateBirthday ?? DateTime.now());
+                picker.DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    locale: localeLanguage.languageCode == "fr"
+                        ? picker.LocaleType.fr
+                        : picker.LocaleType.en,
+                    theme: picker.DatePickerTheme(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      cancelStyle: textStyleCustomBold(cBlue, 16),
+                      doneStyle: textStyleCustomBold(cBlue, 16),
+                      itemStyle: textStyleCustomBold(
+                          Theme.of(context).iconTheme.color!, 18),
+                    ),
+                    minTime: DateTime(1900, 1, 1),
+                    maxTime: DateTime.now(), onConfirm: (date) {
+                  //verif 18 years old or not
+                  final verif =
+                      DateTime.now().subtract(const Duration(days: 6570));
+                  if (date.isBefore(verif)) {
+                    ref
+                        .read(editBirthdayUserNotifierProvider.notifier)
+                        .updateBirthday(date);
+                  }
+                }, currentTime: _dateBirthday ?? DateTime.now());
               },
               child: Container(
-            height: 45.0,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                border: Border.all(color: cGrey),
-                borderRadius: BorderRadius.circular(5.0)),
-            child: Text(
-                Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
-                    localeLanguage.languageCode),
-                style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                textScaleFactor: 1.0),
+                height: 45.0,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    border: Border.all(color: cGrey),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: Text(
+                    Helpers.formattingDate(_dateBirthday ?? DateTime.now(),
+                        localeLanguage.languageCode),
+                    style: textStyleCustomBold(Helpers.uiApp(context), 20),
+                    textScaler: const TextScaler.linear(1.0)),
               ),
             ),
             const SizedBox(
@@ -792,7 +793,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                 )
               ]),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             const SizedBox(
               height: 10.0,
@@ -847,7 +848,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                             "register_screen", "empty_search_country"),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall,
-                        textScaleFactor: 1.0),
+                        textScaler: const TextScaler.linear(1.0)),
                   )),
             ),
           ],
@@ -880,7 +881,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                 .translate("general", "btn_save"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
               const SizedBox(width: 15.0),
               Expanded(
@@ -901,7 +902,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
                                 .translate("general", "btn_cancel"),
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 20),
-                            textScaleFactor: 1.0))),
+                            textScaler: const TextScaler.linear(1.0)))),
               ),
             ],
           ),

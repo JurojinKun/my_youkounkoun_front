@@ -9,7 +9,7 @@ import 'package:myyoukounkoun/providers/notifications_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Notifications extends ConsumerStatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+  const Notifications({super.key});
 
   @override
   NotificationsState createState() => NotificationsState();
@@ -80,7 +80,7 @@ class NotificationsState extends ConsumerState<Notifications>
                   .translate("activities_screen", "no_notifications"),
               style: textStyleCustomMedium(Helpers.uiApp(context), 14),
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             )
           ],
         ));
@@ -98,7 +98,7 @@ class NotificationsState extends ConsumerState<Notifications>
               AppLocalization.of(context)
                   .translate("activities_screen", "notifications"),
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             Material(
               color: Colors.transparent,
@@ -224,19 +224,19 @@ class NotificationsState extends ConsumerState<Notifications>
                                         ? cBlack
                                         : cWhite,
                                     16),
-                            textScaleFactor: 1.0),
+                            textScaler: const TextScaler.linear(1.0)),
                         RichText(
                             text: TextSpan(children: [
                           TextSpan(
                             text: notification.body,
                             style: notification.isRead
-                                ? textStyleCustomRegular(cGrey, 14 / MediaQuery.of(context).textScaleFactor)
+                                ? textStyleCustomRegular(cGrey, MediaQuery.of(context).textScaler.scale(14))
                                 : textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
-                                    14 / MediaQuery.of(context).textScaleFactor),
+                                    MediaQuery.of(context).textScaler.scale(14)),
                           ),
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
@@ -278,7 +278,7 @@ class NotificationsState extends ConsumerState<Notifications>
                                                   ? cBlack
                                                   : cWhite,
                                           12),
-                                      textScaleFactor: 1.0);
+                                      textScaler: const TextScaler.linear(1.0));
                                 } else {
                                   return Text(snapshot.data.toString(),
                                       style: textStyleCustomMedium(
@@ -289,7 +289,7 @@ class NotificationsState extends ConsumerState<Notifications>
                                                   ? cBlack
                                                   : cWhite,
                                           12),
-                                      textScaleFactor: 1.0);
+                                      textScaler: const TextScaler.linear(1.0));
                                 }
                               }),
                             ),

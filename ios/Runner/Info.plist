@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true/>
+		<true />
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -25,7 +25,7 @@
 		<key>CFBundleVersion</key>
 		<string>$(CURRENT_PROJECT_VERSION)</string>
 		<key>LSRequiresIPhoneOS</key>
-		<true/>
+		<true />
 		<key>NSCameraUsageDescription</key>
 		<string>This app requires access to the camera to permits you to upload pictures.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
@@ -46,6 +46,10 @@
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
+				<string>4pfyvq9l8r.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
 				<string>2fnua5tdw4.skadnetwork</string>
 			</dict>
 			<dict>
@@ -63,6 +67,14 @@
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
 				<string>v72qych5uu.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>ludvb6z3bs.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>cp8zw746q7.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -118,7 +130,23 @@
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
+				<string>y5ghdn5j9k.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
 				<string>n6fk4nfna4.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>v9wttpbfk9.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>n38lu8286q.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>47vhws6wlr.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -127,6 +155,14 @@
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
 				<string>9t245vhmpl.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>a2p9lx4jpn.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>22mmun2rn5.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -158,7 +194,15 @@
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
+				<string>ecpz2srf59.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
 				<string>uw77j35x4d.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>mlmmfzh3r3.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -167,6 +211,10 @@
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
 				<string>4dzt52r2t5.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>gta9lk7p23.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -179,6 +227,10 @@
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
 				<string>zq492l623r.skadnetwork</string>
+			</dict>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>3rd42ekr43.skadnetwork</string>
 			</dict>
 			<dict>
 				<key>SKAdNetworkIdentifier</key>
@@ -195,9 +247,9 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UIRequiresFullScreen</key>
-		<false/>
+		<false />
 		<key>UIStatusBarHidden</key>
-		<true/>
+		<true />
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -210,8 +262,8 @@
 			<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false/>
+		<false />
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true/>
+		<true />
 	</dict>
 </plist>

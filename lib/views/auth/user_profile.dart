@@ -20,8 +20,7 @@ class UserProfile extends ConsumerStatefulWidget {
   final UserModel user;
   final bool bottomNav;
 
-  const UserProfile({Key? key, required this.user, required this.bottomNav})
-      : super(key: key);
+  const UserProfile({super.key, required this.user, required this.bottomNav});
 
   @override
   UserProfileState createState() => UserProfileState();
@@ -94,13 +93,27 @@ class UserProfileState extends ConsumerState<UserProfile> {
     if (ref.read(userNotifierProvider).followings.contains(widget.user.id)) {
       ref.read(userNotifierProvider.notifier).removeFollowing(widget.user.id);
       setState(() {
-        widget.user.followers.removeWhere(
-            (element) => element == ref.read(userNotifierProvider).id);
+        // widget.user.followers.removeWhere(
+        //     (element) => element == ref.read(userNotifierProvider).id);
+        //TODO DELETE THIS LOGIC WITH WS
+        var userToModifyRecentSearchesDM = recentSearchesDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyRecentSearchesDM.followers.removeWhere((element) => element == ref.read(userNotifierProvider).id);
+           var userToModifyPotentialsResultsDM = potentialsResultsSearchDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyPotentialsResultsDM.followers.removeWhere((element) => element == ref.read(userNotifierProvider).id);
       });
     } else {
       ref.read(userNotifierProvider.notifier).addFollowing(widget.user.id);
       setState(() {
-        widget.user.followers.add(ref.read(userNotifierProvider).id);
+        // widget.user.followers.add(ref.read(userNotifierProvider).id);
+        //TODO DELETE THIS LOGIC WITH WS
+         var userToModifyRecentSearchesDM = recentSearchesDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyRecentSearchesDM.followers.add(ref.read(userNotifierProvider).id);
+          var userToModifyPotentialsResultsDM = potentialsResultsSearchDatasMockes.firstWhere(
+            (element) => element.id == widget.user.id);
+          userToModifyPotentialsResultsDM.followers.add(ref.read(userNotifierProvider).id);
       });
     }
   }
@@ -138,7 +151,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 title: Text(
                     "${AppLocalization.of(context).translate("user_profile_screen", "profile_of")} ${widget.user.pseudo}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   widget.user.id == ref.read(userNotifierProvider).id
@@ -243,7 +256,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
                     Text(
                       widget.user.pseudo,
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(width: 5.0),
@@ -294,16 +307,16 @@ class UserProfileState extends ConsumerState<UserProfile> {
                 ),
                 const SizedBox(height: 5.0),
                 Text(
-                    "${Helpers.formatNumber(widget.user.followers.length)} Abonné(s)",
+                    "${Helpers.formatNumber(widget.user.followers.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followers")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
                 const SizedBox(height: 5.0),
                 Text(
-                    "${Helpers.formatNumber(widget.user.followings.length)} Abonnement(s)",
+                    "${Helpers.formatNumber(widget.user.followings.length)} ${AppLocalization.of(context).translate("user_profile_screen", "followings")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
               ],
@@ -316,7 +329,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Text(widget.user.bio,
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           ),
         )
       ],
@@ -331,7 +344,7 @@ class UserProfileState extends ConsumerState<UserProfile> {
         AppLocalization.of(context).translate("general", "message_continue"),
         style: textStyleCustomMedium(Helpers.uiApp(context), 14),
         textAlign: TextAlign.center,
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
       ),
     );
   }

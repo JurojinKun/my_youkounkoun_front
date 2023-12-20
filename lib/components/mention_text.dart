@@ -15,8 +15,7 @@ class MentionText extends ConsumerStatefulWidget {
   final String encryptionKey;
 
   const MentionText(
-      {Key? key, required this.mentionComment, required this.encryptionKey})
-      : super(key: key);
+      {super.key, required this.mentionComment, required this.encryptionKey});
 
   @override
   MentionTextState createState() => MentionTextState();
@@ -95,7 +94,7 @@ class MentionTextState extends ConsumerState<MentionText> {
                     arguments: [widget.mentionComment.user, false]),
                 child: Text(widget.mentionComment.user.pseudo,
                     style: textStyleCustomBold(Helpers.uiApp(context), 14.0),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
               ),
               const SizedBox(height: 2.0),
               Wrap(
@@ -111,19 +110,19 @@ class MentionTextState extends ConsumerState<MentionText> {
                           arguments: [userMention, false]),
                       child: Text("@${userMention.pseudo} ",
                           style: textStyleCustomBold(cBlue, 14.0, TextDecoration.none, cBlue.withOpacity(0.3)),
-                          textScaleFactor: 1.0),
+                          textScaler: const TextScaler.linear(1.0)),
                     );
                     } else {
                       return Text("$segment ",
                         style: textStyleCustomRegular(
                             Helpers.uiApp(context), 14.0),
-                        textScaleFactor: 1.0);
+                        textScaler: const TextScaler.linear(1.0));
                     }
                   } else {
                     return Text("$segment ",
                         style: textStyleCustomRegular(
                             Helpers.uiApp(context), 14.0),
-                        textScaleFactor: 1.0);
+                        textScaler: const TextScaler.linear(1.0));
                   }
                 }).toList(),
               )

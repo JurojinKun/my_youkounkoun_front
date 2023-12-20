@@ -8,11 +8,10 @@ class TextHighlight extends ConsumerStatefulWidget {
   final Brightness brightness;
 
   const TextHighlight(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.keyword,
-      required this.brightness})
-      : super(key: key);
+      required this.brightness});
 
   @override
   TextHighlightState createState() => TextHighlightState();
@@ -77,14 +76,14 @@ class TextHighlightState extends ConsumerState<TextHighlight> {
             text: TextSpan(children: snapshot.data!),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           );
         } else {
           return Text(
             widget.text,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           );
         }
       },

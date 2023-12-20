@@ -6,7 +6,7 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class ConnectivityDevice extends ConsumerStatefulWidget {
-  const ConnectivityDevice({Key? key}) : super(key: key);
+  const ConnectivityDevice({super.key});
 
   @override
   ConnectivityDeviceState createState() => ConnectivityDeviceState();
@@ -55,7 +55,7 @@ class ConnectivityDeviceState extends ConsumerState<ConnectivityDevice>
                       .translate("connectivity_screen", "no_connectivity"),
                   style: textStyleCustomMedium(Helpers.uiApp(context), 16),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )
               ],
             ),

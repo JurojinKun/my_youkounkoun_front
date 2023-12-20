@@ -12,13 +12,12 @@ class AlertDialogCustom extends ConsumerStatefulWidget {
   final List<Widget> actions;
 
   const AlertDialogCustom(
-      {Key? key,
+      {super.key,
       required this.backgroundColor,
       required this.shape,
       required this.title,
       required this.content,
-      required this.actions})
-      : super(key: key);
+      required this.actions});
 
   @override
   AlertDialogCustomState createState() => AlertDialogCustomState();

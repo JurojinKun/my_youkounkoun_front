@@ -10,7 +10,7 @@ import 'package:myyoukounkoun/views/auth/chat.dart';
 import 'package:myyoukounkoun/views/auth/notifications.dart';
 
 class Activities extends ConsumerStatefulWidget {
-  const Activities({Key? key}) : super(key: key);
+  const Activities({super.key});
 
   @override
   ActivitiesState createState() => ActivitiesState();
@@ -82,7 +82,7 @@ class ActivitiesState extends ConsumerState<Activities>
                     AppLocalization.of(context)
                         .translate("activities_screen", "activities"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
@@ -112,7 +112,7 @@ class ActivitiesState extends ConsumerState<Activities>
                                         height: 10.0,
                                         width: 10.0,
                                         decoration: const BoxDecoration(
-                                            color: Colors.blue,
+                                            color: cBlue,
                                             shape: BoxShape.circle),
                                       ),
                                     )

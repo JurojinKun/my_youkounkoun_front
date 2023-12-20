@@ -9,9 +9,9 @@
         "btn_send": "Send",
         "btn_save": "Save",
         "btn_validate": "Validate",
-        "message_error": "A problem occurred",
-        "title_cropper": "Image format",
-        "message_continue": "Add what you want on this section, it's up to you now for your app !",
+        "message_error": "A problem has occurred",
+        "title_cropper": "Image Format",
+        "message_continue": "Add whatever you want in this section, it's your turn to play now for your app!",
         "search_user": "Search a user",
         "search_of": "Search for ",
         "problem": "Oops, a problem has occurred",
@@ -21,58 +21,58 @@
         "minutes": "min",
         "hours": "h",
         "days": "d",
-        "weeks": "w"
+        "weeks": "wks"
     },
     "connectivity_screen": {
-        "no_connectivity": "No connection at the moment"
+        "no_connectivity": "No connectivity currently"
     },
     "new_maj_screen": {
-        "title": "Updated",
-        "content_available": "An update is now available",
-        "content_required": "An update is necessary to continue using My youkounkoun",
+        "title": "Update",
+        "content_available": "An update is available now",
+        "content_required": "An update is necessary in order to continue using My youkounkoun",
         "go_now": "Go now",
         "later": "Later"
     },
     "welcome_screen": {
-        "login": "Sign in",
-        "register": "Sign up",
-        "consult": "You can consult ",
-        "cgu": "GTC",
-        "and": " and ",
-        "privacy_policy": "Privacy policy",
+        "login": "Login",
+        "register": "Register",
+        "consult": "You can consult the ",
+        "cgu": "Terms of Use",
+        "and": " and the ",
+        "privacy_policy": "Privacy Policy",
         "youkounkoun": " of youkounkoun",
         "version": "Version "
     },
     "login_screen": {
-        "login": "Sign in",
+        "login": "Login",
         "mail": "Email",
         "password": "Password",
-        "no_account": "No account yet ?",
+        "no_account": "Don't have an account yet?",
         "sign_up": " Sign up",
         "forgot_password": "Forgot password"
     },
     "forgot_password_screen": {
         "forgot_password": "Forgot password",
-        "content": "Enter the email associated with your account to receive an email to change your password.",
+        "content": "Enter the email associated with your account to receive a mail to change your password.",
         "mail": "Email",
         "send_mail": "An email has been sent to you",
-        "error_send_mail": "Error\nEmail could not be sent"
+        "error_send_mail": "Error\nThe mail could not be sent"
     },
     "register_screen": {
         "add_picture_profile": "Add a profile picture",
         "camera": "Camera",
-        "galery": "Galery",
-        "register": "Sign up",
-        "step_one": "First step, enter the general information to create your account.\nDon't forget to accept the GTC and the privacy policy of the application.",
+        "galery": "Gallery",
+        "register": "Register",
+        "step_one": "First step, enter the general information for creating your account.\nDon't forget to accept the Terms of Use and the app's privacy policy.",
         "mail": "Email",
         "password": "Password",
         "confirm_password": "Confirm password",
         "accept_cgu": "Accept the ",
-        "cgu": "GTC",
+        "cgu": "Terms of Use",
         "accept_policy_privacy": "Accept the ",
         "policy_privacy": "privacy policy",
-        "step_two": "Second step, enter your personal information to create your account. This information will be seen by all other users of the application.",
-        "pseudo": "Pseudonym",
+        "step_two": "Second step, enter your personal information for creating your account. This information will be seen by all other users of the app.",
+        "pseudo": "Nickname",
         "man": "Man",
         "woman": "Woman",
         "search_country": "Search a country",
@@ -83,7 +83,7 @@
     },
     "home_screen": {
         "home": "Home",
-        "push_token": "Push token of the device to test push notifications via Firebase Cloud Messaging:",
+        "push_token": "Device push token for testing push notifications via Firebase Cloud Messaging:",
         "no_token": "No token"
     },
     "search_screen": {
@@ -92,7 +92,7 @@
     },
     "activities_screen": {
         "activities": "Activities",
-        "chat": "Chat",
+        "chat": "Messaging",
         "notifications": "Notifications",
         "no_chat": "No conversations yet",
         "no_notifications": "No notifications yet",
@@ -102,7 +102,9 @@
     },
     "profile_screen": {
         "profile": "Profile",
-        "years_old": " years old"
+        "years_old": " years old",
+        "followers": "Follower(s)",
+        "followings": "Following(s)"
     },
     "settings_screen": {
         "settings_user": "Settings",
@@ -110,50 +112,50 @@
         "security_account": "Account security",
         "theme": "Theme",
         "notifications": "Notifications",
-        "logout_title": "Logout",
-        "logout_content": "Are you sure you want to disconnect ?",
+        "logout_title": "Log out",
+        "logout_content": "Are you sure you want to log out?",
         "delete_title": "Delete my account",
-        "delete_content": "Are you sure you want to delete your account ?",
+        "delete_content": "Are you sure you want to delete your account?",
         "language": "Language",
         "language_french": "French",
         "language_english": "English",
-        "infos_app": "Information about the app"
+        "infos_app": "App information"
     },
     "edit_account_screen": {
         "my_account": "Account information",
-        "message_success_update_account": "Your profile has been updated",
-        "content": "You can change your account information right here!",
+        "message_success_update_account": "Your profile has been successfully updated",
+        "content": "You can modify your account information right here!",
         "picture_profile": "Profile picture",
-        "pseudo_profile": "Pseudonym",
+        "pseudo_profile": "Nickname",
         "gender_profile": "Gender",
-        "birthday_profile": "Birthdate",
+        "birthday_profile": "Date of birth",
         "nationality_profile": "Nationality"
     },
     "edit_security_screen": {
         "security_account": "Account security",
-        "content": "You can change the security of your account directly here.\nPlease note that you will not be able to change your email and your password at the same time !",
+        "content": "You can modify the security of your account right here.\nBe careful, you cannot modify your email and password at the same time! One thing at a time..",
         "mail": "Email",
         "password": "Password",
         "actual_password": "Current password",
         "new_password": "New password",
         "confirm_new_password": "Confirm new password",
-        "update_mail": "Edit mail",
-        "update_password": "Edit password",
-        "error_update": "You can't change your email and password at the same time! One thing at a time..",
-        "verify_validity": "Check to validate the change",
-        "content_verify": "Enter your current password to verify and validate your current change"
+        "update_mail": "Modify email",
+        "update_password": "Modify password",
+        "error_update": "Unable to modify your email and password at the same time! One thing at a time..",
+        "verify_validity": "Verification to validate modification",
+        "content_verify": "Enter your current password to verify and validate your ongoing modification"
     },
     "infos_app_screen": {
-        "title": "Information about the app",
-        "cgu": "General terms and conditions of use ",
-        "policy_privacy": "Privacy policy",
+        "title": "App information",
+        "cgu": "Terms of Use",
+        "policy_privacy": "Privacy Policy",
         "version":"Version"
     },
     "validate_user_screen": {
         "send_mail": "An email has been sent to you",
-        "error_send_mail": "Error\nEmail could not be sent",
+        "error_send_mail": "Error\nThe email could not be sent",
         "check_account": "Check my account",
-        "content": "In order to validate your account, you can request a code that will be sent to the email address linked to it.",
+        "content": "To validate your account, you can request a code that will be sent to the email address linked to it.",
         "send_code": "Send me a code",
         "check_validity": "Check"
     },
@@ -161,18 +163,77 @@
         "new_conversation": "New conversation",
         "start_conversation": "Start conversation",
         "recent_interactions": "Recent interactions",
-        "no_recent_interactions": "No recent user interactions yet",
-        "results": "Résults",
-        "no_results": "No results yet for this search"
+        "no_recent_interactions": "No recent interactions with users yet",
+        "results": "Results",
+        "no_results": "No results for this search yet"
     },
     "recent_searches_screen": {
         "recent_searches": "Recent searches",
-        "no_recent_searches": "No recent research yet",
+        "no_recent_searches": "No recent searches yet",
         "results": "Results",
         "no_results": "No results for this search"
     },
     "user_profile_screen": {
-        "profile_of": "Profile of ",
-        "years_old": " years old"
-    }
+        "profile_of": "Profile of",
+        "years_old": " years old",
+        "followers": "Follower(s)",
+        "followings": "Following(s)"
+    },
+    "datas_test_screen": {
+        "mention_user": "@mention a user"
+    },
+    "bottom_sheet_mentions": {
+        "title": "User mention(s)",
+        "content": "Mention a user at any time by using @",
+        "write_mention": "@mention a user",
+        "no_results": "No users for this mention",
+        "no_recent_interactions": "No recent interactions with users currently"
+    },
+    "chat_details_screen": {
+        "search_giphy_title": "Search in Giphy",
+        "search_giphy_content": "Search and find the GIF that illustrates your current mood",
+        "no_results_giphy": "No results in Giphy for this search",
+        "see_profile": "View profile",
+        "message_seen": "Seen",
+        "write_message": "Write a message...",
+        "headlines_giphy": "Featured",
+        "gallery": "Gallery",
+        "camera": "Camera"
+    },
+    "infos_conv_screen": {
+        "delete_conv_title": "Delete conversation",
+        "delete_conv_content_1": "Are you sure you want to delete the conversation between",
+        "delete_conv_content_2": "and you?",
+        "report_user_title": "Report",
+        "report_user_content": "Are you sure you want to report the user",
+        "block_user_title": "Block",
+        "block_user_content": "Are you sure you want to block the user",
+        "title_screen": "Conversation Information",
+        "profile": "Profile",
+        "notif_unmute": "Reactivate",
+        "notif_mute": "Mute",
+        "personnalisation": "Personalization",
+        "theme_conv": "Conversation Theme",
+        "details": "Details",
+        "search_messages": "Search a Message",
+        "multimedias_conv": "Multimedia Conversation",
+        "others_actions": "Other Actions"
+    },
+    "theme_conv_screen": {
+        "picker_color_1_title": "Choice of First Theme Color",
+        "picker_color_2_title": "Choice of Second Theme Color",
+        "title_screen": "Conversation Theme",
+        "overview_theme": "Overview of the Conversation Theme",
+        "overview_message": "Overview of the Selected Conversation Theme through a Message",
+        "overview_gradient": "Overview of the Conversation Gradient"
+    },
+    "search_messages_screen": {
+        "no_results": "No Results for This Search",
+        "no_more_results": "No More Results Currently"
+    },
+    "multimedias_screen": {
+        "title_screen": "Multimedia Conversation",
+        "no_multimedias": "No Multimedia for This Conversation Currently",
+        "no_more_multimedias": "No More Multimedia Currently"
+    }    
 }

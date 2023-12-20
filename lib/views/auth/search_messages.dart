@@ -13,14 +13,14 @@ import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/chat_details_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchMessages extends ConsumerStatefulWidget {
   final String keyWords;
   final UserModel user;
 
-  const SearchMessages({Key? key, required this.keyWords, required this.user})
-      : super(key: key);
+  const SearchMessages({super.key, required this.keyWords, required this.user});
 
   @override
   SearchMessagesState createState() => SearchMessagesState();
@@ -132,7 +132,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             centerTitle: false,
             actions: [
@@ -180,10 +180,11 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
   Widget searchedMessagesConv() {
     return searchedMessages.isEmpty
         ? Center(
-            child: Text("Pas de résultats pour cette recherche",
+            child: Text(AppLocalization.of(context).translate(
+                              "search_messages_screen", "no_results"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           )
         : GlowingOverscrollIndicator(
             axisDirection: AxisDirection.down,
@@ -225,9 +226,10 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                   noMoreIcon: Align(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      "Pas plus de résultats actuellement",
+                      AppLocalization.of(context).translate(
+                              "search_messages_screen", "no_more_results"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -314,7 +316,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             Text(widget.user.pseudo,
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                             Container(
                               height: 10.0,
                               width: 10.0,
@@ -335,7 +337,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                         .languageCode,
                                     false),
                                 style: textStyleCustomRegular(cGrey, 14),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -424,7 +426,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                             Text(ref.read(userNotifierProvider).pseudo,
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                             Container(
                               height: 10.0,
                               width: 10.0,
@@ -445,7 +447,7 @@ class SearchMessagesState extends ConsumerState<SearchMessages> {
                                           .languageCode,
                                       false),
                                   style: textStyleCustomRegular(cGrey, 14),
-                                  textScaleFactor: 1.0,
+                                  textScaler: const TextScaler.linear(1.0),
                                   overflow: TextOverflow.ellipsis),
                             )
                           ],

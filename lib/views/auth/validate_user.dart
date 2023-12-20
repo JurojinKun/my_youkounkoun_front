@@ -12,7 +12,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ValidateUser extends ConsumerStatefulWidget {
-  const ValidateUser({Key? key}) : super(key: key);
+  const ValidateUser({super.key});
 
   @override
   ValidateUserState createState() => ValidateUserState();
@@ -60,7 +60,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     child: Text(
                         AppLocalization.of(context)
                             .translate("validate_user_screen", "send_mail"),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
@@ -107,7 +107,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                     child: Text(
                         AppLocalization.of(context).translate(
                             "validate_user_screen", "error_send_mail"),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 16),
                         textAlign: TextAlign.center),
@@ -141,19 +141,15 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
         if (Platform.isIOS &&
             details.delta.dx > sensitivity &&
             details.globalPosition.dx <= 70) {
-          await ref
-              .read(checkValidUserNotifierProvider.notifier)
-              .checkValidUser();
           navAuthKey.currentState!.pop();
         }
       },
-      child: WillPopScope(
-        onWillPop: () async {
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
           await ref
               .read(checkValidUserNotifierProvider.notifier)
               .checkValidUser();
-          navAuthKey.currentState!.pop();
-          return false;
         },
         child: Scaffold(
           extendBodyBehindAppBar: true,
@@ -175,7 +171,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         .translate("validate_user_screen", "check_account"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
                     textAlign: TextAlign.center,
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                   centerTitle: false,
                   actions: [
@@ -184,10 +180,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                       shape: const CircleBorder(),
                       clipBehavior: Clip.hardEdge,
                       child: IconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(checkValidUserNotifierProvider.notifier)
-                                .checkValidUser();
+                          onPressed: () {
                             navAuthKey.currentState!.pop();
                           },
                           icon: Icon(
@@ -220,7 +213,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                         .translate("validate_user_screen", "content"),
                     style: textStyleCustomMedium(Helpers.uiApp(context), 14),
                     textAlign: TextAlign.center,
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   ),
                   TextButton(
                       onPressed: () {
@@ -242,7 +235,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                               .translate("validate_user_screen", "send_code"),
                           style: textStyleCustomBold(cBlue, 14.0),
                           textAlign: TextAlign.center,
-                          textScaleFactor: 1.0)),
+                          textScaler: const TextScaler.linear(1.0))),
                   const SizedBox(
                     height: 40.0,
                   ),
@@ -251,7 +244,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                       child: PinCodeTextField(
                         appContext: context,
                         textStyle: textStyleCustomBold(
-                            cBlue, 18 / MediaQuery.of(context).textScaleFactor),
+                            cBlue, MediaQuery.of(context).textScaler.scale(18)),
                         length: 6,
                         animationType: AnimationType.fade,
                         autoDisposeControllers: false,
@@ -290,9 +283,6 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                             //set logic ws check code
                             await Future.delayed(const Duration(seconds: 2),
                                 () {
-                              ref
-                                  .read(checkValidUserNotifierProvider.notifier)
-                                  .checkValidUser();
                               navAuthKey.currentState!.pop();
                             });
                             setState(() {
@@ -325,7 +315,7 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
                             : Text(
                                 AppLocalization.of(context).translate(
                                     "validate_user_screen", "check_validity"),
-                                textScaleFactor: 1.0,
+                                textScaler: const TextScaler.linear(1.0),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light

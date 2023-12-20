@@ -6,11 +6,12 @@ import 'package:myyoukounkoun/components/bottom_sheet_mentions.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/providers/datas_test_provider.dart';
+import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class DatasTest extends ConsumerStatefulWidget {
   final int index;
 
-  const DatasTest({Key? key, required this.index}) : super(key: key);
+  const DatasTest({super.key, required this.index});
 
   @override
   DatasTestState createState() => DatasTestState();
@@ -99,7 +100,7 @@ class DatasTestState extends ConsumerState<DatasTest>
               curve: Curves.easeInOut,
               child: Text("Datas test",
                   style: textStyleCustomBold(Helpers.uiApp(context), 20.0),
-                  textScaleFactor: 1.0),
+                  textScaler: const TextScaler.linear(1.0)),
             ),
             centerTitle: true,
             actions: [
@@ -151,7 +152,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 18),
                                 textAlign: TextAlign.center,
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                           ),
                         );
                       },
@@ -170,7 +171,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                               style: textStyleCustomBold(
                                   Helpers.uiApp(context), 18),
                               textAlign: TextAlign.center,
-                              textScaleFactor: 1.0),
+                              textScaler: const TextScaler.linear(1.0)),
                         ),
                       ),
                     );
@@ -205,7 +206,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                           },
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("@mentionner un utilisateur",
+                            child: Text(AppLocalization.of(context).translate("datas_test_screen", "mention_user"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
@@ -213,7 +214,7 @@ class DatasTestState extends ConsumerState<DatasTest>
                                         : cWhite,
                                     14),
                                 overflow: TextOverflow.ellipsis,
-                                textScaleFactor: 1.0),
+                                textScaler: const TextScaler.linear(1.0)),
                           )),
                     ),
                   )),

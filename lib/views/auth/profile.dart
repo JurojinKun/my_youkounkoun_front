@@ -16,7 +16,7 @@ import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Profile extends ConsumerStatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   ProfileState createState() => ProfileState();
@@ -62,7 +62,7 @@ class ProfileState extends ConsumerState<Profile>
                   AppLocalization.of(context)
                       .translate("profile_screen", "profile"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                  textScaleFactor: 1.0),
+                  textScaler: const TextScaler.linear(1.0)),
               centerTitle: false,
               actions: [
                 Material(
@@ -104,7 +104,7 @@ class ProfileState extends ConsumerState<Profile>
                                       height: 10.0,
                                       width: 10.0,
                                       decoration: const BoxDecoration(
-                                          color: Colors.blue,
+                                          color: cBlue,
                                           shape: BoxShape.circle),
                                     ),
                                   )
@@ -219,7 +219,7 @@ class ProfileState extends ConsumerState<Profile>
                     Text(
                       user.pseudo,
                       style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(width: 5.0),
@@ -268,15 +268,15 @@ class ProfileState extends ConsumerState<Profile>
                   ],
                 ),
                 const SizedBox(height: 5.0),
-                Text("${Helpers.formatNumber(user.followers.length)} Abonné(s)",
+                Text("${Helpers.formatNumber(user.followers.length)} ${AppLocalization.of(context).translate("profile_screen", "followers")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
                 const SizedBox(height: 5.0),
-                Text("${Helpers.formatNumber(user.followings.length)} Abonnement(s)",
+                Text("${Helpers.formatNumber(user.followings.length)} ${AppLocalization.of(context).translate("profile_screen", "followings")}",
                     style: textStyleCustomBold(Helpers.uiApp(context), 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                     maxLines: 2,
                     overflow: TextOverflow.clip),
               ],
@@ -289,7 +289,7 @@ class ProfileState extends ConsumerState<Profile>
             padding: const EdgeInsets.symmetric(vertical: 15.0),
             child: Text(user.bio,
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           ),
         )
       ],
@@ -304,7 +304,7 @@ class ProfileState extends ConsumerState<Profile>
         AppLocalization.of(context).translate("general", "message_continue"),
         style: textStyleCustomMedium(Helpers.uiApp(context), 14),
         textAlign: TextAlign.center,
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
       ),
     );
   }

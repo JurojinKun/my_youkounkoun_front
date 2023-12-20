@@ -29,7 +29,7 @@ import 'package:myyoukounkoun/views/nonAuth/welcome.dart';
 
 Route<dynamic> generateRouteNonAuth(
     RouteSettings settings, BuildContext context) {
-  final List<dynamic>? args = settings.arguments as List<dynamic>?;
+  // final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
     case welcome:
@@ -55,7 +55,7 @@ Route<dynamic> generateRouteNonAuth(
                 body: Center(
                     child: Text(
                   'No route defined for ${settings.name}',
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )),
               ));
   }
@@ -150,7 +150,7 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
 
 Route<dynamic> generateRouteAuthHome(
     RouteSettings settings, BuildContext context) {
-  final List<dynamic>? args = settings.arguments as List<dynamic>?;
+  // final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
     case home:
@@ -161,7 +161,7 @@ Route<dynamic> generateRouteAuthHome(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
@@ -187,14 +187,14 @@ Route<dynamic> generateRouteAuthSearch(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
 
 Route<dynamic> generateRouteAuthActivities(
     RouteSettings settings, BuildContext context) {
-  final List<dynamic>? args = settings.arguments as List<dynamic>?;
+  // final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
     case activities:
@@ -207,14 +207,14 @@ Route<dynamic> generateRouteAuthActivities(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }
 
 Route<dynamic> generateRouteAuthProfile(
     RouteSettings settings, BuildContext context) {
-  final List<dynamic>? args = settings.arguments as List<dynamic>?;
+  // final List<dynamic>? args = settings.arguments as List<dynamic>?;
 
   switch (settings.name) {
     case profile:
@@ -227,7 +227,7 @@ Route<dynamic> generateRouteAuthProfile(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                     child: Text('No route defined for ${settings.name}',
-                        textScaleFactor: 1.0)),
+                        textScaler: const TextScaler.linear(1.0))),
               ));
   }
 }

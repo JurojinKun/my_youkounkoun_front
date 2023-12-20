@@ -17,7 +17,7 @@ import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Home extends ConsumerStatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   HomeState createState() => HomeState();
@@ -85,7 +85,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                     AppLocalization.of(context)
                         .translate("home_screen", "home"),
                     style: textStyleCustomBold(Helpers.uiApp(context), 20),
-                    textScaleFactor: 1.0),
+                    textScaler: const TextScaler.linear(1.0)),
                 centerTitle: false,
                 actions: [
                   if (!EnvironmentConfigLib().getEnvironmentBottomNavBar)
@@ -115,7 +115,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                                         height: 10.0,
                                         width: 10.0,
                                         decoration: const BoxDecoration(
-                                            color: Colors.blue,
+                                            color: cBlue,
                                             shape: BoxShape.circle),
                                       ),
                                     )
@@ -146,7 +146,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                           style:
                               textStyleCustomMedium(Helpers.uiApp(context), 14),
                           textAlign: TextAlign.center,
-                          textScaleFactor: 1.0),
+                          textScaler: const TextScaler.linear(1.0)),
                       const SizedBox(
                         height: 15.0,
                       ),
@@ -171,7 +171,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                                       : cWhite,
                                   14),
                               textAlign: TextAlign.center,
-                              textScaleFactor: 1.0),
+                              textScaler: const TextScaler.linear(1.0)),
                       if (EnvironmentConfigLib().getEnvironmentAdmob)
                         connectivityStatus == ConnectivityResult.none &&
                                 !pubHomeAlreadyLoaded

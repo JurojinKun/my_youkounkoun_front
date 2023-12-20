@@ -7,7 +7,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 class CustomDrawer extends ConsumerStatefulWidget {
   final TabController tabController;
 
-  const CustomDrawer({Key? key, required this.tabController}) : super(key: key);
+  const CustomDrawer({super.key, required this.tabController});
 
   @override
   CustomDrawerState createState() => CustomDrawerState();
@@ -176,7 +176,7 @@ class CustomDrawerState extends ConsumerState<CustomDrawer> {
                           height: 10.0,
                           width: 10.0,
                           decoration: const BoxDecoration(
-                              color: Colors.blue, shape: BoxShape.circle),
+                              color: cBlue, shape: BoxShape.circle),
                         ),
                       )
                     ]),

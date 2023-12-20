@@ -16,13 +16,12 @@ class CarousselPictures extends ConsumerStatefulWidget {
   final Color? colorTheme;
 
   const CarousselPictures(
-      {Key? key,
+      {super.key,
       required this.messagesMedias,
       required this.message,
       required this.user,
       required this.heroTag,
-      this.colorTheme})
-      : super(key: key);
+      this.colorTheme});
 
   @override
   CarousselPicturesState createState() => CarousselPicturesState();
@@ -289,13 +288,13 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                                   .pseudo,
                                               style: textStyleCustomBold(
                                                   Helpers.uiApp(context), 14),
-                                              textScaleFactor: 1.0),
+                                              textScaler: const TextScaler.linear(1.0)),
                                         ),
                                         Text(
                                             "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode, true)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
                                             style:
                                                 textStyleCustomBold(cGrey, 14),
-                                            textScaleFactor: 1.0)
+                                            textScaler: const TextScaler.linear(1.0))
                                       ],
                                     ),
                                   )
@@ -359,13 +358,13 @@ class CarousselPicturesState extends ConsumerState<CarousselPictures> {
                                           child: Text(widget.user.pseudo,
                                               style: textStyleCustomBold(
                                                   Helpers.uiApp(context), 14),
-                                              textScaleFactor: 1.0),
+                                              textScaler: const TextScaler.linear(1.0)),
                                         ),
                                         Text(
                                             "${Helpers.formatDateDayWeek(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode, true)} à ${Helpers.formatDateHoursMinutes(int.parse(widget.messagesMedias[index].timestamp), ref.read(localeLanguageNotifierProvider).languageCode)}",
                                             style:
                                                 textStyleCustomBold(cGrey, 14),
-                                            textScaleFactor: 1.0)
+                                            textScaler: const TextScaler.linear(1.0))
                                       ],
                                     ),
                                   )

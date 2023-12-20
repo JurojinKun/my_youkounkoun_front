@@ -13,7 +13,7 @@ import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class RecentSearches extends ConsumerStatefulWidget {
-  const RecentSearches({Key? key}) : super(key: key);
+  const RecentSearches({super.key});
 
   @override
   RecentSearchesState createState() => RecentSearchesState();
@@ -124,7 +124,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             _searchFocusNode.hasFocus
                                 ? Theme.of(context).colorScheme.primary
                                 : cGrey,
-                            14 / MediaQuery.of(context).textScaleFactor),
+                            MediaQuery.of(context).textScaler.scale(14)),
                         decoration: InputDecoration(
                             contentPadding:
                                 const EdgeInsets.only(top: 15.0, left: 15.0),
@@ -206,7 +206,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             .translate("general", "btn_cancel"),
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 14),
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                     ),
                   )
@@ -241,7 +241,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                   AppLocalization.of(context)
                       .translate("recent_searches_screen", "recent_searches"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 )
               ],
             ),
@@ -264,7 +264,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 14),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.0)
+                            textScaler: const TextScaler.linear(1.0))
                       ],
                     ))
                 : ListView.builder(
@@ -308,7 +308,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             user.pseudo,
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 16),
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                           ),
                           trailing: Material(
                             color: Colors.transparent,
@@ -366,7 +366,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                         style:
                             textStyleCustomMedium(Helpers.uiApp(context), 14),
                         textAlign: TextAlign.center,
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       )
                     ],
                   ),
@@ -401,7 +401,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                   AppLocalization.of(context)
                       .translate("recent_searches_screen", "results"),
                   style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                  textScaleFactor: 1.0,
+                  textScaler: const TextScaler.linear(1.0),
                 ),
               ],
             ),
@@ -424,7 +424,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 14),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.0)
+                            textScaler: const TextScaler.linear(1.0))
                       ],
                     ))
                 : ListView.builder(
@@ -441,7 +441,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                           contentPadding:
                               const EdgeInsets.symmetric(vertical: 5.0),
                           onTap: () {
-                            if (!resultsSearch
+                            if (ref.read(recentSearchesNotifierProvider).isEmpty || !resultsSearch
                                 .any((element) => element.id == user.id)) {
                               ref
                                   .read(recentSearchesNotifierProvider.notifier)
@@ -475,7 +475,7 @@ class RecentSearchesState extends ConsumerState<RecentSearches> {
                             user.pseudo,
                             style: textStyleCustomMedium(
                                 Helpers.uiApp(context), 16),
-                            textScaleFactor: 1.0,
+                            textScaler: const TextScaler.linear(1.0),
                           ),
                         ),
                       );

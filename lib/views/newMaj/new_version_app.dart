@@ -9,7 +9,7 @@ import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class NewVersionApp extends ConsumerStatefulWidget {
-  const NewVersionApp({Key? key}) : super(key: key);
+  const NewVersionApp({super.key});
 
   @override
   NewVersionAppState createState() => NewVersionAppState();
@@ -34,13 +34,13 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                 AppLocalization.of(context)
                     .translate("new_maj_screen", "title"),
                 style: textStyleCustomBold(Helpers.uiApp(context), 16),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               content: Text(
                 AppLocalization.of(context)
                     .translate("new_maj_screen", "content_available"),
                 style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-                textScaleFactor: 1.0,
+                textScaler: const TextScaler.linear(1.0),
               ),
               actions: [
                 TextButton(
@@ -64,7 +64,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                       AppLocalization.of(context)
                           .translate("new_maj_screen", "go_now"),
                       style: textStyleCustomMedium(cBlue, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     )),
                 TextButton(
                     onPressed: () async {
@@ -89,7 +89,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                       AppLocalization.of(context)
                           .translate("new_maj_screen", "later"),
                       style: textStyleCustomMedium(cRed, 14),
-                      textScaleFactor: 1.0,
+                      textScaler: const TextScaler.linear(1.0),
                     ))
               ],
             );
@@ -110,13 +110,13 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
             title: Text(
               AppLocalization.of(context).translate("new_maj_screen", "title"),
               style: textStyleCustomBold(Helpers.uiApp(context), 16),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             content: Text(
               AppLocalization.of(context)
                   .translate("new_maj_screen", "content_required"),
               style: textStyleCustomRegular(Helpers.uiApp(context), 14),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             actions: [
               TextButton(
@@ -137,7 +137,7 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                     AppLocalization.of(context)
                         .translate("new_maj_screen", "go_now"),
                     style: textStyleCustomMedium(cBlue, 14),
-                    textScaleFactor: 1.0,
+                    textScaler: const TextScaler.linear(1.0),
                   )),
             ],
           );

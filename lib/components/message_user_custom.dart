@@ -20,7 +20,7 @@ void messageUser(BuildContext context, String message) {
             child: Text(message, style: TextStyle(
               fontFamily: "RobotoBold",
               fontSize: 16,
-              color: Helpers.uiApp(context)), textAlign: TextAlign.center, textScaleFactor: 1.0),),
+              color: Helpers.uiApp(context)), textAlign: TextAlign.center, textScaler: const TextScaler.linear(1.0)),),
         ),
       ),
       animationDuration: const Duration(milliseconds: 500),

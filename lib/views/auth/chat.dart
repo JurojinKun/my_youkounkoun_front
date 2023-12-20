@@ -14,7 +14,7 @@ import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/new_conversation.dart';
 
 class Chat extends ConsumerStatefulWidget {
-  const Chat({Key? key}) : super(key: key);
+  const Chat({super.key});
 
   @override
   ChatState createState() => ChatState();
@@ -96,7 +96,7 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
                 .translate("activities_screen", "no_chat"),
             style: textStyleCustomMedium(Helpers.uiApp(context), 14),
             textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
           )
         ],
       ),
@@ -115,7 +115,7 @@ class ChatState extends ConsumerState<Chat> with AutomaticKeepAliveClientMixin {
               AppLocalization.of(context)
                   .translate("activities_screen", "chat"),
               style: textStyleCustomBold(Helpers.uiApp(context), 20),
-              textScaleFactor: 1.0,
+              textScaler: const TextScaler.linear(1.0),
             ),
             Material(
               color: Colors.transparent,

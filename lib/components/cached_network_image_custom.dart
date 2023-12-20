@@ -10,12 +10,11 @@ class CachedNetworkImageCustom extends StatefulWidget {
   final Color? colorTheme;
 
   const CachedNetworkImageCustom(
-      {Key? key,
+      {super.key,
       required this.profilePictureUrl,
       required this.heightContainer,
       required this.widthContainer,
-      required this.iconSize, this.colorTheme})
-      : super(key: key);
+      required this.iconSize, this.colorTheme});
 
   @override
   CachedNetworkImageCustomState createState() =>

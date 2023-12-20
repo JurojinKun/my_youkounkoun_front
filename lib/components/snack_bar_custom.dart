@@ -22,7 +22,7 @@ SnackBar showSnackBarCustom(BuildContext context, String currentRouteApp) {
                 AppLocalization.of(context)
                     .translate("connectivity_screen", "no_connectivity"),
                 style: textStyleCustomMedium(Helpers.uiApp(context), 14.0),
-                textScaleFactor: 1.0),
+                textScaler: const TextScaler.linear(1.0)),
           ],
         ),
         shape:
