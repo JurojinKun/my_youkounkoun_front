@@ -16,6 +16,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		EC4DA9E429D9ED1600C13A51 /* sound_diamond.caf in Resources */ = {isa = PBXBuildFile; fileRef = EC4DA9E329D9ED1600C13A51 /* sound_diamond.caf */; };
 		ECE0DB222A3CC7C600FB1A2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECE0DB212A3CC7C600FB1A2B /* GoogleService-Info.plist */; };
+		FE77DB43A0F0FA07A8C649BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB813E1E927446C9308D214B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB813E1E927446C9308D214B /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E9A7DBCC40B5A8BA6BD9D5BA /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		EC4DA9E329D9ED1600C13A51 /* sound_diamond.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound_diamond.caf; sourceTree = "<group>"; };
 		ECE0DB212A3CC7C600FB1A2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				97C146EF1CF9000F007C117D /* Products */,
 				DB3B03F023F1789E2BCC2085 /* Pods */,
 				3598D1B3E21F2E8BCDA7C2FA /* Frameworks */,
+				CB813E1E927446C9308D214B /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,6 +203,7 @@
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				ECE0DB222A3CC7C600FB1A2B /* GoogleService-Info.plist in Resources */,
+				FE77DB43A0F0FA07A8C649BE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
