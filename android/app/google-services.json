@@ -29,6 +29,13 @@
             {
               "client_id": "878551705966-pnv31c9bh1ovl92acl1bprtbdft97hdp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "878551705966-100n1573rj4023afervvfnijuobgieeb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myyoukounkoun"
+              }
             }
           ]
         }
