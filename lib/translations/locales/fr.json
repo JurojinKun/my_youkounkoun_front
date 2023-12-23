@@ -119,7 +119,8 @@
         "language": "Langue",
         "language_french": "Français",
         "language_english": "Anglais",
-        "infos_app": "Informations sur l'app"
+        "infos_app": "Informations sur l'app",
+        "icons_app": "Icônes de l'app"
     },
     "edit_account_screen": {
         "my_account": "Informations du compte",
@@ -235,5 +236,8 @@
         "title_screen": "Multimédias conversation",
         "no_multimedias": "Aucun multimédia pour cette conversation actuellement",
         "no_more_multimedias": "Pas plus de multimédias actuellement"
+    },
+    "icons_app_screen": {
+        "title_screen": "Icônes de l'app"
     }
 }

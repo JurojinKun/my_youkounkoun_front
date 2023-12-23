@@ -99,6 +99,7 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
 
   assets: 
+    - assets/icons_app/
     - assets/images/ic_app_new.png
     - assets/logos/ic_launcher_new.png
     - assets/logos/ic_splash_new.png

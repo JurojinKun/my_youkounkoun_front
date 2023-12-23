@@ -370,6 +370,8 @@ class SettingsState extends ConsumerState<Settings> {
               const Divider(thickness: 0.5, color: cGrey),
               notificationsSettings(),
               const Divider(thickness: 0.5, color: cGrey),
+              iconsAppSettings(),
+              const Divider(thickness: 0.5, color: cGrey),
               infosAppSettings()
             ],
           ),
@@ -622,6 +624,48 @@ class SettingsState extends ConsumerState<Settings> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget iconsAppSettings() {
+    return InkWell(
+      onTap: () => navAuthKey.currentState!.pushNamed(iconsApp),
+      child: SizedBox(
+        height: 60.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.apps,
+                    color: Helpers.uiApp(context),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 15.0),
+                  Expanded(
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("settings_screen", "icons_app"),
+                        style: textStyleCustomBold(Helpers.uiApp(context), 16),
+                        overflow: TextOverflow.ellipsis,
+                        textScaler: const TextScaler.linear(1.0)),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                color: Helpers.uiApp(context),
+                size: 18,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
