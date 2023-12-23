@@ -19,16 +19,18 @@
 	<key>STORAGE_BUCKET</key>
 	<string>my-youkounkoun.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:878551705966:ios:286ac2e81713487f47797f</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-4738640548560292~3454205839</string>
 </dict>
 </plist>
