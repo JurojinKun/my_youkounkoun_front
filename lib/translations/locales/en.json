@@ -238,6 +238,8 @@
         "no_more_multimedias": "No More Multimedia Currently"
     },
     "icons_app_screen": {
-        "title_screen": "App icons"
+        "title_screen": "App icons",
+        "save_new_icon_app": "Save",
+        "success_message": "The new icon has been successfully saved"
     }    
 }

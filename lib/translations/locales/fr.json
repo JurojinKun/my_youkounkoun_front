@@ -238,6 +238,8 @@
         "no_more_multimedias": "Pas plus de multimédias actuellement"
     },
     "icons_app_screen": {
-        "title_screen": "Icônes de l'app"
+        "title_screen": "Icônes de l'app",
+        "save_new_icon_app": "Sauvegarder",
+        "success_message": "L'icône de l'app a bien été modifié"
     }
 }
