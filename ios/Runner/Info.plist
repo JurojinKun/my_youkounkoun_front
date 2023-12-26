@@ -237,6 +237,106 @@
 				<string>3qcr597p9d.skadnetwork</string>
 			</dict>
 		</array>
+		<key>CFBundleIcons</key>
+		<dict>
+			<!-- Default app icon -->
+			<key>CFBundlePrimaryIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false />
+			</dict>
+
+			<key>CFBundleAlternateIcons</key>
+			<dict>
+				<!-- First custom icon - just black -->
+				<key>justBlack</key>
+				<dict>
+					<key>CFBundleIconFiles</key>
+					<array>
+						<string>justBlack</string>
+					</array>
+					<key>UIPrerenderedIcon</key>
+					<false />
+				</dict>
+
+				<!-- Second custom icon - just blue -->
+				<key>justBlue</key>
+				<dict>
+					<key>CFBundleIconFiles</key>
+					<array>
+						<string>justBlue</string>
+					</array>
+					<key>UIPrerenderedIcon</key>
+					<false />
+				</dict>
+
+				<!-- Third custom icon - Galaxy -->
+				<key>space</key>
+				<dict>
+					<key>CFBundleIconFiles</key>
+					<array>
+						<string>space</string>
+					</array>
+					<key>UIPrerenderedIcon</key>
+					<false />
+				</dict>
+			</dict>
+		</dict>
+		<!-- iPad Icons -->
+        <key>CFBundleIcons~ipad</key>
+        <dict>
+            <key>CFBundlePrimaryIcon</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>AppIcon</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>CFBundleAlternateIcons</key>
+            <dict>
+                <!-- First custom icon - just black -->
+                <key>justBlack</key>
+                <dict>
+                    <key>CFBundleIconFiles</key>
+                    <array>
+                        <string>justBlackIpadPro</string>
+                        <string>justBlackIpad</string>
+                    </array>
+                    <key>UIPrerenderedIcon</key>
+                    <false/>
+                </dict>
+                
+                <!-- Second custom icon - just blue -->
+                <key>justBlue</key>
+                <dict>
+                    <key>CFBundleIconFiles</key>
+                    <array>
+                        <string>justBlueIpadPro</string>
+                        <string>justBlueIpad</string>
+                    </array>
+                    <key>UIPrerenderedIcon</key>
+                    <false/>
+                </dict>
+                
+                <!-- Third custom icon - space -->
+                <key>space</key>
+                <dict>
+                    <key>CFBundleIconFiles</key>
+                    <array>
+                        <string>spaceIpadPro</string>
+                        <string>spaceIpad</string>
+                    </array>
+                    <key>UIPrerenderedIcon</key>
+                    <false/>
+                </dict>
+            </dict>
+        </dict>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>

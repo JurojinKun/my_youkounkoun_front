@@ -31,7 +31,7 @@
             android:windowSoftInputMode="adjustResize"
             android:showWhenLocked="false"
             android:turnScreenOn="true">
-            <!-- TODO COMMENT ALL INTENT FULTER & META DATA OF MAIN ACTIVITY TO BUILD PROD (ICON APP DYNAMIC
+            <!-- TODO COMMENT ALL INTENT FILTER & META DATA OF MAIN ACTIVITY TO BUILD PROD (ICON APP DYNAMIC
             CHANGE) -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"

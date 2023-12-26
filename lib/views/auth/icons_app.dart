@@ -63,7 +63,7 @@ class IconsAppState extends ConsumerState<IconsApp> {
                 iconNames: ["JustBlack", "JustBlue", "Space"]);
           } else if (Platform.isIOS &&
               await FlutterDynamicIcon.supportsAlternateIcons) {
-            await FlutterDynamicIcon.setAlternateIconName("just_black");
+            await FlutterDynamicIcon.setAlternateIconName("justBlack");
           }
           break;
         case "Just blue":
@@ -75,7 +75,7 @@ class IconsAppState extends ConsumerState<IconsApp> {
                 iconNames: ["JustBlack", "JustBlue", "Space"]);
           } else if (Platform.isIOS &&
               await FlutterDynamicIcon.supportsAlternateIcons) {
-            await FlutterDynamicIcon.setAlternateIconName("just_blue");
+            await FlutterDynamicIcon.setAlternateIconName("justBlue");
           }
           break;
         case "Space":
