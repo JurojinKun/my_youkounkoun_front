@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
@@ -33,7 +32,6 @@ class LoginState extends ConsumerState<Login> {
   bool _passwordObscure = true;
   bool _loadingLogin = false;
   bool _isKeyboard = false;
-  bool _swipeBack = false;
 
   AppBar appBar = AppBar();
 
@@ -105,23 +103,6 @@ class LoginState extends ConsumerState<Login> {
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      onHorizontalDragUpdate: (details) async {
-        int sensitivity = 8;
-        if (Platform.isIOS &&
-            details.delta.dx > sensitivity &&
-            details.globalPosition.dx <= 70 &&
-            !_swipeBack) {
-          _swipeBack = true;
-          if (_isKeyboard) {
-            Helpers.hideKeyboard(context);
-            await Future.delayed(const Duration(milliseconds: 200));
-          }
-          navNonAuthKey.currentState!.pop();
-          if (mounted) {
-            _swipeBack = false;
-          }
-        }
-      },
       child: Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           extendBodyBehindAppBar: true,

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -136,14 +135,6 @@ class ValidateUserState extends ConsumerState<ValidateUser> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      onHorizontalDragUpdate: (details) async {
-        int sensitivity = 8;
-        if (Platform.isIOS &&
-            details.delta.dx > sensitivity &&
-            details.globalPosition.dx <= 70) {
-          navAuthKey.currentState!.pop();
-        }
-      },
       child: PopScope(
         canPop: false,
         onPopInvoked: (didPop) async {
