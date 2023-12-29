@@ -6,6 +6,7 @@ import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/views/auth/caroussel_pictures.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
 import 'package:myyoukounkoun/views/auth/datas_test.dart';
+import 'package:myyoukounkoun/views/auth/icons_app.dart';
 import 'package:myyoukounkoun/views/auth/informations_conv.dart';
 import 'package:myyoukounkoun/views/auth/infos_app.dart';
 import 'package:myyoukounkoun/views/auth/multimedias.dart';
@@ -138,6 +139,10 @@ Route<dynamic> generateRouteAuth(RouteSettings settings, BuildContext context) {
       return MaterialPageRoute(
           builder: (_) => RouteObserverWidget(
               name: multimedias, child: Multimedias(user: args![0])));
+    case iconsApp:
+      return MaterialPageRoute(
+          builder: (_) => const RouteObserverWidget(
+              name: iconsApp, child: IconsApp()));
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

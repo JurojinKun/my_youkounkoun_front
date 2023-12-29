@@ -119,7 +119,8 @@
         "language": "Language",
         "language_french": "French",
         "language_english": "English",
-        "infos_app": "App information"
+        "infos_app": "App information",
+        "icons_app": "App icons"
     },
     "edit_account_screen": {
         "my_account": "Account information",
@@ -235,5 +236,10 @@
         "title_screen": "Multimedia Conversation",
         "no_multimedias": "No Multimedia for This Conversation Currently",
         "no_more_multimedias": "No More Multimedia Currently"
+    },
+    "icons_app_screen": {
+        "title_screen": "App icons",
+        "save_new_icon_app": "Save",
+        "success_message": "The new icon has been successfully saved"
     }    
 }

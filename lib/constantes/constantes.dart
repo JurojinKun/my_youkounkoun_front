@@ -28,6 +28,7 @@ const String informationsConv = "informationsConv";
 const String themeConv = "themeConv";
 const String searchMessages = "searchMessages";
 const String multimedias = "multimedias";
+const String iconsApp = "icons app";
 
 //route observer
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();

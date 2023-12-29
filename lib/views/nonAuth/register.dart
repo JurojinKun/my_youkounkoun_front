@@ -59,7 +59,6 @@ class RegisterState extends ConsumerState<Register>
   bool _passwordObscure = true;
   bool _loadingStepOne = false;
   bool _loadingStepTwo = false;
-  bool _swipeBack = false;
 
   late Locale localeLanguage;
 
@@ -126,23 +125,6 @@ class RegisterState extends ConsumerState<Register>
 
     return GestureDetector(
       onTap: () => Helpers.hideKeyboard(context),
-      onHorizontalDragUpdate: (details) async {
-        int sensitivity = 8;
-        if (Platform.isIOS &&
-            details.delta.dx > sensitivity &&
-            details.globalPosition.dx <= 70 &&
-            !_swipeBack) {
-          _swipeBack = true;
-          if (_isKeyboard) {
-            Helpers.hideKeyboard(context);
-            await Future.delayed(const Duration(milliseconds: 200));
-          }
-          navNonAuthKey.currentState!.pop();
-          if (mounted) {
-            _swipeBack = false;
-          }
-        }
-      },
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
