@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -7,12 +6,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/edit_picture_lib.dart';
-import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/register_provider.dart';
@@ -250,7 +251,7 @@ class RegisterState extends ConsumerState<Register>
                   },
                   style: textStyleCustomRegular(
                       _mailFocusNode.hasFocus ? cBlue : cGrey,
-                     MediaQuery.of(context).textScaler.scale(14)),
+                      MediaQuery.of(context).textScaler.scale(14)),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                     hintText: AppLocalization.of(context)
@@ -665,17 +666,23 @@ class RegisterState extends ConsumerState<Register>
                               });
                             }
                           },
-                          style:
-                              ElevatedButton.styleFrom(backgroundColor: _mailController.text.isNotEmpty &&
-                                EmailValidator.validate(_mailController.text) &&
-                                _passwordController.text.isNotEmpty &&
-                                _passwordController.text.length >= 3 &&
-                                _confirmPasswordController.text.isNotEmpty &&
-                                _confirmPasswordController.text.length >= 3 &&
-                                _passwordController.text ==
-                                    _confirmPasswordController.text &&
-                                _validCGU &&
-                                _validPrivacypolicy ? cBlue : cGrey),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: _mailController
+                                          .text.isNotEmpty &&
+                                      EmailValidator.validate(
+                                          _mailController.text) &&
+                                      _passwordController.text.isNotEmpty &&
+                                      _passwordController.text.length >= 3 &&
+                                      _confirmPasswordController
+                                          .text.isNotEmpty &&
+                                      _confirmPasswordController.text.length >=
+                                          3 &&
+                                      _passwordController.text ==
+                                          _confirmPasswordController.text &&
+                                      _validCGU &&
+                                      _validPrivacypolicy
+                                  ? cBlue
+                                  : cGrey),
                           child: _loadingStepOne
                               ? SizedBox(
                                   height: 15,
@@ -1280,11 +1287,13 @@ class RegisterState extends ConsumerState<Register>
                                           "validPrivacyPolicy": true,
                                           "validEmail": false
                                         };
-                                        String encodedUserMap =
-                                            json.encode(userMap);
-                                        SyncSharedPrefsLib()
-                                            .prefs!
-                                            .setString("user", encodedUserMap);
+                                        HiveLib.setDatasHive(
+                                            true,
+                                            EnvironmentConfigLib()
+                                                .getEnvironmentKeyEncryptedUserBox,
+                                            "userBox",
+                                            "user",
+                                            userMap);
                                         ref
                                             .read(userNotifierProvider.notifier)
                                             .setUser(
@@ -1295,11 +1304,14 @@ class RegisterState extends ConsumerState<Register>
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: _pseudoController.text.isNotEmpty &&
-                                          validGender.trim() != "" &&
-                                          validBirthday &&
-                                          _selectedCountry != null &&
-                                          validProfilePicture != null ? cBlue : cGrey),
+                                        backgroundColor:
+                                            _pseudoController.text.isNotEmpty &&
+                                                    validGender.trim() != "" &&
+                                                    validBirthday &&
+                                                    _selectedCountry != null &&
+                                                    validProfilePicture != null
+                                                ? cBlue
+                                                : cGrey),
                                     child: _loadingStepTwo
                                         ? SizedBox(
                                             height: 15,
@@ -1325,7 +1337,8 @@ class RegisterState extends ConsumerState<Register>
                                                     ? cBlack
                                                     : cWhite,
                                                 20),
-                                            textScaler: const TextScaler.linear(1.0)))),
+                                            textScaler:
+                                                const TextScaler.linear(1.0)))),
                           ],
                         ),
                 )

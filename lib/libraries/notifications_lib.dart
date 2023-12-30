@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
-import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/models/conversation_model.dart';
 import 'package:myyoukounkoun/models/notification_model.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
@@ -24,8 +28,6 @@ import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class NotificationsLib {
   // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -360,7 +362,12 @@ class NotificationsLib {
           print("push token: $pushToken");
         }
 
-        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") &&
+        if (pushToken !=
+                await HiveLib.getDatasHive(
+                    true,
+                    EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
+                    "userBox",
+                    "pushToken") &&
             pushToken != "") {
           try {
             //logic ws send push token
@@ -373,7 +380,8 @@ class NotificationsLib {
             ref
                 .read(pushTokenNotifierProvider.notifier)
                 .updatePushToken(pushToken);
-            SyncSharedPrefsLib().prefs!.setString("pushToken", pushToken);
+            HiveLib.setDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
+                "userBox", "pushToken", pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -385,7 +393,9 @@ class NotificationsLib {
               .updatePushToken(pushToken);
         }
       } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-        if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
+        if (await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
+                "userBox", "pushToken") !=
+            null) {
           try {
             //logic ws send push token null
             Map<String, dynamic> map = {
@@ -395,7 +405,8 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await SyncSharedPrefsLib().prefs!.remove("pushToken");
+            await HiveLib.deleteSpecificDatasHive(true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -429,7 +440,12 @@ class NotificationsLib {
           print("push token: $pushToken");
         }
 
-        if (pushToken != SyncSharedPrefsLib().prefs!.getString("pushToken") &&
+        if (pushToken !=
+                await HiveLib.getDatasHive(
+                    true,
+                    EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
+                    "userBox",
+                    "pushToken") &&
             pushToken != "") {
           try {
             //logic ws send push token
@@ -442,7 +458,8 @@ class NotificationsLib {
             ref
                 .read(pushTokenNotifierProvider.notifier)
                 .updatePushToken(pushToken);
-            SyncSharedPrefsLib().prefs!.setString("pushToken", pushToken);
+            await HiveLib.setDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
+                "userBox", "pushToken", pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
@@ -454,7 +471,7 @@ class NotificationsLib {
               .updatePushToken(pushToken);
         }
       } else {
-        if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
+        if (await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken") != null) {
           try {
             //logic ws send push token null
             Map<String, dynamic> map = {
@@ -464,7 +481,7 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await SyncSharedPrefsLib().prefs!.remove("pushToken");
+            await HiveLib.deleteSpecificDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);

@@ -11,6 +11,8 @@ import 'package:myyoukounkoun/components/alert_dialog_custom.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
@@ -74,13 +76,11 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
-        await FirebaseMessaging.instance.deleteToken();
-        await SyncSharedPrefsLib().prefs!.remove("pushToken");
-        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
-      }
+      await FirebaseMessaging.instance.deleteToken();
+      ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
       ref.read(userNotifierProvider.notifier).clearUser();
-      SyncSharedPrefsLib().prefs!.remove("user");
+      await HiveLib.clearSpecificBoxHive(
+          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
       if (mounted) {
         setState(() {
           _loadingLogout = false;
@@ -120,13 +120,11 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-      if (SyncSharedPrefsLib().prefs!.getString("pushToken") != null) {
         await FirebaseMessaging.instance.deleteToken();
-        await SyncSharedPrefsLib().prefs!.remove("pushToken");
         ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
-      }
       ref.read(userNotifierProvider.notifier).clearUser();
-      SyncSharedPrefsLib().prefs!.remove("user");
+      await HiveLib.clearSpecificBoxHive(
+          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
       if (mounted) {
         setState(() {
           _loadingDeleteAccount = false;
@@ -617,7 +615,8 @@ class SettingsState extends ConsumerState<Settings> {
                     activeColor: cBlue,
                     value: pushToken.trim() != "" ? true : false,
                     onChanged: (newSettingsNotifications) async {
-                      await AppSettings.openAppSettings(type: AppSettingsType.notification);
+                      await AppSettings.openAppSettings(
+                          type: AppSettingsType.notification);
                     }),
                 Icon(Icons.notifications_active, color: Helpers.uiApp(context)),
               ],

@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,9 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:myyoukounkoun/controllers/connectivity_controller.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/libraries/http_overrides_lib.dart';
@@ -25,15 +28,13 @@ import 'package:myyoukounkoun/providers/new_maj_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/splash_screen_provider.dart';
 import 'package:myyoukounkoun/providers/version_app_provider.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 
 Future<void> searchPotentialNewMaj(WidgetRef ref) async {
   Map<String, dynamic> newMajInfos = {
@@ -47,14 +48,15 @@ Future<void> searchPotentialNewMaj(WidgetRef ref) async {
 
 Future<void> loadDataUser(WidgetRef ref) async {
   //logic already log
-  String? userEncoded = SyncSharedPrefsLib().prefs!.getString("user") ?? "";
+  Map<String, dynamic> userEncoded;
+  dynamic userDatas = await HiveLib.getDatasHive(
+      true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "user");
 
-  if (userEncoded.trim() != "") {
-    Map<String, dynamic> decodedUserMap = json.decode(userEncoded);
+  if (userDatas != null && userDatas is Map) {
+    userEncoded = Map<String, dynamic>.from(userDatas);
     ref
         .read(userNotifierProvider.notifier)
-        .setUser(UserModel.fromJSON(decodedUserMap));
-
+        .setUser(UserModel.fromJSON(userEncoded));
     ref
         .read(recentSearchesNotifierProvider.notifier)
         .initRecentSearches(recentSearchesDatasMockes);
@@ -78,6 +80,8 @@ Future<void> main() async {
 
   // Instantiate Global SyncSharedPrefs
   SyncSharedPrefsLib();
+
+  await Hive.initFlutter();
 
   runApp(const ProviderScope(child: MyApp()));
 }

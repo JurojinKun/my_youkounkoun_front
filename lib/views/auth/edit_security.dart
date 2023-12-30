@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -7,9 +6,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
-import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/edit_security_account_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
@@ -405,10 +406,10 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
           "validPrivacyPolicy": true,
           "validEmail": false
         };
+        await HiveLib.setDatasHive(
+          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "user", mapUser);
         UserModel user = UserModel.fromJSON(mapUser);
         ref.read(userNotifierProvider.notifier).setUser(user);
-        String userEncoded = jsonEncode(mapUser);
-        SyncSharedPrefsLib().prefs!.setString("user", userEncoded);
 
         _mailController.text = ref.read(userNotifierProvider).email;
         _actualPasswordController.clear();

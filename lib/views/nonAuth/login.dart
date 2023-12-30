@@ -1,22 +1,22 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
-import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
-import 'package:myyoukounkoun/route_observer.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/nonAuth/forgot_password.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
+import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
+import 'package:myyoukounkoun/route_observer.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -65,8 +65,8 @@ class LoginState extends ConsumerState<Login> {
       "validPrivacyPolicy": true,
       "validEmail": false
     };
-    String encodedUserMap = json.encode(userMap);
-    SyncSharedPrefsLib().prefs!.setString("user", encodedUserMap);
+    await HiveLib.setDatasHive(
+        true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "user", userMap);
     ref
         .read(userNotifierProvider.notifier)
         .setUser(UserModel.fromJSON(userMap));
