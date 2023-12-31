@@ -77,6 +77,7 @@ class EditAccountState extends ConsumerState<EditAccount> {
       Map<String, dynamic> mapUser = {
         "id": 1,
         "token": "tokenTest1234",
+        "refreshToken": "refreshTokenTest1234",
         "email": "ccommunay@gmail.com",
         "pseudo": _pseudoController.text,
         "gender": _selectedGender,

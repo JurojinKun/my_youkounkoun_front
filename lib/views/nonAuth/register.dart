@@ -1272,6 +1272,7 @@ class RegisterState extends ConsumerState<Register>
                                         Map<String, dynamic> userMap = {
                                           "id": 1,
                                           "token": "tokenTest1234",
+                                          "refreshToken": "refreshTokenTest1234",
                                           "email": "ccommunay@gmail.com",
                                           "pseudo": "0ruj",
                                           "gender": "Male",

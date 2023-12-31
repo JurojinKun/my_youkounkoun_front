@@ -6,6 +6,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:myyoukounkoun/services/dio_api_service.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,8 @@ Future<void> main() async {
   SyncSharedPrefsLib();
 
   await Hive.initFlutter();
+
+  DioApiService();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -179,7 +182,6 @@ class MyAppState extends ConsumerState<MyApp> {
     for (var i = 0; i < imagesApp.length; i++) {
       precacheImage(imagesApp[i].image, context);
     }
-
     super.didChangeDependencies();
   }
 

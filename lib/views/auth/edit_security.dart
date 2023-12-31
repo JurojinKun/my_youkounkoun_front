@@ -392,6 +392,7 @@ class EditSecurityState extends ConsumerState<EditSecurity> {
         Map<String, dynamic> mapUser = {
           "id": 1,
           "token": "tokenTest1234",
+          "refreshToken": "refreshTokenTest1234",
           "email": _mailController.text,
           "pseudo": ref.read(userNotifierProvider).pseudo,
           "gender": ref.read(userNotifierProvider).gender,
