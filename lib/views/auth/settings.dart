@@ -14,11 +14,12 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/models/tokens_model.dart';
 import 'package:myyoukounkoun/providers/check_valid_user_provider.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
-import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/recent_searches_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
@@ -33,7 +34,7 @@ class SettingsState extends ConsumerState<Settings> {
   bool _isDarkTheme = false;
 
   late Locale _localeLanguage;
-  late String pushToken;
+  late TokensModel tokens;
 
   AppBar appBar = AppBar();
 
@@ -77,10 +78,10 @@ class SettingsState extends ConsumerState<Settings> {
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
       await FirebaseMessaging.instance.deleteToken();
-      ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+      ref.read(tokenNotifierProvider.notifier).clearTokens();
       ref.read(userNotifierProvider.notifier).clearUser();
-      await HiveLib.clearSpecificBoxHive(
-          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
+      await HiveLib.clearSpecificBoxHive(true,
+          EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
       if (mounted) {
         setState(() {
           _loadingLogout = false;
@@ -120,11 +121,11 @@ class SettingsState extends ConsumerState<Settings> {
           ref.read(userNotifierProvider).profilePictureUrl);
       await DefaultCacheManager()
           .removeFile(ref.read(userNotifierProvider).profilePictureUrl);
-        await FirebaseMessaging.instance.deleteToken();
-        ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+      await FirebaseMessaging.instance.deleteToken();
+      ref.read(tokenNotifierProvider.notifier).clearTokens();
       ref.read(userNotifierProvider.notifier).clearUser();
-      await HiveLib.clearSpecificBoxHive(
-          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
+      await HiveLib.clearSpecificBoxHive(true,
+          EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox");
       if (mounted) {
         setState(() {
           _loadingDeleteAccount = false;
@@ -282,7 +283,7 @@ class SettingsState extends ConsumerState<Settings> {
   @override
   Widget build(BuildContext context) {
     _localeLanguage = ref.watch(localeLanguageNotifierProvider);
-    pushToken = ref.watch(pushTokenNotifierProvider);
+    tokens = ref.watch(tokenNotifierProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -613,7 +614,7 @@ class SettingsState extends ConsumerState<Settings> {
                 Icon(Icons.notifications_off, color: Helpers.uiApp(context)),
                 Switch(
                     activeColor: cBlue,
-                    value: pushToken.trim() != "" ? true : false,
+                    value: tokens.pushToken!.trim() != "" ? true : false,
                     onChanged: (newSettingsNotifications) async {
                       await AppSettings.openAppSettings(
                           type: AppSettingsType.notification);

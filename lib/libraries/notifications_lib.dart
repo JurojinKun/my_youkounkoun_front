@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -23,11 +22,12 @@ import 'package:myyoukounkoun/providers/chat_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/first_request_permissions.dart';
 import 'package:myyoukounkoun/providers/notifications_provider.dart';
-import 'package:myyoukounkoun/providers/push_token_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/route_observer.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 import 'package:myyoukounkoun/views/auth/chat_details.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
 
 class NotificationsLib {
   // // Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -353,7 +353,7 @@ class NotificationsLib {
       os = "apple";
       IosDeviceInfo deviceInfoIOS = await deviceInfoPlugin.iosInfo;
       uuid = deviceInfoIOS.identifierForVendor;
-      String token = ref.read(userNotifierProvider).token;
+      String token = ref.read(tokenNotifierProvider).token!;
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional) {
@@ -365,8 +365,8 @@ class NotificationsLib {
         if (pushToken !=
                 await HiveLib.getDatasHive(
                     true,
-                    EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
-                    "userBox",
+                    EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                    "tokensBox",
                     "pushToken") &&
             pushToken != "") {
           try {
@@ -377,24 +377,27 @@ class NotificationsLib {
               "appVersion": packageInfo.version,
               "pushToken": pushToken,
             };
-            ref
-                .read(pushTokenNotifierProvider.notifier)
-                .updatePushToken(pushToken);
-            HiveLib.setDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
-                "userBox", "pushToken", pushToken);
+            ref.read(tokenNotifierProvider.notifier).updatePushToken(pushToken);
+            HiveLib.setDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken",
+                pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
             }
           }
         } else if (pushToken != "") {
-          ref
-              .read(pushTokenNotifierProvider.notifier)
-              .updatePushToken(pushToken);
+          ref.read(tokenNotifierProvider.notifier).updatePushToken(pushToken);
         }
       } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-        if (await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
-                "userBox", "pushToken") !=
+        if (await HiveLib.getDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken") !=
             null) {
           try {
             //logic ws send push token null
@@ -405,23 +408,27 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await HiveLib.deleteSpecificDatasHive(true,
-                EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken");
+            await HiveLib.deleteSpecificDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);
             }
           }
         }
-        if (ref.read(pushTokenNotifierProvider).trim() != "") {
-          ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+        if (ref.read(tokenNotifierProvider).pushToken != null &&
+            ref.read(tokenNotifierProvider).pushToken!.trim() != "") {
+          ref.read(tokenNotifierProvider.notifier).clearPushToken();
         }
       }
     } else {
       os = "android";
       AndroidDeviceInfo deviceInfoAndroid = await deviceInfoPlugin.androidInfo;
       uuid = deviceInfoAndroid.id;
-      String token = ref.read(userNotifierProvider).token;
+      String token = ref.read(tokenNotifierProvider).token!;
 
       //condition request permission android 13 and more
       if (deviceInfoAndroid.version.sdkInt > 32 &&
@@ -443,8 +450,8 @@ class NotificationsLib {
         if (pushToken !=
                 await HiveLib.getDatasHive(
                     true,
-                    EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
-                    "userBox",
+                    EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                    "tokensBox",
                     "pushToken") &&
             pushToken != "") {
           try {
@@ -455,23 +462,28 @@ class NotificationsLib {
               "appVersion": packageInfo.version,
               "pushToken": pushToken,
             };
-            ref
-                .read(pushTokenNotifierProvider.notifier)
-                .updatePushToken(pushToken);
-            await HiveLib.setDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox,
-                "userBox", "pushToken", pushToken);
+            ref.read(tokenNotifierProvider.notifier).updatePushToken(pushToken);
+            await HiveLib.setDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken",
+                pushToken);
           } catch (e) {
             if (kDebugMode) {
               print(e);
             }
           }
         } else if (pushToken != "") {
-          ref
-              .read(pushTokenNotifierProvider.notifier)
-              .updatePushToken(pushToken);
+          ref.read(tokenNotifierProvider.notifier).updatePushToken(pushToken);
         }
       } else {
-        if (await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken") != null) {
+        if (await HiveLib.getDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken") !=
+            null) {
           try {
             //logic ws send push token null
             Map<String, dynamic> map = {
@@ -481,15 +493,20 @@ class NotificationsLib {
               "pushToken": null,
             };
             await FirebaseMessaging.instance.deleteToken();
-            await HiveLib.deleteSpecificDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "pushToken");
+            await HiveLib.deleteSpecificDatasHive(
+                true,
+                EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox,
+                "tokensBox",
+                "pushToken");
           } catch (e) {
             if (kDebugMode) {
               print(e);
             }
           }
         }
-        if (ref.read(pushTokenNotifierProvider).trim() != "") {
-          ref.read(pushTokenNotifierProvider.notifier).clearPushToken();
+        if (ref.read(tokenNotifierProvider).pushToken != null &&
+            ref.read(tokenNotifierProvider).pushToken!.trim() != "") {
+          ref.read(tokenNotifierProvider.notifier).clearPushToken();
         }
       }
     }

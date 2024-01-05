@@ -6,7 +6,6 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:myyoukounkoun/services/dio_api_service.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +35,8 @@ import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/theme_app_provider.dart';
 import 'package:myyoukounkoun/libraries/hive_lib.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
+import 'package:myyoukounkoun/services/dio_api_service.dart';
 
 Future<void> searchPotentialNewMaj(WidgetRef ref) async {
   Map<String, dynamic> newMajInfos = {
@@ -52,12 +53,15 @@ Future<void> loadDataUser(WidgetRef ref) async {
   Map<String, dynamic> userEncoded;
   dynamic userDatas = await HiveLib.getDatasHive(
       true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "user");
+  String? token = await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox, "tokensBox", "token");
+  String? refreshToken = await HiveLib.getDatasHive(true, EnvironmentConfigLib().getEnvironmentKeyEncryptedTokensBox, "tokensBox", "refreshToken");
 
   if (userDatas != null && userDatas is Map) {
     userEncoded = Map<String, dynamic>.from(userDatas);
     ref
         .read(userNotifierProvider.notifier)
         .setUser(UserModel.fromJSON(userEncoded));
+    ref.read(tokenNotifierProvider.notifier).setTokens(token, refreshToken, null);
     ref
         .read(recentSearchesNotifierProvider.notifier)
         .initRecentSearches(recentSearchesDatasMockes);

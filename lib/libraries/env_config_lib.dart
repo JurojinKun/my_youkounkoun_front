@@ -9,6 +9,7 @@ class EnvironmentConfig {
   late String nativeAdmobIdIos;
   late bool bottomNavBar;
   late String keyEncryptedUserBox;
+  late String keyEncryptedTokensBox;
 
   EnvironmentConfig(
       {required this.keyApiGiphy,
@@ -18,7 +19,8 @@ class EnvironmentConfig {
       required this.nativeAdmobIdAndroid,
       required this.nativeAdmobIdIos,
       required this.bottomNavBar,
-      required this.keyEncryptedUserBox});
+      required this.keyEncryptedUserBox,
+      required this.keyEncryptedTokensBox});
 }
 
 class EnvironmentConfigLib {
@@ -39,7 +41,8 @@ class EnvironmentConfigLib {
       nativeAdmobIdAndroid: "",
       nativeAdmobIdIos: "",
       bottomNavBar: false,
-      keyEncryptedUserBox: "");
+      keyEncryptedUserBox: "",
+      keyEncryptedTokensBox: "");
 
   Future<void> initEnvironmentConfigLib() async {
     await dotenv.load(fileName: ".env");
@@ -84,6 +87,13 @@ class EnvironmentConfigLib {
       _environmentConfig.keyEncryptedUserBox =
           dotenv.env["KEY_ENCRYPTED_USER_BOX"] ?? "";
     }
+
+    if (dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] != null &&
+        dotenv.env["KEY_ENCRYPT_TOKENS_BOX"]?.trim() != "" &&
+        dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] is String) {
+      _environmentConfig.keyEncryptedTokensBox =
+          dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] ?? "";
+    }
   }
 
   String get getEnvironmentConfigKeyApiGiphy => _environmentConfig.keyApiGiphy;
@@ -106,4 +116,7 @@ class EnvironmentConfigLib {
 
   String get getEnvironmentKeyEncryptedUserBox =>
       _environmentConfig.keyEncryptedUserBox;
+
+  String get getEnvironmentKeyEncryptedTokensBox =>
+      _environmentConfig.keyEncryptedTokensBox;
 }

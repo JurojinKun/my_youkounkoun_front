@@ -17,6 +17,7 @@ import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/locale_language_provider.dart';
 import 'package:myyoukounkoun/providers/register_provider.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
 import 'package:myyoukounkoun/providers/user_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
@@ -1272,7 +1273,8 @@ class RegisterState extends ConsumerState<Register>
                                         Map<String, dynamic> userMap = {
                                           "id": 1,
                                           "token": "tokenTest1234",
-                                          "refreshToken": "refreshTokenTest1234",
+                                          "refreshToken":
+                                              "refreshTokenTest1234",
                                           "email": "ccommunay@gmail.com",
                                           "pseudo": "0ruj",
                                           "gender": "Male",
@@ -1295,10 +1297,29 @@ class RegisterState extends ConsumerState<Register>
                                             "userBox",
                                             "user",
                                             userMap);
+                                        await HiveLib.setDatasHive(
+                                            true,
+                                            EnvironmentConfigLib()
+                                                .getEnvironmentKeyEncryptedTokensBox,
+                                            "tokensBox",
+                                            "token",
+                                            "tokenTest1234");
+                                        await HiveLib.setDatasHive(
+                                            true,
+                                            EnvironmentConfigLib()
+                                                .getEnvironmentKeyEncryptedTokensBox,
+                                            "tokensBox",
+                                            "refreshToken",
+                                            "refreshTokenTest1234");
                                         ref
                                             .read(userNotifierProvider.notifier)
                                             .setUser(
                                                 UserModel.fromJSON(userMap));
+                                        ref
+                                            .read(
+                                                tokenNotifierProvider.notifier)
+                                            .setTokens("tokenTest1234",
+                                                "refreshToken1234", null);
                                         setState(() {
                                           _loadingStepTwo = false;
                                         });

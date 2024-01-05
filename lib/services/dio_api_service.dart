@@ -56,7 +56,7 @@ class DioApiService {
   }
 
   bool _isConnectionError(DioException error) {
-    //TODO VOIR SI CE N'EST PAS MIEUX DE METTRE DIOEXCEPTIONTYPE.CONNECTION_ERROR À LA PLACE DE DIOEXCEPTIONTYPE.UNKNOWN
+    //TODO VOIR SI CE N'EST PAS MIEUX DE METTRE  UN AUTRE DIOEXCEPTIONTYPE À LA PLACE DE DIOEXCEPTIONTYPE.UNKNOWN (voir quelle exception apparaît)
     return error.type == DioExceptionType.unknown &&
         error.error != null &&
         error.error is SocketException;

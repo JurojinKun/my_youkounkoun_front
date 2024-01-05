@@ -11,9 +11,10 @@ import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/admob_lib.dart';
 import 'package:myyoukounkoun/libraries/env_config_lib.dart';
 import 'package:myyoukounkoun/libraries/notifications_lib.dart';
+import 'package:myyoukounkoun/models/tokens_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/home_provider.dart';
-import 'package:myyoukounkoun/providers/push_token_provider.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
 import 'package:myyoukounkoun/translations/app_localizations.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -27,7 +28,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   AppBar appBar = AppBar();
   ConnectivityResult? connectivityStatus;
 
-  String pushToken = "";
+  late TokensModel tokens;
 
   bool loadedHome = false;
   bool pubHomeAlreadyLoaded = false;
@@ -63,7 +64,7 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     connectivityStatus = ref.watch(connectivityStatusAppNotifierProvider);
-    pushToken = ref.watch(pushTokenNotifierProvider);
+    tokens = ref.watch(tokenNotifierProvider);
     pubHomeAlreadyLoaded = ref.watch(pubHomeAlreadyLoadedNotifierProvider);
 
     return Scaffold(
@@ -150,9 +151,9 @@ class HomeState extends ConsumerState<Home> with AutomaticKeepAliveClientMixin {
                       const SizedBox(
                         height: 15.0,
                       ),
-                      pushToken.trim() != ""
+                      tokens.pushToken!.trim() != ""
                           ? SelectableText(
-                              pushToken,
+                              tokens.pushToken!,
                               style: textStyleCustomMedium(
                                   Theme.of(context).brightness ==
                                           Brightness.light
