@@ -2,7 +2,6 @@
 List<UserModel> recentSearchesDatasMockes = [
   UserModel(
       id: 45,
-      token: "",
       email: "test1@gmail.com",
       pseudo: "Kev",
       gender: "Male",
@@ -18,7 +17,6 @@ List<UserModel> recentSearchesDatasMockes = [
       validEmail: false),
   UserModel(
       id: 186,
-      token: "",
       email: "test2@gmail.com",
       pseudo: "Rimbaud",
       gender: "Female",
@@ -34,7 +32,6 @@ List<UserModel> recentSearchesDatasMockes = [
       validEmail: false),
   UserModel(
       id: 4,
-      token: "",
       email: "test3@gmail.com",
       pseudo: "Destin",
       gender: "Male",
@@ -53,7 +50,6 @@ List<UserModel> recentSearchesDatasMockes = [
 List<UserModel> potentialsResultsSearchDatasMockes = [
   UserModel(
       id: 45,
-      token: "",
       email: "test1@gmail.com",
       pseudo: "Kev",
       gender: "Male",
@@ -69,7 +65,6 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       validEmail: false),
   UserModel(
       id: 1,
-      token: "tokenTest1234",
       email: "ccommunay@gmail.com",
       pseudo: "0ruj",
       gender: "Male",
@@ -85,7 +80,6 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       validEmail: false),
   UserModel(
       id: 186,
-      token: "",
       email: "test2@gmail.com",
       pseudo: "Rimbaud",
       gender: "Female",
@@ -101,7 +95,6 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
       validEmail: false),
   UserModel(
       id: 4,
-      token: "",
       email: "test3@gmail.com",
       pseudo: "Destin",
       gender: "Male",
@@ -118,7 +111,6 @@ List<UserModel> potentialsResultsSearchDatasMockes = [
 
 class UserModel {
   int id;
-  String token;
   String email;
   String pseudo;
   String gender;
@@ -134,7 +126,6 @@ class UserModel {
 
   UserModel(
       {required this.id,
-      required this.token,
       required this.email,
       required this.pseudo,
       required this.gender,
@@ -150,7 +141,6 @@ class UserModel {
 
   UserModel.fromJSON(Map<String, dynamic> jsonMap)
       : id = jsonMap["id"] ?? 0,
-        token = jsonMap["token"] ?? "",
         email = jsonMap["email"] ?? "",
         pseudo = jsonMap["pseudo"] ?? "",
         gender = jsonMap["gender"] ?? "",
@@ -167,7 +157,6 @@ class UserModel {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       "id": id,
-      "token": token,
       "email": email,
       "pseudo": pseudo,
       "gender": gender,
@@ -188,7 +177,6 @@ class UserModel {
   UserModel copy() {
     return UserModel(
         id: id,
-        token: token,
         email: email,
         pseudo: pseudo,
         gender: gender,

@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myyoukounkoun/components/snack_bar_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
-import 'package:myyoukounkoun/models/user_model.dart';
+import 'package:myyoukounkoun/models/tokens_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/current_route_app_provider.dart';
 import 'package:myyoukounkoun/providers/search_enabled_provider.dart';
-import 'package:myyoukounkoun/providers/user_provider.dart';
+import 'package:myyoukounkoun/providers/tokens_provider.dart';
 import 'package:myyoukounkoun/providers/visible_keyboard_app_provider.dart';
 import 'package:myyoukounkoun/router.dart';
 
@@ -21,7 +21,7 @@ class LogController extends ConsumerStatefulWidget {
 
 class LogControllerState extends ConsumerState<LogController>
     with WidgetsBindingObserver {
-  UserModel? user;
+  TokensModel? tokens;
   late HeroController _heroController;
 
   String currentRouteApp = "";
@@ -69,10 +69,10 @@ class LogControllerState extends ConsumerState<LogController>
 
   @override
   Widget build(BuildContext context) {
-    user = ref.watch(userNotifierProvider);
     currentRouteApp = ref.watch(currentRouteAppNotifierProvider);
+    tokens = ref.watch(tokenNotifierProvider);
 
-    return user!.token.trim() != ""
+    return tokens!.token != null && tokens!.token!.trim() != ""
         ? NavigatorPopHandler(
             onPop: () {
               if (navAuthKey.currentState!.canPop()) {

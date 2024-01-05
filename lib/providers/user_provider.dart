@@ -11,7 +11,6 @@ class UserProvider extends StateNotifier<UserModel> {
   UserProvider()
       : super(UserModel(
             id: 0,
-            token: "",
             email: "",
             pseudo: "",
             gender: "",
@@ -44,7 +43,6 @@ class UserProvider extends StateNotifier<UserModel> {
   void clearUser() {
     state = UserModel(
         id: 0,
-        token: "",
         email: "",
         pseudo: "",
         gender: "",

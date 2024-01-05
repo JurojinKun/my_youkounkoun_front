@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -8,13 +7,15 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
 
 import 'package:myyoukounkoun/components/message_user_custom.dart';
 import 'package:myyoukounkoun/constantes/constantes.dart';
 import 'package:myyoukounkoun/helpers/helpers.dart';
 import 'package:myyoukounkoun/libraries/edit_picture_lib.dart';
-import 'package:myyoukounkoun/libraries/sync_shared_prefs_lib.dart';
+import 'package:myyoukounkoun/libraries/env_config_lib.dart';
+import 'package:myyoukounkoun/libraries/hive_lib.dart';
 import 'package:myyoukounkoun/models/user_model.dart';
 import 'package:myyoukounkoun/providers/connectivity_status_app_provider.dart';
 import 'package:myyoukounkoun/providers/edit_account_provider.dart';
@@ -75,7 +76,6 @@ class EditAccountState extends ConsumerState<EditAccount> {
     try {
       Map<String, dynamic> mapUser = {
         "id": 1,
-        "token": "tokenTest1234",
         "email": "ccommunay@gmail.com",
         "pseudo": _pseudoController.text,
         "gender": _selectedGender,
@@ -89,11 +89,10 @@ class EditAccountState extends ConsumerState<EditAccount> {
         "validPrivacyPolicy": true,
         "validEmail": false
       };
+      await HiveLib.setDatasHive(
+          true, EnvironmentConfigLib().getEnvironmentKeyEncryptedUserBox, "userBox", "user", mapUser);
       UserModel user = UserModel.fromJSON(mapUser);
       ref.read(userNotifierProvider.notifier).setUser(user);
-      String userEncoded = jsonEncode(mapUser);
-      SyncSharedPrefsLib().prefs!.setString("user", userEncoded);
-
       _pseudoController.text = user.pseudo;
       ref
           .read(editProfilePictureUserNotifierProvider.notifier)

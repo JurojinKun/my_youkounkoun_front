@@ -8,6 +8,8 @@ class EnvironmentConfig {
   late String nativeAdmobIdAndroid;
   late String nativeAdmobIdIos;
   late bool bottomNavBar;
+  late String keyEncryptedUserBox;
+  late String keyEncryptedTokensBox;
 
   EnvironmentConfig(
       {required this.keyApiGiphy,
@@ -16,7 +18,9 @@ class EnvironmentConfig {
       required this.bannerAdmobIdIos,
       required this.nativeAdmobIdAndroid,
       required this.nativeAdmobIdIos,
-      required this.bottomNavBar});
+      required this.bottomNavBar,
+      required this.keyEncryptedUserBox,
+      required this.keyEncryptedTokensBox});
 }
 
 class EnvironmentConfigLib {
@@ -36,7 +40,9 @@ class EnvironmentConfigLib {
       bannerAdmobIdIos: "",
       nativeAdmobIdAndroid: "",
       nativeAdmobIdIos: "",
-      bottomNavBar: false);
+      bottomNavBar: false,
+      keyEncryptedUserBox: "",
+      keyEncryptedTokensBox: "");
 
   Future<void> initEnvironmentConfigLib() async {
     await dotenv.load(fileName: ".env");
@@ -74,6 +80,20 @@ class EnvironmentConfigLib {
         _environmentConfig.bottomNavBar = false;
       }
     }
+
+    if (dotenv.env["KEY_ENCRYPTED_USER_BOX"] != null &&
+        dotenv.env["KEY_ENCRYPTED_USER_BOX"]?.trim() != "" &&
+        dotenv.env["KEY_ENCRYPTED_USER_BOX"] is String) {
+      _environmentConfig.keyEncryptedUserBox =
+          dotenv.env["KEY_ENCRYPTED_USER_BOX"] ?? "";
+    }
+
+    if (dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] != null &&
+        dotenv.env["KEY_ENCRYPT_TOKENS_BOX"]?.trim() != "" &&
+        dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] is String) {
+      _environmentConfig.keyEncryptedTokensBox =
+          dotenv.env["KEY_ENCRYPT_TOKENS_BOX"] ?? "";
+    }
   }
 
   String get getEnvironmentConfigKeyApiGiphy => _environmentConfig.keyApiGiphy;
@@ -93,4 +113,10 @@ class EnvironmentConfigLib {
       _environmentConfig.nativeAdmobIdIos;
 
   bool get getEnvironmentBottomNavBar => _environmentConfig.bottomNavBar;
+
+  String get getEnvironmentKeyEncryptedUserBox =>
+      _environmentConfig.keyEncryptedUserBox;
+
+  String get getEnvironmentKeyEncryptedTokensBox =>
+      _environmentConfig.keyEncryptedTokensBox;
 }
