@@ -15,22 +15,22 @@ dependencies:
     sdk: flutter
 
   firebase_core: ^2.24.2
-  firebase_messaging: ^14.7.9
+  firebase_messaging: ^14.7.10
   flutter_local_notifications: ^16.3.0
-  flutter_native_splash: ^2.3.8
+  flutter_native_splash: ^2.3.9
   flutter_riverpod: ^2.4.9
   shared_preferences: ^2.2.2
   email_validator: ^2.1.17
   intl: ^0.18.1
   country_code_picker: ^3.0.0
-  image_picker: ^1.0.5
+  image_picker: ^1.0.6
   colorful_safe_area: ^1.0.0
   url_launcher: ^6.2.2
   package_info_plus: ^5.0.1
   modal_bottom_sheet: ^3.0.0-pre
   pin_code_fields: ^8.0.1
   flag: ^7.0.0
-  cached_network_image: ^3.3.0
+  cached_network_image: ^3.3.1
   flutter_cache_manager: ^3.3.1
   connectivity_plus: ^5.0.2
   age_calculator: ^1.0.0
