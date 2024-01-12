@@ -124,14 +124,12 @@ class BottomSheetMentionsState extends ConsumerState<BottomSheetMentions> {
   }
 
   Future<String> encryptUserData(UserModel user, String keyString) async {
+    //TODO: encrypt user datas => watch new modes encryt package
     final key = encrypt.Key.fromUtf8(keyString);
-    final iv = encrypt.IV.fromLength(16);
-
-    final encrypter = encrypt.Encrypter(encrypt.AES(key));
-
+    final iv = encrypt.IV.fromUtf8(keyString);
+    final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
     final userDataString = jsonEncode(user.toJson());
     final encryptedUserData = encrypter.encrypt(userDataString, iv: iv);
-
     return encryptedUserData.base64;
   }
 
