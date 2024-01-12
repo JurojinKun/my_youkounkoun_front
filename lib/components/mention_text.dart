@@ -34,17 +34,16 @@ class MentionTextState extends ConsumerState<MentionText> {
 
   UserModel? decryptedUserMention(
       BuildContext context, String encryptedUserData) {
+        //TODO: decrypt user datas => watch new modes encryt package
     try {
       final key = encrypt.Key.fromUtf8(widget.encryptionKey);
-    final iv = encrypt.IV.fromLength(16);
-
-    final encrypter = encrypt.Encrypter(encrypt.AES(key));
-    final decryptedUserDataString =
-        encrypter.decrypt64(encryptedUserData, iv: iv);
-
-    UserModel userData =
-        UserModel.fromJSON(jsonDecode(decryptedUserDataString));
-    return userData;
+      final iv = encrypt.IV.fromUtf8(widget.encryptionKey);
+      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
+      final decryptedUserDataString =
+          encrypter.decrypt64(encryptedUserData, iv: iv);
+      UserModel userData =
+          UserModel.fromJSON(jsonDecode(decryptedUserDataString));
+      return userData;
     } catch (e) {
       return null;
     }
@@ -100,23 +99,25 @@ class MentionTextState extends ConsumerState<MentionText> {
               Wrap(
                 children: segmentsComment.map<Widget>((segment) {
                   if (segment.startsWith("@")) {
-                    String encryptedDatas = segment.substring(1);
+                    String encryptedDatas =
+                        segment.substring(1);
                     UserModel? userMention =
                         decryptedUserMention(context, encryptedDatas);
                     if (userMention != null) {
                       return GestureDetector(
-                      onTap: () => navAuthKey.currentState!.pushNamed(
-                          userProfile,
-                          arguments: [userMention, false]),
-                      child: Text("@${userMention.pseudo} ",
-                          style: textStyleCustomBold(cBlue, 14.0, TextDecoration.none, cBlue.withOpacity(0.3)),
-                          textScaler: const TextScaler.linear(1.0)),
-                    );
+                        onTap: () => navAuthKey.currentState!.pushNamed(
+                            userProfile,
+                            arguments: [userMention, false]),
+                        child: Text("@${userMention.pseudo} ",
+                            style: textStyleCustomBold(cBlue, 14.0,
+                                TextDecoration.none, cBlue.withOpacity(0.3)),
+                            textScaler: const TextScaler.linear(1.0)),
+                      );
                     } else {
                       return Text("$segment ",
-                        style: textStyleCustomRegular(
-                            Helpers.uiApp(context), 14.0),
-                        textScaler: const TextScaler.linear(1.0));
+                          style: textStyleCustomRegular(
+                              Helpers.uiApp(context), 14.0),
+                          textScaler: const TextScaler.linear(1.0));
                     }
                   } else {
                     return Text("$segment ",
