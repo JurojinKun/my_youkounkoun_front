@@ -42,8 +42,8 @@ dependencies:
   flutter_slidable: ^3.0.1
   emoji_picker_flutter: ^1.6.3
   sticky_headers: ^0.3.0+2
+  path_provider: ^2.1.2
   image: ^4.1.6
-  path_provider: ^2.1.1
   google_mobile_ads: ^4.0.0
   flutter_dotenv: ^5.1.0
   app_tracking_transparency: ^2.0.4
