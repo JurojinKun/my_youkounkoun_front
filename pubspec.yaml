@@ -14,11 +14,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  firebase_core: ^2.24.2
+  firebase_core: ^2.25.4
   firebase_messaging: ^14.7.10
   flutter_local_notifications: ^16.3.0
   flutter_native_splash: ^2.3.10
-  flutter_riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.10
   shared_preferences: ^2.2.2
   email_validator: ^2.1.17
   intl: ^0.18.1
@@ -48,7 +48,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   app_tracking_transparency: ^2.0.4
   app_settings: ^5.1.1
-  device_info_plus: ^9.1.1
+  device_info_plus: ^9.1.2
   permission_handler: ^11.1.0
   grouped_list: ^5.1.2
   flutter_colorpicker: ^1.0.3
