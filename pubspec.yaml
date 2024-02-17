@@ -48,7 +48,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   app_tracking_transparency: ^2.0.4
   app_settings: ^5.1.1
-  device_info_plus: ^9.1.1
+  device_info_plus: ^9.1.2
   permission_handler: ^11.1.0
   grouped_list: ^5.1.2
   flutter_colorpicker: ^1.0.3
