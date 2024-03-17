@@ -39,7 +39,7 @@ dependencies:
   giphy_picker: ^3.0.1
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
-  flutter_slidable: ^3.0.1
+  flutter_slidable: ^3.1.0
   emoji_picker_flutter: ^2.1.0
   sticky_headers: ^0.3.0+2
   path_provider: ^2.1.2
