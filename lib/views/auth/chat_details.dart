@@ -193,16 +193,22 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                             Brightness.light
                                         ? cBlack
                                         : cWhite,
-                                    MediaQuery.of(context).textScaler.scale(14)),
+                                    MediaQuery.of(context)
+                                        .textScaler
+                                        .scale(14)),
                                 decoration: InputDecoration(
                                   fillColor: Theme.of(context).canvasColor,
                                   filled: true,
                                   contentPadding:
                                       const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                                  hintText: AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
+                                  hintText: AppLocalization.of(context)
+                                      .translate("chat_details_screen",
+                                          "search_giphy_title"),
                                   hintStyle: textStyleCustomBold(
                                       cGrey,
-                                      MediaQuery.of(context).textScaler.scale(14)),
+                                      MediaQuery.of(context)
+                                          .textScaler
+                                          .scale(14)),
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         width: 2.0,
@@ -365,7 +371,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ),
                                     const SizedBox(height: 15.0),
                                     Text(
-                                        AppLocalization.of(context).translate("chat_details_screen", "search_giphy_content"),
+                                        AppLocalization.of(context).translate(
+                                            "chat_details_screen",
+                                            "search_giphy_content"),
                                         style: textStyleCustomBold(
                                             Theme.of(context).brightness ==
                                                     Brightness.light
@@ -373,7 +381,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                 : cWhite,
                                             14),
                                         textAlign: TextAlign.center,
-                                        textScaler: const TextScaler.linear(1.0))
+                                        textScaler:
+                                            const TextScaler.linear(1.0))
                                   ],
                                 ),
                               )
@@ -409,7 +418,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                   : cWhite,
                                               14),
                                           textAlign: TextAlign.center,
-                                          textScaler: const TextScaler.linear(1.0),
+                                          textScaler:
+                                              const TextScaler.linear(1.0),
                                         )
                                       ],
                                     ),
@@ -433,7 +443,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                 size: 40),
                                             const SizedBox(height: 10.0),
                                             Text(
-                                               AppLocalization.of(context).translate("chat_details_screen", "no_results_giphy"),
+                                                AppLocalization.of(context)
+                                                    .translate(
+                                                        "chat_details_screen",
+                                                        "no_results_giphy"),
                                                 style: textStyleCustomMedium(
                                                     Theme.of(context)
                                                                 .brightness ==
@@ -442,7 +455,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                                         : cWhite,
                                                     14),
                                                 textAlign: TextAlign.center,
-                                                textScaler: const TextScaler.linear(1.0))
+                                                textScaler:
+                                                    const TextScaler.linear(
+                                                        1.0))
                                           ],
                                         ))
                                     : GridView.builder(
@@ -1122,7 +1137,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     navAuthKey.currentState!.pushNamed(userProfile,
                         arguments: [widget.user, false]);
                   },
-                  child: Text(AppLocalization.of(context).translate("chat_details_screen", "see_profile"),
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate("chat_details_screen", "see_profile"),
                       style: textStyleCustomMedium(Helpers.uiApp(context), 18),
                       textScaler: const TextScaler.linear(1.0))))
         ],
@@ -1275,7 +1292,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                 if (message.isRead && messagesUsers.length == index + 1)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(AppLocalization.of(context).translate("chat_details_screen", "message_seen"),
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate("chat_details_screen", "message_seen"),
                         style: textStyleCustomMedium(cGrey, 12),
                         textScaler: const TextScaler.linear(1.0)),
                   )
@@ -2124,7 +2143,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                           filled: true,
                           contentPadding:
                               const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                          hintText: AppLocalization.of(context).translate("chat_details_screen", "write_message"),
+                          hintText: AppLocalization.of(context).translate(
+                              "chat_details_screen", "write_message"),
                           hintStyle: textStyleCustomBold(cGrey,
                               MediaQuery.of(context).textScaler.scale(12)),
                           enabledBorder: OutlineInputBorder(
@@ -2375,39 +2395,48 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
         ? emoji.EmojiPicker(
             textEditingController: _chatController,
             config: emoji.Config(
-              columns: 7,
-              emojiSizeMax: 30 * (Platform.isIOS ? 1.30 : 1.0),
-              verticalSpacing: 0,
-              horizontalSpacing: 0,
-              gridPadding: EdgeInsets.zero,
-              initCategory: emoji.Category.RECENT,
-              bgColor: Colors.transparent,
-              indicatorColor: _currentConversation.themeConv.isEmpty
-                  ? Color.lerp(
-                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
-                  : Color.lerp(
-                      Helpers.stringToColor(_currentConversation.themeConv[0]),
-                      Helpers.stringToColor(_currentConversation.themeConv[1]),
-                      0.5)!,
-              iconColor: cGrey,
-              iconColorSelected: _currentConversation.themeConv.isEmpty
-                  ? Color.lerp(
-                      const Color(0xFF4284C4), const Color(0xFF00A9BC), 0.5)!
-                  : Color.lerp(
-                      Helpers.stringToColor(_currentConversation.themeConv[0]),
-                      Helpers.stringToColor(_currentConversation.themeConv[1]),
-                      0.5)!,
-              enableSkinTones: true,
-              recentTabBehavior: emoji.RecentTabBehavior.RECENT,
-              recentsLimit: 28,
-              replaceEmojiOnLimitExceed: true,
-              noRecents: const NoRecentEmoji(),
-              loadingIndicator: const SizedBox.shrink(),
-              tabIndicatorAnimDuration: kTabScrollDuration,
-              categoryIcons: const emoji.CategoryIcons(),
-              buttonMode: emoji.ButtonMode.MATERIAL,
-              checkPlatformCompatibility: true,
-            ),
+                checkPlatformCompatibility: true,
+                emojiViewConfig: emoji.EmojiViewConfig(
+                  columns: 7,
+                  emojiSizeMax: 30 * (Platform.isIOS ? 1.30 : 1.0),
+                  verticalSpacing: 0,
+                  horizontalSpacing: 0,
+                  gridPadding: EdgeInsets.zero,
+                  backgroundColor: Colors.transparent,
+                  loadingIndicator: const SizedBox.shrink(),
+                  noRecents: const NoRecentEmoji(),
+                  recentsLimit: 28,
+                  replaceEmojiOnLimitExceed: true,
+                  buttonMode: emoji.ButtonMode.MATERIAL,
+                ),
+                skinToneConfig: emoji.SkinToneConfig(
+                  enabled: true,
+                  indicatorColor: _currentConversation.themeConv.isEmpty
+                      ? Color.lerp(const Color(0xFF4284C4),
+                          const Color(0xFF00A9BC), 0.5)!
+                      : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!,
+                ),
+                categoryViewConfig: emoji.CategoryViewConfig(
+                  initCategory: emoji.Category.RECENT,
+                  iconColor: cGrey,
+                  iconColorSelected: _currentConversation.themeConv.isEmpty
+                      ? Color.lerp(const Color(0xFF4284C4),
+                          const Color(0xFF00A9BC), 0.5)!
+                      : Color.lerp(
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[0]),
+                          Helpers.stringToColor(
+                              _currentConversation.themeConv[1]),
+                          0.5)!,
+                  recentTabBehavior: emoji.RecentTabBehavior.RECENT,
+                  tabIndicatorAnimDuration: kTabScrollDuration,
+                  categoryIcons: const emoji.CategoryIcons(),
+                )),
           )
         : const SizedBox();
   }
@@ -2456,7 +2485,10 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                         Icon(Icons.search, color: Helpers.uiApp(context)),
                         const SizedBox(width: 15.0),
                         Expanded(
-                            child: Text(AppLocalization.of(context).translate("chat_details_screen", "search_giphy_title"),
+                            child: Text(
+                                AppLocalization.of(context).translate(
+                                    "chat_details_screen",
+                                    "search_giphy_title"),
                                 style: textStyleCustomBold(
                                     Helpers.uiApp(context), 16),
                                 textScaler: const TextScaler.linear(1.0)))
@@ -2474,7 +2506,8 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                     ),
                     const SizedBox(width: 5.0),
                     Text(
-                      AppLocalization.of(context).translate("chat_details_screen", "headlines_giphy"),
+                      AppLocalization.of(context)
+                          .translate("chat_details_screen", "headlines_giphy"),
                       style: textStyleCustomBold(Helpers.uiApp(context), 18),
                       textScaler: const TextScaler.linear(1.0),
                     )
@@ -2631,7 +2664,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ? cBlack
                                     : cWhite),
                             const SizedBox(width: 5.0),
-                            Text(AppLocalization.of(context).translate("chat_details_screen", "gallery"),
+                            Text(
+                                AppLocalization.of(context).translate(
+                                    "chat_details_screen", "gallery"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
@@ -2684,7 +2719,9 @@ class ChatDetailsState extends ConsumerState<ChatDetails>
                                     ? cBlack
                                     : cWhite),
                             const SizedBox(width: 5.0),
-                            Text(AppLocalization.of(context).translate("chat_details_screen", "camera"),
+                            Text(
+                                AppLocalization.of(context)
+                                    .translate("chat_details_screen", "camera"),
                                 style: textStyleCustomBold(
                                     Theme.of(context).brightness ==
                                             Brightness.light
