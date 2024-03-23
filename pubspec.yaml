@@ -32,7 +32,7 @@ dependencies:
   flag: ^7.0.0
   cached_network_image: ^3.3.1
   flutter_cache_manager: ^3.3.1
-  connectivity_plus: ^6.0.1
+  connectivity_plus: ^5.0.2
   age_calculator: ^1.0.0
   top_snackbar_flutter: ^3.1.0
   image_cropper: ^4.0.1
