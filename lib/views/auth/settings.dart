@@ -62,11 +62,7 @@ class SettingsState extends ConsumerState<Settings> {
 
     try {
       //logic ws try log out
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      await Future.delayed(const Duration(seconds: 1)).then((value) => Navigator.pop(context));
 
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();
@@ -106,11 +102,7 @@ class SettingsState extends ConsumerState<Settings> {
 
     try {
       //logic ws delete account
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      await Future.delayed(const Duration(seconds: 1)).then((value) => Navigator.pop(context));
 
       ref.read(checkValidUserNotifierProvider.notifier).clearValidUser();
       ref.read(recentSearchesNotifierProvider.notifier).clearRecentSearches();

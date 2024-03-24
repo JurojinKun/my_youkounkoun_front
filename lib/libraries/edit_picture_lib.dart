@@ -44,15 +44,11 @@ class EditPictureLib {
   static pickImageWithCropped(BuildContext context, ImageSource src,
       bool mounted, WidgetRef ref) async {
     try {
-      final image = await ImagePicker().pickImage(source: src);
-      if (image != null) {
-        if (mounted) {
+      await ImagePicker().pickImage(source: src).then((image) async {
+        if (image != null) {
           await cropImage(context, image.path, ref);
         }
-      }
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -63,20 +59,19 @@ class EditPictureLib {
   static pickImageWithoutCropped(BuildContext context, ImageSource src,
       bool mounted, WidgetRef ref) async {
     try {
-      final image = await ImagePicker().pickImage(source: src);
-      if (image != null) {
-        File finalFile = File(image.path);
-        ref.read(currentRouteAppNotifierProvider) == "register"
-            ? ref
-                .read(profilePictureRegisterNotifierProvider.notifier)
-                .addNewProfilePicture(finalFile)
-            : ref
-                .read(editProfilePictureUserNotifierProvider.notifier)
-                .editProfilePicture(finalFile);
-      }
-      if (mounted) {
+      await ImagePicker().pickImage(source: src).then((image) {
+        if (image != null) {
+          File finalFile = File(image.path);
+          ref.read(currentRouteAppNotifierProvider) == "register"
+              ? ref
+                  .read(profilePictureRegisterNotifierProvider.notifier)
+                  .addNewProfilePicture(finalFile)
+              : ref
+                  .read(editProfilePictureUserNotifierProvider.notifier)
+                  .editProfilePicture(finalFile);
+        }
         Navigator.pop(context);
-      }
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -86,7 +81,7 @@ class EditPictureLib {
 
   static cropImage(BuildContext context, String filePath, WidgetRef ref) async {
     try {
-      final croppedImage = await ImageCropper().cropImage(
+      await ImageCropper().cropImage(
           uiSettings: [
             AndroidUiSettings(
               dimmedLayerColor: cBlack.withOpacity(0.8),
@@ -108,17 +103,19 @@ class EditPictureLib {
           ],
           sourcePath: filePath,
           compressFormat: ImageCompressFormat.jpg,
-          cropStyle: CropStyle.circle);
-      if (croppedImage != null) {
-        File finalFile = File(croppedImage.path);
-        ref.read(currentRouteAppNotifierProvider) == "register"
-            ? ref
-                .read(profilePictureRegisterNotifierProvider.notifier)
-                .addNewProfilePicture(finalFile)
-            : ref
-                .read(editProfilePictureUserNotifierProvider.notifier)
-                .editProfilePicture(finalFile);
-      }
+          cropStyle: CropStyle.circle).then((croppedImage) {
+        if (croppedImage != null) {
+          File finalFile = File(croppedImage.path);
+          ref.read(currentRouteAppNotifierProvider) == "register"
+              ? ref
+                  .read(profilePictureRegisterNotifierProvider.notifier)
+                  .addNewProfilePicture(finalFile)
+              : ref
+                  .read(editProfilePictureUserNotifierProvider.notifier)
+                  .editProfilePicture(finalFile);
+        }
+        Navigator.pop(context);
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -172,9 +169,7 @@ class EditPictureWidgetState extends ConsumerState<EditPictureWidget> {
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.clear,
-                            color:
-                                Helpers.uiApp(context))),
+                        icon: Icon(Icons.clear, color: Helpers.uiApp(context))),
                   )
                 ],
               ),
