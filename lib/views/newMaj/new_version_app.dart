@@ -72,17 +72,17 @@ class NewVersionAppState extends ConsumerState<NewVersionApp>
                         setState(() {
                           _alreadyCliked = true;
                         });
-                        await loadDataUser(ref);
-                        ref
-                            .read(
-                                newMajInfosAlreadySeenNotifierProvider.notifier)
-                            .newMajInfosAlreadySeen();
-                        if (mounted) {
+                        await loadDataUser(ref).then((value) {
+                          ref
+                              .read(newMajInfosAlreadySeenNotifierProvider
+                                  .notifier)
+                              .newMajInfosAlreadySeen();
+
                           Navigator.pop(context);
                           setState(() {
                             _alreadyCliked = false;
                           });
-                        }
+                        });
                       }
                     },
                     child: Text(
