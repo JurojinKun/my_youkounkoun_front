@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  firebase_core: ^2.25.4
+  firebase_core: ^2.27.2
   flutter_local_notifications: ^17.0.0
   firebase_messaging: ^14.7.19
   flutter_native_splash: ^2.4.0
