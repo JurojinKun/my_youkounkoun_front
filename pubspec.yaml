@@ -16,7 +16,7 @@ dependencies:
 
   firebase_core: ^2.27.2
   flutter_local_notifications: ^17.0.0
-  firebase_messaging: ^14.7.19
+  firebase_messaging: ^14.8.0
   flutter_native_splash: ^2.4.0
   flutter_riverpod: ^2.5.1
   shared_preferences: ^2.2.2
