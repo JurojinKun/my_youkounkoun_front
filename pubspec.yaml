@@ -19,7 +19,7 @@ dependencies:
   firebase_messaging: ^14.8.0
   flutter_native_splash: ^2.4.0
   flutter_riverpod: ^2.5.1
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
   email_validator: ^2.1.17
   intl: ^0.18.1
   country_code_picker: ^3.0.0
