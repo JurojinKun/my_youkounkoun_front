@@ -23,7 +23,7 @@ dependencies:
   email_validator: ^2.1.17
   intl: ^0.18.1
   country_code_picker: ^3.0.0
-  image_picker: ^1.0.7
+  image_picker: ^1.0.8
   colorful_safe_area: ^1.0.0
   url_launcher: ^6.2.5
   package_info_plus: ^6.0.0
