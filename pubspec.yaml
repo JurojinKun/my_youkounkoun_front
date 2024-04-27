@@ -53,7 +53,7 @@ dependencies:
   grouped_list: ^5.1.2
   flutter_colorpicker: ^1.0.3
   encrypt: ^5.0.3
-  flutter_datetime_picker_plus: ^2.1.0
+  flutter_datetime_picker_plus: ^2.2.0
   flutter_dynamic_icon: ^2.1.0
   flutter_android_dynamic_icon: ^1.0.3
   hive: ^2.2.3
